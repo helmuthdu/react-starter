@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import { hot } from 'react-hot-loader';
 
 const AboutPage = () => {
   return (
@@ -22,4 +21,4 @@ const AboutPage = () => {
   );
 };
 
-export default hot(module)(AboutPage);
+export default AboutPage;

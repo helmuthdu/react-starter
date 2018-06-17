@@ -1,5 +1,4 @@
 import React from 'react';
-import { hot } from 'react-hot-loader';
 
 const NotFoundPage = () => (
   <div>
@@ -8,4 +7,4 @@ const NotFoundPage = () => (
   </div>
 );
 
-export default hot(module)(NotFoundPage);
+export default NotFoundPage;

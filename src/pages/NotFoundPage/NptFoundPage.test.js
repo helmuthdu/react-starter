@@ -3,5 +3,6 @@ import React from 'react';
 import NotFoundPage from './NotFoundPage';
 
 it('renders without crashing', () => {
-  shallow(<NotFoundPage />);
+  const wrapper = shallow(<NotFoundPage />);
+  expect(wrapper.instance()).toBeNull();
 });

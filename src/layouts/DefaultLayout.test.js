@@ -1,11 +1,14 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import DefaultLayout, { DefaultLayoutRoute } from './DefaultLayout';
+import { DefaultLayout, DefaultLayoutRoute } from './DefaultLayout';
 
 it('renders without crashing', () => {
-  shallow(<DefaultLayout />);
+  const children = 'Hello World';
+  const wrapper = shallow(<DefaultLayout children={children} />);
+  expect(wrapper.instance()).toBeNull();
 });
 
 it('renders without crashing', () => {
-  shallow(<DefaultLayoutRoute />);
+  const wrapper = shallow(<DefaultLayoutRoute />);
+  expect(wrapper.instance()).toBeNull();
 });

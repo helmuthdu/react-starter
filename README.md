@@ -1,4 +1,18 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+### React + React Router + Redux + Redux Thunk; 
 
-Below you will find some information on how to perform common tasks.<br>
-You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+
+## Installation
+
+```bash
+git clone https://github.com/helmuthdu/react-starter.git
+cd create-react-app-redux
+yarn
+```
+
+## Get started
+
+```bash
+yarn start
+```
+
+This boilerplate is built using [create-react-app](https://github.com/facebookincubator/create-react-app) so you will want to read the User Guide for more goodies.

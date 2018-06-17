@@ -1,8 +1,8 @@
 // @flow
 export interface UIStoreState {
-  isLoading: boolean;
+  loadingCount: number;
 }
 
 export const initialState: UIStoreState = {
-  isLoading: false
+  loadingCount: 0
 };

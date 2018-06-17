@@ -1,12 +1,12 @@
 import { anchorate } from 'anchorate';
-import createHistory from 'history/createBrowserHistory';
-import { routerMiddleware } from 'react-router-redux';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import { applyMiddleware, compose, createStore } from 'redux';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from './modules';
 
-export const history = createHistory({ basename: process.env.PUBLIC_URL });
+export const history = createBrowserHistory({ basename: process.env.PUBLIC_URL });
 
 history.listen(() => {
   anchorate();
@@ -32,4 +32,4 @@ const composedEnhancers = compose(
   ...enhancers
 );
 
-export default createStore(rootReducer, initialState, composedEnhancers);
+export default createStore(connectRouter(history)(rootReducer), initialState, composedEnhancers);

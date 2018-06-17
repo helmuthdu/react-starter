@@ -5,7 +5,7 @@
 
 ```bash
 git clone https://github.com/helmuthdu/react-starter.git
-cd create-react-app-redux
+cd react-starter
 yarn
 ```
 

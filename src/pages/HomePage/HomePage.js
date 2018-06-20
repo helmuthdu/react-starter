@@ -1,7 +1,7 @@
 // @flow
+import { push } from 'connected-react-router';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'connected-react-router';
 import { bindActionCreators } from 'redux';
 import logo from '../../logo.svg';
 import { toggleLoading } from '../../store/modules/ui';
@@ -11,6 +11,7 @@ import { Header, Intro, Logo, Title, Wrapper } from './HomePage.styled';
 interface HomePageProps {
   isLoading: boolean;
   toggleLoading: Function;
+  changePage: Function;
 }
 
 interface HomePageState {}

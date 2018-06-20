@@ -13,7 +13,7 @@ const ConnectedSwitch = connect(state => ({
   location: state.location
 }))(Switch);
 
-const App = ({ history }) => {
+export const App = ({ history }) => {
   return (
     <ConnectedRouter history={history}>
       <ConnectedSwitch>

@@ -6,7 +6,7 @@ interface DefaultLayoutProps {
   children: any;
 }
 
-export const DefaultLayout = ({ children }) => {
+export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
     <Fragment>
       <div>{children}</div>

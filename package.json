@@ -1,18 +1,21 @@
 {
   "name": "react-starter",
+  "homepage": "http://helmuthdu.github.io/react-starter",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
+    "test:coverage": "react-app-rewired test --env=jsdom --coverage",
     "test:debug": "react-app-rewired --inspect-brk test --runInBand --env=jsdom",
     "eject": "react-app-rewired eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "flow": "flow",
     "build-storybook": "build-storybook -s public",
-    "storybook": "start-storybook -p 9009 -s public"
+    "storybook": "start-storybook -p 9009 -s public",
+    "coveralls": "react-app-rewired test --env=jsdom --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
     "anchorate": "^1.2.3",
@@ -30,7 +33,7 @@
     "redux": "^4.0.0",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^3.3.2"
+    "styled-components": "^3.3.3"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.7",
@@ -40,6 +43,7 @@
     "@storybook/react": "^3.4.7",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
+    "coveralls": "^3.0.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
@@ -68,6 +72,16 @@
     "*.{js,json,css,md}": [
       "prettier --write",
       "git add"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!<rootDir>/src/**/*.stories.js",
+      "!<rootDir>/src/**/*.styled.js",
+      "!<rootDir>/src/index.js",
+      "!<rootDir>/src/registerServiceWorker.js",
+      "!<rootDir>/node_modules/"
     ]
   }
 }

@@ -1,4 +1,4 @@
-### React + React Router + Redux + Redux Thunk; [![Build Status](https://travis-ci.org/helmuthdu/react-starter.svg?branch=master)](https://travis-ci.org/helmuthdu/react-starter) [![Coverage Status](https://coveralls.io/repos/github/helmuthdu/react-starter/badge.svg?branch=master)](https://coveralls.io/github/helmuthdu/react-starter?branch=master)
+## React + React Router + Redux + Redux Thunk; [![Build Status](https://travis-ci.org/helmuthdu/react-starter.svg?branch=master)](https://travis-ci.org/helmuthdu/react-starter) [![Coverage Status](https://coveralls.io/repos/github/helmuthdu/react-starter/badge.svg?branch=master)](https://coveralls.io/github/helmuthdu/react-starter?branch=master)
 
 
 ## Installation

@@ -15,7 +15,7 @@
     "flow": "flow",
     "build-storybook": "build-storybook -s public",
     "storybook": "start-storybook -p 9009 -s public",
-    "coveralls": "react-app-rewired test --env=jsdom --coverage && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "react-app-rewired test --env=jsdom --coverage && cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
   },
   "dependencies": {
     "anchorate": "^1.2.3",
@@ -77,11 +77,11 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js",
-      "!<rootDir>/src/**/*.stories.js",
-      "!<rootDir>/src/**/*.styled.js",
-      "!<rootDir>/src/index.js",
-      "!<rootDir>/src/registerServiceWorker.js",
-      "!<rootDir>/node_modules/"
+      "!src/**/*.stories.js",
+      "!src/**/*.styled.js",
+      "!src/index.js",
+      "!src/registerServiceWorker.js",
+      "!node_modules/"
     ]
   }
 }

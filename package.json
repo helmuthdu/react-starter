@@ -15,7 +15,7 @@
     "flow": "flow",
     "build-storybook": "build-storybook -s public",
     "storybook": "start-storybook -p 9009 -s public",
-    "coveralls": "react-app-rewired test --env=jsdom --coverage && cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
+    "coveralls": "react-app-rewired test --env=jsdom --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
     "anchorate": "^1.2.3",

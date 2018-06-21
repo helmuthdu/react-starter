@@ -32,9 +32,9 @@ export class HomePage extends Component<HomePageProps, HomePageState> {
           To get started, edit <code>src/index.js</code> and save to reload.
         </Intro>
         Navigate to
-        <strong onClick={this.props.changePage} title="go to about page">
+        <button onClick={this.props.changePage} title="go to about page">
           about page
-        </strong>
+        </button>
       </Wrapper>
     );
   }

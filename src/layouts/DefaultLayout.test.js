@@ -2,7 +2,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import { DefaultLayout, DefaultLayoutRoute } from './DefaultLayout';
 
-describe('DefaultLayout component', () => {
+describe('Layout -> DefaultLayout component', () => {
   it('renders without crashing', () => {
     const children = {
       props: {

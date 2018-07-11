@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-const AboutPage = () => {
+const About = () => {
   return (
     <section>
       <p>This project is created by @helmuthdu.</p>
@@ -21,4 +21,4 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage;
+export default About;

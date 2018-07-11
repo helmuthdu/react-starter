@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import { App } from './index';
+import { AppRouter } from './index';
 
 describe('App component', () => {
   const history = {
@@ -10,7 +10,7 @@ describe('App component', () => {
   };
 
   it('renders without crashing', () => {
-    const wrapper = shallow(<App history={history} />);
+    const wrapper = shallow(<AppRouter history={history} />);
     expect(wrapper.instance()).toBeNull();
   });
 });

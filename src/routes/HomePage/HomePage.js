@@ -1,22 +1,23 @@
 // @flow
 import { push } from 'connected-react-router';
 import React, { Component } from 'react';
+import { frontloadConnect } from 'react-frontload';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import logo from '../../logo.svg';
+import logo from '../../assets/images/logo.svg';
 import { toggleLoading } from '../../store/modules/ui';
 import { isLoading } from '../../store/modules/ui/getters';
 import { Header, Intro, Logo, Title, Wrapper } from './HomePage.styled';
 
-interface HomePageProps {
+interface HomeProps {
   isLoading: boolean;
   toggleLoading: Function;
   changePage: Function;
 }
 
-interface HomePageState {}
+interface HomeState {}
 
-export class HomePage extends Component<HomePageProps, HomePageState> {
+export class HomePage extends Component<HomeProps, HomeState> {
   componentDidMount() {
     this.props.toggleLoading();
   }
@@ -53,7 +54,10 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
+// Request initial data for the component
+const asyncData = async props => await new Promise((resolve, reject) => resolve());
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomePage);
+)(frontloadConnect(asyncData)(HomePage));

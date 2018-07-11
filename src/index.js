@@ -1,18 +1,31 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { hydrate, render } from 'react-dom';
+import Loadable from 'react-loadable';
 import { Provider } from 'react-redux';
-import App from './pages';
 
 import registerServiceWorker from './registerServiceWorker';
-import store, { history } from './store';
+import AppRouter from './routes';
+import createStore from './store';
 
-const target = document.querySelector('#root');
+const { store, history } = createStore();
 
-render(
+const root = document.querySelector('#root');
+
+const app = (
   <Provider store={store}>
-    <App history={history} />
-  </Provider>,
-  target
+    <AppRouter history={history} />
+  </Provider>
 );
+
+if (process.env.NODE_ENV === 'production') {
+  // If we're running in production, we use hydrate to get fast page loads by just
+  // attaching event listeners after the initial render
+  Loadable.preloadReady().then(() => {
+    hydrate(app, root);
+  });
+} else {
+  // If we're not running on the server, just render like normal
+  render(app, root);
+}
 
 registerServiceWorker();

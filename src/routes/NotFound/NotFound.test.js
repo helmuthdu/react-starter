@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import AboutPage from './AboutPage';
+import NotFound from './NotFound';
 
-describe('AboutPage component', () => {
+describe('Route -> NotFound component', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<AboutPage />);
+    const wrapper = shallow(<NotFound />);
     expect(wrapper.instance()).toBeNull();
   });
 });

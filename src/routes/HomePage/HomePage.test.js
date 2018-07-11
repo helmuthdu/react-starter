@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
-import Page, { HomePage } from './HomePage';
+import { HomePage } from './HomePage';
 import { Title } from './HomePage.styled';
 
-describe('HomePage component', () => {
+describe('Route -> Home component', () => {
   const initialState = { ui: { loadingCount: 1 } };
 
   const props = {
@@ -16,7 +16,7 @@ describe('HomePage component', () => {
   };
 
   it('renders without crashing', () => {
-    const wrapper = shallow(<Page {...props} />);
+    const wrapper = shallow(<HomePage {...props} />);
     expect(wrapper.instance() instanceof React.Component).toBeTruthy();
   });
 

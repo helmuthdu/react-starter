@@ -12,7 +12,8 @@ const About = () => {
         </a>
       </p>
       <p>
-        For any issues, any PR are welcoming<a href="https://github.com/helmuthdu/react-start" target="blank">
+        For any issues, any PR are welcoming
+        <a href="https://github.com/helmuthdu/react-start" target="blank">
           {' '}
           on this repository
         </a>

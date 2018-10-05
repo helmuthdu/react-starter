@@ -1,8 +1,8 @@
 // @flow
-export interface UIStoreState {
+export interface State {
   loadingCount: number;
 }
 
-export const initialState: UIStoreState = {
+export const initialState: State = {
   loadingCount: 0
 };

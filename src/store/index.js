@@ -1,14 +1,17 @@
+// @flow
 import { anchorate } from 'anchorate';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import { applyMiddleware, compose, createStore } from 'redux';
+import { combineReducers } from 'redux';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import thunkMiddleware from 'redux-thunk';
-import rootReducer from './modules';
+
+import { uiStore } from './modules';
 
 export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
 
-export default (url = process.env.PUBLIC_URL || '/') => {
+export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/') => {
   // Create a history depending on the environment
   const history = isServer
     ? createMemoryHistory({
@@ -47,6 +50,11 @@ export default (url = process.env.PUBLIC_URL || '/') => {
   if (!isServer) {
     delete window.__PRELOADED_STATE__;
   }
+
+  const rootReducer = combineReducers({
+    [uiStore.name]: uiStore.reducer,
+    ...modules.reduce((acc, module: any) => ({ ...acc, [module.name]: module.reducer }), {})
+  });
 
   // Create the store
   const store = createStore(connectRouter(history)(rootReducer), initialState, composedEnhancers);

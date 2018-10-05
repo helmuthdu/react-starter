@@ -5,9 +5,11 @@ import { frontloadConnect } from 'react-frontload';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import logo from '../../assets/images/logo.svg';
+import { AUTH_ROUTES } from '../../modules/auth/router';
 import { toggleLoading } from '../../store/modules/ui';
 import { isLoading } from '../../store/modules/ui/getters';
-import { Header, Intro, Logo, Title, Wrapper } from './HomePage.styled';
+import { MAIN_ROUTES } from '../';
+import { Button, Header, Intro, Logo, Title, Wrapper } from './HomePage.styled';
 
 interface HomeProps {
   isLoading: boolean;
@@ -33,9 +35,13 @@ export class HomePage extends Component<HomeProps, HomeState> {
           To get started, edit <code>src/index.js</code> and save to reload.
         </Intro>
         Navigate to
-        <button onClick={this.props.changePage} title="go to about page">
+        <Button onClick={() => this.props.changePage(MAIN_ROUTES.ABOUT)} title="go to about page">
           about page
-        </button>
+        </Button>
+        or to
+        <Button onClick={() => this.props.changePage(AUTH_ROUTES.SIGN_IN)} title="go to sign-in page">
+          sign-in page
+        </Button>
       </Wrapper>
     );
   }
@@ -49,15 +55,15 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       toggleLoading,
-      changePage: () => push('/about')
+      changePage: path => push(path)
     },
     dispatch
   );
 
 // Request initial data for the component
-const asyncData = async props => await new Promise((resolve, reject) => resolve());
+const loadRequest = async props => await new Promise((resolve, reject) => resolve());
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(frontloadConnect(asyncData)(HomePage));
+)(frontloadConnect(loadRequest)(HomePage));

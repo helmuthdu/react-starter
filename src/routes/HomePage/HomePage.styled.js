@@ -33,3 +33,7 @@ export const Logo = styled.img`
 export const Title = styled.h1`
   font-size: 1.5em;
 `;
+
+export const Button = styled.button`
+  margin: 0 0.5em;
+`;

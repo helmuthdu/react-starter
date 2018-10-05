@@ -2,7 +2,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { HomePage } from './HomePage';
-import { Title } from './HomePage.styled';
+import { Button, Title } from './HomePage.styled';
 
 describe('Route -> Home component', () => {
   const initialState = { ui: { loadingCount: 1 } };
@@ -29,7 +29,7 @@ describe('Route -> Home component', () => {
   it('should trigger changePage method', () => {
     const wrapper = shallow(<HomePage {...props} />);
     wrapper
-      .find('button')
+      .find(Button)
       .at(0)
       .simulate('click');
     expect(wrapper.instance().props.changePage).toBeCalled();

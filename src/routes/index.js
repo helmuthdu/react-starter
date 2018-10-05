@@ -18,21 +18,28 @@ const About = Loadable({
   loading: () => null
 });
 
-export const AppRoutes = () => {
+export const MAIN_ROUTES = Object.freeze({
+  ABOUT: '/about',
+  HOME_PAGE: '/',
+  NOT_FOUND: '*'
+});
+
+export const AppRoutes = ({ routes }) => {
   return (
     <Switch>
-      <DefaultLayoutRoute exact path="/" component={HomePage} />
-      <DefaultLayoutRoute path="/about" component={About} />
-      <Route path="*" component={NotFound} />
+      {routes && routes.reduce((a, b) => a.concat(b), [])}
+      <DefaultLayoutRoute path={MAIN_ROUTES.ABOUT} component={About} />
+      <DefaultLayoutRoute path={MAIN_ROUTES.HOME_PAGE} component={HomePage} />
+      <Route path={MAIN_ROUTES.NOT_FOUND} component={NotFound} />
     </Switch>
   );
 };
 
-export const AppRouter = ({ history }) => {
+export const AppRouter = ({ history, routes }) => {
   return (
     <ConnectedRouter history={history}>
       <Frontload noServerRender>
-        <AppRoutes />
+        <AppRoutes routes={routes} />
       </Frontload>
     </ConnectedRouter>
   );

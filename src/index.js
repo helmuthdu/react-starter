@@ -1,21 +1,24 @@
+// @flow
 import React from 'react';
 import { hydrate, render } from 'react-dom';
 import Loadable from 'react-loadable';
 import { Provider } from 'react-redux';
 
 import * as serviceWorker from './serviceWorker';
+
+import authModule from './modules/auth';
 import AppRouter from './routes';
 import createStore from './store';
 
-const { store, history } = createStore();
-
-const root = document.querySelector('#root');
+const { store, history } = createStore([authModule.store]);
 
 const app = (
   <Provider store={store}>
-    <AppRouter history={history} />
+    <AppRouter history={history} routes={[authModule.routes]} />
   </Provider>
 );
+
+const root = document.querySelector('#root');
 
 if (process.env.NODE_ENV === 'production') {
   // If we're running in production, we use hydrate to get fast page loads by just

@@ -1,1 +1,4 @@
-export const isLoading = state => state.loadingCount > 0;
+// @flow
+import type { State } from './state';
+
+export const isLoading = (state: State) => state.loading > 0;

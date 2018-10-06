@@ -6,7 +6,9 @@ import { Provider } from 'react-redux';
 
 import * as serviceWorker from './serviceWorker';
 
+import mainModule from './modules/main';
 import authModule from './modules/auth';
+
 import AppRouter from './routes';
 import createStore from './store';
 
@@ -14,7 +16,7 @@ const { store, history } = createStore([authModule.store]);
 
 const app = (
   <Provider store={store}>
-    <AppRouter history={history} routes={[authModule.routes]} />
+    <AppRouter history={history} routes={[authModule.routes, mainModule.routes]} />
   </Provider>
 );
 

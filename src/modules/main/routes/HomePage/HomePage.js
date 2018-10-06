@@ -5,10 +5,10 @@ import { frontloadConnect } from 'react-frontload';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import logo from '../../assets/images/logo.svg';
-import { AUTH_ROUTES } from '../../modules/auth/router';
-import { toggleLoading } from '../../store/modules/ui';
-import { isLoading } from '../../store/modules/ui/getters';
-import { MAIN_ROUTES } from '../';
+import { AUTH_ROUTES } from '../../../auth/router';
+import { toggleLoading } from '../../../../store/modules/ui';
+import { isLoading } from '../../../../store/modules/ui/getters';
+import { MAIN_ROUTES } from '../../router';
 import { Button, Header, Intro, Logo, Title, Wrapper } from './HomePage.styled';
 
 interface HomeProps {

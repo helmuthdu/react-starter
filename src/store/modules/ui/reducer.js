@@ -8,17 +8,17 @@ export interface Actions {
 
 // Reducer
 export const reducer = (state: State = initialState, action: Actions): State => {
-  let loadingCount = 0;
+  let loading = 0;
 
   switch (action.type) {
     case UI_ENABLE_LOADING:
-      return { ...state, ...{ loadingCount: state.loadingCount + 1 } };
+      return { ...state, ...{ loading: state.loading + 1 } };
     case UI_DISABLE_LOADING:
-      loadingCount = state.loadingCount - 1 > 0 ? state.loadingCount - 1 : 0;
-      return { ...state, ...{ loadingCount } };
+      loading = state.loading - 1 > 0 ? state.loading - 1 : 0;
+      return { ...state, ...{ loading: loading } };
     case UI_TOGGLE_LOADING:
-      loadingCount = state.loadingCount > 0 ? 0 : 1;
-      return { ...state, ...{ loadingCount } };
+      loading = state.loading > 0 ? 0 : 1;
+      return { ...state, ...{ loading: loading } };
     default:
       return state;
   }

@@ -13,12 +13,8 @@ injectGlobal`
     margin: 0;
     padding: 0;
     font-family: 'Source Sans Pro';
-    background-color: #f1f1f1;
+    background-color: #ffffff;
     font-size: 16px;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    margin: 0 0 1rem;
   }
 `;
 

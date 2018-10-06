@@ -5,7 +5,7 @@ import { HomePage } from './HomePage';
 import { Button, Title } from './HomePage.styled';
 
 describe('Route -> Home component', () => {
-  const initialState = { ui: { loadingCount: 1 } };
+  const initialState = { ui: { loading: 1 } };
 
   const props = {
     isLoading: false,

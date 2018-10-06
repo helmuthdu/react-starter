@@ -1,8 +1,8 @@
 // @flow
 export interface State {
-  loadingCount: number;
+  loading: number;
 }
 
 export const initialState: State = {
-  loadingCount: 0
+  loading: 0
 };

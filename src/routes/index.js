@@ -2,35 +2,17 @@ import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import { Frontload } from 'react-frontload';
 import { hot } from 'react-hot-loader';
-import Loadable from 'react-loadable';
+import { Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
-import DefaultLayoutRoute from '../layouts/DefaultLayout';
 import NotFound from './NotFound/NotFound';
-
-const HomePage = Loadable({
-  loader: () => import('./HomePage/HomePage'),
-  loading: () => null
-});
-
-const About = Loadable({
-  loader: () => import('./About/About'),
-  loading: () => null
-});
-
-export const MAIN_ROUTES = Object.freeze({
-  ABOUT: '/about',
-  HOME_PAGE: '/',
-  NOT_FOUND: '*'
-});
 
 export const AppRoutes = ({ routes }) => {
   return (
     <Switch>
       {routes && routes.reduce((a, b) => a.concat(b), [])}
-      <DefaultLayoutRoute path={MAIN_ROUTES.ABOUT} component={About} />
-      <DefaultLayoutRoute path={MAIN_ROUTES.HOME_PAGE} component={HomePage} />
-      <Route path={MAIN_ROUTES.NOT_FOUND} component={NotFound} />
+      <Route path="/not-found" component={NotFound} />
+      <Redirect to="/not-found" />
     </Switch>
   );
 };

@@ -26,8 +26,8 @@ export const Intro = styled.p`
 `;
 
 export const Logo = styled.img`
-  animation: ${props => (props.isLoading ? `${rotate360} infinite 20s linear` : `none`)};
-  height: 80px;
+  animation: ${rotate360} infinite 20s linear;
+  height: ${props => (props.isLoading ? `120px` : `80px`)};
 `;
 
 export const Title = styled.h1`

@@ -61,9 +61,13 @@ const mapDispatchToProps = dispatch =>
   );
 
 // Request initial data for the component
-const loadRequest = async props => await new Promise((resolve, reject) => resolve());
+const beforeMount = async props =>
+  await new Promise((resolve, reject) => {
+    console.log('Before mounting HomePage component');
+    return resolve();
+  });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(frontloadConnect(loadRequest)(HomePage));
+)(frontloadConnect(beforeMount)(HomePage));

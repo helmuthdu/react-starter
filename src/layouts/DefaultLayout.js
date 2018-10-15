@@ -1,9 +1,9 @@
 // @flow
 import React, { Fragment } from 'react';
 import { Route } from 'react-router-dom';
-import { injectGlobal } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
-injectGlobal`
+const GlobalStyles = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Montserrat|Source+Sans+Pro');
 
   body,
@@ -27,11 +27,7 @@ interface DefaultLayoutProps {
 }
 
 export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
-  return (
-    <Fragment>
-      <div>{children}</div>
-    </Fragment>
-  );
+  return <Fragment>{children}</Fragment>;
 };
 
 export const DefaultLayoutRoute = ({ component: Component, ...rest }: any) => {
@@ -40,6 +36,7 @@ export const DefaultLayoutRoute = ({ component: Component, ...rest }: any) => {
       {...rest}
       render={(matchProps: DefaultLayoutProps) => (
         <DefaultLayout>
+          <GlobalStyles />
           <Component {...matchProps} />
         </DefaultLayout>
       )}

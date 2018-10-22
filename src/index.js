@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
 import mainModule from './modules/main';
-import authModule from './modules/auth';
+import authModule from './modules/example';
 
 import AppRouter from './routes';
 import createStore from './store';

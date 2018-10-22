@@ -9,6 +9,8 @@
     "test": "react-app-rewired test --env=jsdom",
     "test:coverage": "react-app-rewired test --env=jsdom --coverage",
     "test:debug": "react-app-rewired --inspect-brk test --runInBand",
+    "test:e2e": "cypress open",
+    "test:e2e:all": "cypress run --headed",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
@@ -36,9 +38,10 @@
     "redux": "^4.0.1",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^4.0.0"
+    "styled-components": "^4.0.2"
   },
   "devDependencies": {
+    "@cypress/webpack-preprocessor": "^3.0.0",
     "@storybook/addon-actions": "^3.4.11",
     "@storybook/addon-knobs": "^3.4.11",
     "@storybook/addon-links": "^3.4.11",
@@ -46,8 +49,10 @@
     "@storybook/react": "^3.4.11",
     "babel-loader": "8.0.4",
     "coveralls": "^3.0.2",
+    "cypress": "^3.1.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
     "eslint-config-prettier": "^3.1.0",
     "eslint-config-react-app": "^3.0.4",
     "eslint-plugin-flowtype": "^3.0.0",
@@ -68,7 +73,7 @@
     "react-scripts": "^2.0.5",
     "react-test-renderer": "^16.5.2",
     "redux-mock-store": "^1.5.3",
-    "storybook-readme": "^4.0.0-beta1",
+    "storybook-readme": "^4.0.2",
     "webpack": "4.19.1"
   },
   "lint-staged": {

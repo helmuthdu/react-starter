@@ -1,7 +1,7 @@
 // @flow
 import { authApi } from '../api/auth.api';
-import { State } from './state';
 import { AUTH_SET_USER } from './types';
+import { AuthenticatePayload } from '../api/auth.api';
 
 export const getUserInfo = () => async dispatch =>
   dispatch({
@@ -11,7 +11,7 @@ export const getUserInfo = () => async dispatch =>
     }
   });
 
-export const doLogin = (payload: State) => async dispatch => {
+export const doLogin = (payload: AuthenticatePayload) => async dispatch => {
   dispatch({
     type: AUTH_SET_USER,
     payload: {

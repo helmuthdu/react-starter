@@ -47,6 +47,10 @@ describe('component -> Link', () => {
     expect(shallowToJson(wrapper)).toMatchSnapshot();
   });
 
+  it('should have text value', () => {
+    expect(wrapper.text()).toEqual('Facebook');
+  });
+
   it('should trigger onClick method', () => {
     wrapper
       .find('a')

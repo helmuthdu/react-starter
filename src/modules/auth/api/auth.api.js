@@ -1,7 +1,7 @@
 // @flow
 import axios from 'axios';
 
-type GetPayload = {
+export type AuthenticatePayload = {
   email: string,
   password: string
 };
@@ -17,7 +17,7 @@ const get = () =>
     }, 1000);
   });
 
-const post = (payload: GetPayload) =>
+const post = (payload: AuthenticatePayload) =>
   axios.post(`https://httpstat.us/200`, {
     username: payload.email,
     password: payload.password

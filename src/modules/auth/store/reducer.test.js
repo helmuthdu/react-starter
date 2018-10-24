@@ -2,7 +2,7 @@ import { reducer } from './reducer';
 import { initialState } from './state';
 import { AUTH_SET_USER } from './types';
 
-describe('store -> Auth', () => {
+describe('auth/store -> reducer', () => {
   it('should handle the initial state', () => {
     expect(reducer(initialState, {})).toEqual(initialState);
   });

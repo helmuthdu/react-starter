@@ -4,7 +4,7 @@ import { reducer } from './reducer';
 import { initialState } from './state';
 import { UI_DISABLE_LOADING, UI_ENABLE_LOADING, UI_TOGGLE_LOADING } from './types';
 
-describe('store -> UI', () => {
+describe('store/ui -> reducer', () => {
   it('should handle the initial state', () => {
     expect(reducer(initialState, {})).toEqual({ loading: 0 });
   });

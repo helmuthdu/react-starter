@@ -41,12 +41,13 @@
     "styled-components": "^4.0.2"
   },
   "devDependencies": {
-    "@cypress/webpack-preprocessor": "^3.0.0",
+    "@cypress/webpack-preprocessor": "^3.0.1",
     "@storybook/addon-actions": "^3.4.11",
     "@storybook/addon-knobs": "^3.4.11",
     "@storybook/addon-links": "^3.4.11",
     "@storybook/addons": "^3.4.11",
     "@storybook/react": "^3.4.11",
+    "axios-mock-adapter": "^1.15.0",
     "babel-loader": "8.0.4",
     "coveralls": "^3.0.2",
     "cypress": "^3.1.0",

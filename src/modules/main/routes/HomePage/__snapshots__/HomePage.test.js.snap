@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Route -> Home component renders without crashing 1`] = `
+<styled.div>
+  <styled.header
+    onClick={
+      [MockFunction] {
+        "calls": Array [
+          Array [],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
+  >
+    <styled.img
+      alt="logo"
+      isLoading={false}
+      src="logo.svg"
+    />
+    <styled.h1>
+      Welcome to React
+    </styled.h1>
+  </styled.header>
+  <styled.p>
+    To get started, edit 
+    <code>
+      src/index.js
+    </code>
+     and save to reload.
+  </styled.p>
+  Navigate to
+  <styled.button
+    onClick={[Function]}
+    title="go to about page"
+  >
+    about page
+  </styled.button>
+  or to
+  <styled.button
+    onClick={[Function]}
+    title="go to sign-in page"
+  >
+    sign-in page
+  </styled.button>
+</styled.div>
+`;

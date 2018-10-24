@@ -2,6 +2,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { initialState } from '../../store';
+import { shallowToJson } from 'enzyme-to-json';
 import SignIn from './SignIn';
 
 describe('Route -> SignIn component', () => {
@@ -14,6 +15,6 @@ describe('Route -> SignIn component', () => {
 
   it('renders without crashing', () => {
     const wrapper = shallow(<SignIn {...props} />);
-    expect(wrapper.instance() instanceof React.Component).toBeTruthy();
+    expect(shallowToJson(wrapper)).toMatchSnapshot();
   });
 });

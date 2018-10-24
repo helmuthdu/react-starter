@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
+import { shallowToJson } from 'enzyme-to-json';
 import { AppRouter } from '.';
 
 describe('App component', () => {
@@ -11,6 +12,6 @@ describe('App component', () => {
 
   it('renders without crashing', () => {
     const wrapper = shallow(<AppRouter history={history} />);
-    expect(wrapper.instance()).toBeNull();
+    expect(shallowToJson(wrapper)).toMatchSnapshot();
   });
 });

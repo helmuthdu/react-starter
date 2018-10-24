@@ -1,6 +1,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
+import { shallowToJson } from 'enzyme-to-json';
 import { HomePage } from './HomePage';
 import { Button, Title } from './HomePage.styled';
 
@@ -17,7 +18,7 @@ describe('Route -> Home component', () => {
 
   it('renders without crashing', () => {
     const wrapper = shallow(<HomePage {...props} />);
-    expect(wrapper.instance() instanceof React.Component).toBeTruthy();
+    expect(shallowToJson(wrapper)).toMatchSnapshot();
   });
 
   it('renders welcome message', () => {

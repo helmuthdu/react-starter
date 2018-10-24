@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`layouts -> DefaultLayout component renders without crashing 1`] = `
+<Fragment>
+  <Component
+    location="/"
+  />
+</Fragment>
+`;
+
+exports[`layouts -> DefaultLayoutRoute component renders without crashing 1`] = `
+<Route
+  render={[Function]}
+/>
+`;

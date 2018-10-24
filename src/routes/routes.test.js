@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import { AppRouter } from './index';
+import { AppRouter } from '.';
 
 describe('App component', () => {
   const history = {

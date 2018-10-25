@@ -96,7 +96,8 @@
       "!src/**/*.stories.js",
       "!src/**/*.styled.js",
       "!src/index.js",
-      "!src/registerServiceWorker.js",
+      "!src/serviceWorker.js",
+      "!test/**/*.js",
       "!node_modules/"
     ]
   },

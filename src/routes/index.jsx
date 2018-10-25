@@ -1,5 +1,5 @@
 import { ConnectedRouter } from 'connected-react-router';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Frontload } from 'react-frontload';
 import { hot } from 'react-hot-loader';
 import { Redirect } from 'react-router';
@@ -9,11 +9,13 @@ import NotFound from './NotFound/NotFound';
 
 export const AppRoutes = ({ routes }) => {
   return (
-    <Switch>
-      {routes && routes.reduce((a, b) => a.concat(b), [])}
-      <Route path="/not-found" component={NotFound} />
-      <Redirect to="/not-found" />
-    </Switch>
+    <Suspense fallback={null}>
+      <Switch>
+        {routes && routes.reduce((a, b) => a.concat(b), [])}
+        <Route path="/not-found" component={NotFound} />
+        <Redirect to="/not-found" />
+      </Switch>
+    </Suspense>
   );
 };
 

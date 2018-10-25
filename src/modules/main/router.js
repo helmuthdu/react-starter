@@ -1,16 +1,8 @@
-import React from 'react';
-import Loadable from 'react-loadable';
+import React, { lazy } from 'react';
 import DefaultLayoutRoute from '../../layouts/DefaultLayout';
 
-const HomePage = Loadable({
-  loader: () => import('./routes/HomePage/HomePage'),
-  loading: () => null
-});
-
-const About = Loadable({
-  loader: () => import('./routes/About/About'),
-  loading: () => null
-});
+const HomePage = lazy(() => import('./routes/HomePage/HomePage'));
+const About = lazy(() => import('./routes/About/About'));
 
 export const MAIN_ROUTES = Object.freeze({
   ABOUT: '/about',

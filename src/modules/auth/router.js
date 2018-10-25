@@ -1,11 +1,7 @@
-import React from 'react';
-import Loadable from 'react-loadable';
+import React, { lazy } from 'react';
 import DefaultLayoutRoute from './layouts/DefaultLayout';
 
-const SignIn = Loadable({
-  loader: () => import('./routes/SignIn/SignIn'),
-  loading: () => null
-});
+const SignIn = lazy(() => import('./routes/SignIn/SignIn'));
 
 export const AUTH_ROUTES = Object.freeze({
   SIGN_IN: '/sign-in'

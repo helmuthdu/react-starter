@@ -19,7 +19,7 @@ const app = (
   </Provider>
 );
 
-const root = document.querySelector('#root');
+const root: HTMLElement = document.querySelector('#root');
 
 if (process.env.NODE_ENV === 'production') {
   // If we're running in production, we use hydrate to get fast page loads by just

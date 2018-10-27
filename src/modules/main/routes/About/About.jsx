@@ -6,7 +6,7 @@ const About = () => {
     <section>
       <p>This project is created by @helmuthdu.</p>
       <p>
-        For any question, I'm on{' '}
+        For any question, Im on{' '}
         <a href="mailto:helmuthdu@gmail.com" target="blank">
           helmuthdu@gmail.com
         </a>

@@ -4,12 +4,11 @@ import { DefaultLayout, DefaultLayoutRoute } from '../DefaultLayout';
 
 describe('auth/layouts -> DefaultLayout component', () => {
   it('renders without crashing', () => {
-    const children = {
-      props: {
-        location: '/'
-      }
-    };
-    const wrapper = shallow(<DefaultLayout children={children} />);
+    const wrapper = shallow(
+      <DefaultLayout>
+        <h1>Content</h1>
+      </DefaultLayout>
+    );
     expect(wrapper).toMatchSnapshot();
   });
 });

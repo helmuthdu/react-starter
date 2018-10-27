@@ -1,5 +1,4 @@
 import { shallow } from 'enzyme';
-import 'jest';
 import React, { Component } from 'react';
 
 const STATUS = {

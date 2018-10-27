@@ -6,7 +6,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { doLogin, doLogout, getUserInfo } from '../../store';
 
-class SignIn extends Component {
+type SignInProps = {
+  name: string
+};
+
+class SignIn extends Component<SignInProps> {
   render() {
     return (
       <form onSubmit={e => e.preventDefault()}>

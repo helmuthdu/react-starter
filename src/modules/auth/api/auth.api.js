@@ -7,7 +7,7 @@ export type AuthenticatePayload = {
 };
 
 const get = () =>
-  new Promise((resolve, reject) => {
+  new Promise(resolve => {
     setTimeout(() => {
       resolve({
         name: 'John Doe',

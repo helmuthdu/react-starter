@@ -2,9 +2,9 @@
 
 exports[`auth/layouts -> DefaultLayout component renders without crashing 1`] = `
 <Fragment>
-  <Component
-    location="/"
-  />
+  <h1>
+    Content
+  </h1>
 </Fragment>
 `;
 

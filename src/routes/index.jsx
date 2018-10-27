@@ -1,3 +1,4 @@
+// @flow
 import { ConnectedRouter } from 'connected-react-router';
 import React, { Suspense } from 'react';
 import { Frontload } from 'react-frontload';
@@ -7,7 +8,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import NotFound from './NotFound/NotFound';
 
-export const AppRoutes = ({ routes }) => {
+export const AppRoutes = ({ routes }: any) => {
   return (
     <Suspense fallback={null}>
       <Switch>
@@ -19,7 +20,7 @@ export const AppRoutes = ({ routes }) => {
   );
 };
 
-export const AppRouter = ({ history, routes }) => {
+export const AppRouter = ({ history, routes }: any) => {
   return (
     <ConnectedRouter history={history}>
       <Frontload noServerRender>

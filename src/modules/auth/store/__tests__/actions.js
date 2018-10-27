@@ -2,9 +2,9 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import configureMockStore from 'redux-mock-store';
-import { AUTH_SET_USER } from './types';
-import { doLogin } from './actions';
-import { State } from './state';
+import { doLogin } from '../actions';
+import { State } from '../state';
+import { AUTH_SET_USER } from '../types';
 
 describe('auth/store -> actions', () => {
   let store;

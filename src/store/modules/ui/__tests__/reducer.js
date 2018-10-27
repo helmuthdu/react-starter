@@ -1,8 +1,8 @@
-import { disableLoading, enableLoading, toggleLoading } from './actions';
-import { isLoading } from './getters';
-import { reducer } from './reducer';
-import { initialState } from './state';
-import { UI_DISABLE_LOADING, UI_ENABLE_LOADING, UI_TOGGLE_LOADING } from './types';
+import { disableLoading, enableLoading, toggleLoading } from '../actions';
+import { isLoading } from '../getters';
+import { reducer } from '../reducer';
+import { initialState } from '../state';
+import { UI_DISABLE_LOADING, UI_ENABLE_LOADING, UI_TOGGLE_LOADING } from '../types';
 
 describe('store/ui -> reducer', () => {
   it('should handle the initial state', () => {

@@ -1,6 +1,6 @@
-import { reducer } from './reducer';
-import { initialState } from './state';
-import { AUTH_SET_USER } from './types';
+import { reducer } from '../reducer';
+import { initialState } from '../state';
+import { AUTH_SET_USER } from '../types';
 
 describe('auth/store -> reducer', () => {
   it('should handle the initial state', () => {

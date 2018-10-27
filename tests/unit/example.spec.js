@@ -1,5 +1,4 @@
 import { shallow } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
 import 'jest';
 import React, { Component } from 'react';
 
@@ -44,7 +43,7 @@ describe('component -> Link', () => {
   const wrapper = shallow(<Link {...props}>Facebook</Link>);
 
   it('renders without crashing', () => {
-    expect(shallowToJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should have text value', () => {

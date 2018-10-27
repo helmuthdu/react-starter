@@ -1,7 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import { DefaultLayout, DefaultLayoutRoute } from './DefaultLayout';
-import { shallowToJson } from 'enzyme-to-json';
+import { DefaultLayout, DefaultLayoutRoute } from '../DefaultLayout';
 
 describe('layouts -> DefaultLayout component', () => {
   it('renders without crashing', () => {
@@ -11,13 +10,13 @@ describe('layouts -> DefaultLayout component', () => {
       }
     };
     const wrapper = shallow(<DefaultLayout children={children} />);
-    expect(shallowToJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });
 
 describe('layouts -> DefaultLayoutRoute component', () => {
   it('renders without crashing', () => {
     const wrapper = shallow(<DefaultLayoutRoute />);
-    expect(shallowToJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

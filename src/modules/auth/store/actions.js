@@ -1,7 +1,6 @@
 // @flow
-import { authApi } from '../api/auth.api';
+import { authApi, AuthenticatePayload } from '../api/auth.api';
 import { AUTH_SET_USER } from './types';
-import { AuthenticatePayload } from '../api/auth.api';
 
 export const getUserInfo = () => async dispatch =>
   dispatch({

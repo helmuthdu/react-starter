@@ -12,7 +12,7 @@ export const AppRoutes = ({ routes }: any) => {
   return (
     <Suspense fallback={null}>
       <Switch>
-        {routes && routes.reduce((a, b) => a.concat(b), [])}
+        {routes && routes.length && routes.reduce((a, b) => a.concat(b), [])}
         <Route path="/not-found" component={NotFound} />
         <Redirect to="/not-found" />
       </Switch>

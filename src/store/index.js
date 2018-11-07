@@ -50,13 +50,15 @@ export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/'
     delete window.__PRELOADED_STATE__;
   }
 
-  const rootReducer = combineReducers({
-    [uiStore.name]: uiStore.reducer,
-    ...modules.reduce((acc, module: any) => ({ ...acc, [module.name]: module.reducer }), {})
-  });
+  const rootReducer = history =>
+    combineReducers({
+      router: connectRouter(history),
+      [uiStore.name]: uiStore.reducer,
+      ...modules.reduce((acc, module: any) => ({ ...acc, [module.name]: module.reducer }), {})
+    });
 
   // Create the store
-  const store = createStore(connectRouter(history)(rootReducer), initialState, composedEnhancers);
+  const store = createStore(rootReducer(history), initialState, composedEnhancers);
 
   return {
     store,

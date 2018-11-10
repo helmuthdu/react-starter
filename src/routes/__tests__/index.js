@@ -9,7 +9,7 @@ describe('App component', () => {
     }
   };
 
-  it('renders without crashing', () => {
+  it('should match snapshot', () => {
     const wrapper = shallow(<AppRouter history={history} />);
     expect(wrapper).toMatchSnapshot();
   });

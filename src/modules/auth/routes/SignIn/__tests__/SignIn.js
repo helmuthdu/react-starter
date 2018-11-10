@@ -12,7 +12,7 @@ describe('Route -> SignIn component', () => {
     store: configureMockStore()({ auth: initialState })
   };
 
-  it('renders without crashing', () => {
+  it('should match snapshot', () => {
     const wrapper = shallow(<SignIn {...props} />);
     expect(wrapper).toMatchSnapshot();
   });

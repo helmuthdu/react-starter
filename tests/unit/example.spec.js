@@ -41,7 +41,7 @@ describe('component -> Link', () => {
 
   const wrapper = shallow(<Link {...props}>Facebook</Link>);
 
-  it('renders without crashing', () => {
+  it('should match snapshot', () => {
     expect(wrapper).toMatchSnapshot();
   });
 

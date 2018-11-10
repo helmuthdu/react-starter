@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`auth/layouts -> DefaultLayout component renders without crashing 1`] = `
+exports[`auth/layouts -> DefaultLayout component should match snapshot 1`] = `
 <Fragment>
   <h1>
     Content
@@ -8,7 +8,7 @@ exports[`auth/layouts -> DefaultLayout component renders without crashing 1`] = 
 </Fragment>
 `;
 
-exports[`auth/layouts -> DefaultLayoutRoute component renders without crashing 1`] = `
+exports[`auth/layouts -> DefaultLayoutRoute component should match snapshot 1`] = `
 <Route
   render={[Function]}
 />

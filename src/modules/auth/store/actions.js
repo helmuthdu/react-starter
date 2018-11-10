@@ -20,9 +20,8 @@ export const doLogin = (payload: AuthenticatePayload) => async dispatch => {
   });
 };
 
-export const doLogout = () => {
-  return {
+export const doLogout = () => dispatch =>
+  dispatch({
     type: AUTH_SET_USER,
     payload: { username: '', email: '', isLogged: false, token: '' }
-  };
-};
+  });

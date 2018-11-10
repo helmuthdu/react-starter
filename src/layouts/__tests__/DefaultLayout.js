@@ -3,7 +3,7 @@ import React from 'react';
 import { DefaultLayout, DefaultLayoutRoute } from '../DefaultLayout';
 
 describe('layouts -> DefaultLayout component', () => {
-  it('renders without crashing', () => {
+  it('should match snapshot', () => {
     const children = {
       props: {
         location: '/'
@@ -15,7 +15,7 @@ describe('layouts -> DefaultLayout component', () => {
 });
 
 describe('layouts -> DefaultLayoutRoute component', () => {
-  it('renders without crashing', () => {
+  it('should match snapshot', () => {
     const wrapper = shallow(<DefaultLayoutRoute />);
     expect(wrapper).toMatchSnapshot();
   });

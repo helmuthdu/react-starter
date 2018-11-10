@@ -15,12 +15,12 @@ describe('Route -> Home component', () => {
     store: configureMockStore()(initialState)
   };
 
-  it('renders without crashing', () => {
+  it('should match snapshot', () => {
     const wrapper = shallow(<HomePage {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('renders welcome message', () => {
+  it('should renders welcome message', () => {
     const wrapper = shallow(<HomePage {...props} />);
     const welcome = <Title>Welcome to React</Title>;
     expect(wrapper.contains(welcome)).toEqual(true);

@@ -3,7 +3,7 @@ import React from 'react';
 import { DefaultLayout, DefaultLayoutRoute } from '../DefaultLayout';
 
 describe('auth/layouts -> DefaultLayout component', () => {
-  it('renders without crashing', () => {
+  it('should match snapshot', () => {
     const wrapper = shallow(
       <DefaultLayout>
         <h1>Content</h1>
@@ -14,7 +14,7 @@ describe('auth/layouts -> DefaultLayout component', () => {
 });
 
 describe('auth/layouts -> DefaultLayoutRoute component', () => {
-  it('renders without crashing', () => {
+  it('should match snapshot', () => {
     const wrapper = shallow(<DefaultLayoutRoute />);
     expect(wrapper).toMatchSnapshot();
   });

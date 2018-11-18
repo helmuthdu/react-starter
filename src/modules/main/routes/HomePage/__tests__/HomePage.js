@@ -32,6 +32,6 @@ describe('Route -> Home component', () => {
       .find(Button)
       .at(0)
       .simulate('click');
-    expect(wrapper.instance().props.changePage).toBeCalled();
+    expect(wrapper.instance().props.changePage).toHaveBeenCalled();
   });
 });

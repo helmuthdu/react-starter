@@ -12,17 +12,13 @@ const GlobalStyles = createGlobalStyle`
     overflow-x: hidden;
     margin: 0;
     padding: 0;
-    font-family: 'Source Sans Pro';
+    font-family: 'Source Sans Pro', sans-serif;
     background-color: #ffffff;
     font-size: 16px;
   }
 `;
 
-interface DefaultLayoutProps {
-  children: any;
-}
-
-export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
+export const DefaultLayout = ({ children }: any) => {
   return <Fragment>{children}</Fragment>;
 };
 
@@ -30,7 +26,7 @@ export const DefaultLayoutRoute = ({ component: Component, ...rest }: any) => {
   return (
     <Route
       {...rest}
-      render={(matchProps: DefaultLayoutProps) => (
+      render={(matchProps: any) => (
         <DefaultLayout>
           <GlobalStyles />
           <Component {...matchProps} />

@@ -26,6 +26,9 @@ if (process.env.NODE_ENV === 'production') {
   // attaching event listeners after the initial render
   hydrate(app, root);
 } else {
+  if (window.Cypress) {
+    window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+  }
   // If we're not running on the server, just render like normal
   render(app, root);
 }

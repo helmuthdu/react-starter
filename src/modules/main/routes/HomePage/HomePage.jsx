@@ -11,15 +11,13 @@ import logo from '../../assets/images/logo.svg';
 import { MAIN_ROUTES } from '../../router';
 import { Button, Header, Intro, Logo, Title, Wrapper } from './HomePage.styled';
 
-interface HomeProps {
-  isLoading: boolean;
-  toggleLoading: Function;
-  changePage: Function;
-}
+type Props = {
+  isLoading: boolean,
+  toggleLoading: () => void,
+  changePage: (path: string) => void
+};
 
-interface HomeState {}
-
-export class HomePage extends Component<HomeProps, HomeState> {
+export class HomePage extends Component<Props> {
   componentDidMount() {
     this.props.toggleLoading();
   }
@@ -61,9 +59,9 @@ const mapDispatchToProps = dispatch =>
   );
 
 // Request initial data for the component
-const beforeMount = async props =>
+const beforeMount = async (props: any) =>
   await new Promise((resolve, reject) => {
-    console.log('Before mounting HomePage component');
+    console.log('Before mounting HomePage component', props);
     return resolve();
   });
 

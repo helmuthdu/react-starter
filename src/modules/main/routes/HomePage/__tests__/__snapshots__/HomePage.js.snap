@@ -3,19 +3,7 @@
 exports[`Route -> Home component should match snapshot 1`] = `
 <styled.div>
   <styled.header
-    onClick={
-      [MockFunction] {
-        "calls": Array [
-          Array [],
-        ],
-        "results": Array [
-          Object {
-            "isThrow": false,
-            "value": undefined,
-          },
-        ],
-      }
-    }
+    onClick={[MockFunction]}
   >
     <styled.img
       alt="logo"

@@ -1,34 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Route -> SignIn component should match snapshot 1`] = `
-<Component
-  changePage={[Function]}
-  dispatch={[MockFunction]}
-  doLogin={[Function]}
-  doLogout={[Function]}
-  email=""
-  getUserInfo={[Function]}
-  isLogged={false}
-  store={
+<ContextProvider
+  value={
     Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
-  storeSubscription={
-    Subscription {
-      "listeners": Object {
-        "clear": [Function],
-        "get": [Function],
-        "notify": [Function],
-        "subscribe": [Function],
-      },
-      "onStateChange": [Function],
-      "parentSub": undefined,
       "store": Object {
         "clearActions": [Function],
         "dispatch": [Function],
@@ -37,10 +12,21 @@ exports[`Route -> SignIn component should match snapshot 1`] = `
         "replaceReducer": [Function],
         "subscribe": [Function],
       },
-      "unsubscribe": [Function],
+      "storeState": Object {
+        "auth": Object {
+          "email": "",
+          "isLogged": false,
+          "token": "",
+          "username": "",
+        },
+      },
     }
   }
-  token=""
-  username=""
-/>
+>
+  <Connect(SignIn)
+    changePage={[MockFunction]}
+    dispatch={[MockFunction]}
+    isLogged={false}
+  />
+</ContextProvider>
 `;

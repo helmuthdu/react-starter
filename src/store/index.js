@@ -6,11 +6,15 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import thunkMiddleware from 'redux-thunk';
 
-import { uiStore } from './modules';
-
 export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
 
+let storeInstance;
+
 export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/') => {
+  if (storeInstance) {
+    return storeInstance;
+  }
+
   // Create a history depending on the environment
   const history = isServer
     ? createMemoryHistory({
@@ -53,15 +57,16 @@ export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/'
   const rootReducer = history =>
     combineReducers({
       router: connectRouter(history),
-      [uiStore.name]: uiStore.reducer,
       ...modules.reduce((acc, module: any) => ({ ...acc, [module.name]: module.reducer }), {})
     });
 
   // Create the store
   const store = createStore(rootReducer(history), initialState, composedEnhancers);
 
-  return {
+  storeInstance = {
     store,
     history
   };
+
+  return storeInstance;
 };

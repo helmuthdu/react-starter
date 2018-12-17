@@ -1,4 +1,4 @@
 import routes from './router';
-import * as store from './store';
+import * as stores from './store';
 
-export default { routes, store };
+export default { routes, stores: Object.values(stores) };

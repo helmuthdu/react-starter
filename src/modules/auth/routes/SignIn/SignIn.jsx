@@ -1,20 +1,24 @@
 // @flow
 import { push } from 'connected-react-router';
 import React, { Component } from 'react';
-import { frontloadConnect } from 'react-frontload';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { doLogin, doLogout, getUserInfo } from '../../store';
 import { createObservableFromInput } from '../../../../helpers/observable';
+import { doLogin, doLogout, getUserInfo } from '../../store/modules/auth';
 
 type Props = {
-  name: string
+  name: string,
+  changePage: () => void,
+  doLogin: () => void,
+  getUserInfo: () => void,
+  doLogout: () => void
 };
 
 class SignIn extends Component<Props> {
   inputField = React.createRef();
 
-  componentDidMount(): void {
+  async componentDidMount() {
+    await this.props.getUserInfo();
     createObservableFromInput(this.inputField, {}).subscribe((value: any) => {
       console.log(value);
     });
@@ -45,10 +49,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-// Request initial data for the component
-const beforeMount = async props => await props.getUserInfo();
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(frontloadConnect(beforeMount)(SignIn));
+)(SignIn);

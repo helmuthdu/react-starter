@@ -1,7 +1,6 @@
 // @flow
 import { ConnectedRouter } from 'connected-react-router';
 import React, { Suspense } from 'react';
-import { Frontload } from 'react-frontload';
 import { hot } from 'react-hot-loader';
 import { Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
@@ -23,9 +22,7 @@ export const AppRoutes = ({ routes }: any) => {
 export const AppRouter = ({ history, routes }: any) => {
   return (
     <ConnectedRouter history={history}>
-      <Frontload noServerRender>
-        <AppRoutes routes={routes} />
-      </Frontload>
+      <AppRoutes routes={routes} />
     </ConnectedRouter>
   );
 };

@@ -1,7 +1,6 @@
 // @flow
 import { push } from 'connected-react-router';
 import React, { Component } from 'react';
-import { frontloadConnect } from 'react-frontload';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { toggleLoading } from '../../../../store/modules/ui';
@@ -18,7 +17,11 @@ type Props = {
 };
 
 export class HomePage extends Component<Props> {
-  componentDidMount() {
+  async componentDidMount() {
+    await new Promise((resolve, reject) => {
+      console.log('Before mounting HomePage component', this.props);
+      return resolve();
+    });
     this.props.toggleLoading();
   }
 
@@ -58,14 +61,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-// Request initial data for the component
-const beforeMount = async (props: any) =>
-  await new Promise((resolve, reject) => {
-    console.log('Before mounting HomePage component', props);
-    return resolve();
-  });
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(frontloadConnect(beforeMount)(HomePage));
+)(HomePage);

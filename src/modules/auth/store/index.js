@@ -1,5 +1,1 @@
-export * from './reducer';
-export * from './actions';
-export * from './state';
-
-export const name = 'auth';
+export const authStore = require('./modules/auth');

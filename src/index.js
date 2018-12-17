@@ -2,16 +2,17 @@
 import React from 'react';
 import { hydrate, render } from 'react-dom';
 import { Provider } from 'react-redux';
-import authModule from './modules/auth';
 
+import authModule from './modules/auth';
 import mainModule from './modules/main';
 
 import AppRouter from './routes';
 
 import * as serviceWorker from './serviceWorker';
+import * as stores from './store/modules';
 import createStore from './store';
 
-const { store, history } = createStore([authModule.store]);
+const { store, history } = createStore([...authModule.stores, ...Object.values(stores)]);
 
 const app = (
   <Provider store={store}>

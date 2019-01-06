@@ -1,39 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Route -> Home component should match snapshot 1`] = `
-<styled.div>
-  <styled.header
+<div
+  className="App"
+>
+  <header
+    className="App-header"
     onClick={[MockFunction]}
   >
-    <styled.img
+    <img
       alt="logo"
-      isLoading={false}
+      className="App-logo"
       src="logo.svg"
     />
-    <styled.h1>
-      Welcome to React
-    </styled.h1>
-  </styled.header>
-  <styled.p>
-    To get started, edit 
-    <code>
-      src/index.js
-    </code>
-     and save to reload.
-  </styled.p>
-  Navigate to
-  <styled.button
-    onClick={[Function]}
-    title="go to about page"
-  >
-    about page
-  </styled.button>
-  or to
-  <styled.button
-    onClick={[Function]}
-    title="go to sign-in page"
-  >
-    sign-in page
-  </styled.button>
-</styled.div>
+    <p>
+      Edit 
+      <code>
+        src/App.js
+      </code>
+       and save to reload.
+    </p>
+    <a
+      className="App-link"
+      href="https://reactjs.org"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Learn React
+    </a>
+    Navigate to
+    <div
+      className="App-link"
+      onClick={[Function]}
+      title="go to about page"
+    >
+      about page
+    </div>
+    or to
+    <div
+      className="App-link"
+      onClick={[Function]}
+      title="go to sign-in page"
+    >
+      sign-in page
+    </div>
+  </header>
+</div>
 `;

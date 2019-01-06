@@ -24,9 +24,9 @@ exports[`Route -> SignIn component should match snapshot 1`] = `
   }
 >
   <Connect(SignIn)
-    changePage={[MockFunction]}
     dispatch={[MockFunction]}
     isLogged={false}
+    linkTo={[MockFunction]}
   />
 </ContextProvider>
 `;

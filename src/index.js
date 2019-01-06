@@ -9,8 +9,8 @@ import mainModule from './modules/main';
 import AppRouter from './routes';
 
 import * as serviceWorker from './serviceWorker';
-import * as stores from './store/modules';
 import createStore from './store';
+import * as stores from './store/modules';
 
 const { store, history } = createStore([...authModule.stores, ...Object.values(stores)]);
 

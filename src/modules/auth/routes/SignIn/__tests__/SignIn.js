@@ -9,7 +9,7 @@ describe('Route -> SignIn component', () => {
   const props = {
     isLogged: false,
     dispatch: jest.fn(),
-    changePage: jest.fn()
+    linkTo: jest.fn()
   };
 
   const store = configureMockStore()({ auth: initialState });

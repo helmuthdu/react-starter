@@ -2,7 +2,6 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { HomePage } from '../HomePage';
-import { Button, Title } from '../HomePage.styled';
 
 describe('Route -> Home component', () => {
   const initialState = { ui: { loading: 1 } };
@@ -11,7 +10,7 @@ describe('Route -> Home component', () => {
     isLoading: false,
     dispatch: jest.fn(),
     toggleLoading: jest.fn(),
-    changePage: jest.fn(),
+    linkTo: jest.fn(),
     store: configureMockStore()(initialState)
   };
 
@@ -22,16 +21,15 @@ describe('Route -> Home component', () => {
 
   it('should renders welcome message', () => {
     const wrapper = shallow(<HomePage {...props} />);
-    const welcome = <Title>Welcome to React</Title>;
-    expect(wrapper.contains(welcome)).toEqual(true);
+    expect(wrapper.contains('Learn React')).toEqual(true);
   });
 
-  it('should trigger changePage method', () => {
+  it('should trigger linkTo method', () => {
     const wrapper = shallow(<HomePage {...props} />);
     wrapper
-      .find(Button)
-      .at(0)
+      .find('.App-link')
+      .at(1)
       .simulate('click');
-    expect(wrapper.instance().props.changePage).toHaveBeenCalled();
+    expect(wrapper.instance().props.linkTo).toHaveBeenCalled();
   });
 });

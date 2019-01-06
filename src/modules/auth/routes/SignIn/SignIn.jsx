@@ -8,7 +8,7 @@ import { doLogin, doLogout, getUserInfo } from '../../store/modules/auth';
 
 type Props = {
   name: string,
-  changePage: () => void,
+  linkTo: () => void,
   doLogin: () => void,
   getUserInfo: () => void,
   doLogout: () => void
@@ -41,7 +41,7 @@ const mapStateToProps = state => ({ ...state.auth });
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      changePage: () => push(`/`),
+      linkTo: () => push(`/`),
       doLogin,
       getUserInfo,
       doLogout

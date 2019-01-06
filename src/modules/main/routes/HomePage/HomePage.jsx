@@ -8,12 +8,13 @@ import { isLoading } from '../../../../store/modules/ui/getters';
 import { AUTH_ROUTES } from '../../../auth/router';
 import logo from '../../assets/images/logo.svg';
 import { MAIN_ROUTES } from '../../router';
-import { Button, Header, Intro, Logo, Title, Wrapper } from './HomePage.styled';
+
+import './HomePage.scss';
 
 type Props = {
   isLoading: boolean,
   toggleLoading: () => void,
-  changePage: (path: string) => void
+  linkTo: (path: string) => void
 };
 
 export class HomePage extends Component<Props> {
@@ -27,23 +28,25 @@ export class HomePage extends Component<Props> {
 
   render() {
     return (
-      <Wrapper>
-        <Header onClick={this.props.toggleLoading}>
-          <Logo src={logo} alt="logo" isLoading={this.props.isLoading} />
-          <Title>Welcome to React</Title>
-        </Header>
-        <Intro>
-          To get started, edit <code>src/index.js</code> and save to reload.
-        </Intro>
-        Navigate to
-        <Button onClick={() => this.props.changePage(MAIN_ROUTES.ABOUT)} title="go to about page">
-          about page
-        </Button>
-        or to
-        <Button onClick={() => this.props.changePage(AUTH_ROUTES.SIGN_IN)} title="go to sign-in page">
-          sign-in page
-        </Button>
-      </Wrapper>
+      <div className="App">
+        <header className="App-header" onClick={this.props.toggleLoading}>
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
+            Learn React
+          </a>
+          Navigate to
+          <div className="App-link" onClick={() => this.props.linkTo(MAIN_ROUTES.ABOUT)} title="go to about page">
+            about page
+          </div>
+          or to
+          <div className="App-link" onClick={() => this.props.linkTo(AUTH_ROUTES.SIGN_IN)} title="go to sign-in page">
+            sign-in page
+          </div>
+        </header>
+      </div>
     );
   }
 }
@@ -56,7 +59,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       toggleLoading,
-      changePage: path => push(path)
+      linkTo: path => push(path)
     },
     dispatch
   );

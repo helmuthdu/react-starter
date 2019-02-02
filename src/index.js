@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { hydrate, render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -20,16 +19,13 @@ const app = (
   </Provider>
 );
 
-const root: HTMLElement = document.querySelector('#root');
+const root = document.querySelector('#root');
 
 if (process.env.NODE_ENV === 'production') {
   // If we're running in production, we use hydrate to get fast page loads by just
   // attaching event listeners after the initial render
   hydrate(app, root);
 } else {
-  if (window.Cypress) {
-    window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
-  }
   // If we're not running on the server, just render like normal
   render(app, root);
 }

@@ -1,25 +1,24 @@
-// @flow
-import { configure } from 'enzyme';
+import enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-configure({ adapter: new Adapter() });
+enzyme.configure({ adapter: new Adapter() });
 
 class LocalStorageMock {
-  store: any = {};
+  store = {};
 
   clear() {
     this.store = {};
   }
 
-  getItem(key: string) {
+  getItem(key) {
     return this.store[key] || undefined;
   }
 
-  setItem(key: string, value: any) {
+  setItem(key, value) {
     this.store[key] = value.toString();
   }
 
-  removeItem(key: string) {
+  removeItem(key) {
     delete this.store[key];
   }
 }
@@ -28,7 +27,7 @@ global.localStorage = new LocalStorageMock();
 
 if (global.document) {
   const originalProcessNextTick = process.nextTick;
-  process.nextTick = function(cb: (v: any) => void) {
+  process.nextTick = function(cb) {
     if (cb.toString().indexOf('function flush()') === 0) {
       return;
     }

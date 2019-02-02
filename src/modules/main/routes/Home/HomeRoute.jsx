@@ -1,23 +1,17 @@
-// @flow
 import { push } from 'connected-react-router';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { toggleLoading } from '../../../../store/modules/ui';
 import { isLoading } from '../../../../store/modules/ui/getters';
 import { AUTH_ROUTES } from '../../../auth/router';
 import logo from '../../assets/images/logo.svg';
 import { MAIN_ROUTES } from '../../router';
 
-import './HomePage.scss';
+import './HomeRoute.scss';
 
-type Props = {
-  isLoading: boolean,
-  toggleLoading: () => void,
-  linkTo: (path: string) => void
-};
-
-export class HomePage extends Component<Props> {
+export class HomeRoute extends Component {
   async componentDidMount() {
     await new Promise((resolve, reject) => {
       console.log('Before mounting HomePage component', this.props);
@@ -51,6 +45,12 @@ export class HomePage extends Component<Props> {
   }
 }
 
+HomeRoute.propTypes = {
+  isLoading: PropTypes.bool,
+  toggleLoading: PropTypes.func,
+  linkTo: PropTypes.func
+};
+
 const mapStateToProps = state => ({
   isLoading: isLoading(state.ui)
 });
@@ -64,7 +64,11 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomePage);
+const enhance = compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+);
+
+export default enhance(HomeRoute);

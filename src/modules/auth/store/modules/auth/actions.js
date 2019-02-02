@@ -1,18 +1,17 @@
-// @flow
-import { authApi, AuthenticatePayload } from '../../../api/auth.api';
-import { AUTH_SET_USER } from './types';
+import { authApi } from '../../../api/auth.api';
+import { ActionType } from './types';
 
-export const getUserInfo = () => async dispatch =>
+export const getUserData = () => async dispatch =>
   dispatch({
-    type: AUTH_SET_USER,
+    type: ActionType.AUTH_SET_USER,
     payload: {
       ...(await authApi.get())
     }
   });
 
-export const doLogin = (payload: AuthenticatePayload) => async dispatch => {
+export const doLogin = payload => async dispatch => {
   dispatch({
-    type: AUTH_SET_USER,
+    type: ActionType.AUTH_SET_USER,
     payload: {
       ...(await authApi.post(payload)).data,
       isLogged: true
@@ -22,6 +21,6 @@ export const doLogin = (payload: AuthenticatePayload) => async dispatch => {
 
 export const doLogout = () => dispatch =>
   dispatch({
-    type: AUTH_SET_USER,
-    payload: { username: '', email: '', isLogged: false, token: '' }
+    type: ActionType.AUTH_SET_USER,
+    payload: { name: '', username: '', email: '', isLogged: false, token: '' }
   });

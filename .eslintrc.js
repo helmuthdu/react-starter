@@ -19,13 +19,11 @@ module.exports = {
     'eslint:recommended',
     'plugin:jest/recommended',
     'plugin:react/recommended',
-    'plugin:flowtype/recommended',
     'plugin:prettier/recommended',
-    'prettier/flowtype',
     'prettier/react',
     'prettier/standard'
   ],
-  plugins: ['cypress', 'jest', 'react', 'flowtype', 'prettier'],
+  plugins: ['cypress', 'jest', 'react', 'prettier'],
   rules: {
     'prettier/prettier': 'error',
     'no-console': 'off'

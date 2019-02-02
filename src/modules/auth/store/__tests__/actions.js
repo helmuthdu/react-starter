@@ -1,10 +1,8 @@
-// @flow
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import configureMockStore from 'redux-mock-store';
+import configureMockStore, { MockStore } from 'redux-mock-store';
 import { doLogin } from '../modules/auth/actions';
-import { State } from '../modules/auth/state';
-import { AUTH_SET_USER } from '../modules/auth/types';
+import { ActionType } from '../modules/auth/types';
 
 describe('auth/store -> actions', () => {
   let store;
@@ -19,7 +17,7 @@ describe('auth/store -> actions', () => {
   });
 
   it('should login successfully', async () => {
-    const response: State = {
+    const response = {
       name: 'John Doe',
       username: 'johndoe',
       email: 'johndoe@mail.com',
@@ -34,7 +32,7 @@ describe('auth/store -> actions', () => {
 
     expect(store.getActions()).toEqual([
       {
-        type: AUTH_SET_USER,
+        type: ActionType.AUTH_SET_USER,
         payload: { ...response, isLogged: true }
       }
     ]);

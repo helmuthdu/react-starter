@@ -1,12 +1,5 @@
-// @flow
-export type State = {
-  username: string,
-  email: string,
-  isLogged: boolean,
-  token: string
-};
-
-export const initialState: State = {
+export const initialState = {
+  name: '',
   username: '',
   email: '',
   isLogged: false,

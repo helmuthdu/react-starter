@@ -1,9 +1,3 @@
-// Getters (GET*)
-// [CONTEXT]_[ACTION]_[PROPERTY]
-
-// Reducer (SET*, ADD*, REMOVE*)
-// [CONTEXT]_[ACTION]_[PROPERTY]
-
-// Actions (FETCH*, CREATE*, UPDATE*, DELETE*)
-// [CONTEXT]_[ACTION]_[PROPERTY]_[STATUS]
-export const AUTH_SET_USER = 'AUTH_SET_USER';
+export const ActionType = Object.freeze({
+  AUTH_SET_USER: 'AUTH_SET_USER'
+});

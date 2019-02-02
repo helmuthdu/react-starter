@@ -1,24 +1,23 @@
-// @flow
 import { ConnectedRouter } from 'connected-react-router';
 import React, { Suspense } from 'react';
 import { Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
-import NotFound from './NotFound/NotFound';
+import NotFoundRoute from './NotFound/NotFoundRoute';
 
-export const AppRoutes = ({ routes }: any) => {
+export const AppRoutes = ({ routes }) => {
   return (
     <Suspense fallback={null}>
       <Switch>
-        {routes && routes.length && routes.reduce((a, b) => [...a, b], [])}
-        <Route path="/not-found" component={NotFound} />
+        {routes && routes.length && routes.reduce((acc, curr) => [...acc, curr], [])}
+        <Route path="/not-found" component={NotFoundRoute} />
         <Redirect to="/not-found" />
       </Switch>
     </Suspense>
   );
 };
 
-export const AppRouter = ({ history, routes }: any) => {
+export const AppRouter = ({ history, routes }) => {
   return (
     <ConnectedRouter history={history}>
       <AppRoutes routes={routes} />

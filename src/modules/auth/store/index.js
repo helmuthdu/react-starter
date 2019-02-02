@@ -1,1 +1,3 @@
-export const authStore = require('./modules/auth');
+import * as auth from './modules/auth';
+
+export { auth };

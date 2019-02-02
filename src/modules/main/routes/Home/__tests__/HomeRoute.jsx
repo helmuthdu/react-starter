@@ -1,9 +1,9 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
-import { HomePage } from '../HomePage';
+import { HomeRoute } from '../HomeRoute';
 
-describe('Route -> Home component', () => {
+describe('Route -> Home', () => {
   const initialState = { ui: { loading: 1 } };
 
   const props = {
@@ -15,17 +15,17 @@ describe('Route -> Home component', () => {
   };
 
   it('should match snapshot', () => {
-    const wrapper = shallow(<HomePage {...props} />);
+    const wrapper = shallow(<HomeRoute {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should renders welcome message', () => {
-    const wrapper = shallow(<HomePage {...props} />);
+    const wrapper = shallow(<HomeRoute {...props} />);
     expect(wrapper.contains('Learn React')).toEqual(true);
   });
 
   it('should trigger linkTo method', () => {
-    const wrapper = shallow(<HomePage {...props} />);
+    const wrapper = shallow(<HomeRoute {...props} />);
     wrapper
       .find('.App-link')
       .at(1)

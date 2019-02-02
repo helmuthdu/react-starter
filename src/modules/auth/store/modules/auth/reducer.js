@@ -1,16 +1,10 @@
-// @flow
-import { initialState, State } from './state';
-import { AUTH_SET_USER } from './types';
-
-export interface Actions {
-  +type: AUTH_SET_USER;
-  payload: State;
-}
+import { initialState } from './state';
+import { ActionType } from './types';
 
 // Reducer
-export const reducer = (state: State = initialState, action: Actions): State => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case AUTH_SET_USER:
+    case ActionType.AUTH_SET_USER:
       return { ...state, ...action.payload };
     default:
       return state;

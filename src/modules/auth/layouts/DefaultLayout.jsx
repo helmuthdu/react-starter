@@ -1,18 +1,17 @@
-// @flow
 import React, { Fragment } from 'react';
 import { Route } from 'react-router-dom';
 
 import './DefaultLayout.scss';
 
-export const DefaultLayout = ({ children }: any) => {
+export const DefaultLayout = ({ children }) => {
   return <Fragment>{children}</Fragment>;
 };
 
-export const DefaultLayoutRoute = ({ component: Component, ...rest }: any) => {
+export const DefaultLayoutRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(matchProps: any) => (
+      render={matchProps => (
         <DefaultLayout>
           <Component {...matchProps} />
         </DefaultLayout>

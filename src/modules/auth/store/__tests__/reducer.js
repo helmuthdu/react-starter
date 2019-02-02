@@ -1,15 +1,15 @@
 import { reducer } from '../modules/auth/reducer';
 import { initialState } from '../modules/auth/state';
-import { AUTH_SET_USER } from '../modules/auth/types';
+import { ActionType } from '../modules/auth/types';
 
 describe('auth/store -> reducer', () => {
   it('should handle the initial state', () => {
     expect(reducer(initialState, {})).toEqual(initialState);
   });
 
-  it(`should handle ${AUTH_SET_USER}: login`, () => {
+  it(`should handle ${ActionType.AUTH_SET_USER}: login`, () => {
     const res = reducer(initialState, {
-      type: AUTH_SET_USER,
+      type: ActionType.AUTH_SET_USER,
       payload: {
         username: 'user_name',
         email: 'user_email',
@@ -20,9 +20,9 @@ describe('auth/store -> reducer', () => {
     expect(res.isLogged).toEqual(true);
   });
 
-  it(`should handle ${AUTH_SET_USER}: logout`, () => {
+  it(`should handle ${ActionType.AUTH_SET_USER}: logout`, () => {
     const res = reducer(initialState, {
-      type: AUTH_SET_USER,
+      type: ActionType.AUTH_SET_USER,
       payload: { ...initialState }
     });
     expect(res).toEqual(initialState);

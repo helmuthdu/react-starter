@@ -1,7 +1,6 @@
-// @flow
 import React from 'react';
 
-const About = () => {
+const AboutRoute = () => {
   return (
     <section>
       <p>This project is created by @helmuthdu.</p>
@@ -22,4 +21,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default AboutRoute;

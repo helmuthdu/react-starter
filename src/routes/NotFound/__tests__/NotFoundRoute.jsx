@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import NotFound from '../NotFound';
+import NotFoundRoute from '../NotFoundRoute';
 
-describe('Route -> NotFound component', () => {
+describe('Route -> NotFound', () => {
   it('should match snapshot', () => {
-    const wrapper = shallow(<NotFound />);
+    const wrapper = shallow(<NotFoundRoute />);
     expect(wrapper).toMatchSnapshot();
   });
 });

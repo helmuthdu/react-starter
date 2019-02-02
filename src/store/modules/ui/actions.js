@@ -1,5 +1,5 @@
-import { UI_DISABLE_LOADING, UI_ENABLE_LOADING, UI_TOGGLE_LOADING } from './types';
+import { ActionType } from './types';
 
-export const enableLoading = () => ({ type: UI_ENABLE_LOADING });
-export const disableLoading = () => ({ type: UI_DISABLE_LOADING });
-export const toggleLoading = () => ({ type: UI_TOGGLE_LOADING });
+export const enableLoading = () => ({ type: ActionType.UI_ENABLE_LOADING });
+export const disableLoading = () => ({ type: ActionType.UI_DISABLE_LOADING });
+export const toggleLoading = () => ({ type: ActionType.UI_TOGGLE_LOADING });

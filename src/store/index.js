@@ -1,16 +1,14 @@
-// @flow
 import { anchorate } from 'anchorate';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import thunkMiddleware from 'redux-thunk';
 
 export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
 
 let storeInstance;
 
-export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/') => {
+export default (modules = [], url = process.env.PUBLIC_URL || '/') => {
   if (storeInstance) {
     return storeInstance;
   }
@@ -34,9 +32,6 @@ export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/'
   const middleware = [thunkMiddleware, routerMiddleware(history)];
 
   if (process.env.NODE_ENV === 'development' && !isServer) {
-    // Redux middleware that spits an error on you when you try to mutate your state either inside a dispatch or between dispatches.
-    middleware.push(reduxImmutableStateInvariant());
-
     const devToolsExtension = window.devToolsExtension;
 
     if (typeof devToolsExtension === 'function') {
@@ -57,7 +52,7 @@ export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/'
   const rootReducer = history =>
     combineReducers({
       router: connectRouter(history),
-      ...modules.reduce((acc, module: any) => ({ ...acc, [module.name]: module.reducer }), {})
+      ...modules.reduce((acc, module) => ({ ...acc, [module.name]: module.reducer }), {})
     });
 
   // Create the store

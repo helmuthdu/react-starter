@@ -1,25 +1,17 @@
-// @flow
 import { push } from 'connected-react-router';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { createObservableFromInput } from '../../../../helpers/observable';
-import { doLogin, doLogout, getUserInfo } from '../../store/modules/auth';
+import { doLogin, doLogout, getUserData } from '../../store/modules/auth';
 
-type Props = {
-  name: string,
-  linkTo: () => void,
-  doLogin: () => void,
-  getUserInfo: () => void,
-  doLogout: () => void
-};
-
-class SignIn extends Component<Props> {
+export class SignInRoute extends Component {
   inputField = React.createRef();
 
   async componentDidMount() {
-    await this.props.getUserInfo();
-    createObservableFromInput(this.inputField, {}).subscribe((value: any) => {
+    await this.props.getUserData();
+    createObservableFromInput(this.inputField, {}).subscribe(value => {
       console.log(value);
     });
   }
@@ -36,20 +28,32 @@ class SignIn extends Component<Props> {
   }
 }
 
-const mapStateToProps = state => ({ ...state.auth });
+SignInRoute.propTypes = {
+  name: PropTypes.string,
+  linkTo: PropTypes.func,
+  doLogin: PropTypes.func,
+  getUserData: PropTypes.func,
+  doLogout: PropTypes.func
+};
+
+const mapStateToProps = state => ({ name: state.auth.name });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       linkTo: () => push(`/`),
       doLogin,
-      getUserInfo,
+      getUserData,
       doLogout
     },
     dispatch
   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignIn);
+const enhance = compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+);
+
+export default enhance(SignInRoute);

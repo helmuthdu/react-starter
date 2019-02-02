@@ -1,1 +1,3 @@
-export const uiStore = require('./ui');
+import * as ui from './ui';
+
+export { ui };

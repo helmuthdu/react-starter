@@ -1,8 +1,3 @@
-// @flow
-export type State = {
-  loading: number
-};
-
-export const initialState: State = {
+export const initialState = {
   loading: 0
 };

@@ -9,6 +9,8 @@ describe('Route -> Home', () => {
   const props = {
     isLoading: false,
     dispatch: jest.fn(),
+    enableLoading: jest.fn(),
+    disableLoading: jest.fn(),
     toggleLoading: jest.fn(),
     linkTo: jest.fn(),
     store: configureMockStore()(initialState)

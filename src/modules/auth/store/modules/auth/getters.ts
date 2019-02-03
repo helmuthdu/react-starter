@@ -1,3 +1,10 @@
 import { AppState } from '../../../../../index';
+import { State } from './state';
 
-export const getUser = (state: AppState) => state.auth;
+export type Getters = {
+  getCurrentUser: (state: AppState) => State;
+};
+
+export const getters: Getters = {
+  getCurrentUser: (state: AppState) => state.auth
+};

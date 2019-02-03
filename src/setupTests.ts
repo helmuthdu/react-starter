@@ -29,7 +29,7 @@ global.localStorage = new LocalStorageMock();
 
 if (global.document) {
   const originalProcessNextTick = process.nextTick;
-  process.nextTick = function(cb: (v: any) => void) {
+  process.nextTick = function(cb: Function) {
     if (cb.toString().indexOf('function flush()') === 0) {
       return;
     }

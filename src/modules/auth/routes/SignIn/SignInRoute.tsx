@@ -2,10 +2,9 @@ import { push } from 'connected-react-router';
 import React, { Component, HTMLAttributes, Ref } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
-import { createObservableFromInput } from '../../../../helpers/observable';
+import { createSearchInputObservable } from '../../../../helpers/search.helper';
 import { AppState } from '../../../../index';
-import { AuthenticatePayload } from '../../api/auth.api';
-import { doLogin, doLogout, getUserData } from '../../store/modules/auth';
+import { auth } from '../../store';
 
 type State = {};
 
@@ -13,11 +12,8 @@ type StateProps = {
   name: string;
 };
 
-type DispatchProps = {
+type DispatchProps = auth.Actions & {
   linkTo: () => void;
-  doLogin: (payload: AuthenticatePayload) => void;
-  getUserInfo: () => void;
-  doLogout: () => void;
 };
 
 type OwnProps = HTMLAttributes<HTMLFormElement>;
@@ -28,8 +24,8 @@ export class SignInRoute extends Component<Props, State> {
   inputField: Ref<HTMLInputElement> = React.createRef();
 
   async componentDidMount() {
-    await this.props.getUserInfo();
-    createObservableFromInput(this.inputField, {}).subscribe((value: any) => {
+    await this.props.getUser();
+    createSearchInputObservable(this.inputField, {}).subscribe((value: any) => {
       console.log(value);
     });
   }
@@ -48,18 +44,17 @@ export class SignInRoute extends Component<Props, State> {
 
 const mapStateToProps = (state: AppState): StateProps => ({ name: state.auth.name });
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
-  bindActionCreators(
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
+  return bindActionCreators(
     {
       linkTo: () => push(`/`),
-      doLogin,
-      getUserInfo: getUserData,
-      doLogout
+      ...auth.actions
     },
     dispatch
   );
+};
 
-const enhance = compose<React.ComponentType<OwnProps>>(
+const enhance = compose(
   connect(
     mapStateToProps,
     mapDispatchToProps

@@ -11,13 +11,13 @@ module.exports = function(wallaby) {
 
   return {
     files: [
-      'src/**/*.+(js|jsx|json|snap|css|less|sass|scss|jpg|jpeg|gif|png|svg)',
-      '!src/**/__tests__/**/*.js',
-      '!src/**/*.stories.js?(x)',
-      '!src/registerServiceWorker.js'
+      'src/**/*.+(ts|tsx|json|snap|css|less|sass|scss|jpg|jpeg|gif|png|svg)',
+      '!src/**/__tests__/**/*.ts?(x)',
+      '!src/**/*.stories.ts?(x)',
+      '!src/registerServiceWorker.ts'
     ],
 
-    tests: ['src/**/__tests__/**/*.js'],
+    tests: ['src/**/__tests__/**/*.ts?(x)'],
 
     env: {
       type: 'node',
@@ -36,7 +36,7 @@ module.exports = function(wallaby) {
         require.resolve('react-scripts/' + p)
       );
       Object.keys(jestConfig.transform || {}).forEach(
-        k => ~k.indexOf('^.+\\.(js|jsx') && void delete jestConfig.transform[k]
+        k => ~k.indexOf('^.+\\.(ts|tsx') && void delete jestConfig.transform[k]
       );
       delete jestConfig.testEnvironment;
       wallaby.testFramework.configure(jestConfig);

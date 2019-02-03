@@ -1,9 +1,9 @@
 export type State = {
-  name: string;
-  username: string;
-  email: string;
-  isLogged: boolean;
-  token: string;
+  readonly name: string;
+  readonly username: string;
+  readonly email: string;
+  readonly isLogged: boolean;
+  readonly token: string;
 };
 
 export const initialState: State = {

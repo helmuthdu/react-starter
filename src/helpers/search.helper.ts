@@ -13,7 +13,7 @@ interface InputObservableOptions {
  * @param options
  * @return Observable<string>
  */
-export const createObservableFromInput = (refObject: any, options: InputObservableOptions): Observable<string> => {
+export const createSearchInputObservable = (refObject: any, options: InputObservableOptions): Observable<string> => {
   const { time = 400, scheduler, minLength = 3 } = options;
   return fromEvent(refObject.current, 'input').pipe(
     pluck<HTMLAttributes<HTMLInputElement>, string>('target', 'value'),

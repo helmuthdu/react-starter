@@ -3,7 +3,7 @@ import React, { Component, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { AppState } from '../../../../index';
-import { toggleLoading } from '../../../../store/modules/ui';
+import { ui } from '../../../../store/modules';
 import { isLoading } from '../../../../store/modules/ui/getters';
 import { AUTH_ROUTES } from '../../../auth/router';
 import logo from '../../assets/images/logo.svg';
@@ -17,8 +17,7 @@ type StateProps = {
   isLoading: boolean;
 };
 
-type DispatchProps = {
-  toggleLoading: () => void;
+type DispatchProps = ui.Actions & {
   linkTo: (path: string) => void;
 };
 
@@ -61,14 +60,14 @@ export class HomeRoute extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  isLoading: isLoading(state.ui)
+  isLoading: isLoading(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
-      toggleLoading,
-      linkTo: path => push(path)
+      linkTo: path => push(path),
+      ...ui.actions
     },
     dispatch
   );

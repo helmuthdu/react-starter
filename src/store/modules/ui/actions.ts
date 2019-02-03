@@ -1,5 +1,14 @@
+import { Action } from './reducer';
 import { ActionType } from './types';
 
-export const enableLoading = () => ({ type: ActionType.UI_ENABLE_LOADING });
-export const disableLoading = () => ({ type: ActionType.UI_DISABLE_LOADING });
-export const toggleLoading = () => ({ type: ActionType.UI_TOGGLE_LOADING });
+export type Actions = {
+  enableLoading: () => Action;
+  disableLoading: () => Action;
+  toggleLoading: () => Action;
+};
+
+export const actions: Actions = {
+  enableLoading: () => ({ type: ActionType.UI_ENABLE_LOADING }),
+  disableLoading: () => ({ type: ActionType.UI_DISABLE_LOADING }),
+  toggleLoading: () => ({ type: ActionType.UI_TOGGLE_LOADING })
+};

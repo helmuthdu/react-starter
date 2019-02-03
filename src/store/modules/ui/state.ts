@@ -1,5 +1,5 @@
 export type State = {
-  loading: number;
+  readonly loading: number;
 };
 
 export const initialState: State = {

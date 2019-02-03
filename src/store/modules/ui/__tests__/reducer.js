@@ -1,4 +1,4 @@
-import { disableLoading, enableLoading, toggleLoading } from '../actions';
+import { actions } from '../actions';
 import { isLoading } from '../getters';
 import { reducer } from '../reducer';
 import { initialState } from '../state';
@@ -10,15 +10,15 @@ describe('store/ui -> reducer', () => {
   });
 
   it(`should handle ${ActionType.UI_ENABLE_LOADING}`, () => {
-    expect(reducer(initialState, enableLoading())).toEqual({ loading: 1 });
+    expect(reducer(initialState, actions.enableLoading())).toEqual({ loading: 1 });
   });
 
   it(`should handle ${ActionType.UI_DISABLE_LOADING}`, () => {
-    expect(reducer(initialState, disableLoading())).toEqual({ loading: 0 });
+    expect(reducer(initialState, actions.disableLoading())).toEqual({ loading: 0 });
   });
 
   it(`should handle ${ActionType.UI_TOGGLE_LOADING}`, () => {
-    expect(reducer(initialState, toggleLoading())).toEqual({ loading: 1 });
+    expect(reducer(initialState, actions.toggleLoading())).toEqual({ loading: 1 });
   });
 
   it('should check if is loading', () => {

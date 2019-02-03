@@ -6,7 +6,9 @@ const get = () =>
       resolve({
         name: 'John Doe',
         username: 'johndoe',
-        email: 'johndoe@mail.com'
+        email: 'johndoe@mail.com',
+        isLogged: true,
+        token: 'secret'
       });
     }, 1000);
   });

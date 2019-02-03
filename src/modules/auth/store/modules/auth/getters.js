@@ -1,1 +1,3 @@
-export const getUser = state => state.auth;
+export const getters = {
+  getCurrentUser: state => state.auth
+};

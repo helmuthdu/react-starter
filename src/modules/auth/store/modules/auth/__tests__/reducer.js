@@ -1,6 +1,6 @@
-import { reducer } from '../modules/auth/reducer';
-import { initialState } from '../modules/auth/state';
-import { ActionType } from '../modules/auth/types';
+import { reducer } from '../reducer';
+import { initialState } from '../state';
+import { ActionType } from '../types';
 
 describe('auth/store -> reducer', () => {
   it('should handle the initial state', () => {
@@ -11,6 +11,7 @@ describe('auth/store -> reducer', () => {
     const res = reducer(initialState, {
       type: ActionType.AUTH_SET_USER,
       payload: {
+        name: 'John Doe',
         username: 'user_name',
         email: 'user_email',
         isLogged: true,

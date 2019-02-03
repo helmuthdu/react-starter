@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { toggleLoading } from '../../../../store/modules/ui';
+import { ui } from '../../../../store/modules';
 import { isLoading } from '../../../../store/modules/ui/getters';
 import { AUTH_ROUTES } from '../../../auth/router';
 import logo from '../../assets/images/logo.svg';
@@ -12,8 +12,8 @@ import { MAIN_ROUTES } from '../../router';
 import './HomeRoute.scss';
 
 export class HomeRoute extends Component {
-  async componentDidMount() {
-    await new Promise((resolve, reject) => {
+  componentDidMount() {
+    new Promise((resolve, reject) => {
       console.log('Before mounting HomePage component', this.props);
       return resolve();
     });
@@ -58,8 +58,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      toggleLoading,
-      linkTo: path => push(path)
+      linkTo: path => push(path),
+      ...ui.actions
     },
     dispatch
   );

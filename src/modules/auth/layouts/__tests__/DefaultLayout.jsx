@@ -2,7 +2,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import { DefaultLayout, DefaultLayoutRoute } from '../DefaultLayout';
 
-describe('auth/layouts -> DefaultLayout component', () => {
+describe('auth/layouts -> DefaultLayout', () => {
   it('should match snapshot', () => {
     const wrapper = shallow(
       <DefaultLayout>
@@ -13,7 +13,7 @@ describe('auth/layouts -> DefaultLayout component', () => {
   });
 });
 
-describe('auth/layouts -> DefaultLayoutRoute component', () => {
+describe('auth/layouts -> DefaultLayoutRoute', () => {
   it('should match snapshot', () => {
     const wrapper = shallow(<DefaultLayoutRoute />);
     expect(wrapper).toMatchSnapshot();

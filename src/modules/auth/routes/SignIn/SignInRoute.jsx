@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { createObservableFromInput } from '../../../../helpers/observable';
-import { doLogin, doLogout, getUserData } from '../../store/modules/auth';
+import { createSearchInputObservable } from '../../../../helpers/search.helper';
+import { auth } from '../../store';
 
 export class SignInRoute extends Component {
   inputField = React.createRef();
 
-  async componentDidMount() {
-    await this.props.getUserData();
-    createObservableFromInput(this.inputField, {}).subscribe(value => {
+  componentDidMount() {
+    this.props.getUser();
+    createSearchInputObservable(this.inputField, {}).subscribe(value => {
       console.log(value);
     });
   }
@@ -32,7 +32,7 @@ SignInRoute.propTypes = {
   name: PropTypes.string,
   linkTo: PropTypes.func,
   doLogin: PropTypes.func,
-  getUserData: PropTypes.func,
+  getUser: PropTypes.func,
   doLogout: PropTypes.func
 };
 
@@ -42,9 +42,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       linkTo: () => push(`/`),
-      doLogin,
-      getUserData,
-      doLogout
+      ...auth.actions
     },
     dispatch
   );

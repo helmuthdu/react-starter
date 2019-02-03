@@ -1,8 +1,8 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import configureMockStore, { MockStore } from 'redux-mock-store';
-import { doLogin } from '../modules/auth/actions';
-import { ActionType } from '../modules/auth/types';
+import { actions } from '../actions';
+import { ActionType } from '../types';
 
 describe('auth/store -> actions', () => {
   let store;
@@ -26,7 +26,7 @@ describe('auth/store -> actions', () => {
 
     httpMock.onPost('https://httpstat.us/200').reply(200, response);
 
-    doLogin({ email: 'johndoe@mail.com', password: 'secret' })(store.dispatch);
+    actions.doLogin({ email: 'johndoe@mail.com', password: 'secret' })(store.dispatch);
 
     await flushAllPromises();
 

@@ -51,7 +51,7 @@ HomeRoute.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  ...ui.getters
+  isLoading: ui.getters.isLoading(state)
 });
 
 const mapDispatchToProps = dispatch =>

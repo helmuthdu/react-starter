@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { ui } from '../../../../store/modules';
-import { isLoading } from '../../../../store/modules/ui/getters';
 import { AUTH_ROUTES } from '../../../auth/router';
 import logo from '../../assets/images/logo.svg';
 import { MAIN_ROUTES } from '../../router';
@@ -52,7 +51,7 @@ HomeRoute.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isLoading: isLoading(state.ui)
+  ...ui.getters
 });
 
 const mapDispatchToProps = dispatch =>

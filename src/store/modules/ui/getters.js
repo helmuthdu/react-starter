@@ -1,1 +1,3 @@
-export const isLoading = state => state.loading > 0;
+export const getters = {
+  isLoading: state => state.ui.loading > 0
+};

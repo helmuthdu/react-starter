@@ -1,6 +1,6 @@
 import { AppState } from '../../../../index';
 import { actions } from '../actions';
-import { isLoading } from '../getters';
+import { getters } from '../getters';
 import { Action, reducer } from '../reducer';
 import { initialState } from '../state';
 import { ActionType } from '../types';
@@ -23,6 +23,6 @@ describe('store/ui -> reducer', () => {
   });
 
   it('should check if is loading', () => {
-    expect(isLoading({ ui: { loading: 1 } } as AppState)).toEqual(true);
+    expect(getters.isLoading({ ui: { loading: 1 } } as AppState)).toEqual(true);
   });
 });

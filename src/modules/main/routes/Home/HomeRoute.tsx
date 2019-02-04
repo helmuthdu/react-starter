@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { AppState } from '../../../../index';
 import { ui } from '../../../../store/modules';
-import { isLoading } from '../../../../store/modules/ui/getters';
 import { AUTH_ROUTES } from '../../../auth/router';
 import logo from '../../assets/images/logo.svg';
 import { MAIN_ROUTES } from '../../router';
@@ -60,7 +59,7 @@ export class HomeRoute extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  isLoading: isLoading(state)
+  isLoading: ui.getters.isLoading(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>

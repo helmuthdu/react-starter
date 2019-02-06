@@ -20,18 +20,12 @@ module.exports = {
     'plugin:jest/recommended',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
-    'prettier/react',
-    'prettier/standard'
+    'prettier/react'
   ],
   plugins: ['cypress', 'jest', 'react', 'prettier'],
   rules: {
     'prettier/prettier': 'error',
     'no-console': 'off'
-  },
-  settings: {
-    flowtype: {
-      onlyFilesWithFlowAnnotation: true
-    }
   },
   overrides: [
     {

@@ -1,7 +1,7 @@
 module.exports = function(wallaby) {
-  // Babel, jest-cli and some other modules may be located under
-  // react-scripts/node_modules, so need to let node.js know about it
   const path = require('path');
+  process.env.BABEL_ENV = 'test';
+  process.env.NODE_ENV = 'test';
   process.env.NODE_PATH +=
     path.delimiter +
     path.join(__dirname, 'node_modules') +
@@ -11,6 +11,7 @@ module.exports = function(wallaby) {
 
   return {
     files: [
+      { pattern: 'src/setupTests.ts', instrument: false },
       'src/**/*.+(ts|tsx|json|snap|css|less|sass|scss|jpg|jpeg|gif|png|svg)',
       '!src/**/__tests__/**/*.ts?(x)',
       '!src/**/*.stories.ts?(x)',
@@ -24,11 +25,14 @@ module.exports = function(wallaby) {
       runner: 'node'
     },
 
-    compilers: {
-      '**/*.js?(x)': wallaby.compilers.babel({
-        babel: require('babel-core'),
-        presets: ['react-app']
-      })
+    preprocessors: {
+      '**/*.js?(x)': file =>
+        require('@babel/core').transform(file.content, {
+          sourceMap: true,
+          compact: false,
+          filename: file.path,
+          presets: [require('babel-preset-jest'), 'react-app']
+        })
     },
 
     setup: wallaby => {
@@ -36,7 +40,7 @@ module.exports = function(wallaby) {
         require.resolve('react-scripts/' + p)
       );
       Object.keys(jestConfig.transform || {}).forEach(
-        k => ~k.indexOf('^.+\\.(ts|tsx') && void delete jestConfig.transform[k]
+        k => ~k.indexOf('^.+\\.(js|jsx') && void delete jestConfig.transform[k]
       );
       delete jestConfig.testEnvironment;
       wallaby.testFramework.configure(jestConfig);

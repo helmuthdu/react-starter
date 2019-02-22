@@ -22,9 +22,10 @@ module.exports = {
     'plugin:prettier/recommended',
     'prettier/react'
   ],
-  plugins: ['cypress', 'jest', 'react', 'prettier'],
+  plugins: ['cypress', 'jest', 'react', 'prettier', 'react-hooks'],
   rules: {
     'prettier/prettier': 'error',
+    'react-hooks/rules-of-hooks': 'error',
     'no-console': 'off'
   },
   overrides: [

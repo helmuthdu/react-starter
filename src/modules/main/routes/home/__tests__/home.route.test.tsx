@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import { HomeRoute, Props } from '../home.route';
 
 describe('Route -> Home', () => {
-  const initialState = { ui: { loading: 1 } };
+  const initialState = { loading: { count: 1 } };
 
   const props = {
     isLoading: false,

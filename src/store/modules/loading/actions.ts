@@ -8,7 +8,7 @@ export type Actions = {
 };
 
 export const actions: Actions = {
-  enableLoading: () => ({ type: ActionType.UI_ENABLE_LOADING }),
-  disableLoading: () => ({ type: ActionType.UI_DISABLE_LOADING }),
-  toggleLoading: () => ({ type: ActionType.UI_TOGGLE_LOADING })
+  enableLoading: () => ({ type: ActionType.LOADING_ENABLE_LOADING }),
+  disableLoading: () => ({ type: ActionType.LOADING_DISABLE_LOADING }),
+  toggleLoading: () => ({ type: ActionType.LOADING_TOGGLE_LOADING })
 };

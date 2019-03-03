@@ -12,7 +12,7 @@ import createStore from './store';
 import * as stores from './store/modules';
 
 export type AppState = authModule.State & {
-  ui: stores.ui.State;
+  loading: stores.loading.State;
 };
 
 const { store, history } = createStore([...authModule.stores, ...Object.values(stores)]);

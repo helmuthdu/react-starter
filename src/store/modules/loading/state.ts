@@ -1,7 +1,7 @@
 export type State = {
-  readonly loading: number;
+  readonly count: number;
 };
 
 export const initialState: State = {
-  loading: 0
+  count: 0
 };

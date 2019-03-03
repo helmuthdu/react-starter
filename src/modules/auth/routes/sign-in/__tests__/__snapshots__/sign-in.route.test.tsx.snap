@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Route -> SignIn component should match snapshot 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <input
+    placeholder="Username"
+    required={true}
+    type="text"
+  />
+  <input
+    placeholder="Password"
+    required={true}
+    type="password"
+  />
+  <button
+    type="submit"
+  >
+    Login
+  </button>
+  <p>
+    current user: 
+    john doe
+  </p>
+</form>
+`;

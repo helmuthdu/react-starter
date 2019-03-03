@@ -5,5 +5,5 @@ export type Getters = {
 };
 
 export const getters: Getters = {
-  isLoading: (state: AppState) => state.ui.loading > 0
+  isLoading: (state: AppState) => state.loading.count > 0
 };

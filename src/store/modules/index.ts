@@ -1,3 +1,3 @@
-import * as ui from './ui';
+import * as loading from './loading';
 
-export { ui };
+export { loading };

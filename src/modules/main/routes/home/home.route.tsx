@@ -3,12 +3,12 @@ import React, { Component, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { AppState } from '../../../../index';
-import { ui } from '../../../../store/modules';
+import { loading } from '../../../../store/modules';
 import { AUTH_ROUTES } from '../../../auth/router';
 import logo from '../../assets/images/logo.svg';
 import { MAIN_ROUTES } from '../../router';
 
-import './HomeRoute.scss';
+import './home.route.scss';
 
 type State = {};
 
@@ -16,7 +16,7 @@ type StateProps = {
   isLoading: boolean;
 };
 
-type DispatchProps = ui.Actions & {
+type DispatchProps = loading.Actions & {
   linkTo: (path: string) => void;
 };
 
@@ -59,14 +59,14 @@ export class HomeRoute extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  isLoading: ui.getters.isLoading(state)
+  isLoading: loading.getters.isLoading(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
       linkTo: path => push(path),
-      ...ui.actions
+      ...loading.actions
     },
     dispatch
   );

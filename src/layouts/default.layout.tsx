@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Route } from 'react-router-dom';
 
-import './DefaultLayout.scss';
+import './default.layout.scss';
 
 export const DefaultLayout = ({ children }: any) => {
   return <Fragment>{children}</Fragment>;

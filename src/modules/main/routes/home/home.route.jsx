@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { ui } from '../../../../store/modules';
+import { loading } from '../../../../store/modules';
 import { AUTH_ROUTES } from '../../../auth/router';
 import logo from '../../assets/images/logo.svg';
 import { MAIN_ROUTES } from '../../router';
 
-import './HomeRoute.scss';
+import './home.route.scss';
 
 export class HomeRoute extends Component {
   componentDidMount() {
@@ -51,14 +51,14 @@ HomeRoute.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isLoading: ui.getters.isLoading(state)
+  isLoading: loading.getters.isLoading(state)
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       linkTo: path => push(path),
-      ...ui.actions
+      ...loading.actions
     },
     dispatch
   );

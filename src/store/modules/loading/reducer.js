@@ -7,13 +7,13 @@ export const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case ActionType.UI_ENABLE_LOADING:
-      return { ...state, ...{ loading: state.loading + 1 } };
+      return { ...state, ...{ count: state.count + 1 } };
     case ActionType.UI_DISABLE_LOADING:
-      loading = state.loading - 1 > 0 ? state.loading - 1 : 0;
-      return { ...state, ...{ loading: loading } };
+      loading = state.count - 1 > 0 ? state.count - 1 : 0;
+      return { ...state, ...{ count: loading } };
     case ActionType.UI_TOGGLE_LOADING:
-      loading = state.loading > 0 ? 0 : 1;
-      return { ...state, ...{ loading: loading } };
+      loading = state.count > 0 ? 0 : 1;
+      return { ...state, ...{ count: loading } };
     default:
       return state;
   }

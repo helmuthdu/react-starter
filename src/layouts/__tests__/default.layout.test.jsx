@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import { DefaultLayout, DefaultLayoutRoute } from '../DefaultLayout';
+import { DefaultLayout, DefaultLayoutRoute } from '../default.layout';
 
 describe('layouts -> DefaultLayout component', () => {
   it('should match snapshot', () => {

@@ -1,3 +1,3 @@
 export const initialState = {
-  loading: 0
+  count: 0
 };

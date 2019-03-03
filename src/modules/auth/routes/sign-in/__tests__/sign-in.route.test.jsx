@@ -2,7 +2,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { initialState } from '../../../store/modules/auth';
-import { SignInRoute } from '../SignInRoute';
+import { SignInRoute } from '../sign-in.route';
 
 describe('Route -> SignIn', () => {
   const props = {

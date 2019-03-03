@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
-import { HomeRoute } from '../HomeRoute';
+import { HomeRoute } from '../home.route';
 
 describe('Route -> Home', () => {
-  const initialState = { ui: { loading: 1 } };
+  const initialState = { loading: { count: 1 } };
 
   const props = {
     isLoading: false,

@@ -10,7 +10,7 @@ export class SignInRoute extends Component {
   inputField = React.createRef();
 
   componentDidMount() {
-    this.props.getUser();
+    this.props.actionGetUser();
     createSearchInputObservable(this.inputField, {}).subscribe(value => {
       console.log(value);
     });
@@ -29,11 +29,11 @@ export class SignInRoute extends Component {
 }
 
 SignInRoute.propTypes = {
-  name: PropTypes.string,
+  actionGetUser: PropTypes.func,
+  actionLogin: PropTypes.func,
+  actionLogout: PropTypes.func,
   linkTo: PropTypes.func,
-  doLogin: PropTypes.func,
-  getUser: PropTypes.func,
-  doLogout: PropTypes.func
+  name: PropTypes.string
 };
 
 const mapStateToProps = state => ({ name: state.auth.name });

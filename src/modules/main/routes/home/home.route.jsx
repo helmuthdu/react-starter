@@ -16,13 +16,13 @@ export class HomeRoute extends Component {
       console.log('Before mounting HomePage component', this.props);
       return resolve();
     });
-    this.props.toggleLoading();
+    this.props.actionToggleLoading();
   }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header" onClick={this.props.toggleLoading}>
+        <header className="App-header" onClick={this.props.actionToggleLoading}>
           <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.
@@ -45,8 +45,8 @@ export class HomeRoute extends Component {
 }
 
 HomeRoute.propTypes = {
+  actionToggleLoading: PropTypes.func,
   isLoading: PropTypes.bool,
-  toggleLoading: PropTypes.func,
   linkTo: PropTypes.func
 };
 

@@ -6,11 +6,11 @@ import { Props, SignInRoute } from '../sign-in.route';
 
 describe('Route -> SignIn component', () => {
   const props: Props = {
-    name: 'john doe',
-    getUser: jest.fn(),
+    actionGetUser: jest.fn(),
+    actionLogin: jest.fn(),
+    actionLogout: jest.fn(),
     linkTo: jest.fn(),
-    doLogin: jest.fn(),
-    doLogout: jest.fn()
+    name: 'john doe'
   };
 
   const state = {

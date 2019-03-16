@@ -26,7 +26,7 @@ describe('auth/store -> actions', () => {
 
     httpMock.onPost('https://httpstat.us/200').reply(200, response);
 
-    actions.doLogin({ email: 'johndoe@mail.com', password: 'secret' })(store.dispatch);
+    actions.actionLogin({ email: 'johndoe@mail.com', password: 'secret' })(store.dispatch);
 
     await flushAllPromises();
 

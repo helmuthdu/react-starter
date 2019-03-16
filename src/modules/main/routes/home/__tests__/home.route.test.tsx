@@ -7,11 +7,11 @@ describe('Route -> Home', () => {
   const initialState = { loading: { count: 1 } };
 
   const props = {
-    isLoading: false,
+    actionDisableLoading: jest.fn(),
+    actionEnableLoading: jest.fn(),
+    actionToggleLoading: jest.fn(),
     dispatch: jest.fn(),
-    enableLoading: jest.fn(),
-    disableLoading: jest.fn(),
-    toggleLoading: jest.fn(),
+    isLoading: false,
     linkTo: jest.fn(),
     store: configureMockStore()(initialState)
   };

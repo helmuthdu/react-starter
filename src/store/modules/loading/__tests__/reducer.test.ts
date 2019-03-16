@@ -11,15 +11,15 @@ describe('store/ui -> reducer', () => {
   });
 
   it(`should handle ${ActionType.LOADING_ENABLE_LOADING}`, () => {
-    expect(reducer(initialState, actions.enableLoading())).toEqual({ count: 1 });
+    expect(reducer(initialState, actions.actionEnableLoading())).toEqual({ count: 1 });
   });
 
   it(`should handle ${ActionType.LOADING_DISABLE_LOADING}`, () => {
-    expect(reducer(initialState, actions.disableLoading())).toEqual({ count: 0 });
+    expect(reducer(initialState, actions.actionDisableLoading())).toEqual({ count: 0 });
   });
 
   it(`should handle ${ActionType.LOADING_TOGGLE_LOADING}`, () => {
-    expect(reducer(initialState, actions.toggleLoading())).toEqual({ count: 1 });
+    expect(reducer(initialState, actions.actionToggleLoading())).toEqual({ count: 1 });
   });
 
   it('should check if is loading', () => {

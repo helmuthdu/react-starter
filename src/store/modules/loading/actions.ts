@@ -2,13 +2,13 @@ import { Action } from './reducer';
 import { ActionType } from './types';
 
 export type Actions = {
-  enableLoading: () => Action;
-  disableLoading: () => Action;
-  toggleLoading: () => Action;
+  actionDisableLoading: () => Action;
+  actionEnableLoading: () => Action;
+  actionToggleLoading: () => Action;
 };
 
 export const actions: Actions = {
-  enableLoading: () => ({ type: ActionType.LOADING_ENABLE_LOADING }),
-  disableLoading: () => ({ type: ActionType.LOADING_DISABLE_LOADING }),
-  toggleLoading: () => ({ type: ActionType.LOADING_TOGGLE_LOADING })
+  actionDisableLoading: () => ({ type: ActionType.LOADING_DISABLE_LOADING }),
+  actionEnableLoading: () => ({ type: ActionType.LOADING_ENABLE_LOADING }),
+  actionToggleLoading: () => ({ type: ActionType.LOADING_TOGGLE_LOADING })
 };

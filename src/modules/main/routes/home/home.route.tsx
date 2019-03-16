@@ -30,13 +30,13 @@ export class HomeRoute extends Component<Props, State> {
       console.log('Before mounting HomePage component', this.props);
       return resolve();
     });
-    this.props.toggleLoading();
+    this.props.actionToggleLoading();
   }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header" onClick={this.props.toggleLoading}>
+        <header className="App-header" onClick={this.props.actionToggleLoading}>
           <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.

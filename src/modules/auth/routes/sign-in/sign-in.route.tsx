@@ -24,7 +24,7 @@ export class SignInRoute extends Component<Props, State> {
   inputField: Ref<HTMLInputElement> = React.createRef();
 
   async componentDidMount() {
-    await this.props.getUser();
+    await this.props.actionGetUser();
     createSearchInputObservable(this.inputField, {}).subscribe((value: any) => {
       console.log(value);
     });

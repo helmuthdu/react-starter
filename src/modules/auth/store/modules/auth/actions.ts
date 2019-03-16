@@ -23,7 +23,7 @@ export const actions: Actions = {
     dispatch({
       type: ActionType.AUTH_SET_USER,
       payload: {
-        ...(await authApi.post(payload)).data,
+        ...(await authApi.post(payload)).body,
         isLogged: true
       } as State
     }),

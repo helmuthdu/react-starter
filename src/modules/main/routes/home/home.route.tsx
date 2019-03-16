@@ -1,12 +1,11 @@
-import { push } from 'connected-react-router';
+import Link from 'next/link';
 import React, { Component, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
-import { AppState } from '../../../../index';
+import { AppState } from '../../../../pages/_app';
 import { loading } from '../../../../store/modules';
-import { AUTH_ROUTES } from '../../../auth/router';
-import logo from '../../assets/images/logo.svg';
-import { MAIN_ROUTES } from '../../router';
+import { AUTH_ROUTES } from '../../../auth/routes';
+import { MAIN_ROUTES } from '../index';
 
 import './home.route.scss';
 
@@ -16,20 +15,14 @@ type StateProps = {
   isLoading: boolean;
 };
 
-type DispatchProps = loading.Actions & {
-  linkTo: (path: string) => void;
-};
+type DispatchProps = loading.Actions & {};
 
 type OwnProps = HTMLAttributes<HTMLDivElement>;
 
 export type Props = StateProps & DispatchProps & OwnProps;
 
 export class HomeRoute extends Component<Props, State> {
-  async componentDidMount() {
-    await new Promise((resolve, reject) => {
-      console.log('Before mounting HomePage component', this.props);
-      return resolve();
-    });
+  componentWillMount() {
     this.props.actionToggleLoading();
   }
 
@@ -37,7 +30,7 @@ export class HomeRoute extends Component<Props, State> {
     return (
       <div className="App">
         <header className="App-header" onClick={this.props.actionToggleLoading}>
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src="/static/assets/images/logo.svg" className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
@@ -45,13 +38,17 @@ export class HomeRoute extends Component<Props, State> {
             Learn React
           </a>
           Navigate to
-          <div className="App-link" onClick={() => this.props.linkTo(MAIN_ROUTES.ABOUT)} title="go to about page">
-            about page
-          </div>
+          <Link href={MAIN_ROUTES.ABOUT}>
+            <a className="App-link" title="go to about page">
+              about page
+            </a>
+          </Link>
           or to
-          <div className="App-link" onClick={() => this.props.linkTo(AUTH_ROUTES.SIGN_IN)} title="go to sign-in page">
-            sign-in page
-          </div>
+          <Link href={AUTH_ROUTES.SIGN_IN}>
+            <a className="App-link" title="go to sign-in page">
+              sign-in page
+            </a>
+          </Link>
         </header>
       </div>
     );
@@ -65,7 +62,6 @@ const mapStateToProps = (state: AppState): StateProps => ({
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
-      linkTo: path => push(path),
       ...loading.actions
     },
     dispatch

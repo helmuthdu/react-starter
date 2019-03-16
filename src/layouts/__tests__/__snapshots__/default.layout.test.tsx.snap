@@ -1,15 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`layouts -> DefaultLayout component should match snapshot 1`] = `
-<Fragment>
-  <Component
-    location="/"
-  />
-</Fragment>
-`;
-
-exports[`layouts -> DefaultLayoutRoute component should match snapshot 1`] = `
-<Route
-  render={[Function]}
-/>
-`;
+exports[`layouts -> DefaultLayout component should match snapshot 1`] = `ShallowWrapper {}`;

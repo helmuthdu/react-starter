@@ -1,40 +1,21 @@
-import { anchorate } from 'anchorate';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory, createMemoryHistory, History } from 'history';
 import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
 
-type StoreInstance = {
-  store: Store;
-  history: History;
-};
+type StoreInstance = Store;
 
 let storeInstance: StoreInstance;
 
-export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/') => {
+export default (modules: any[] = []) => {
   if (storeInstance) {
     return storeInstance;
   }
 
-  // Create a history depending on the environment
-  const history = isServer
-    ? createMemoryHistory({
-        initialEntries: [url]
-      })
-    : createBrowserHistory({
-        basename: url
-      });
-
-  history.listen(() => {
-    anchorate();
-  });
-
-  // Do we have preloaded state available? Great, save it.
+  // Do we have preload state available? Great, save it.
   const initialState = !isServer ? (window as any).__PRELOADED_STATE__ : {};
   const enhancers = [];
-  const middleware = [thunkMiddleware, routerMiddleware(history)];
+  const middleware = [thunkMiddleware];
 
   if (process.env.NODE_ENV === 'development' && !isServer) {
     const devToolsExtension = (window as any).devToolsExtension;
@@ -54,19 +35,13 @@ export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/'
     delete (window as any).__PRELOADED_STATE__;
   }
 
-  const rootReducer = (history: History) =>
+  const rootReducer = () =>
     combineReducers({
-      router: connectRouter(history),
       ...modules.reduce((acc, module: any) => ({ ...acc, [module.name]: module.reducer }), {})
     });
 
   // Create the store
-  const store = createStore(rootReducer(history), initialState, composedEnhancers);
-
-  storeInstance = {
-    store,
-    history
-  };
+  storeInstance = createStore(rootReducer(), initialState, composedEnhancers);
 
   return storeInstance;
 };

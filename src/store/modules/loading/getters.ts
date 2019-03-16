@@ -1,4 +1,4 @@
-import { AppState } from '../../../index';
+import { AppState } from '../../../pages/_app';
 
 export type Getters = {
   isLoading: (state: AppState) => boolean;

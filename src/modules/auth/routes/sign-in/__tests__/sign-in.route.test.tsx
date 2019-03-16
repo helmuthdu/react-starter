@@ -9,7 +9,6 @@ describe('Route -> SignIn component', () => {
     actionGetUser: jest.fn(),
     actionLogin: jest.fn(),
     actionLogout: jest.fn(),
-    linkTo: jest.fn(),
     name: 'john doe'
   };
 

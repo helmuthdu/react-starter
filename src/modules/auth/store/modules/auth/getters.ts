@@ -1,4 +1,4 @@
-import { AppState } from '../../../../../index';
+import { AppState } from '../../../../../pages/_app';
 import { State } from './state';
 
 export type Getters = {

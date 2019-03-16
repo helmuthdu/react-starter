@@ -1,23 +1,17 @@
 import React, { Fragment } from 'react';
-import { Route } from 'react-router-dom';
 
 import './default.layout.scss';
 
-export const DefaultLayout = ({ children }: any) => {
+export const Container = ({ children }: any) => {
   return <Fragment>{children}</Fragment>;
 };
 
-export const DefaultLayoutRoute = ({ component: Component, ...rest }: any) => {
+export const DefaultLayout = ({ component: Component, ...props }: any) => {
   return (
-    <Route
-      {...rest}
-      render={(matchProps: any) => (
-        <DefaultLayout>
-          <Component {...matchProps} />
-        </DefaultLayout>
-      )}
-    />
+    <Container>
+      <Component {...props} />
+    </Container>
   );
 };
 
-export default DefaultLayoutRoute;
+export default DefaultLayout;

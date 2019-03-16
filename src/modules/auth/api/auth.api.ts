@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { State } from '../store/modules/auth';
+import fetch from 'isomorphic-unfetch';
 
 export type AuthRequest = {
   email: string;
@@ -20,9 +20,15 @@ const get = () =>
   });
 
 const post = (payload: AuthRequest) =>
-  axios.post(`https://httpstat.us/200`, {
-    username: payload.email,
-    password: payload.password
+  fetch(`https://httpstat.us/200`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      username: payload.email,
+      password: payload.password
+    })
   });
 
 export const authApi = {

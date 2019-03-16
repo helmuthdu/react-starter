@@ -1,9 +1,8 @@
-import { push } from 'connected-react-router';
 import React, { Component, HTMLAttributes, Ref } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
-import { createSearchInputObservable } from '../../../../helpers/search.helper';
-import { AppState } from '../../../../index';
+import { createSearchInputObservable } from '../../../../helpers';
+import { AppState } from '../../../../pages/_app';
 import { auth } from '../../store';
 
 type State = {};
@@ -12,9 +11,7 @@ type StateProps = {
   name: string;
 };
 
-type DispatchProps = auth.Actions & {
-  linkTo: () => void;
-};
+type DispatchProps = auth.Actions & {};
 
 type OwnProps = HTMLAttributes<HTMLFormElement>;
 
@@ -23,8 +20,8 @@ export type Props = StateProps & DispatchProps & OwnProps;
 export class SignInRoute extends Component<Props, State> {
   inputField: Ref<HTMLInputElement> = React.createRef();
 
-  async componentDidMount() {
-    await this.props.actionGetUser();
+  componentDidMount() {
+    this.props.actionGetUser();
     createSearchInputObservable(this.inputField, {}).subscribe((value: any) => {
       console.log(value);
     });
@@ -47,7 +44,6 @@ const mapStateToProps = (state: AppState): StateProps => ({ name: state.auth.nam
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   return bindActionCreators(
     {
-      linkTo: () => push(`/`),
       ...auth.actions
     },
     dispatch

@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { AppState } from '../../../../index';
 import { loading } from '../../../../store/modules';
-import { AUTH_ROUTES } from '../../../auth/router';
+import { AUTH_ROUTES } from '../../../auth/routes';
 import logo from '../../assets/images/logo.svg';
-import { MAIN_ROUTES } from '../../router';
+import { MAIN_ROUTES } from '../index';
 
 import './home.route.scss';
 

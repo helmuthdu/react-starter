@@ -1,10 +1,8 @@
-import router from './router';
-import * as store from './store';
+export { routes } from './routes';
+import * as storesList from './store';
 
 export type State = {
-  auth: store.auth.State;
+  auth: storesList.auth.State;
 };
 
-export const routes = router;
-
-export const stores = Object.values(store);
+export const stores = Object.values(storesList);

@@ -3,7 +3,7 @@ import { hydrate, render } from 'react-dom';
 import { Provider } from 'react-redux';
 
 import * as authModule from './modules/auth';
-import mainModule from './modules/main';
+import * as mainModule from './modules/main';
 
 import AppRouter from './routes';
 

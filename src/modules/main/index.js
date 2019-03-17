@@ -1,3 +1,1 @@
-import routes from './router';
-
-export default { routes };
+export { routes } from './routes';

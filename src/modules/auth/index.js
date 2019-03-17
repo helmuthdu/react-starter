@@ -1,6 +1,3 @@
-import router from './router';
 import * as store from './store';
-
-export const routes = router;
-
+export { routes } from './routes';
 export const stores = Object.values(store);

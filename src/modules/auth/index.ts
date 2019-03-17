@@ -1,5 +1,6 @@
-export { routes } from './routes';
 import * as storesList from './store';
+
+export { routes } from './routes';
 
 export type State = {
   auth: storesList.auth.State;

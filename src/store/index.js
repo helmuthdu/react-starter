@@ -2,11 +2,13 @@ import { anchorate } from 'anchorate';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { fork } from 'redux-saga/effects';
 import thunkMiddleware from 'redux-thunk';
 
 export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
 
-let storeInstance;
+let storeInstance = null;
 
 export default (modules = [], url = process.env.PUBLIC_URL || '/') => {
   if (storeInstance) {
@@ -28,8 +30,9 @@ export default (modules = [], url = process.env.PUBLIC_URL || '/') => {
 
   // Do we have preloaded state available? Great, save it.
   const initialState = !isServer ? window.__PRELOADED_STATE__ : {};
+  const sagaMiddleware = createSagaMiddleware();
+  const middleware = [thunkMiddleware, sagaMiddleware, routerMiddleware(history)];
   const enhancers = [];
-  const middleware = [thunkMiddleware, routerMiddleware(history)];
 
   if (process.env.NODE_ENV === 'development' && !isServer) {
     const devToolsExtension = window.devToolsExtension;
@@ -57,6 +60,12 @@ export default (modules = [], url = process.env.PUBLIC_URL || '/') => {
 
   // Create the store
   const store = createStore(rootReducer(history), initialState, composedEnhancers);
+
+  sagaMiddleware.run(function*() {
+    for (let mod of modules.filter(mod => mod.sagas)) {
+      yield fork(mod.sagas);
+    }
+  });
 
   storeInstance = {
     store,

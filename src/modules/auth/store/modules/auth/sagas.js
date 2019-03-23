@@ -3,7 +3,7 @@ import { ActionType } from './types';
 
 function* handleLogin({ payload }) {
   try {
-    const log = () => console.log(ActionType.AUTH_SET_USER_COMPLETE, payload);
+    const log = () => console.log(ActionType.AUTH_SET_USER, payload);
     yield delay(100);
     yield call(log);
   } catch (err) {

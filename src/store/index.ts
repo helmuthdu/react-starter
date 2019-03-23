@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { fork } from 'redux-saga/effects';
+import { spawn } from 'redux-saga/effects';
 import thunkMiddleware from 'redux-thunk';
 
 export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
@@ -21,7 +21,7 @@ export default (modules: any[] = []) => {
   const enhancers = [];
 
   if (process.env.NODE_ENV === 'development' && !isServer) {
-    const devToolsExtension = (window as any).devToolsExtension;
+    const devToolsExtension = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
 
     if (typeof devToolsExtension === 'function') {
       enhancers.push(devToolsExtension());
@@ -48,7 +48,7 @@ export default (modules: any[] = []) => {
 
   sagaMiddleware.run(function*() {
     for (let mod of modules.filter(mod => mod.sagas)) {
-      yield fork(mod.sagas);
+      yield spawn(mod.sagas);
     }
   });
 

@@ -2,21 +2,11 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 
+import { routes, stores } from './modules';
 import AppRouter from './routes';
 import createStore from './store';
 
-import * as appStores from './store/modules';
 import * as serviceWorker from './serviceWorker';
-
-import * as authModule from './modules/auth';
-import * as mainModule from './modules/main';
-
-export type AppState = authModule.State & {
-  loading: appStores.loading.State;
-};
-
-export const stores = [...authModule.stores, ...Object.values(appStores)];
-export const routes = [...mainModule.routes, ...authModule.routes];
 
 const start = () => {
   const { store, history } = createStore(stores);

@@ -1,4 +1,4 @@
-import { AppState } from '../../../index';
+import { AppState } from '../../../modules';
 
 export type Getters = {
   isLoading: (state: AppState) => boolean;

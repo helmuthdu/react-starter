@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react';
 import { fromEvent, Observable, SchedulerLike } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, pluck, startWith } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, pluck } from 'rxjs/operators';
 
 interface InputObservableOptions {
   time?: number;

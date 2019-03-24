@@ -1,4 +1,4 @@
-import { initialState, ActionType, Action, reducer } from '..';
+import { Action, ActionType, initialState, reducer } from '..';
 
 describe('auth/store -> reducer', () => {
   it('should handle the initial state', () => {

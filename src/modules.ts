@@ -1,6 +1,6 @@
 import * as authModule from './modules/auth';
-import * as appStores from './store/modules';
 import * as mainModule from './modules/main';
+import * as appStores from './store/modules';
 
 export type AppState = authModule.State & {
   loading: appStores.loading.State;

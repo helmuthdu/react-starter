@@ -1,4 +1,4 @@
-import { AppState } from '../../../../modules';
+import { AppState } from '../../../../module';
 import { actions } from '../actions';
 import { getters } from '../getters';
 import { Action, reducer } from '../reducer';

@@ -3,7 +3,7 @@ import React, { Component, HTMLAttributes, Ref } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { createSearchInputObservable } from '../../../../helpers';
-import { AppState } from '../../../../modules';
+import { AppState } from '../../../../module';
 import { auth } from '../../store';
 
 type State = {};

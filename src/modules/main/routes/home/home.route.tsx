@@ -2,7 +2,7 @@ import { push } from 'connected-react-router';
 import React, { Component, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
-import { AppState } from '../../../../module';
+import { AppState } from '../../../../modules';
 import { loading } from '../../../../store/modules';
 import { AUTH_ROUTES } from '../../../auth/routes';
 import logo from '../../assets/images/logo.svg';

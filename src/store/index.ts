@@ -57,10 +57,10 @@ export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/'
     delete (window as any).__PRELOADED_STATE__;
   }
 
-  const rootReducer = (history: History) =>
+  const rootReducer = (hist: History) =>
     combineReducers({
-      router: connectRouter(history),
-      ...modules.reduce((acc, module: any) => ({ ...acc, [module.name]: module.reducer }), {})
+      router: connectRouter(hist),
+      ...modules.filter(mod => mod.reducer).reduce((acc, mod: any) => ({ ...acc, [mod.name]: mod.reducer }), {})
     });
 
   // Create the store

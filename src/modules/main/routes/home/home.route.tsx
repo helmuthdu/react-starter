@@ -25,12 +25,13 @@ type OwnProps = HTMLAttributes<HTMLDivElement>;
 export type Props = StateProps & DispatchProps & OwnProps;
 
 export class HomeRoute extends Component<Props, State> {
-  async componentDidMount() {
-    await new Promise((resolve, reject) => {
+  componentDidMount() {
+    this.props.actionToggleLoading();
+
+    return new Promise((resolve, reject) => {
       console.log('Before mounting HomePage component', this.props);
       return resolve();
     });
-    this.props.actionToggleLoading();
   }
 
   render() {

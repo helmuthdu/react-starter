@@ -23,8 +23,8 @@ export type Props = StateProps & DispatchProps & OwnProps;
 export class SignInRoute extends Component<Props, State> {
   inputField: Ref<HTMLInputElement> = React.createRef();
 
-  async componentDidMount() {
-    await this.props.actionGetUser();
+  componentDidMount() {
+    this.props.actionGetUser();
     createSearchInputObservable(this.inputField, {}).subscribe((value: any) => {
       console.log(value);
     });

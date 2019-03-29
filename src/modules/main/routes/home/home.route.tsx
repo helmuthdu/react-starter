@@ -10,7 +10,7 @@ import { MAIN_ROUTES } from '../index';
 
 import './home.route.scss';
 
-type State = {};
+type State = Readonly<{}>;
 
 type StateProps = {
   isLoading: boolean;

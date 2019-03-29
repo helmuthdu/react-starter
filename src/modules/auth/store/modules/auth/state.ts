@@ -1,10 +1,10 @@
-export type State = {
-  readonly name: string;
-  readonly username: string;
-  readonly email: string;
-  readonly isLogged: boolean;
-  readonly token: string;
-};
+export type State = Readonly<{
+  name: string;
+  username: string;
+  email: string;
+  isLogged: boolean;
+  token: string;
+}>;
 
 export const initialState: State = {
   name: '',

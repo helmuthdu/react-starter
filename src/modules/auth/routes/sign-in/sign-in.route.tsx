@@ -6,7 +6,7 @@ import { createSearchInputObservable } from '../../../../helpers';
 import { AppState } from '../../../../modules';
 import { auth } from '../../store';
 
-type State = {};
+type State = Readonly<{}>;
 
 type StateProps = {
   name: string;

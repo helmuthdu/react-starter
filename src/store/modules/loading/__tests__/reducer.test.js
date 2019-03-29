@@ -9,15 +9,15 @@ describe('store/ui -> reducer', () => {
     expect(reducer(initialState, {})).toEqual({ count: 0 });
   });
 
-  it(`should handle ${ActionType.UI_ENABLE_LOADING}`, () => {
+  it(`should handle ${ActionType.LOADING_ENABLE}`, () => {
     expect(reducer(initialState, actions.actionEnableLoading())).toEqual({ count: 1 });
   });
 
-  it(`should handle ${ActionType.UI_DISABLE_LOADING}`, () => {
+  it(`should handle ${ActionType.LOADING_DISABLE}`, () => {
     expect(reducer(initialState, actions.actionDisableLoading())).toEqual({ count: 0 });
   });
 
-  it(`should handle ${ActionType.UI_TOGGLE_LOADING}`, () => {
+  it(`should handle ${ActionType.LOADING_TOGGLE}`, () => {
     expect(reducer(initialState, actions.actionToggleLoading())).toEqual({ count: 1 });
   });
 

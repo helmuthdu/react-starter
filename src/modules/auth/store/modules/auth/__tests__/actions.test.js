@@ -1,8 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import configureMockStore, { MockStore } from 'redux-mock-store';
-import { actions } from '../actions';
-import { ActionType } from '../types';
+import configureMockStore from 'redux-mock-store';
+import { actions, ActionType } from '..';
 
 describe('auth/store -> actions', () => {
   let store;
@@ -19,6 +18,7 @@ describe('auth/store -> actions', () => {
   it('should login successfully', async () => {
     const response = {
       name: 'John Doe',
+      isLogged: true,
       username: 'johndoe',
       email: 'johndoe@mail.com',
       token: '123456'
@@ -33,7 +33,7 @@ describe('auth/store -> actions', () => {
     expect(store.getActions()).toEqual([
       {
         type: ActionType.AUTH_SET_USER,
-        payload: { ...response, isLogged: true }
+        payload: { ...response }
       }
     ]);
   });

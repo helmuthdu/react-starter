@@ -3,12 +3,12 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { spawn } from 'redux-saga/effects';
+import { all, spawn } from 'redux-saga/effects';
 import thunkMiddleware from 'redux-thunk';
 
 export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
 
-let storeInstance = null;
+let storeInstance;
 
 export default (modules = [], url = process.env.PUBLIC_URL || '/') => {
   if (storeInstance) {
@@ -52,19 +52,17 @@ export default (modules = [], url = process.env.PUBLIC_URL || '/') => {
     delete window.__PRELOADED_STATE__;
   }
 
-  const rootReducer = history =>
+  const rootReducer = hist =>
     combineReducers({
-      router: connectRouter(history),
-      ...modules.reduce((acc, module) => ({ ...acc, [module.name]: module.reducer }), {})
+      router: connectRouter(hist),
+      ...modules.filter(mod => mod.reducer).reduce((acc, mod: any) => ({ ...acc, [mod.name]: mod.reducer }), {})
     });
 
   // Create the store
   const store = createStore(rootReducer(history), initialState, composedEnhancers);
 
   sagaMiddleware.run(function*() {
-    for (let mod of modules.filter(mod => mod.sagas)) {
-      yield spawn(mod.sagas);
-    }
+    yield all(modules.filter(mod => mod.sagas).map(mod => spawn(mod.sagas)));
   });
 
   storeInstance = {

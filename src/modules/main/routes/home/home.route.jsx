@@ -12,11 +12,12 @@ import './home.route.scss';
 
 export class HomeRoute extends Component {
   componentDidMount() {
-    new Promise((resolve, reject) => {
+    this.props.actionToggleLoading();
+
+    return new Promise((resolve, reject) => {
       console.log('Before mounting HomePage component', this.props);
       return resolve();
     });
-    this.props.actionToggleLoading();
   }
 
   render() {

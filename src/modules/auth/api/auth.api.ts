@@ -1,12 +1,12 @@
 import { State } from '../store/modules/auth';
 import fetch from 'isomorphic-unfetch';
 
-export type AuthRequest = {
+export interface AuthRequest {
   email: string;
   password: string;
-};
+}
 
-const get = () =>
+const get = (): Promise<State> =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve({
@@ -15,11 +15,11 @@ const get = () =>
         email: 'johndoe@mail.com',
         isLogged: true,
         token: 'secret'
-      } as State);
+      });
     }, 1000);
   });
 
-const post = (payload: AuthRequest) =>
+const post = (payload: AuthRequest): Promise<State> =>
   fetch(`https://httpstat.us/200`, {
     method: 'POST',
     headers: {
@@ -29,7 +29,7 @@ const post = (payload: AuthRequest) =>
       username: payload.email,
       password: payload.password
     })
-  });
+  }).then((res: Response) => res.body as any);
 
 export const authApi = {
   get,

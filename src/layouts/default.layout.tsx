@@ -2,11 +2,12 @@ import React, { Fragment } from 'react';
 
 import './default.layout.scss';
 
-export const Container = ({ children }: any) => {
+export const Container = ({ children }: { children: React.ReactNode }) => {
   return <Fragment>{children}</Fragment>;
 };
 
-export const DefaultLayout = ({ component: Component, ...props }: any) => {
+// eslint-disable-next-line
+export const DefaultLayout = ({ component: Component, ...props }: { component: any } & object) => {
   return (
     <Container>
       <Component {...props} />

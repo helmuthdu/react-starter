@@ -1,11 +1,11 @@
 import { Action } from './reducer';
 import { ActionType } from './types';
 
-export type Actions = {
+export interface Actions {
   actionDisableLoading: () => Action;
   actionEnableLoading: () => Action;
   actionToggleLoading: () => Action;
-};
+}
 
 export const actions: Actions = {
   actionDisableLoading: () => ({ type: ActionType.LOADING_DISABLE_LOADING }),

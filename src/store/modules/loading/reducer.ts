@@ -1,9 +1,9 @@
 import { initialState, State } from './state';
 import { ActionType } from './types';
 
-export type Action = {
-  readonly type: ActionType;
-};
+export type Action = Readonly<{
+  type: ActionType;
+}>;
 
 // Reducer
 export const reducer = (state: State = initialState, action: Action): State => {

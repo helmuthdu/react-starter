@@ -2,13 +2,11 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import { DefaultLayout } from '../default.layout';
 
-describe('auth/layouts -> DefaultLayout component', () => {
+const component = <p>lorem ipsum</p>;
+
+describe('layouts -> DefaultLayout component', () => {
   it('should match snapshot', () => {
-    const wrapper = shallow(
-      <DefaultLayout>
-        <h1>Content</h1>
-      </DefaultLayout>
-    );
+    const wrapper = shallow(<DefaultLayout component={component} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

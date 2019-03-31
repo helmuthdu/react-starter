@@ -3,10 +3,10 @@ import { ActionType } from './types';
 
 type Payload = State;
 
-export type Action = {
-  readonly type: ActionType;
-  readonly payload: Payload;
-};
+export type Action = Readonly<{
+  type: ActionType;
+  payload: Payload;
+}>;
 
 // Reducer
 export const reducer = (state: State = initialState, action: Action): State => {

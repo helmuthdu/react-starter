@@ -54,7 +54,7 @@ describe('component -> Link', () => {
       .find('a')
       .at(0)
       .simulate('click');
-    expect(wrapper.instance().props.onClick).toBeCalled();
+    expect(wrapper.instance().props.onClick).toHaveBeenCalled();
   });
 
   it('should change state onMouseEnter called', () => {

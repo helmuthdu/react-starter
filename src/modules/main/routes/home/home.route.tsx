@@ -9,24 +9,29 @@ import { MAIN_ROUTES } from '../index';
 
 import './home.route.scss';
 
-type State = {};
-
-type StateProps = {
+type StateProps = Readonly<{
   isLoading: boolean;
-};
+}>;
 
-type DispatchProps = loading.Actions & {};
+type DispatchProps = loading.Actions;
 
 type OwnProps = HTMLAttributes<HTMLDivElement>;
 
 export type Props = StateProps & DispatchProps & OwnProps;
 
+type State = Readonly<{}>;
+
 export class HomeRoute extends Component<Props, State> {
-  componentWillMount() {
+  public componentDidMount() {
     this.props.actionToggleLoading();
+
+    return new Promise((resolve, reject) => {
+      console.log('Before mounting HomePage component', this.props);
+      return resolve();
+    });
   }
 
-  render() {
+  public render() {
     return (
       <div className="App">
         <header className="App-header" onClick={this.props.actionToggleLoading}>
@@ -67,8 +72,8 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
     dispatch
   );
 
-const enhance = compose(
-  connect(
+const enhance = compose<React.ComponentClass<OwnProps>>(
+  connect<StateProps, DispatchProps, OwnProps, AppState>(
     mapStateToProps,
     mapDispatchToProps
   )

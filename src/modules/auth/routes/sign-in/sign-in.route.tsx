@@ -1,33 +1,34 @@
-import React, { Component, HTMLAttributes, Ref } from 'react';
+import React, { Component, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { createSearchInputObservable } from '../../../../helpers';
 import { AppState } from '../../../../pages/_app';
 import { auth } from '../../store';
 
-type State = {};
-
-type StateProps = {
+type StateProps = Readonly<{
   name: string;
-};
+}>;
 
-type DispatchProps = auth.Actions & {};
+type DispatchProps = auth.Actions;
 
 type OwnProps = HTMLAttributes<HTMLFormElement>;
 
 export type Props = StateProps & DispatchProps & OwnProps;
 
-export class SignInRoute extends Component<Props, State> {
-  inputField: Ref<HTMLInputElement> = React.createRef();
+type State = Readonly<{}>;
 
-  componentDidMount() {
+export class SignInRoute extends Component<Props, State> {
+  private inputField: React.RefObject<HTMLInputElement> = React.createRef();
+
+  public componentDidMount() {
     this.props.actionGetUser();
+
     createSearchInputObservable(this.inputField, {}).subscribe((value: any) => {
       console.log(value);
     });
   }
 
-  render() {
+  public render() {
     return (
       <form onSubmit={e => e.preventDefault()}>
         <input ref={this.inputField} type="text" placeholder="Username" required />
@@ -50,8 +51,8 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   );
 };
 
-const enhance = compose(
-  connect(
+const enhance = compose<React.ComponentClass<OwnProps>>(
+  connect<StateProps, DispatchProps, OwnProps, AppState>(
     mapStateToProps,
     mapDispatchToProps
   )

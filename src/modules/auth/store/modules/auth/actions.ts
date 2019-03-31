@@ -1,6 +1,5 @@
 import { Dispatch } from 'redux';
 import { authApi, AuthRequest } from '../../../api/auth.api';
-import { Actions } from './actions';
 import { Action } from './reducer';
 import { State } from './state';
 import { ActionType } from './types';

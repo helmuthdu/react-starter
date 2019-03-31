@@ -2,9 +2,9 @@
 
 exports[`layouts -> DefaultLayout component should match snapshot 1`] = `
 <Fragment>
-  <Component
-    location="/"
-  />
+  <p>
+    lorem ipsum
+  </p>
 </Fragment>
 `;
 

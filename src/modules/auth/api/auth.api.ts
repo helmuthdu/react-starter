@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { State } from '../store/modules/auth';
 
-export type AuthRequest = {
+export interface AuthRequest {
   email: string;
   password: string;
-};
+}
 
-const get = () =>
+const get = (): Promise<State> =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve({
@@ -15,7 +15,7 @@ const get = () =>
         email: 'johndoe@mail.com',
         isLogged: true,
         token: 'secret'
-      } as State);
+      });
     }, 1000);
   });
 

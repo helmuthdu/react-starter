@@ -1,6 +1,7 @@
 import { call, delay, fork, takeLatest } from 'redux-saga/effects';
 import { ActionType } from './types';
 
+// eslint-disable-next-line
 function* handleLogin({ payload }: any) {
   try {
     const log = () => console.log(ActionType.AUTH_SET_USER, payload);

@@ -1,9 +1,9 @@
-import * as storesList from './store';
+import * as store from './store';
 
 export { routes } from './routes';
 
-export type State = {
-  auth: storesList.auth.State;
-};
+export type State = Readonly<{
+  auth: store.auth.State;
+}>;
 
-export const stores = Object.values(storesList);
+export const stores = Object.values(store);

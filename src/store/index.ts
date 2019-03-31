@@ -6,16 +6,25 @@ import createSagaMiddleware from 'redux-saga';
 import { all, spawn } from 'redux-saga/effects';
 import thunkMiddleware from 'redux-thunk';
 
+declare const window: Window & {
+  __PRELOADED_STATE__: object;
+  __REDUX_DEVTOOLS_EXTENSION__: object;
+};
+
 export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
 
-type StoreInstance = {
+type StoreInstance = Readonly<{
   store: Store;
   history: History;
-};
+}>;
 
 let storeInstance: StoreInstance;
 
-export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/') => {
+export default (
+  // eslint-disable-next-line
+  modules: { name: string; sagas?: any; reducer?: object }[] = [],
+  url: string = process.env.PUBLIC_URL || '/'
+) => {
   if (storeInstance) {
     return storeInstance;
   }
@@ -34,13 +43,13 @@ export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/'
   });
 
   // Do we have preloaded state available? Great, save it.
-  const initialState = !isServer ? (window as any).__PRELOADED_STATE__ : {};
+  const initialState = !isServer ? window.__PRELOADED_STATE__ : {};
   const sagaMiddleware = createSagaMiddleware();
   const middleware = [thunkMiddleware, sagaMiddleware, routerMiddleware(history)];
   const enhancers = [];
 
   if (process.env.NODE_ENV === 'development' && !isServer) {
-    const devToolsExtension = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
+    const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__;
 
     if (typeof devToolsExtension === 'function') {
       enhancers.push(devToolsExtension());
@@ -54,13 +63,13 @@ export default (modules: any[] = [], url: string = process.env.PUBLIC_URL || '/'
 
   // Delete it once we have it stored in a variable
   if (!isServer) {
-    delete (window as any).__PRELOADED_STATE__;
+    delete window.__PRELOADED_STATE__;
   }
 
   const rootReducer = (hist: History) =>
     combineReducers({
       router: connectRouter(hist),
-      ...modules.filter(mod => mod.reducer).reduce((acc, mod: any) => ({ ...acc, [mod.name]: mod.reducer }), {})
+      ...modules.filter(mod => mod.reducer).reduce((acc, mod) => ({ ...acc, [mod.name]: mod.reducer }), {})
     });
 
   // Create the store

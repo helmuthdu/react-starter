@@ -10,7 +10,7 @@ describe('App router', () => {
   };
 
   it('should match snapshot', () => {
-    const wrapper = shallow(<AppRouter history={history} />);
+    const wrapper = shallow(<AppRouter history={history as any} routes={[]} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

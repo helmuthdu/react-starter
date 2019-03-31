@@ -1,23 +1,20 @@
 import React, { Fragment } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, RouteProps } from 'react-router-dom';
 
 import './default.layout.scss';
 
-export const DefaultLayout = ({ children }: any) => {
-  return <Fragment>{children}</Fragment>;
-};
+export const DefaultLayout = ({ children }: { children: React.ReactNode }) => <Fragment>{children}</Fragment>;
 
-export const DefaultLayoutRoute = ({ component: Component, ...rest }: any) => {
-  return (
-    <Route
-      {...rest}
-      render={(matchProps: any) => (
-        <DefaultLayout>
-          <Component {...matchProps} />
-        </DefaultLayout>
-      )}
-    />
-  );
-};
+// eslint-disable-next-line
+export const DefaultLayoutRoute = ({ component: Component, ...rest }: { component: any } & RouteProps) => (
+  <Route
+    {...rest}
+    render={(matchProps: object) => (
+      <DefaultLayout>
+        <Component {...matchProps} />
+      </DefaultLayout>
+    )}
+  />
+);
 
 export default DefaultLayoutRoute;

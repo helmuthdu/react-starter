@@ -6,7 +6,19 @@ exports[`Route -> Home should match snapshot 1`] = `
 >
   <header
     className="App-header"
-    onClick={[MockFunction]}
+    onClick={
+      [MockFunction] {
+        "calls": Array [
+          Array [],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
   >
     <img
       alt="logo"

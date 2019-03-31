@@ -1,9 +1,9 @@
 import { initialState, State } from './state';
 import { ActionType } from './types';
 
-export type Action = {
+export interface Action {
   readonly type: ActionType;
-};
+}
 
 // Reducer
 export const reducer = (state: State = initialState, action: Action): State => {

@@ -10,11 +10,9 @@ import { MAIN_ROUTES } from '../index';
 
 import './home.route.scss';
 
-type State = Readonly<{}>;
-
-type StateProps = {
+type StateProps = Readonly<{
   isLoading: boolean;
-};
+}>;
 
 type DispatchProps = loading.Actions & {
   linkTo: (path: string) => void;
@@ -24,8 +22,10 @@ type OwnProps = HTMLAttributes<HTMLDivElement>;
 
 export type Props = StateProps & DispatchProps & OwnProps;
 
+type State = Readonly<{}>;
+
 export class HomeRoute extends Component<Props, State> {
-  componentDidMount() {
+  public componentDidMount() {
     this.props.actionToggleLoading();
 
     return new Promise((resolve, reject) => {
@@ -34,7 +34,7 @@ export class HomeRoute extends Component<Props, State> {
     });
   }
 
-  render() {
+  public render() {
     return (
       <div className="App">
         <header className="App-header" onClick={this.props.actionToggleLoading}>

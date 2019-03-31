@@ -1,11 +1,12 @@
 import { ConnectedRouter } from 'connected-react-router';
+import { History } from 'history';
 import React, { Suspense } from 'react';
 import { Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import NotFoundRoute from './not-found/not-found.route';
 
-export const AppRoutes = ({ routes }: any) => {
+export const AppRoutes = ({ routes }: { routes: React.ReactNode }) => {
   return (
     <Suspense fallback={null}>
       <Switch>
@@ -17,7 +18,7 @@ export const AppRoutes = ({ routes }: any) => {
   );
 };
 
-export const AppRouter = ({ history, routes }: any) => {
+export const AppRouter = ({ history, routes }: { history: History; routes: React.ReactNode[] }) => {
   return (
     <ConnectedRouter history={history}>
       <AppRoutes routes={routes} />

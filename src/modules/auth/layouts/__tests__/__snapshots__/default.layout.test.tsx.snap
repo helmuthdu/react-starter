@@ -2,9 +2,9 @@
 
 exports[`auth/layouts -> DefaultLayout component should match snapshot 1`] = `
 <Fragment>
-  <h1>
-    Content
-  </h1>
+  <p>
+    lorem ipsum
+  </p>
 </Fragment>
 `;
 

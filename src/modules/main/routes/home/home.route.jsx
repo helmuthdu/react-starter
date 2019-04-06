@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { loading } from '../../../../store/modules';
+import { loading } from '../../../../stores/modules';
 import { AUTH_ROUTES } from '../../../auth/routes';
 import logo from '../../assets/images/logo.svg';
 import { MAIN_ROUTES } from '../index';

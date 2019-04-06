@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { createSearchInputObservable } from '../../../../helpers/search.helper';
-import { auth } from '../../store';
+import { auth } from '../../stores';
 
 export class SignInRoute extends Component {
   inputField = React.createRef();

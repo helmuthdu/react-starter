@@ -1,4 +1,4 @@
-import * as appStores from './store/modules';
+import * as appStores from './stores/modules';
 import * as authModule from './modules/auth';
 import * as mainModule from './modules/main';
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { createSearchInputObservable } from '../../../../helpers';
 import { AppState } from '../../../../modules';
-import { auth } from '../../store';
+import { auth } from '../../stores';
 
 type StateProps = Readonly<{
   name: string;

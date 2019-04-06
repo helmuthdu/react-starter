@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { State } from '../store/modules/auth';
+import { State } from '../stores/modules/auth';
 
 export interface AuthRequest {
   email: string;

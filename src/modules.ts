@@ -1,13 +1,13 @@
 import * as authModule from './modules/auth';
-import * as mainModule from './modules/main';
-import * as appStores from './stores/modules';
+import * as rootModule from './modules/root';
+import * as rootStores from './stores/modules';
 
 export type AppState = authModule.State & {
-  loading: appStores.loading.State;
+  loading: rootStores.loading.State;
 };
 
-export const routes = [...mainModule.routes, ...authModule.routes];
-export const stores = [...authModule.stores, ...Object.values(appStores)];
+export const routes = [...rootModule.routes, ...authModule.routes];
+export const stores = [...Object.values(rootStores), ...authModule.stores];
 
 export default {
   routes,

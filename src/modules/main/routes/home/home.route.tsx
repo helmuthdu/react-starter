@@ -3,7 +3,7 @@ import React, { Component, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { AppState } from '../../../../pages/_app';
-import { loading } from '../../../../store/modules';
+import { loading } from '../../../../stores/modules';
 import { AUTH_ROUTES } from '../../../auth/routes';
 import { MAIN_ROUTES } from '../index';
 

@@ -1,4 +1,4 @@
-import { State } from '../store/modules/auth';
+import { State } from '../stores/modules/auth';
 import fetch from 'isomorphic-unfetch';
 
 export interface AuthRequest {

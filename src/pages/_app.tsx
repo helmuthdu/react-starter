@@ -4,11 +4,11 @@ import { Provider } from 'react-redux';
 // modules
 import * as authModule from '../modules/auth';
 // store
-import createStore from '../store';
-import * as store from '../store/modules';
+import createStore from '../stores';
+import * as stores from '../stores/modules';
 
 export type AppState = authModule.State & {
-  loading: store.loading.State;
+  loading: stores.loading.State;
 };
 
 export default class extends App {
@@ -16,7 +16,7 @@ export default class extends App {
     const { Component, pageProps } = this.props;
     return (
       <Container>
-        <Provider store={createStore([...authModule.stores, ...Object.values(store)])}>
+        <Provider store={createStore([...authModule.stores, ...Object.values(stores)])}>
           <Component {...pageProps} />
         </Provider>
       </Container>

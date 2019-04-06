@@ -55,7 +55,7 @@ export default (modules = [], url = process.env.PUBLIC_URL || '/') => {
   const rootReducer = hist =>
     combineReducers({
       router: connectRouter(hist),
-      ...modules.filter(mod => mod.reducer).reduce((acc, mod: any) => ({ ...acc, [mod.name]: mod.reducer }), {})
+      ...modules.filter(mod => mod.reducer).reduce((acc, mod) => ({ ...acc, [mod.name]: mod.reducer }), {})
     });
 
   // Create the store

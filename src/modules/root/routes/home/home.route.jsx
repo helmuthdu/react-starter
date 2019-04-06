@@ -6,7 +6,7 @@ import { bindActionCreators, compose } from 'redux';
 import { loading } from '../../../../stores/modules';
 import { AUTH_ROUTES } from '../../../auth/routes';
 import logo from '../../assets/images/logo.svg';
-import { MAIN_ROUTES } from '../index';
+import { ROOT_ROUTES } from '../index';
 
 import './home.route.scss';
 
@@ -32,7 +32,7 @@ export class HomeRoute extends Component {
             Learn React
           </a>
           Navigate to
-          <div className="App-link" onClick={() => this.props.linkTo(MAIN_ROUTES.ABOUT)} title="go to about page">
+          <div className="App-link" onClick={() => this.props.linkTo(ROOT_ROUTES.ABOUT)} title="go to about page">
             about page
           </div>
           or to

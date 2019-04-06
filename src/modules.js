@@ -1,9 +1,9 @@
-import * as appStores from './stores/modules';
 import * as authModule from './modules/auth';
-import * as mainModule from './modules/main';
+import * as rootModule from './modules/root';
+import * as rootStores from './stores/modules';
 
-export const routes = [...mainModule.routes, ...authModule.routes];
-export const stores = [...authModule.stores, ...Object.values(appStores)];
+export const routes = [...rootModule.routes, ...authModule.routes];
+export const stores = [...Object.values(rootStores), ...authModule.stores];
 
 export default {
   routes,

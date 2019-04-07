@@ -1,5 +1,5 @@
 import React from 'react';
-import { AboutRoute } from '../../modules/main/routes';
+import { AboutRoute } from '../../modules/root/routes';
 
 const route = () => <AboutRoute />;
 

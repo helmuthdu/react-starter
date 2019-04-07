@@ -1,5 +1,5 @@
 import React from 'react';
-import { HomeRoute } from '../modules/main/routes';
+import { HomeRoute } from '../modules/root/routes';
 
 const route = () => <HomeRoute />;
 

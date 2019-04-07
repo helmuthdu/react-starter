@@ -18,4 +18,4 @@ export const HomeRoute = () => {
   return <DefaultLayout component={Home} />;
 };
 
-export const routes = [AboutRoute, HomeRoute];
+export const routes = { AboutRoute, HomeRoute };

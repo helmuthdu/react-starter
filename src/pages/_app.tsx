@@ -2,13 +2,13 @@ import App, { Container } from 'next/app';
 import React from 'react';
 import { Provider } from 'react-redux';
 // modules
-import * as authModule from '../modules/auth';
+import { stores } from '../modules';
 // store
 import createStore from '../stores';
-import * as stores from '../stores/modules';
+import * as rootStores from '../stores/modules';
 
 export type AppState = authModule.State & {
-  loading: stores.loading.State;
+  loading: rootStores.loading.State;
 };
 
 export default class extends App {
@@ -16,7 +16,7 @@ export default class extends App {
     const { Component, pageProps } = this.props;
     return (
       <Container>
-        <Provider store={createStore([...authModule.stores, ...Object.values(stores)])}>
+        <Provider store={createStore([...Object.values(rootStores), ...stores])}>
           <Component {...pageProps} />
         </Provider>
       </Container>

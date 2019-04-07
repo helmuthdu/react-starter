@@ -12,4 +12,4 @@ export const SignInRoute = () => {
   return <DefaultLayout component={SignIn} />;
 };
 
-export const routes = [SignInRoute];
+export const routes = { SignInRoute };

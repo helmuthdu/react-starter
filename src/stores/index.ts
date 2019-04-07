@@ -22,7 +22,7 @@ let storeInstance: StoreInstance;
 
 export default (
   // eslint-disable-next-line
-  modules: { name: string; sagas?: any; reducer?: object }[] = [],
+  stores: { name: string; sagas?: any; reducer?: object }[] = [],
   url: string = process.env.PUBLIC_URL || '/'
 ) => {
   if (storeInstance) {
@@ -69,14 +69,14 @@ export default (
   const rootReducer = (hist: History) =>
     combineReducers({
       router: connectRouter(hist),
-      ...modules.filter(mod => mod.reducer).reduce((acc, mod) => ({ ...acc, [mod.name]: mod.reducer }), {})
+      ...stores.filter(str => str.reducer).reduce((acc, str) => ({ ...acc, [str.name]: str.reducer }), {})
     });
 
   // Create the store
   const store = createStore(rootReducer(history), initialState, composedEnhancers);
 
   sagaMiddleware.run(function*() {
-    yield all(modules.filter(mod => mod.sagas).map(mod => spawn(mod.sagas)));
+    yield all(stores.filter(str => str.sagas).map(str => spawn(str.sagas)));
   });
 
   storeInstance = {

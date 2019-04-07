@@ -1,9 +1,9 @@
 import { push } from 'connected-react-router';
-import React, { Component, HTMLAttributes, Ref } from 'react';
+import React, { Component, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { createSearchInputObservable } from '../../../../helpers';
-import { AppState } from '../../../../modules';
+import { AppState } from '../../../../app';
 import { auth } from '../../stores';
 
 type StateProps = Readonly<{

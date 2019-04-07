@@ -4,13 +4,11 @@ import { Provider } from 'react-redux';
 import { routes, State, stores } from './modules';
 import AppRouter from './routes';
 import createStore from './stores';
-import * as rootStores from './stores/modules';
+import { State as RootState, stores as rootStores } from './stores/modules';
 
-const { store, history } = createStore([...Object.values(rootStores), ...stores]);
+const { store, history } = createStore([...rootStores, ...stores]);
 
-export type AppState = State & {
-  loading: rootStores.loading.State;
-};
+export type AppState = State & RootState;
 
 const App = () => (
   <Provider store={store}>

@@ -10,7 +10,7 @@ export const isServer = !(typeof window !== 'undefined' && window.document && wi
 
 let storeInstance;
 
-export default (modules = [], url = process.env.PUBLIC_URL || '/') => {
+export default (stores = [], url = process.env.PUBLIC_URL || '/') => {
   if (storeInstance) {
     return storeInstance;
   }
@@ -55,14 +55,14 @@ export default (modules = [], url = process.env.PUBLIC_URL || '/') => {
   const rootReducer = hist =>
     combineReducers({
       router: connectRouter(hist),
-      ...modules.filter(mod => mod.reducer).reduce((acc, mod) => ({ ...acc, [mod.name]: mod.reducer }), {})
+      ...stores.filter(str => str.reducer).reduce((acc, str) => ({ ...acc, [str.name]: str.reducer }), {})
     });
 
   // Create the store
   const store = createStore(rootReducer(history), initialState, composedEnhancers);
 
   sagaMiddleware.run(function*() {
-    yield all(modules.filter(mod => mod.sagas).map(mod => spawn(mod.sagas)));
+    yield all(stores.filter(str => str.sagas).map(str => spawn(str.sagas)));
   });
 
   storeInstance = {

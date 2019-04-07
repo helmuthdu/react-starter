@@ -1,11 +1,12 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader';
+import { Provider } from 'react-redux';
 import { routes, stores } from './modules';
 import AppRouter from './routes';
 import createStore from './stores';
+import * as rootStores from './stores/modules';
 
-const { store, history } = createStore(stores);
+const { store, history } = createStore([...Object.values(rootStores), ...stores]);
 
 const App = () => (
   <Provider store={store}>

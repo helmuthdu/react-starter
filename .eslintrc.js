@@ -1,43 +1,18 @@
-const path = require('path');
-
 module.exports = {
-  parser: 'babel-eslint',
-  parserOptions: {
-    ecmaVersion: 2018,
-    ecmaFeatures: {
-      jsx: true
-    }
-  },
   env: {
-    browser: true,
-    node: true,
-    es6: true,
     'jest/globals': true,
     'cypress/globals': true
   },
   extends: [
-    'eslint:recommended',
+    'react-app',
     'plugin:jest/recommended',
-    'plugin:react/recommended',
     'plugin:prettier/recommended',
-    'prettier/react'
+    'plugin:react/recommended',
+    'prettier/react',
   ],
-  plugins: ['cypress', 'jest', 'react', 'prettier', 'react-hooks'],
+  plugins: ['prettier', 'jest', 'cypress'],
   rules: {
     'prettier/prettier': 'error',
-    'react-hooks/rules-of-hooks': 'error',
     'no-console': 'off'
-  },
-  overrides: [
-    {
-      files: ['**/__tests__/**'],
-      settings: {
-        'import/resolver': {
-          jest: {
-            jestConfigFile: path.join(__dirname, './jest.config.js')
-          }
-        }
-      }
-    }
-  ]
+  }
 };

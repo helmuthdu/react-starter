@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`App router should match snapshot 1`] = `
-<Connect(ConnectedRouterWithContext)
+<ConnectFunction
   history={
     Object {
       "location": Object {
@@ -11,5 +11,5 @@ exports[`App router should match snapshot 1`] = `
   }
 >
   <AppRoutes />
-</Connect(ConnectedRouterWithContext)>
+</ConnectFunction>
 `;

@@ -16,3 +16,16 @@ yarn start
 ```
 
 This boilerplate is built using [create-react-app](https://github.com/facebookincubator/create-react-app) so you will want to read the User Guide for more goodies.
+
+
+## Bit
+
+```bash
+bit add src/routes/**/*.{ts,tsx} --tests src/routes/**/*.test.{ts,tsx} --id routes
+```
+
+```bash
+bit import bit.envs/compilers/react --compiler
+bit import bit.envs/tester/jest --tester
+
+```

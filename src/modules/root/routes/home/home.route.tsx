@@ -60,7 +60,7 @@ export class HomeRoute extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  isLoading: loading.getters.isLoading(state)
+  isLoading: loading.selectors.isLoading(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>

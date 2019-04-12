@@ -1,9 +1,9 @@
-import { AppState } from '../../../app';
+import { State } from '../';
 
 export interface Getters {
-  isLoading: (state: AppState) => boolean;
+  isLoading: (state: State) => boolean;
 }
 
 export const getters: Getters = {
-  isLoading: (state: AppState) => state.loading.count > 0
+  isLoading: (state: State) => state.loading.count > 0
 };

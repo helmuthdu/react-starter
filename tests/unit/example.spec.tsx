@@ -8,7 +8,7 @@ const STATUS = {
 };
 
 interface Props {
-  onClick: () => void;
+  onClick: (evt: React.MouseEvent) => void;
   to: string;
 }
 

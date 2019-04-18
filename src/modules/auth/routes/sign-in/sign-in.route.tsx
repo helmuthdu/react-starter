@@ -26,20 +26,30 @@ export class SignInRoute extends Component<Props, State> {
   public componentDidMount() {
     this.props.actionGetUser();
     createSearchInputObservable(this.inputField, {}).subscribe((value: any) => {
-      console.log(value);
+      console.log('ON_CHANGE_WITH_OBSERVABLE: ', value);
     });
   }
 
   public render() {
     return (
       <form onSubmit={e => e.preventDefault()}>
-        <input ref={this.inputField} type="text" placeholder="Username" required />
+        <input ref={this.inputField} type="text" placeholder="Username" onChange={this.handleChange} required />
         <input type="password" placeholder="Password" required />
-        <button type="submit">Login</button>
+        <button type="submit" onClick={this.handleClick}>
+          Login
+        </button>
         <p>current user: {this.props.name}</p>
       </form>
     );
   }
+
+  private handleClick = (evt: React.MouseEvent) => {
+    evt.preventDefault();
+  };
+
+  private handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('ON_CHANGE: ', evt.currentTarget.value);
+  };
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({ name: state.auth.name });

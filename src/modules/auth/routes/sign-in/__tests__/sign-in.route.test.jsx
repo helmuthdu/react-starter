@@ -1,4 +1,4 @@
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { initialState } from '../../../stores/modules/auth';
@@ -19,7 +19,7 @@ describe('Route -> SignIn', () => {
   };
 
   it('should match snapshot', () => {
-    const wrapper = shallow(<SignInRoute {...props} {...state} />);
+    const wrapper = mount(<SignInRoute {...props} {...state} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

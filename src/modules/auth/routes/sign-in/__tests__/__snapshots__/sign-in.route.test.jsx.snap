@@ -1,27 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Route -> SignIn should match snapshot 1`] = `
-<form
-  onSubmit={[Function]}
+<SignInRoute
+  actionGetUser={
+    [MockFunction] {
+      "calls": Array [
+        Array [],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  actionLogin={[MockFunction]}
+  actionLogout={[MockFunction]}
+  dispatch={[MockFunction]}
+  linkTo={[MockFunction]}
+  name="john doe"
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
 >
-  <input
-    placeholder="Username"
-    required={true}
-    type="text"
-  />
-  <input
-    placeholder="Password"
-    required={true}
-    type="password"
-  />
-  <button
-    type="submit"
+  <SignIn
+    name="john doe"
+    onSubmit={[Function]}
   >
-    Login
-  </button>
-  <p>
-    current user: 
-    john doe
-  </p>
-</form>
+    <form
+      onSubmit={[Function]}
+    >
+      <input
+        placeholder="Username"
+        required={true}
+        type="text"
+      />
+      <input
+        placeholder="Password"
+        required={true}
+        type="password"
+      />
+      <button
+        type="submit"
+      >
+        Login
+      </button>
+      <p>
+        current user: 
+        john doe
+      </p>
+    </form>
+  </SignIn>
+</SignInRoute>
 `;

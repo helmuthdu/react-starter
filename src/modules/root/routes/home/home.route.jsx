@@ -4,9 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { loading } from '../../../../stores/modules';
-import { AUTH_ROUTES } from '../../../auth/routes';
-import logo from '../../assets/images/logo.svg';
-import { ROOT_ROUTES } from '../index';
+import { Home } from '../../components/home/home.component';
 
 import './home.route.scss';
 
@@ -21,27 +19,7 @@ export class HomeRoute extends Component {
   }
 
   render() {
-    return (
-      <div className="App">
-        <header className="App-header" onClick={this.props.actionToggleLoading}>
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-            Learn React
-          </a>
-          Navigate to
-          <div className="App-link" onClick={() => this.props.linkTo(ROOT_ROUTES.ABOUT)} title="go to about page">
-            about page
-          </div>
-          or to
-          <div className="App-link" onClick={() => this.props.linkTo(AUTH_ROUTES.SIGN_IN)} title="go to sign-in page">
-            sign-in page
-          </div>
-        </header>
-      </div>
-    );
+    return <Home onImageClick={this.props.actionToggleLoading} onLinkClick={this.props.linkTo} />;
   }
 }
 

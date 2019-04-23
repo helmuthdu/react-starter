@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { createSearchInputObservable } from '../../../../helpers/search.helper';
 import { auth } from '../../stores';
+import { SignIn } from '../../components/sign-in/sign-in.component';
 
 export class SignInRoute extends Component {
   inputField = React.createRef();
@@ -17,14 +18,7 @@ export class SignInRoute extends Component {
   }
 
   render() {
-    return (
-      <form onSubmit={e => e.preventDefault()}>
-        <input ref={this.inputField} type="text" placeholder="Username" required />
-        <input type="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-        <p>current user: {this.props.name}</p>
-      </form>
-    );
+    return <SignIn ref={this.inputField} name={this.props.name} onSubmit={e => e.preventDefault()} />;
   }
 }
 

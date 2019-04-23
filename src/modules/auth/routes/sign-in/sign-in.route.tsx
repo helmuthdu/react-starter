@@ -2,8 +2,9 @@ import { push } from 'connected-react-router';
 import React, { Component, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
-import { createSearchInputObservable } from '../../../../helpers';
 import { AppState } from '../../../../app';
+import { createSearchInputObservable } from '../../../../helpers';
+import { SignIn } from '../../components/sign-in/sign-in.component';
 import { auth } from '../../stores';
 
 type StateProps = Readonly<{
@@ -32,14 +33,13 @@ export class SignInRoute extends Component<Props, State> {
 
   public render() {
     return (
-      <form onSubmit={e => e.preventDefault()}>
-        <input ref={this.inputField} type="text" placeholder="Username" onChange={this.handleChange} required />
-        <input type="password" placeholder="Password" required />
-        <button type="submit" onClick={this.handleClick}>
-          Login
-        </button>
-        <p>current user: {this.props.name}</p>
-      </form>
+      <SignIn
+        onSubmit={e => e.preventDefault()}
+        ref={this.inputField}
+        onChange={this.handleChange}
+        onClick={this.handleClick}
+        name={this.props.name}
+      />
     );
   }
 

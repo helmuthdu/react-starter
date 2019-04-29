@@ -1,17 +1,18 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { Field } from 'redux-form';
 
 export const SignIn = props => (
   <form onSubmit={props.onSubmit}>
-    <input ref={props.ref} type="text" placeholder="Username" required />
-    <input type="password" placeholder="Password" required />
+    <Field component="input" type="text" placeholder="Username" name="username" required onChange={props.onChange} />
+    <Field component="input" type="password" placeholder="Password" name="password" required />
     <button type="submit">Login</button>
     <p>current user: {props.name}</p>
   </form>
 );
 
 SignIn.propTypes = {
+  onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  ref: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })]),
   name: PropTypes.string.isRequired
 };

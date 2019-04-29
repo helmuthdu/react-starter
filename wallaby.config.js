@@ -14,7 +14,7 @@ module.exports = function(wallaby) {
       'src/**/*.+(js|jsx|json|snap|css|less|sass|scss|jpg|jpeg|gif|png|svg)',
       '!src/**/__tests__/**/*.js',
       '!src/**/*.stories.js?(x)',
-      '!src/registerServiceWorker.js'
+      '!src/serviceWorker.js'
     ],
 
     tests: ['src/**/__tests__/**/*.js'],

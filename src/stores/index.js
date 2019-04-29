@@ -2,6 +2,7 @@ import { anchorate } from 'anchorate';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import createSagaMiddleware from 'redux-saga';
 import { all, spawn } from 'redux-saga/effects';
 import thunkMiddleware from 'redux-thunk';
@@ -55,6 +56,7 @@ export default (stores = [], url = process.env.PUBLIC_URL || '/') => {
   const rootReducer = hist =>
     combineReducers({
       router: connectRouter(hist),
+      form: formReducer,
       ...stores.filter(str => str.reducer).reduce((acc, str) => ({ ...acc, [str.name]: str.reducer }), {})
     });
 

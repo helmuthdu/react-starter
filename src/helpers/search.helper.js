@@ -1,16 +1,14 @@
-import { fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, pluck } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 
 /**
  * Creates an observable variable to be used with a search input
- * @param refObject
+ * @param subject
  * @param options
  * @return Observable<string>
  */
-export const createSearchInputObservable = (refObject, options) => {
+export const createSearchInputFromObservable = (subject, options) => {
   const { time = 400, scheduler, minLength = 3 } = options;
-  return fromEvent(refObject.current, 'input').pipe(
-    pluck('target', 'value'),
+  return subject.pipe(
     debounceTime(time, scheduler),
     filter(query => query.length >= minLength || query.length === 0),
     distinctUntilChanged()

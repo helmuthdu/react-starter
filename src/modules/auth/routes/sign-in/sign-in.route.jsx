@@ -3,23 +3,33 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { createSearchInputObservable } from '../../../../helpers/search.helper';
-import { auth } from '../../stores';
+import { reduxForm } from 'redux-form';
+import { Subject } from 'rxjs';
+import { createSearchInputFromObservable } from '../../../../helpers/search.helper';
 import { SignIn } from '../../components/sign-in/sign-in.component';
+import { auth } from '../../stores';
 
 export class SignInRoute extends Component {
-  inputField = React.createRef();
+  state = {
+    inputValue$: new Subject()
+  };
 
   componentDidMount() {
     this.props.actionGetUser();
-    createSearchInputObservable(this.inputField, {}).subscribe(value => {
+    createSearchInputFromObservable(this.state.inputValue$, {}).subscribe(value => {
       console.log(value);
     });
   }
 
   render() {
-    return <SignIn ref={this.inputField} name={this.props.name} onSubmit={e => e.preventDefault()} />;
+    return <SignIn name={this.props.name} onChange={this._handleChange} onSubmit={this._handleSubmit} />;
   }
+
+  _handleChange = evt => {
+    this.state.inputValue$.next(evt.currentTarget.value);
+  };
+
+  _handleSubmit = evt => evt.preventDefault();
 }
 
 SignInRoute.propTypes = {
@@ -42,6 +52,7 @@ const mapDispatchToProps = dispatch =>
   );
 
 const enhance = compose(
+  reduxForm({ form: 'signIn' }),
   connect(
     mapStateToProps,
     mapDispatchToProps

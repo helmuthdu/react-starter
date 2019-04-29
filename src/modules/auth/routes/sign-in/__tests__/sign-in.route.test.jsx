@@ -1,25 +1,32 @@
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import React from 'react';
+import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { initialState } from '../../../stores/modules/auth';
-import { SignInRoute } from '../sign-in.route';
+import { auth } from '../../../stores';
+import SignInRoute from '../sign-in.route';
+
+jest.mock('../../../stores', () => ({
+  auth: {
+    initialState: {
+      name: 'foo'
+    },
+    actions: {
+      actionGetUser: jest.fn(),
+      actionLogout: jest.fn(),
+      actionLogin: jest.fn()
+    }
+  }
+}));
 
 describe('Route -> SignIn', () => {
-  const props = {
-    actionGetUser: jest.fn(),
-    actionLogin: jest.fn(),
-    actionLogout: jest.fn(),
-    linkTo: jest.fn(),
-    name: 'john doe'
-  };
-
-  const state = {
-    dispatch: jest.fn(),
-    store: configureMockStore()({ auth: initialState })
-  };
+  const store = configureMockStore()({ auth: auth.initialState });
 
   it('should match snapshot', () => {
-    const wrapper = mount(<SignInRoute {...props} {...state} />);
+    const wrapper = shallow(
+      <Provider store={store}>
+        <SignInRoute />
+      </Provider>
+    );
     expect(wrapper).toMatchSnapshot();
   });
 });

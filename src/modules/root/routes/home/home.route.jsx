@@ -11,11 +11,6 @@ import './home.route.scss';
 export class HomeRoute extends Component {
   componentDidMount() {
     this.props.actionToggleLoading();
-
-    return new Promise((resolve, reject) => {
-      console.log('Before mounting HomePage component', this.props);
-      return resolve();
-    });
   }
 
   render() {

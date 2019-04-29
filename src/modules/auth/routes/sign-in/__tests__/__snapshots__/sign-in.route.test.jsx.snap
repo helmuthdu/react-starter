@@ -1,63 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Route -> SignIn should match snapshot 1`] = `
-<SignInRoute
-  actionGetUser={
-    [MockFunction] {
-      "calls": Array [
-        Array [],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
-  }
-  actionLogin={[MockFunction]}
-  actionLogout={[MockFunction]}
-  dispatch={[MockFunction]}
-  linkTo={[MockFunction]}
-  name="john doe"
-  store={
+<ContextProvider
+  value={
     Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "clear": [Function],
+          "get": [Function],
+          "notify": [Function],
+          "subscribe": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": [Function],
+      },
     }
   }
 >
-  <SignIn
-    name="john doe"
-    onSubmit={[Function]}
-  >
-    <form
-      onSubmit={[Function]}
-    >
-      <input
-        placeholder="Username"
-        required={true}
-        type="text"
-      />
-      <input
-        placeholder="Password"
-        required={true}
-        type="password"
-      />
-      <button
-        type="submit"
-      >
-        Login
-      </button>
-      <p>
-        current user: 
-        john doe
-      </p>
-    </form>
-  </SignIn>
-</SignInRoute>
+  <ReduxForm
+    destroyOnUnmount={true}
+    enableReinitialize={false}
+    forceUnregisterOnUnmount={false}
+    form="signIn"
+    getFormState={[Function]}
+    keepDirtyOnReinitialize={false}
+    persistentSubmitErrors={false}
+    pure={true}
+    shouldAsyncValidate={[Function]}
+    shouldError={[Function]}
+    shouldValidate={[Function]}
+    shouldWarn={[Function]}
+    submitAsSideEffect={false}
+    touchOnBlur={true}
+    touchOnChange={false}
+    updateUnregisteredFields={false}
+  />
+</ContextProvider>
 `;

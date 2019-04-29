@@ -1,25 +1,24 @@
-import React from 'react';
-import { fromEvent, Observable, SchedulerLike } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, pluck } from 'rxjs/operators';
+import { Observable, SchedulerLike, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 
 interface InputObservableOptions {
   time?: number;
   scheduler?: SchedulerLike;
   minLength?: number;
 }
+
 /**
  * Creates an observable variable to be used with a search input
- * @param refObject
+ * @param subject
  * @param options
  * @return Observable<string>
  */
-export const createSearchInputObservable = (
-  refObject: React.RefObject<HTMLInputElement>,
+export const createSearchInputFromObservable = (
+  subject: Subject<string>,
   options: InputObservableOptions
 ): Observable<string> => {
   const { time = 400, scheduler, minLength = 3 } = options;
-  return fromEvent(refObject.current as HTMLInputElement, 'input').pipe(
-    pluck<Event, string>('target', 'value'),
+  return subject.pipe(
     debounceTime(time, scheduler),
     filter(query => query.length >= minLength || query.length === 0),
     distinctUntilChanged()

@@ -1,8 +1,8 @@
 import React from 'react';
+import { Field } from 'redux-form';
 
 type Props = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  ref: React.RefObject<HTMLInputElement>;
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
   onClick: (evt: React.MouseEvent) => void;
   name: string;
@@ -10,8 +10,8 @@ type Props = {
 
 export const SignIn = (props: Props) => (
   <form onSubmit={props.onSubmit}>
-    <input ref={props.ref} type="text" placeholder="Username" onChange={props.onChange} required />
-    <input type="password" placeholder="Password" required />
+    <Field component="input" type="text" placeholder="Username" name="username" onChange={props.onChange} required />
+    <Field component="input" type="password" placeholder="Password" name="password" required />
     <button type="submit" onClick={props.onClick}>
       Login
     </button>

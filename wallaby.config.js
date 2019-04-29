@@ -15,7 +15,8 @@ module.exports = function(wallaby) {
       'src/**/*.+(ts|tsx|json|snap|css|less|sass|scss|jpg|jpeg|gif|png|svg)',
       '!src/**/__tests__/**/*.ts?(x)',
       '!src/**/*.stories.ts?(x)',
-      '!src/registerServiceWorker.ts'
+      '!src/**/*.d.ts',
+      '!src/serviceWorker.ts'
     ],
 
     tests: ['src/**/__tests__/**/*.ts?(x)'],

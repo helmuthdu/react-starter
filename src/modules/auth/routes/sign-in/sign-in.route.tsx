@@ -22,17 +22,17 @@ type OwnProps = HTMLAttributes<HTMLFormElement>;
 export type Props = StateProps & DispatchProps & OwnProps;
 
 type State = Readonly<{
-  inputValue: Subject<string>;
+  username$: Subject<string>;
 }>;
 
 export class SignInRoute extends Component<Props, State> {
-  public state = {
-    inputValue: new Subject<string>()
+  public state: State = {
+    username$: new Subject<string>()
   };
 
   public componentDidMount() {
     this.props.actionGetUser();
-    createSearchInputFromObservable(this.state.inputValue, {}).subscribe((value: any) => {
+    createSearchInputFromObservable(this.state.username$, {}).subscribe((value: any) => {
       console.log('ON_CHANGE_WITH_OBSERVABLE: ', value);
     });
   }
@@ -53,7 +53,7 @@ export class SignInRoute extends Component<Props, State> {
   };
 
   private handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    this.state.inputValue.next(evt.currentTarget.value);
+    this.state.username$.next(evt.currentTarget.value);
   };
 }
 

@@ -21,6 +21,7 @@
     "coveralls": "react-app-rewired test --env=jsdom --coverage --coverageReporters=text-lcov | coveralls"
   },
   "dependencies": {
+    "@sentry/browser": "^5.1.2",
     "anchorate": "^1.2.3",
     "axios": "^0.18.0",
     "connected-react-router": "^6.4.0",

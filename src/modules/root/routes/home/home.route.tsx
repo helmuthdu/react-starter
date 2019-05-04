@@ -1,11 +1,11 @@
+import * as Sentry from '@sentry/browser';
 import { push } from 'connected-react-router';
-import React, { Component, HTMLAttributes } from 'react';
+import React, { Component, ErrorInfo, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { AppState } from '../../../../app';
 import { loading } from '../../../../stores/modules';
 import { Home } from '../../components/home/home.component';
-
 import './home.route.scss';
 
 type StateProps = Readonly<{
@@ -30,6 +30,11 @@ export class HomeRoute extends Component<Props, State> {
       console.log('Before mounting HomePage component', this.props);
       return resolve();
     });
+  }
+
+  public componentDidCatch(error: Error, info: ErrorInfo) {
+    this.setState({ error });
+    Sentry.captureException(error);
   }
 
   public render() {

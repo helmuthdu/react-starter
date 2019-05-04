@@ -20,7 +20,7 @@ type OwnProps = HTMLAttributes<HTMLDivElement>;
 
 export type Props = StateProps & DispatchProps & OwnProps;
 
-type State = Readonly<{}>;
+type State = Readonly<{ error: Error }>;
 
 export class HomeRoute extends Component<Props, State> {
   public componentDidMount() {

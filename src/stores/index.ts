@@ -2,6 +2,7 @@ import { applyMiddleware, combineReducers, compose, createStore, Store } from 'r
 import createSagaMiddleware from 'redux-saga';
 import { all, spawn } from 'redux-saga/effects';
 import thunkMiddleware from 'redux-thunk';
+import { reducer as formReducer } from 'redux-form';
 
 declare const window: Window & {
   __PRELOADED_STATE__: object;
@@ -15,7 +16,7 @@ type StoreInstance = Store;
 let storeInstance: StoreInstance;
 
 // eslint-disable-next-line
-export default (modules: { name: string; sagas?: any; reducer?: object }[] = []) => {
+export default (stores: { name: string; sagas?: any; reducer?: object }[] = []) => {
   if (storeInstance) {
     return storeInstance;
   }
@@ -46,14 +47,15 @@ export default (modules: { name: string; sagas?: any; reducer?: object }[] = [])
 
   const rootReducer = () =>
     combineReducers({
-      ...modules.reduce((acc, mod) => ({ ...acc, [mod.name]: mod.reducer }), {})
+      form: formReducer,
+      ...stores.filter(str => str.reducer).reduce((acc, str) => ({ ...acc, [str.name]: str.reducer }), {})
     });
 
   // Create the store
   storeInstance = createStore(rootReducer(), initialState, composedEnhancers);
 
   sagaMiddleware.run(function*() {
-    yield all(modules.filter(mod => mod.sagas).map(mod => spawn(mod.sagas)));
+    yield all(stores.filter(str => str.sagas).map(str => spawn(str.sagas)));
   });
 
   return storeInstance;

@@ -1,8 +1,8 @@
-import { Action, ActionType, initialState, reducer } from '..';
+import { ActionType, initialState, reducer } from '..';
 
 describe('auth/store -> reducer', () => {
   it('should handle the initial state', () => {
-    expect(reducer(initialState, {} as Action)).toEqual(initialState);
+    expect(reducer(initialState, {} as any)).toEqual(initialState);
   });
 
   it(`should handle ${ActionType.AUTH_SET_USER}: login`, () => {

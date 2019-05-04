@@ -1,11 +1,10 @@
-import Link from 'next/link';
-import React, { Component, HTMLAttributes } from 'react';
+import * as Sentry from '@sentry/browser';
+import React, { Component, ErrorInfo, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { AppState } from '../../../../pages/_app';
 import { loading } from '../../../../stores/modules';
-import { AUTH_ROUTES } from '../../../auth/routes';
-import { MAIN_ROUTES } from '../index';
+import { Home } from '../../components/home/home.component';
 
 import './home.route.scss';
 
@@ -19,7 +18,7 @@ type OwnProps = HTMLAttributes<HTMLDivElement>;
 
 export type Props = StateProps & DispatchProps & OwnProps;
 
-type State = Readonly<{}>;
+type State = Readonly<{ error: Error }>;
 
 export class HomeRoute extends Component<Props, State> {
   public componentDidMount() {
@@ -31,37 +30,18 @@ export class HomeRoute extends Component<Props, State> {
     });
   }
 
+  public componentDidCatch(error: Error, info: ErrorInfo) {
+    this.setState({ error });
+    Sentry.captureException(error);
+  }
+
   public render() {
-    return (
-      <div className="App">
-        <header className="App-header" onClick={this.props.actionToggleLoading}>
-          <img src="/static/assets/images/logo.svg" className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-            Learn React
-          </a>
-          Navigate to
-          <Link href={MAIN_ROUTES.ABOUT}>
-            <a className="App-link" title="go to about page">
-              about page
-            </a>
-          </Link>
-          or to
-          <Link href={AUTH_ROUTES.SIGN_IN}>
-            <a className="App-link" title="go to sign-in page">
-              sign-in page
-            </a>
-          </Link>
-        </header>
-      </div>
-    );
+    return <Home onImageClick={this.props.actionToggleLoading} />;
   }
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  isLoading: loading.getters.isLoading(state)
+  isLoading: loading.selectors.isLoading(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>

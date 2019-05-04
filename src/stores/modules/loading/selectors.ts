@@ -1,9 +1,9 @@
 import { AppState } from '../../../pages/_app';
 
-export interface Getters {
+export interface Selectors {
   isLoading: (state: AppState) => boolean;
 }
 
-export const getters: Getters = {
+export const selectors: Selectors = {
   isLoading: (state: AppState) => state.loading.count > 0
 };

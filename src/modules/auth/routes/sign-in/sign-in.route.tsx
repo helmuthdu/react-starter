@@ -1,8 +1,11 @@
 import React, { Component, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
-import { createSearchInputObservable } from '../../../../helpers';
+import { reduxForm } from 'redux-form';
+import { Subject } from 'rxjs';
+import { createSearchInputFromObservable } from '../../../../helpers';
 import { AppState } from '../../../../pages/_app';
+import { SignIn } from '../../components/sign-in/sign-in.component';
 import { auth } from '../../stores';
 
 type StateProps = Readonly<{
@@ -15,29 +18,40 @@ type OwnProps = HTMLAttributes<HTMLFormElement>;
 
 export type Props = StateProps & DispatchProps & OwnProps;
 
-type State = Readonly<{}>;
+type State = Readonly<{
+  username$: Subject<string>;
+}>;
 
 export class SignInRoute extends Component<Props, State> {
-  private inputField: React.RefObject<HTMLInputElement> = React.createRef();
+  public state: State = {
+    username$: new Subject<string>()
+  };
 
   public componentDidMount() {
     this.props.actionGetUser();
-
-    createSearchInputObservable(this.inputField, {}).subscribe((value: any) => {
-      console.log(value);
+    createSearchInputFromObservable(this.state.username$, {}).subscribe((value: any) => {
+      console.log('ON_CHANGE_WITH_OBSERVABLE: ', value);
     });
   }
 
   public render() {
     return (
-      <form onSubmit={e => e.preventDefault()}>
-        <input ref={this.inputField} type="text" placeholder="Username" required />
-        <input type="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-        <p>current user: {this.props.name}</p>
-      </form>
+      <SignIn
+        onSubmit={e => e.preventDefault()}
+        onChange={this.handleChange}
+        onClick={this.handleClick}
+        name={this.props.name}
+      />
     );
   }
+
+  private handleClick = (evt: React.MouseEvent) => {
+    evt.preventDefault();
+  };
+
+  private handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    this.state.username$.next(evt.currentTarget.value);
+  };
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({ name: state.auth.name });
@@ -52,6 +66,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
 };
 
 const enhance = compose<React.ComponentClass<OwnProps>>(
+  reduxForm({ form: 'signIn' }),
   connect<StateProps, DispatchProps, OwnProps, AppState>(
     mapStateToProps,
     mapDispatchToProps

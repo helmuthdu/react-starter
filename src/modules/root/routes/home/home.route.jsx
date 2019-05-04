@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import { push } from 'connected-react-router';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -11,6 +12,11 @@ import './home.route.scss';
 export class HomeRoute extends Component {
   componentDidMount() {
     this.props.actionToggleLoading();
+  }
+
+  componentDidCatch(error, info) {
+    this.setState({ error });
+    Sentry.captureException(error);
   }
 
   render() {

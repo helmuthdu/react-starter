@@ -6,5 +6,5 @@ export interface Selectors {
 }
 
 export const selectors: Selectors = {
-  getCurrentUser: (state: AppState) => state.auth
+  getCurrentUser: (state: AppState) => state.user
 };

@@ -1,7 +1,7 @@
-import * as auth from './modules/user';
+import * as user from './modules/user';
 
 export type State = Readonly<{
-  auth: auth.State;
+  user: user.State;
 }>;
 
-export { auth };
+export { user };

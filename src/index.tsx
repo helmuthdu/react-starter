@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+// import * as Sentry from '@sentry/browser';
 import React from 'react';
 import { render } from 'react-dom';
 import App from './app';

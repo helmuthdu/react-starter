@@ -5,7 +5,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux';
 import { AppState } from '../../../../app';
 import { createSearchInputFromObservable } from '../../../../helpers';
 import { SignIn } from '../../components/sign-in/sign-in.component';
-import { auth } from '../../stores';
+import { user } from '../../stores';
 import { reduxForm } from 'redux-form';
 import { Subject } from 'rxjs';
 
@@ -13,7 +13,7 @@ type StateProps = Readonly<{
   name: string;
 }>;
 
-type DispatchProps = auth.Actions & {
+type DispatchProps = user.Actions & {
   linkTo: () => void;
 };
 
@@ -57,13 +57,13 @@ export class SignInRoute extends Component<Props, State> {
   };
 }
 
-const mapStateToProps = (state: AppState): StateProps => ({ name: state.auth.name });
+const mapStateToProps = (state: AppState): StateProps => ({ name: state.user.name });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   return bindActionCreators(
     {
       linkTo: () => push(`/`),
-      ...auth.actions
+      ...user.actions
     },
     dispatch
   );

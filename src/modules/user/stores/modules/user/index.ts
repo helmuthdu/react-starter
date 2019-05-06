@@ -5,4 +5,4 @@ export * from './selectors';
 export * from './state';
 export * from './types';
 
-export const name = 'auth';
+export const name = 'user';

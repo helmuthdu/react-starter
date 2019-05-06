@@ -1,9 +1,9 @@
 import React from 'react';
-import { AUTH_ROUTES } from '../../../auth/routes';
+import { USER_ROUTES } from '../../../user/routes';
 import logo from '../../assets/images/logo.svg';
 import { ROOT_ROUTES } from '../../routes';
 
-type Props = { onImageClick: () => void; onLinkClick: (route: AUTH_ROUTES | ROOT_ROUTES) => void };
+type Props = { onImageClick: () => void; onLinkClick: (route: USER_ROUTES | ROOT_ROUTES) => void };
 
 export const Home = (props: Props) => (
   <div className="App">
@@ -20,7 +20,7 @@ export const Home = (props: Props) => (
         about page
       </div>
       or to
-      <div className="App-link" onClick={() => props.onLinkClick(AUTH_ROUTES.SIGN_IN)} title="go to sign-in page">
+      <div className="App-link" onClick={() => props.onLinkClick(USER_ROUTES.SIGN_IN)} title="go to sign-in page">
         sign-in page
       </div>
     </header>

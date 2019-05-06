@@ -5,9 +5,9 @@ describe('auth/store -> reducer', () => {
     expect(reducer(initialState, {} as Action)).toEqual(initialState);
   });
 
-  it(`should handle ${ActionType.AUTH_SET_USER}: login`, () => {
+  it(`should handle ${ActionType.USER_SET_USER}: login`, () => {
     const res = reducer(initialState, {
-      type: ActionType.AUTH_SET_USER,
+      type: ActionType.USER_SET_USER,
       payload: {
         name: 'John Doe',
         username: 'user_name',
@@ -19,9 +19,9 @@ describe('auth/store -> reducer', () => {
     expect(res.isLogged).toEqual(true);
   });
 
-  it(`should handle ${ActionType.AUTH_SET_USER}: logout`, () => {
+  it(`should handle ${ActionType.USER_SET_USER}: logout`, () => {
     const res = reducer(initialState, {
-      type: ActionType.AUTH_SET_USER,
+      type: ActionType.USER_SET_USER,
       payload: { ...initialState }
     });
     expect(res).toEqual(initialState);

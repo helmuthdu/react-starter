@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { State } from '../stores/modules/auth';
+import { State } from '../stores/modules/user';
 
-export interface AuthRequest {
+export interface UserRequest {
   email: string;
   password: string;
 }
@@ -19,13 +19,13 @@ const get = (): Promise<State> =>
     }, 1000);
   });
 
-const post = (payload: AuthRequest) =>
+const post = (payload: UserRequest) =>
   axios.post(`https://httpstat.us/200`, {
     username: payload.email,
     password: payload.password
   });
 
-export const authApi = {
+export const userApi = {
   get,
   post
 };

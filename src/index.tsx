@@ -14,4 +14,4 @@ serviceWorker.unregister();
 // Sentry is an open-source error tracking tool that helps you monitor
 // and fix crashes in real time. Here we cover everything about the
 // product, the platform integrations, and our on-premise offering.
-Sentry.init({ dsn: 'https://<key>@sentry.io/<project>' });
+// Sentry.init({ dsn: 'https://<key>@sentry.io/<project>' });

@@ -32,7 +32,7 @@ describe('auth/store -> actions', () => {
 
     expect(store.getActions()).toEqual([
       {
-        type: ActionType.AUTH_SET_USER,
+        type: ActionType.USER_SET_USER,
         payload: { ...response }
       }
     ]);

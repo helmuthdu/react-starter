@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { AUTH_ROUTES } from '../../../auth/routes';
+import { USER_ROUTES } from '../../../user/routes';
 import logo from '../../assets/images/logo.svg';
 import { ROOT_ROUTES } from '../../routes';
 
@@ -19,7 +19,7 @@ export const Home = props => (
         about page
       </div>
       or to
-      <div className="App-link" onClick={() => props.onLinkClick(AUTH_ROUTES.SIGN_IN)} title="go to sign-in page">
+      <div className="App-link" onClick={() => props.onLinkClick(USER_ROUTES.SIGN_IN)} title="go to sign-in page">
         sign-in page
       </div>
     </header>

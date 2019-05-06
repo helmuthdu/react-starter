@@ -19,7 +19,7 @@ const post = payload =>
     password: payload.password
   });
 
-export const authApi = {
+export const userApi = {
   get,
   post
 };

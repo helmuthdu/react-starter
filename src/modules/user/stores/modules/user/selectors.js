@@ -1,3 +1,3 @@
-export const getters = {
+export const selectors = {
   getCurrentUser: state => state.auth
 };

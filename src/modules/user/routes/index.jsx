@@ -3,12 +3,12 @@ import DefaultLayoutRoute from '../layouts/default.layout';
 
 const SignInRoute = lazy(() => import('./sign-in/sign-in.route'));
 
-export const AUTH_ROUTES = Object.freeze({
+export const USER_ROUTES = Object.freeze({
   SIGN_IN: '/sign-in'
 });
 
 export const routes = [
-  <DefaultLayoutRoute key={AUTH_ROUTES.SIGN_IN} path={AUTH_ROUTES.SIGN_IN} component={SignInRoute} />
+  <DefaultLayoutRoute key={USER_ROUTES.SIGN_IN} path={USER_ROUTES.SIGN_IN} component={SignInRoute} />
 ];
 
 export default routes;

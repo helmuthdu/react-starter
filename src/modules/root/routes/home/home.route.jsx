@@ -31,7 +31,7 @@ HomeRoute.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isLoading: loading.getters.isLoading(state)
+  isLoading: loading.selectors.isLoading(state)
 });
 
 const mapDispatchToProps = dispatch =>

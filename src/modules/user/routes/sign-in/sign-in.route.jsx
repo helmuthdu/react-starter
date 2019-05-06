@@ -7,7 +7,7 @@ import { reduxForm } from 'redux-form';
 import { Subject } from 'rxjs';
 import { createSearchInputFromObservable } from '../../../../helpers/search.helper';
 import { SignIn } from '../../components/sign-in/sign-in.component';
-import { auth } from '../../stores';
+import { user } from '../../stores';
 
 export class SignInRoute extends Component {
   state = {
@@ -40,13 +40,13 @@ SignInRoute.propTypes = {
   name: PropTypes.string
 };
 
-const mapStateToProps = state => ({ name: state.auth.name });
+const mapStateToProps = state => ({ name: state.user.name });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       linkTo: () => push(`/`),
-      ...auth.actions
+      ...user.actions
     },
     dispatch
   );

@@ -1,5 +1,5 @@
 export * from './actions';
-export * from './getters';
+export * from './selectors';
 export * from './reducer';
 export * from './state';
 export * from './types';

@@ -1,5 +1,5 @@
 import { actions } from '../actions';
-import { getters } from '../getters';
+import { selectors } from '../selectors';
 import { reducer } from '../reducer';
 import { initialState } from '../state';
 import { ActionType } from '../types';
@@ -22,6 +22,6 @@ describe('store/ui -> reducer', () => {
   });
 
   it('should check if is loading', () => {
-    expect(getters.isLoading({ loading: { count: 1 } })).toEqual(true);
+    expect(selectors.isLoading({ loading: { count: 1 } })).toEqual(true);
   });
 });

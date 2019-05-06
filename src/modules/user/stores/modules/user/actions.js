@@ -1,24 +1,24 @@
-import { authApi } from '../../../api/auth.api';
+import { userApi } from '../../../api/user.api';
 import { ActionType } from './types';
 
 export const actions = {
   actionGetUser: () => async dispatch =>
     dispatch({
-      type: ActionType.AUTH_SET_USER,
+      type: ActionType.USER_SET_USER,
       payload: {
-        ...(await authApi.get())
+        ...(await userApi.get())
       }
     }),
   actionLogout: () => dispatch =>
     dispatch({
-      type: ActionType.AUTH_SET_USER,
+      type: ActionType.USER_SET_USER,
       payload: { name: '', username: '', email: '', isLogged: false, token: '' }
     }),
   actionLogin: payload => async dispatch =>
     dispatch({
-      type: ActionType.AUTH_SET_USER,
+      type: ActionType.USER_SET_USER,
       payload: {
-        ...(await authApi.post(payload)).data,
+        ...(await userApi.post(payload)).data,
         isLogged: true
       }
     })

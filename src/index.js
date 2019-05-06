@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+// import * as Sentry from '@sentry/browser';
 import React from 'react';
 import { render } from 'react-dom';
 import App from './app';
@@ -14,4 +14,4 @@ serviceWorker.unregister();
 // Sentry is an open-source error tracking tool that helps you monitor
 // and fix crashes in real time. Here we cover everything about the
 // product, the platform integrations, and our on-premise offering.
-Sentry.init({ dsn: 'https://<key>@sentry.io/<project>' });
+// Sentry.init({ dsn: 'https://<key>@sentry.io/<project>' });

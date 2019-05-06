@@ -1,8 +1,8 @@
-import * as authModule from './auth';
 import * as rootModule from './root';
+import * as userModule from './user';
 
-export const routes = [...rootModule.routes, ...authModule.routes];
-export const stores = [...authModule.stores];
+export const routes = [...rootModule.routes, ...userModule.routes];
+export const stores = [...userModule.stores];
 
 export default {
   routes,

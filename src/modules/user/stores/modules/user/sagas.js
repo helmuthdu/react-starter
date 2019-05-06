@@ -3,7 +3,7 @@ import { ActionType } from './types';
 
 function* handleLogin({ payload }) {
   try {
-    const log = () => console.log(ActionType.AUTH_SET_USER, payload);
+    const log = () => console.log(ActionType.USER_SET_USER, payload);
     yield delay(100);
     yield call(log);
   } catch (err) {
@@ -12,7 +12,7 @@ function* handleLogin({ payload }) {
 }
 
 function* watchLogin() {
-  yield takeLatest(ActionType.AUTH_SET_USER, handleLogin);
+  yield takeLatest(ActionType.USER_SET_USER, handleLogin);
 }
 
 export function* sagas() {

@@ -1,4 +1,19 @@
-import { compose, first, get, groupBy, isEmpty, keyBy, last, pipe, sortBy, uniq } from '../utils.helper';
+import {
+  compose,
+  first,
+  flatten,
+  flattenDeep,
+  get,
+  groupBy,
+  isEmpty,
+  keyBy,
+  keys,
+  last,
+  pipe,
+  sortBy,
+  uniq,
+  values
+} from '../utils.helper';
 
 describe('helpers -> utils', () => {
   it('should composes functions', () => {
@@ -65,6 +80,16 @@ describe('helpers -> utils', () => {
     expect(isEmpty(el)).toEqual(true);
   });
 
+  it('should list obj values', () => {
+    const obj = { foo: 1, bar: 2, baz: 3 };
+    expect(values(obj)).toEqual([1, 2, 3]);
+  });
+
+  it('should list obj keys', () => {
+    const obj = { foo: 1, bar: 2, baz: 3 };
+    expect(keys(obj)).toEqual(['foo', 'bar', 'baz']);
+  });
+
   it('should create a key for each element', () => {
     const arr = [{ id: 1 }, { id: 2 }, { id: 3 }];
     expect(keyBy(arr, 'id')).toEqual({ 1: arr[0], 2: arr[1], 3: arr[2] });
@@ -73,5 +98,13 @@ describe('helpers -> utils', () => {
   it('should group elements by key', () => {
     const arr = [{ group: 1 }, { group: 1 }, { group: 2 }];
     expect(groupBy(arr, 'group')).toEqual({ 1: arr.slice(0, 2), 2: arr.slice(2, 3) });
+  });
+
+  it('should flattens array a single level deep', () => {
+    expect(flatten([1, [2, [3, [4]], 5]])).toEqual([1, 2, [3, [4]], 5]);
+  });
+
+  it('should recursively flattens array', () => {
+    expect(flattenDeep([1, [[2], [3, [4]], 5]])).toEqual([1, 2, 3, 4, 5]);
   });
 });

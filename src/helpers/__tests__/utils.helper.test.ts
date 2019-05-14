@@ -2,7 +2,6 @@ import {
   compose,
   first,
   flatten,
-  flattenDeep,
   get,
   groupBy,
   isEmpty,
@@ -76,8 +75,8 @@ describe('helpers -> utils', () => {
     expect(get(obj, 'bar', 1)).toEqual(1);
   });
 
-  it.each([[null], [''], [{}], [[]]])(`should test if element is empty`, (el: unknown) => {
-    expect(isEmpty(el)).toEqual(true);
+  it.each([[null], [''], [{}], [[]]])(`should test if element (%p) is empty`, (...el: unknown[]) => {
+    expect(isEmpty(el[0])).toEqual(true);
   });
 
   it('should list obj values', () => {
@@ -100,11 +99,7 @@ describe('helpers -> utils', () => {
     expect(groupBy(arr, 'group')).toEqual({ 1: arr.slice(0, 2), 2: arr.slice(2, 3) });
   });
 
-  it('should flattens array a single level deep', () => {
-    expect(flatten([1, [2, [3, [4]], 5]])).toEqual([1, 2, [3, [4]], 5]);
-  });
-
   it('should recursively flattens array', () => {
-    expect(flattenDeep([1, [[2], [3, [4]], 5]])).toEqual([1, 2, 3, 4, 5]);
+    expect(flatten([1, [[2], [3, [4]], 5]])).toEqual([1, 2, 3, 4, 5]);
   });
 });

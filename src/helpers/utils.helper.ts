@@ -3,13 +3,13 @@
 type Dictionary<T> = { [key: string]: T };
 type DictionaryArray<T> = { [key: string]: [T] };
 
-export const compose = <R>(fn1: (a: R) => R, ...fns: ((a: R) => R)[]) =>
-  fns.reduce((prevFn, nextFn) => value => prevFn(nextFn(value)), fn1);
+export const compose = <R>(fn: (args: R) => R, ...fns: ((args: R) => R)[]) =>
+  fns.reduce((prevFn, nextFn) => value => prevFn(nextFn(value)), fn);
 
 export const first = <T>(arr: T[], total = 1): T[] => arr.slice(0, total);
 
 export const flatten = (arr: unknown | unknown[]): unknown[] =>
-  Array.isArray(arr) ? arr.reduce((acc, cur) => acc.concat(flatten(cur)), []) : [arr];
+  Array.isArray(arr) ? arr.reduce((acc, cur) => acc.concat(flatten(cur)), []) : [];
 
 export const get = <T, K extends keyof T>(obj: T, path: K | string, defaultValue: unknown = null) =>
   String.prototype.split
@@ -28,7 +28,7 @@ export const groupBy = <T, K extends keyof T>(list: T | T[] | ReadonlyArray<T>, 
     {}
   );
 
-export const isEmpty = (val: any | any[]): boolean =>
+export const isEmpty = (val: any): boolean =>
   [Object, Array].includes((val || {}).constructor) && !Object.entries(val || {}).length;
 
 export const keyBy = <T, K extends keyof T>(list: T | T[] | ReadonlyArray<T>, key: K): Dictionary<T> =>
@@ -47,8 +47,8 @@ export const values = <T, K extends keyof T>(obj: T) => Object.values(obj) as T[
 
 export const last = <T>(arr: T[], total = 1): T[] => arr.slice(-total);
 
-export const pipe = <T extends unknown[], R>(fn1: (...args: T) => R, ...fns: ((a: R) => R)[]) => (...args: T) =>
-  fns.reduce((prevFn, nextFn) => (value: R) => nextFn(prevFn(value)), value => value)(fn1(...args));
+export const pipe = <T extends unknown[], R>(fn: (...args: T) => R, ...fns: ((args: R) => R)[]) => (...args: T) =>
+  fns.reduce((prevFn, nextFn) => (value: R) => nextFn(prevFn(value)), value => value)(fn(...args));
 
 export const snakeCase = (str: string) =>
   str

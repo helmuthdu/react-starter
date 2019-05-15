@@ -1,7 +1,7 @@
-import { State } from '../stores/modules/auth';
+import { State } from '../stores/modules/user';
 import fetch from 'isomorphic-unfetch';
 
-export interface AuthRequest {
+export interface UserRequest {
   email: string;
   password: string;
 }
@@ -19,7 +19,7 @@ const get = (): Promise<State> =>
     }, 1000);
   });
 
-const post = (payload: AuthRequest): Promise<State> =>
+const post = (payload: UserRequest): Promise<State> =>
   fetch(`https://httpstat.us/200`, {
     method: 'POST',
     headers: {
@@ -31,7 +31,7 @@ const post = (payload: AuthRequest): Promise<State> =>
     })
   }).then((res: Response) => res.body as any);
 
-export const authApi = {
+export const userApi = {
   get,
   post
 };

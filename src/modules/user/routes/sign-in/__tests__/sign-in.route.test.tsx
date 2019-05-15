@@ -2,7 +2,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { initialState } from '../../../stores/modules/auth';
+import { initialState } from '../../../stores/modules/user';
 import SignInRoute, { Props } from '../sign-in.route';
 
 describe('Route -> SignIn component', () => {
@@ -10,7 +10,7 @@ describe('Route -> SignIn component', () => {
     name: 'john doe'
   };
 
-  const store = configureMockStore()({ auth: initialState });
+  const store = configureMockStore()({ user: initialState });
 
   it('should match snapshot', () => {
     const wrapper = mount(

@@ -1,5 +1,5 @@
-import * as authModule from './auth';
+import * as userModule from './user';
 
-export type State = authModule.State;
+export type State = userModule.State;
 
-export const stores = [...authModule.stores];
+export const stores = [...userModule.stores];

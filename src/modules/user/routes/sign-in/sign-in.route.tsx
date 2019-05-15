@@ -6,13 +6,13 @@ import { Subject } from 'rxjs';
 import { createSearchInputFromObservable } from '../../../../helpers';
 import { AppState } from '../../../../pages/_app';
 import { SignIn } from '../../components/sign-in/sign-in.component';
-import { auth } from '../../stores';
+import { user } from '../../stores';
 
 type StateProps = Readonly<{
   name: string;
 }>;
 
-type DispatchProps = auth.Actions;
+type DispatchProps = user.Actions;
 
 type OwnProps = HTMLAttributes<HTMLFormElement>;
 
@@ -54,12 +54,12 @@ export class SignInRoute extends Component<Props, State> {
   };
 }
 
-const mapStateToProps = (state: AppState): StateProps => ({ name: state.auth.name });
+const mapStateToProps = (state: AppState): StateProps => ({ name: state.user.name });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   return bindActionCreators(
     {
-      ...auth.actions
+      ...user.actions
     },
     dispatch
   );

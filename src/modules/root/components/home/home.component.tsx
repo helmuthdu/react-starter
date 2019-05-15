@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { AUTH_ROUTES } from '../../../auth/routes';
+import { AUTH_ROUTES } from '../../../user/routes';
 import { MAIN_ROUTES } from '../../routes';
 
 type Props = { onImageClick: () => void };

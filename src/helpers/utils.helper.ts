@@ -6,10 +6,10 @@ type DictionaryArray<T> = { [key: string]: [T] };
 export const compose = <R>(fn: (args: R) => R, ...fns: ((args: R) => R)[]) =>
   fns.reduce((prevFn, nextFn) => value => prevFn(nextFn(value)), fn);
 
-export const first = <T>(arr: T[], total = 1): T[] => arr.slice(0, total);
+export const first = <T>(list: T[], total = 1): T[] => list.slice(0, total);
 
-export const flatten = (arr: unknown | unknown[]): unknown[] =>
-  Array.isArray(arr) ? arr.reduce((acc, cur) => acc.concat(flatten(cur)), []) : [];
+export const flatten = (list: unknown | unknown[]): unknown[] =>
+  Array.isArray(list) ? list.reduce((acc, cur) => acc.concat(flatten(cur)), []) : list;
 
 export const get = <T, K extends keyof T>(obj: T, path: K | string, defaultValue: unknown = null) =>
   String.prototype.split

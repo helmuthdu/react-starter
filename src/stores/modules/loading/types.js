@@ -1,4 +1,4 @@
-export const ActionType = Object.freeze({
+export const ActionTypes = Object.freeze({
   LOADING_ENABLE: 'LOADING_ENABLE',
   LOADING_DISABLE: 'LOADING_DISABLE',
   LOADING_TOGGLE: 'LOADING_TOGGLE'

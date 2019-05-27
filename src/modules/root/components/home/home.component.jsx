@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { USER_ROUTES } from '../../../user/routes';
+import { USER_ROUTES } from '../../../user/enums';
 import logo from '../../assets/images/logo.svg';
-import { ROOT_ROUTES } from '../../routes';
+import { ROOT_ROUTES } from '../../enums';
 
 export const Home = props => (
   <div className="App">

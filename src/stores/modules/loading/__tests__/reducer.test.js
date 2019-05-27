@@ -2,22 +2,22 @@ import { actions } from '../actions';
 import { selectors } from '../selectors';
 import { reducer } from '../reducer';
 import { initialState } from '../state';
-import { ActionType } from '../types';
+import { ActionTypes } from '../types';
 
 describe('store/ui -> reducer', () => {
   it('should handle the initial state', () => {
     expect(reducer(initialState, {})).toEqual({ count: 0 });
   });
 
-  it(`should handle ${ActionType.LOADING_ENABLE}`, () => {
+  it(`should handle ${ActionTypes.LOADING_ENABLE}`, () => {
     expect(reducer(initialState, actions.actionEnableLoading())).toEqual({ count: 1 });
   });
 
-  it(`should handle ${ActionType.LOADING_DISABLE}`, () => {
+  it(`should handle ${ActionTypes.LOADING_DISABLE}`, () => {
     expect(reducer(initialState, actions.actionDisableLoading())).toEqual({ count: 0 });
   });
 
-  it(`should handle ${ActionType.LOADING_TOGGLE}`, () => {
+  it(`should handle ${ActionTypes.LOADING_TOGGLE}`, () => {
     expect(reducer(initialState, actions.actionToggleLoading())).toEqual({ count: 1 });
   });
 

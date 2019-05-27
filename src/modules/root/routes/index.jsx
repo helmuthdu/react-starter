@@ -1,13 +1,9 @@
 import React, { lazy } from 'react';
 import DefaultLayoutRoute from '../../../layouts/default.layout';
+import { ROOT_ROUTES } from '../enums';
 
 const HomeRoute = lazy(() => import('./home/home.route'));
 const AboutRoute = lazy(() => import('./about/about.route'));
-
-export const ROOT_ROUTES = Object.freeze({
-  ABOUT: '/about',
-  HOME: '/'
-});
 
 export const routes = [
   <DefaultLayoutRoute key={ROOT_ROUTES.ABOUT} path={ROOT_ROUTES.ABOUT} component={AboutRoute} />,

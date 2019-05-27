@@ -1,11 +1,8 @@
 import React, { lazy } from 'react';
+import { USER_ROUTES } from '../enums';
 import DefaultLayoutRoute from '../layouts/default.layout';
 
 const SignInRoute = lazy(() => import('./sign-in/sign-in.route'));
-
-export const USER_ROUTES = Object.freeze({
-  SIGN_IN: '/sign-in'
-});
 
 export const routes = [
   <DefaultLayoutRoute key={USER_ROUTES.SIGN_IN} path={USER_ROUTES.SIGN_IN} component={SignInRoute} />

@@ -1,7 +1,11 @@
-import { ActionType } from './types';
+import { ActionTypes } from './types';
+
+const actionEnableLoading = () => ({ type: ActionTypes.LOADING_ENABLE });
+const actionDisableLoading = () => ({ type: ActionTypes.LOADING_DISABLE });
+const actionToggleLoading = () => ({ type: ActionTypes.LOADING_TOGGLE });
 
 export const actions = {
-  actionEnableLoading: () => ({ type: ActionType.LOADING_ENABLE }),
-  actionDisableLoading: () => ({ type: ActionType.LOADING_DISABLE }),
-  actionToggleLoading: () => ({ type: ActionType.LOADING_TOGGLE })
+  actionEnableLoading,
+  actionDisableLoading,
+  actionToggleLoading
 };

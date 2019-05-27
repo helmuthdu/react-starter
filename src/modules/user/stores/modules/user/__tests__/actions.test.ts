@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import configureMockStore, { MockStore } from 'redux-mock-store';
-import { actions, ActionType, State } from '..';
+import { actions, ActionTypes, State } from '..';
 
 describe('auth/store -> actions', () => {
   let store: MockStore;
@@ -32,7 +32,7 @@ describe('auth/store -> actions', () => {
 
     expect(store.getActions()).toEqual([
       {
-        type: ActionType.USER_SET_USER,
+        type: ActionTypes.USER_SET_USER,
         payload: { ...response }
       }
     ]);

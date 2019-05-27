@@ -1,5 +1,5 @@
 import { Action } from './reducer';
-import { ActionType } from './types';
+import { ActionTypes } from './types';
 
 export interface Actions {
   actionDisableLoading: () => Action;
@@ -7,8 +7,12 @@ export interface Actions {
   actionToggleLoading: () => Action;
 }
 
+export const actionDisableLoading = () => ({ type: ActionTypes.LOADING_DISABLE_LOADING });
+export const actionEnableLoading = () => ({ type: ActionTypes.LOADING_ENABLE_LOADING });
+export const actionToggleLoading = () => ({ type: ActionTypes.LOADING_TOGGLE_LOADING });
+
 export const actions: Actions = {
-  actionDisableLoading: () => ({ type: ActionType.LOADING_DISABLE_LOADING }),
-  actionEnableLoading: () => ({ type: ActionType.LOADING_ENABLE_LOADING }),
-  actionToggleLoading: () => ({ type: ActionType.LOADING_TOGGLE_LOADING })
+  actionDisableLoading,
+  actionEnableLoading,
+  actionToggleLoading
 };

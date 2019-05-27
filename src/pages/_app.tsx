@@ -1,5 +1,5 @@
 import App, { Container } from 'next/app';
-import React from 'react';
+import * as React from 'react';
 import { Provider } from 'react-redux';
 // modules
 import { stores, State } from '../modules';
@@ -14,7 +14,7 @@ export default class extends App {
     const { Component, pageProps } = this.props;
     return (
       <Container>
-        <Provider store={createStore([...Object.values(rootStores.stores), ...stores])}>
+        <Provider store={createStore([...rootStores.stores, ...stores])}>
           <Component {...pageProps} />
         </Provider>
       </Container>

@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import React from 'react';
-import { AUTH_ROUTES } from '../../../user/routes';
-import { MAIN_ROUTES } from '../../routes';
+import * as React from 'react';
+import { USER_ROUTES } from '../../../user/enums';
+import { MAIN_ROUTES } from '../../enums';
 
 type Props = { onImageClick: () => void };
 
@@ -22,7 +22,7 @@ export const Home = (props: Props) => (
         </a>
       </Link>
       or to
-      <Link href={AUTH_ROUTES.SIGN_IN}>
+      <Link href={USER_ROUTES.SIGN_IN}>
         <a className="App-link" title="go to sign-in page">
           sign-in page
         </a>

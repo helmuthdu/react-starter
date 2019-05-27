@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { SignInRoute } from '../../modules/user/routes';
 
 const route = () => <SignInRoute />;

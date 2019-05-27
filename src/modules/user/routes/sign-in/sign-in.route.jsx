@@ -1,6 +1,7 @@
 import { push } from 'connected-react-router';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { reduxForm } from 'redux-form';

@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme';
-import React, { Component } from 'react';
+import * as React from 'react';
+import { Component } from 'react';
 
 const STATUS = {
   HOVERED: 'hovered',

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import * as React from 'react';
 import { USER_ROUTES } from '../../../user/enums';
 import logo from '../../assets/images/logo.svg';
 import { ROOT_ROUTES } from '../../enums';

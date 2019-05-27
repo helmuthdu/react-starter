@@ -1,4 +1,5 @@
-import React, { lazy } from 'react';
+import * as React from 'react';
+import { lazy } from 'react';
 import { USER_ROUTES } from '../enums';
 import DefaultLayoutRoute from '../layouts/default.layout';
 

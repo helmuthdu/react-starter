@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { DefaultLayout, DefaultLayoutRoute } from '../default.layout';
 
 describe('auth/layouts -> DefaultLayout component', () => {

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import * as React from 'react';
 import { USER_ROUTES } from '../../../user/enums';
-import { MAIN_ROUTES } from '../../enums';
+import { ROOT_ROUTES } from '../../enums';
 
 type Props = { onImageClick: () => void };
 
@@ -16,7 +16,7 @@ export const Home = (props: Props) => (
         Learn React
       </a>
       Navigate to
-      <Link href={MAIN_ROUTES.ABOUT}>
+      <Link href={ROOT_ROUTES.ABOUT}>
         <a className="App-link" title="go to about page">
           about page
         </a>

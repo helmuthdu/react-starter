@@ -1,5 +1,6 @@
 import { push } from 'connected-react-router';
-import React, { Component, HTMLAttributes } from 'react';
+import * as React from 'react';
+import { Component, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { AppState } from '../../../../app';

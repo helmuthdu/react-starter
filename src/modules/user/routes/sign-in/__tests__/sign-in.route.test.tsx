@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { initialState } from '../../../stores/modules/user';
 import { Props, SignInRoute } from '../sign-in.route';

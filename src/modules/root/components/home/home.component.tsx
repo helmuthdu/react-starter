@@ -1,7 +1,7 @@
-import React from 'react';
-import { USER_ROUTES } from '../../../user/routes';
+import * as React from 'react';
+import { USER_ROUTES } from '../../../user/enums';
 import logo from '../../assets/images/logo.svg';
-import { ROOT_ROUTES } from '../../routes';
+import { ROOT_ROUTES } from '../../enums';
 
 type Props = { onImageClick: () => void; onLinkClick: (route: USER_ROUTES | ROOT_ROUTES) => void };
 

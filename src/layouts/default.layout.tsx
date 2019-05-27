@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import * as React from 'react';
+import { Fragment } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 
 import './default.layout.scss';

@@ -66,7 +66,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   );
 };
 
-const enhance = compose<React.ComponentClass<OwnProps>>(
+const enhance = compose<React.FunctionComponent<OwnProps>>(
   reduxForm({ form: 'signIn' }),
   connect<StateProps, DispatchProps, OwnProps, AppState>(
     mapStateToProps,

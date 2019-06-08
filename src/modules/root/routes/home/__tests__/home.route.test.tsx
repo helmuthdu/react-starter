@@ -1,37 +1,23 @@
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import * as React from 'react';
+import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { HomeRoute, Props } from '../home.route';
+import thunk from 'redux-thunk';
+import HomeRoute from '../home.route';
 
 describe('Route -> Home', () => {
   const initialState = { loading: { count: 1 } };
 
-  const props = {
-    actionDisableLoading: jest.fn(),
-    actionEnableLoading: jest.fn(),
-    actionToggleLoading: jest.fn(),
-    dispatch: jest.fn(),
-    isLoading: false,
-    linkTo: jest.fn(),
-    store: configureMockStore()(initialState)
-  };
+  const middlewares = [thunk];
+
+  const store = configureMockStore(middlewares)({ loading: initialState });
 
   it('should match snapshot', () => {
-    const wrapper = mount(<HomeRoute {...props} />);
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('should renders welcome message', () => {
-    const wrapper = mount(<HomeRoute {...props} />);
-    expect(wrapper.contains('Learn React')).toEqual(true);
-  });
-
-  it('should trigger linkTo method', () => {
-    const wrapper = mount(<HomeRoute {...props} />);
-    wrapper
-      .find('.App-link')
-      .at(1)
-      .simulate('click');
-    expect((wrapper.instance().props as Props).linkTo).toHaveBeenCalled();
+    const { asFragment } = render(
+      <Provider store={store}>
+        <HomeRoute />
+      </Provider>
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 });

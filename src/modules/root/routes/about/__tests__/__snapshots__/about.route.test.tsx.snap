@@ -1,14 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Route -> About should match snapshot 1`] = `
-<AboutRoute>
+<DocumentFragment>
   <section>
     <p>
       This project is created by @helmuthdu.
     </p>
     <p>
-      For any question, Im on
-       
+      For any question, Im on 
       <a
         href="mailto:helmuthdu@gmail.com"
         target="blank"
@@ -22,10 +21,9 @@ exports[`Route -> About should match snapshot 1`] = `
         href="https://github.com/helmuthdu/react-start"
         target="blank"
       >
-         
-        on this repository
+         on this repository
       </a>
     </p>
   </section>
-</AboutRoute>
+</DocumentFragment>
 `;

@@ -1,25 +1,26 @@
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import * as React from 'react';
+import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import { initialState } from '../../../stores/modules/user';
-import { Props, SignInRoute } from '../sign-in.route';
+import SignInRoute from '../sign-in.route';
 
 describe('Route -> SignIn component', () => {
-  const props: Props = {
-    actionGetUser: jest.fn(),
-    actionLogin: jest.fn(),
-    actionLogout: jest.fn(),
-    linkTo: jest.fn(),
+  const props: any = {
     name: 'john doe'
   };
 
-  const state = {
-    dispatch: jest.fn(),
-    store: configureMockStore()({ auth: initialState })
-  };
+  const middlewares = [thunk];
+
+  const store = configureMockStore(middlewares)({ user: initialState });
 
   it('should match snapshot', () => {
-    const wrapper = shallow(<SignInRoute {...props} {...state} />);
-    expect(wrapper).toMatchSnapshot();
+    const { asFragment } = render(
+      <Provider store={store}>
+        <SignInRoute {...props} />
+      </Provider>
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 });

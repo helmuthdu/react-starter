@@ -1,17 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`App router should match snapshot 1`] = `
-<Connect(ConnectedRouterWithContext)
-  history={
-    Object {
-      "location": Object {
-        "path": "/",
-      },
-    }
-  }
->
-  <AppRoutes
-    routes={Array []}
-  />
-</Connect(ConnectedRouterWithContext)>
+<DocumentFragment>
+  <div>
+    <h1>
+      You are here!
+    </h1>
+    <h2>
+      But nothing found for you #404
+    </h2>
+  </div>
+</DocumentFragment>
 `;

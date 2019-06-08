@@ -1,16 +1,25 @@
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import * as React from 'react';
-import { AppRouter } from '..';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { AppRoutes } from '..';
+import { initialState } from '../../modules/user/stores/modules/user';
 
 describe('App router', () => {
-  const history = {
-    location: {
-      path: '/'
-    }
-  };
+  const middlewares = [thunk];
+
+  const store = configureMockStore(middlewares)({ user: initialState });
 
   it('should match snapshot', () => {
-    const wrapper = shallow(<AppRouter history={history as any} routes={[]} />);
-    expect(wrapper).toMatchSnapshot();
+    const { asFragment } = render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <AppRoutes routes={[]} />
+        </MemoryRouter>
+      </Provider>
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 });

@@ -1,4 +1,4 @@
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
@@ -7,7 +7,7 @@ import { initialState } from '../../../stores/modules/user';
 import SignInRoute from '../sign-in.route';
 
 describe('Route -> SignIn component', () => {
-  const props = {
+  const props: any = {
     name: 'john doe'
   };
 
@@ -16,11 +16,11 @@ describe('Route -> SignIn component', () => {
   const store = configureMockStore(middlewares)({ user: initialState });
 
   it('should match snapshot', () => {
-    const wrapper = mount(
+    const { asFragment } = render(
       <Provider store={store}>
         <SignInRoute {...props} />
       </Provider>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 });

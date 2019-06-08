@@ -1,4 +1,4 @@
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
@@ -13,11 +13,11 @@ describe('Route -> Home', () => {
   const store = configureMockStore(middlewares)({ loading: initialState });
 
   it('should match snapshot', () => {
-    const wrapper = mount(
+    const { asFragment } = render(
       <Provider store={store}>
         <HomeRoute />
       </Provider>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 });

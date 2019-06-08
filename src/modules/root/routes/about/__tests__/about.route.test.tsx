@@ -1,10 +1,10 @@
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import * as React from 'react';
 import AboutRoute from '../about.route';
 
 describe('Route -> About', () => {
   it('should match snapshot', () => {
-    const wrapper = mount(<AboutRoute />);
-    expect(wrapper).toMatchSnapshot();
+    const { asFragment } = render(<AboutRoute />);
+    expect(asFragment()).toMatchSnapshot();
   });
 });

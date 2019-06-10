@@ -1,4 +1,4 @@
-import { shallow } from 'enzyme';
+import { fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
 import { Component } from 'react';
 
@@ -9,26 +9,30 @@ const STATUS = {
 
 class Link extends Component {
   state = {
-    class: STATUS.NORMAL
+    className: STATUS.NORMAL
   };
 
-  _onMouseEnter = () => {
-    this.setState({ class: STATUS.HOVERED });
+  handleMouseEnter = () => {
+    this.setState({ className: STATUS.HOVERED });
   };
 
-  _onMouseLeave = () => {
-    this.setState({ class: STATUS.NORMAL });
+  handleMouseLeave = () => {
+    this.setState({ className: STATUS.NORMAL });
   };
 
   render() {
+    const { to, children, onClick } = this.props;
+
     return (
       <a
-        className={this.state.class}
-        href={this.props.to || '#'}
-        onMouseEnter={this._onMouseEnter}
-        onMouseLeave={this._onMouseLeave}
-        onClick={this.props.onClick}>
-        {this.props.children}
+        data-testid="link-btn"
+        className={this.state.className}
+        href={to || '#'}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        onClick={onClick}
+      >
+        {children}
       </a>
     );
   }
@@ -36,35 +40,32 @@ class Link extends Component {
 
 describe('component -> Link', () => {
   const props = {
-    to: 'http://www.facebook.com',
-    onClick: jest.fn()
+    onClick: jest.fn(),
+    to: 'http://www.facebook.com'
   };
 
-  const wrapper = shallow(<Link {...props}>Facebook</Link>);
+  const { getByText, getByTestId, asFragment } = render(<Link {...props}>Facebook</Link>);
 
   it('should match snapshot', () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('should have text value', () => {
-    expect(wrapper.text()).toEqual('Facebook');
+    expect(getByText(/Facebook/i)).toBeInTheDocument();
   });
 
   it('should trigger onClick method', () => {
-    wrapper
-      .find('a')
-      .at(0)
-      .simulate('click');
-    expect(wrapper.instance().props.onClick).toBeCalled();
+    fireEvent.click(getByTestId('link-btn'));
+    expect(props.onClick).toHaveBeenCalled();
   });
 
   it('should change state onMouseEnter called', () => {
-    wrapper.instance()._onMouseEnter();
-    expect(wrapper.instance().state.class).toBe(STATUS.HOVERED);
+    fireEvent.mouseEnter(getByTestId('link-btn'));
+    expect(getByTestId('link-btn')).toHaveClass(STATUS.HOVERED);
   });
 
   it('should change state onMouseLeave called', () => {
-    wrapper.instance()._onMouseLeave();
-    expect(wrapper.instance().state.class).toBe(STATUS.NORMAL);
+    fireEvent.mouseLeave(getByTestId('link-btn'));
+    expect(getByTestId('link-btn')).toHaveClass(STATUS.NORMAL);
   });
 });

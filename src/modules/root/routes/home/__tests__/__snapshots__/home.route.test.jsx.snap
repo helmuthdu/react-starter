@@ -1,109 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Route -> Home should match snapshot 1`] = `
-<HomeRoute
-  actionDisableLoading={[MockFunction]}
-  actionEnableLoading={[MockFunction]}
-  actionToggleLoading={
-    [MockFunction] {
-      "calls": Array [
-        Array [],
-      ],
-      "results": Array [
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
-  }
-  dispatch={[MockFunction]}
-  isLoading={false}
-  linkTo={[MockFunction]}
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <Home
-    onImageClick={
-      [MockFunction] {
-        "calls": Array [
-          Array [],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      }
-    }
-    onLinkClick={[MockFunction]}
+<DocumentFragment>
+  <div
+    class="App"
   >
-    <div
-      className="App"
+    <header
+      class="App-header"
     >
-      <header
-        className="App-header"
-        onClick={
-          [MockFunction] {
-            "calls": Array [
-              Array [],
-            ],
-            "results": Array [
-              Object {
-                "type": "return",
-                "value": undefined,
-              },
-            ],
-          }
-        }
+      <img
+        alt="logo"
+        class="App-logo"
+        src="logo.svg"
+      />
+      <p>
+        Edit 
+        <code>
+          src/App.js
+        </code>
+         and save to reload.
+      </p>
+      <a
+        class="App-link"
+        href="https://reactjs.org"
+        rel="noopener noreferrer"
+        target="_blank"
       >
-        <img
-          alt="logo"
-          className="App-logo"
-          src="logo.svg"
-        />
-        <p>
-          Edit 
-          <code>
-            src/App.js
-          </code>
-           and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Learn React
-        </a>
-        Navigate to
-        <div
-          className="App-link"
-          onClick={[Function]}
-          title="go to about page"
-        >
-          about page
-        </div>
-        or to
-        <div
-          className="App-link"
-          onClick={[Function]}
-          title="go to sign-in page"
-        >
-          sign-in page
-        </div>
-      </header>
-    </div>
-  </Home>
-</HomeRoute>
+        Learn React
+      </a>
+      Navigate to
+      <div
+        class="App-link"
+        title="go to about page"
+      >
+        about page
+      </div>
+      or to
+      <div
+        class="App-link"
+        title="go to sign-in page"
+      >
+        sign-in page
+      </div>
+    </header>
+  </div>
+</DocumentFragment>
 `;

@@ -1,57 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Route -> SignIn should match snapshot 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "store": Object {
-        "clearActions": [Function],
-        "dispatch": [Function],
-        "getActions": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-      },
-      "subscription": Subscription {
-        "handleChangeWrapper": [Function],
-        "listeners": Object {
-          "clear": [Function],
-          "get": [Function],
-          "notify": [Function],
-          "subscribe": [Function],
-        },
-        "onStateChange": [Function],
-        "parentSub": undefined,
-        "store": Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        },
-        "unsubscribe": [Function],
-      },
-    }
-  }
->
-  <ReduxForm
-    destroyOnUnmount={true}
-    enableReinitialize={false}
-    forceUnregisterOnUnmount={false}
-    form="signIn"
-    getFormState={[Function]}
-    keepDirtyOnReinitialize={false}
-    persistentSubmitErrors={false}
-    pure={true}
-    shouldAsyncValidate={[Function]}
-    shouldError={[Function]}
-    shouldValidate={[Function]}
-    shouldWarn={[Function]}
-    submitAsSideEffect={false}
-    touchOnBlur={true}
-    touchOnChange={false}
-    updateUnregisteredFields={false}
-  />
-</ContextProvider>
+exports[`Route -> SignIn component should match snapshot 1`] = `
+<DocumentFragment>
+  <form>
+    <input
+      name="username"
+      placeholder="Username"
+      required=""
+      type="text"
+      value=""
+    />
+    <input
+      name="password"
+      placeholder="Password"
+      required=""
+      type="password"
+      value=""
+    />
+    <button
+      type="submit"
+    >
+      Login
+    </button>
+    <p>
+      current user: 
+    </p>
+  </form>
+</DocumentFragment>
 `;

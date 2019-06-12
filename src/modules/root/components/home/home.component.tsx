@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import * as React from 'react';
-import { USER_ROUTES } from '../../../user/enums';
-import { ROOT_ROUTES } from '../../enums';
+import { USER_ROUTES } from '../../../user/routes/paths';
+import { ROOT_ROUTES } from '../../routes/paths';
 
 type Props = { onImageClick: () => void };
 

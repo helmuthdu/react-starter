@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AboutRoute from '../../modules/root/routes/about';
+import AboutRoute from '../../modules/root/routes/about/about.route';
 
 const Page = () => <AboutRoute />;
 

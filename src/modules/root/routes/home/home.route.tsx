@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Component, ErrorInfo, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
+import DefaultLayout from '../../../../layouts/default/default.layout';
 import { AppState } from '../../../../pages/_app';
 import { loading } from '../../../../stores/modules';
 import { Home } from '../../components/home/home.component';
@@ -37,7 +38,11 @@ class HomeRoute extends Component<Props, State> {
   }
 
   public render() {
-    return <Home onImageClick={this.props.actionToggleLoading} />;
+    return (
+      <DefaultLayout>
+        <Home onImageClick={this.props.actionToggleLoading} />
+      </DefaultLayout>
+    );
   }
 }
 

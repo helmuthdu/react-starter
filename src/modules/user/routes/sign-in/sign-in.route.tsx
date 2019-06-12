@@ -8,6 +8,7 @@ import { createSearchInputFromObservable } from '../../../../helpers';
 import { AppState } from '../../../../pages/_app';
 import { SignIn } from '../../components/sign-in/sign-in.component';
 import { user } from '../../stores';
+import { DefaultLayout } from '../../layouts/default/default.layout';
 
 type StateProps = Readonly<{
   name: string;
@@ -37,12 +38,14 @@ class SignInRoute extends Component<Props, State> {
 
   public render() {
     return (
-      <SignIn
-        onSubmit={e => e.preventDefault()}
-        onChange={this.handleChange}
-        onClick={this.handleClick}
-        name={this.props.name}
-      />
+      <DefaultLayout>
+        <SignIn
+          onSubmit={e => e.preventDefault()}
+          onChange={this.handleChange}
+          onClick={this.handleClick}
+          name={this.props.name}
+        />
+      </DefaultLayout>
     );
   }
 

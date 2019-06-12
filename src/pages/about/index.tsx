@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { AboutRoute } from '../../modules/root/routes';
+import AboutRoute from '../../modules/root/routes/about';
 
-const route = () => <AboutRoute />;
+const Page = () => <AboutRoute />;
 
-export default route;
+export default Page;

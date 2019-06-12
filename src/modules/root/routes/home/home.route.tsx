@@ -21,7 +21,7 @@ export type Props = StateProps & DispatchProps & OwnProps;
 
 type State = Readonly<{ error: Error }>;
 
-export class HomeRoute extends Component<Props, State> {
+class HomeRoute extends Component<Props, State> {
   public componentDidMount() {
     this.props.actionToggleLoading();
 

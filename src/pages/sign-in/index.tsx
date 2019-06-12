@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { SignInRoute } from '../../modules/user/routes';
+import SignInRoute from '../../modules/user/routes/sign-in';
 
-const route = () => <SignInRoute />;
+const Page = () => <SignInRoute />;
 
-export default route;
+export default Page;

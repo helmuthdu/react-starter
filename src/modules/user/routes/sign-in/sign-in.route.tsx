@@ -23,7 +23,7 @@ type State = Readonly<{
   username$: Subject<string>;
 }>;
 
-export class SignInRoute extends Component<Props, State> {
+class SignInRoute extends Component<Props, State> {
   public state: State = {
     username$: new Subject<string>()
   };

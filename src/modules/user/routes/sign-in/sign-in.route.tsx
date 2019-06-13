@@ -1,14 +1,12 @@
 import { push } from 'connected-react-router';
-import * as React from 'react';
-import { Component, HTMLAttributes } from 'react';
+import React, { Component, HTMLAttributes, SyntheticEvent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
+import { Subject } from 'rxjs';
 import { AppState } from '../../../../app';
 import { createSearchInputFromObservable } from '../../../../helpers';
 import { SignIn } from '../../components/sign-in/sign-in.component';
 import { user } from '../../stores';
-import { reduxForm } from 'redux-form';
-import { Subject } from 'rxjs';
 
 type StateProps = Readonly<{
   name: string;
@@ -41,7 +39,7 @@ export class SignInRoute extends Component<Props, State> {
   public render() {
     return (
       <SignIn
-        onSubmit={e => e.preventDefault()}
+        onSubmit={values => console.log(values)}
         onChange={this.handleChange}
         onClick={this.handleClick}
         name={this.props.name}
@@ -53,7 +51,9 @@ export class SignInRoute extends Component<Props, State> {
     evt.preventDefault();
   };
 
-  private handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  private handleChange = (evt: SyntheticEvent) => {
+    evt.preventDefault();
+    // @ts-ignore
     this.state.username$.next(evt.currentTarget.value);
   };
 }
@@ -71,7 +71,6 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
 };
 
 const enhance = compose<React.FunctionComponent<OwnProps>>(
-  reduxForm({ form: 'signIn' }),
   connect<StateProps, DispatchProps, OwnProps, AppState>(
     mapStateToProps,
     mapDispatchToProps

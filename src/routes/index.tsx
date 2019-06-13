@@ -1,7 +1,6 @@
 import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history';
-import * as React from 'react';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 

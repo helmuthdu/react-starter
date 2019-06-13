@@ -1,6 +1,5 @@
 import * as Sentry from '@sentry/browser';
-import * as React from 'react';
-import { Component, ErrorInfo, HTMLAttributes } from 'react';
+import React, { Component, ErrorInfo, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import DefaultLayout from '../../../../layouts/default/default.layout';

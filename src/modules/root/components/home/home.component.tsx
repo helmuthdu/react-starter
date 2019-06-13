@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import * as React from 'react';
+import React from 'react';
 import { USER_ROUTES } from '../../../user/routes/paths';
 import { ROOT_ROUTES } from '../../routes/paths';
 

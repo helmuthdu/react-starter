@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import HomeRoute from '../modules/root/routes/home/home.route';
 
 const Page = () => <HomeRoute />;

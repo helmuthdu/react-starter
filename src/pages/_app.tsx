@@ -1,5 +1,5 @@
 import App, { Container } from 'next/app';
-import * as React from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 // modules
 import { stores, State } from '../modules';

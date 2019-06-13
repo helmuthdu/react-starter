@@ -2,7 +2,6 @@ import { applyMiddleware, combineReducers, compose, createStore, Store } from 'r
 import createSagaMiddleware from 'redux-saga';
 import { all, spawn } from 'redux-saga/effects';
 import thunkMiddleware from 'redux-thunk';
-import { reducer as formReducer } from 'redux-form';
 
 declare const window: Window & {
   __PRELOADED_STATE__: object;
@@ -47,7 +46,6 @@ export default (stores: { name: string; sagas?: any; reducer?: object }[] = []) 
 
   const rootReducer = () =>
     combineReducers({
-      form: formReducer,
       ...stores.filter(str => str.reducer).reduce((acc, str) => ({ ...acc, [str.name]: str.reducer }), {})
     });
 

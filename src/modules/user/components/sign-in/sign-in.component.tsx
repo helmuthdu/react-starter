@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { SyntheticEvent, MouseEvent } from 'react';
-import * as Yup from 'yup';
+import Yup, { Schema } from 'yup';
 
 type FormValues = {
   email: string;
@@ -14,7 +14,7 @@ type Props = {
   name: string;
 };
 
-const formValidation: Yup.Schema<FormValues> = Yup.object().shape({
+const formValidation: Schema<FormValues> = Yup.object().shape({
   email: Yup.string()
     .required('Email is required')
     .email('Invalid email address'),

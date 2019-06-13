@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { lazy } from 'react';
-import DefaultLayoutRoute from '../../../layouts/default.layout';
-import { ROOT_ROUTES } from '../enums';
+import DefaultLayoutRoute from '../../../layouts/default/default.layout';
+import { ROOT_ROUTES } from './paths';
 
 const HomeRoute = lazy(() => import('./home/home.route'));
 const AboutRoute = lazy(() => import('./about/about.route'));

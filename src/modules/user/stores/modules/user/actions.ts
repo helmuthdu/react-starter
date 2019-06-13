@@ -25,6 +25,7 @@ export const actionLogin = (payload: UserRequest) => async (dispatch: Dispatch<A
       isLogged: true
     }
   });
+
 export const actionLogout = () => (dispatch: Dispatch<Action>) =>
   dispatch({
     type: ActionTypes.USER_SET_USER,

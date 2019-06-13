@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { lazy } from 'react';
-import { USER_ROUTES } from '../enums';
-import DefaultLayoutRoute from '../layouts/default.layout';
+import { USER_ROUTES } from './paths';
+import DefaultLayoutRoute from '../layouts/default/default.layout';
 
 const SignInRoute = lazy(() => import('./sign-in/sign-in.route'));
 

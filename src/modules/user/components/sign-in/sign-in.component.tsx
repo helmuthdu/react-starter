@@ -1,6 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { SyntheticEvent, MouseEvent } from 'react';
-import Yup, { Schema } from 'yup';
+import { Schema } from 'yup';
+import * as Yup from 'yup';
 
 type FormValues = {
   email: string;

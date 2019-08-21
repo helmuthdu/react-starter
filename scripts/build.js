@@ -3,7 +3,7 @@ const { resolve } = require('path');
 const glob = require('glob');
 
 const defaultMessages = glob
-  .sync('./locale/.messages/**/*.json')
+  .sync('./locales/.messages/**/*.json')
   .map(filename => readFileSync(filename, 'utf8'))
   .map(file => JSON.parse(file))
   .reduce((messages, descriptors) => {
@@ -16,5 +16,5 @@ const defaultMessages = glob
     return messages;
   }, {});
 
-writeFileSync('./locale/en.json', JSON.stringify(defaultMessages, null, 2));
-console.log(`> Wrote default messages to: "${resolve('./locale/en.json')}"`);
+writeFileSync('./locales/en.json', JSON.stringify(defaultMessages, null, 2));
+console.log(`> Wrote default messages to: "${resolve('./locales/en.json')}"`);

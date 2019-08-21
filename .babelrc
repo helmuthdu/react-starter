@@ -9,7 +9,7 @@
     "production": {
       "plugins": [
         ["react-intl", {
-          "messagesDir": "lang/.messages/"
+          "messagesDir": "locales/.messages/"
         }]
       ]
     }

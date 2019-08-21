@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Route -> SignIn component should match snapshot 1`] = `
+exports[`user/pages -> SignIn should match snapshot 1`] = `
 <DocumentFragment>
   <form>
     <input

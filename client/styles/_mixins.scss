@@ -1,0 +1,53 @@
+@mixin font($filename, $localNames) {
+  src: $localNames, url('/static/assets/fonts/' + $filename + '.woff2') format('woff2'),
+    url('/static/assets/fonts/' + $filename + '.woff') format('woff'),
+    url('/static/assets/fonts/' + $filename + '.ttf') format('truetype');
+}
+
+@mixin fullhd {
+  @media screen and (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+@mixin widescreen {
+  @media screen and (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media only screen and (min-device-width: 360px) and (orientation: portrait) {
+    @content;
+  }
+}
+
+@mixin iphone8 {
+  @media only screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) {
+    @content;
+  }
+}
+
+@mixin iphone8Plus {
+  @media only screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) {
+    @content;
+  }
+}
+
+@mixin iphoneX {
+  @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    @content;
+  }
+}

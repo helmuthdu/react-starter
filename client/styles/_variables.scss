@@ -1,0 +1,27 @@
+// Colors
+
+
+//Font family
+$font-weight-light: 300 !default;
+$font-weight-regular: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-demi: 600 !default;
+$font-weight-bold: 700 !default;
+
+//Font sizes
+$font-base: 16px;
+
+$font-xs: $font-base * 0.75;
+$font-sm: $font-base * 0.875;
+$font-md: $font-base;
+$font-lg: $font-base * 1.125;
+$font-xl: $font-base * 1.5;
+$font-xxl: $font-base * 1.875;
+$font-xxxl: $font-base * 2.5;
+
+// Screen sizes
+$breakpoint-xs: 0px;
+$breakpoint-sm: 600px;
+$breakpoint-md: 960px;
+$breakpoint-lg: 1280px;
+$breakpoint-xl: 1920px;

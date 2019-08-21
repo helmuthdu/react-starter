@@ -17,7 +17,7 @@ addDecorator(
 );
 
 // Stories loader
-const req = require.context('../src', true, /.stories.[jt]sx?$/);
+const req = require.context('../client', true, /.stories.[jt]sx?$/);
 function loadStories() {
   req.keys().forEach(req);
 }

@@ -1,10 +1,9 @@
 import { push } from 'connected-react-router';
 import PropTypes from 'prop-types';
-import * as React from 'react';
+import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { reduxForm } from 'redux-form';
 import { Subject } from 'rxjs';
 import { createSearchInputFromObservable } from '../../../../helpers/search.helper';
 import { SignIn } from '../../components/sign-in/sign-in.component';
@@ -12,25 +11,35 @@ import { user } from '../../stores';
 
 export class SignInRoute extends Component {
   state = {
-    inputValue$: new Subject()
+    username$: new Subject()
   };
 
   componentDidMount() {
     this.props.actionGetUser();
-    createSearchInputFromObservable(this.state.inputValue$, {}).subscribe(value => {
-      console.log(value);
+    createSearchInputFromObservable(this.state.username$, {}).subscribe((value: any) => {
+      console.log('ON_CHANGE_WITH_OBSERVABLE: ', value);
     });
   }
 
   render() {
-    return <SignIn name={this.props.name} onChange={this._handleChange} onSubmit={this._handleSubmit} />;
+    return (
+      <SignIn
+        onSubmit={values => console.log(values)}
+        onChange={this._handleChange}
+        onClick={this._handleClick}
+        name={this.props.name}
+      />
+    );
   }
 
-  _handleChange = evt => {
-    this.state.inputValue$.next(evt.currentTarget.value);
+  _handleClick = evt => {
+    evt.preventDefault();
   };
 
-  _handleSubmit = evt => evt.preventDefault();
+  _handleChange = evt => {
+    evt.preventDefault();
+    this.state.username$.next(evt.currentTarget.value);
+  };
 }
 
 SignInRoute.propTypes = {
@@ -53,7 +62,6 @@ const mapDispatchToProps = dispatch =>
   );
 
 const enhance = compose(
-  reduxForm({ form: 'signIn' }),
   connect(
     mapStateToProps,
     mapDispatchToProps

@@ -1,14 +1,47 @@
 import PropTypes from 'prop-types';
-import * as React from 'react';
-import { Field } from 'redux-form';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import React from 'react';
+import * as Yup from 'yup';
+
+const formValidation = Yup.object().shape({
+  email: Yup.string()
+    .required('Email is required')
+    .email('Invalid email address'),
+  password: Yup.string().required('Password is required')
+});
 
 export const SignIn = props => (
-  <form onSubmit={props.onSubmit}>
-    <Field component="input" type="text" placeholder="Username" name="username" required onChange={props.onChange} />
-    <Field component="input" type="password" placeholder="Password" name="password" required />
-    <button type="submit">Login</button>
-    <p>current user: {props.name}</p>
-  </form>
+  <Formik
+    initialValues={{ email: '', password: '' }}
+    validationSchema={formValidation}
+    onSubmit={(values, { setSubmitting }) => {
+      setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        setSubmitting(false);
+      }, 400);
+      props.onSubmit(values);
+    }}
+  >
+    {({ isSubmitting, handleChange }) => (
+      <Form>
+        <Field
+          type="email"
+          name="email"
+          onChange={evt => {
+            props.onChange(evt);
+            handleChange(evt);
+          }}
+        />
+        <ErrorMessage name="email" component="div" />
+        <Field type="password" name="password" />
+        <ErrorMessage name="password" component="div" />
+        <button type="submit" disabled={isSubmitting} onClick={props.onClick}>
+          Submit
+        </button>
+        <p>current user: {props.name}</p>
+      </Form>
+    )}
+  </Formik>
 );
 
 SignIn.propTypes = {

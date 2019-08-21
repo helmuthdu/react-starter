@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import { push } from 'connected-react-router';
 import PropTypes from 'prop-types';
-import * as React from 'react';
+import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';

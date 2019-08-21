@@ -1,5 +1,5 @@
 // import * as Sentry from '@sentry/browser';
-import * as React from 'react';
+import React from 'react';
 import { render, hydrate } from 'react-dom';
 import App from './app';
 import * as serviceWorker from './serviceWorker';

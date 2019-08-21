@@ -1,16 +1,14 @@
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
 import configureMockStore, { MockStore } from 'redux-mock-store';
 import { actions, ActionTypes, State } from '..';
 
 describe('auth/store -> actions', () => {
   let store: MockStore;
-  let httpMock: MockAdapter;
 
-  const flushAllPromises = () => new Promise(resolve => setImmediate(resolve));
+  const wait = () => new Promise(resolve => setImmediate(resolve));
 
   beforeEach(() => {
-    httpMock = new MockAdapter(axios);
+    // @ts-ignore
+    fetch.resetMocks();
     const mockStore = configureMockStore();
     store = mockStore({});
   });
@@ -24,12 +22,15 @@ describe('auth/store -> actions', () => {
       token: '123456'
     };
 
-    httpMock.onPost('https://httpstat.us/200').reply(200, response);
+    // @ts-ignore
+    fetch.mockResponse(JSON.stringify(response));
 
     actions.actionLogin({ email: 'johndoe@mail.com', password: 'secret' })(store.dispatch);
 
-    await flushAllPromises();
+    await wait();
 
+    // @ts-ignore
+    expect(fetch.mock.calls.length).toEqual(1);
     expect(store.getActions()).toEqual([
       {
         type: ActionTypes.USER_SET_USER,

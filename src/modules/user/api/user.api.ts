@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { Http } from '../../../helpers/api.helper';
 import { State } from '../stores/modules/user';
 
 export interface UserRequest {
@@ -19,11 +19,7 @@ const get = (): Promise<State> =>
     }, 1000);
   });
 
-const post = (payload: UserRequest) =>
-  axios.post(`https://httpstat.us/200`, {
-    username: payload.email,
-    password: payload.password
-  });
+const post = (payload: UserRequest) => Http.post({ url: '/users' });
 
 export const userApi = {
   get,

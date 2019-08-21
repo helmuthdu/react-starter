@@ -1,5 +1,6 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
+import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { routes, State, stores } from './modules';
 import AppRouter from './routes';
@@ -11,9 +12,11 @@ const { store, history } = createStore([...rootStores, ...stores]);
 export type AppState = State & RootState;
 
 const App = () => (
-  <Provider store={store}>
-    <AppRouter history={history} routes={routes} />
-  </Provider>
+  <IntlProvider locale="en">
+    <Provider store={store}>
+      <AppRouter history={history} routes={routes} />
+    </Provider>
+  </IntlProvider>
 );
 
 export default process.env.NODE_ENV === 'development' ? hot(module)(App) : App;

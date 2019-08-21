@@ -1,8 +1,5 @@
 module.exports = {
-  setupFiles: ['react-app-polyfill/jsdom'],
-  setupFilesAfterEnv: ['@testing-library/react/cleanup-after-each', '@testing-library/jest-dom/extend-expect'],
   testMatch: ['<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}', '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}'],
-  testEnvironment: 'jest-environment-jsdom-fourteen',
   coverageDirectory: '<rootDir>/.coverage',
   collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.story.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
   moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],

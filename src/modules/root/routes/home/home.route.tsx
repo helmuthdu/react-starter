@@ -6,6 +6,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux';
 import { AppState } from '../../../../app';
 import { loading } from '../../../../stores/modules';
 import { Home } from '../../components/home/home.component';
+
 import './home.route.scss';
 
 type StateProps = Readonly<{
@@ -55,7 +56,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
     dispatch
   );
 
-const enhance = compose<React.FunctionComponent<OwnProps>>(
+const enhance = compose(
   connect<StateProps, DispatchProps, OwnProps, AppState>(
     mapStateToProps,
     mapDispatchToProps

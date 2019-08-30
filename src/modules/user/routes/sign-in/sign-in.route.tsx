@@ -70,7 +70,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   );
 };
 
-const enhance = compose<React.FunctionComponent<OwnProps>>(
+const enhance = compose(
   connect<StateProps, DispatchProps, OwnProps, AppState>(
     mapStateToProps,
     mapDispatchToProps

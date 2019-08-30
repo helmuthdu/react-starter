@@ -1,4 +1,4 @@
-import App, { Container } from 'next/app';
+import App from 'next/app';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
@@ -32,13 +32,11 @@ export default class extends App {
     const { Component, pageProps, locale, messages } = this.props;
 
     return (
-      <Container>
-        <IntlProvider locale={locale} messages={messages}>
-          <Provider store={createStore([...rootStores.stores, ...stores])}>
-            <Component {...pageProps} />
-          </Provider>
-        </IntlProvider>
-      </Container>
+      <IntlProvider locale={locale} messages={messages}>
+        <Provider store={createStore([...rootStores.stores, ...stores])}>
+          <Component {...pageProps} />
+        </Provider>
+      </IntlProvider>
     );
   }
 }

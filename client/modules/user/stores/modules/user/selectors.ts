@@ -1,4 +1,4 @@
-import { AppState } from '../../../../../pages/_app';
+import { AppState } from '../../../../../stores';
 import { State } from './state';
 
 export interface Selectors {

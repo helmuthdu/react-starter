@@ -1,9 +1,9 @@
-import React, { Component, HTMLAttributes, SyntheticEvent } from 'react';
+import React, { Component, HTMLAttributes, MouseEvent, SyntheticEvent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { Subject } from 'rxjs';
 import { createSearchInputFromObservable } from '../../../../helpers';
-import { AppState } from '../../../../pages/_app';
+import { AppState } from '../../../../stores';
 import { SignIn } from '../../components/sign-in/sign-in.component';
 import { DefaultLayout } from '../../layouts/default/default.layout';
 import { user } from '../../stores';
@@ -47,13 +47,12 @@ class SignInPage extends Component<Props, State> {
     );
   }
 
-  private handleClick = (evt: React.MouseEvent) => {
+  private handleClick = (evt: MouseEvent) => {
     evt.preventDefault();
   };
 
-  private handleChange = (evt: SyntheticEvent) => {
+  private handleChange = (evt: SyntheticEvent<HTMLInputElement>) => {
     evt.preventDefault();
-    // @ts-ignore
     this.state.username$.next(evt.currentTarget.value);
   };
 }

@@ -3,19 +3,18 @@ import createSagaMiddleware from 'redux-saga';
 import { all, spawn } from 'redux-saga/effects';
 import thunkMiddleware from 'redux-thunk';
 
-declare const window: Window & {
-  __PRELOADED_STATE__: object;
-  __REDUX_DEVTOOLS_EXTENSION__: object;
-};
+import { State, stores as modulesStores } from '../modules';
+import * as rootStores from './modules';
 
+export type AppState = State & rootStores.State;
 export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
 
 type StoreInstance = Store;
 
 let storeInstance: StoreInstance;
+const stores: { name: string; sagas?: any; reducer?: object }[] = [...rootStores.stores, ...modulesStores];
 
-// eslint-disable-next-line
-export default (stores: { name: string; sagas?: any; reducer?: object }[] = []) => {
+export default () => {
   if (storeInstance) {
     return storeInstance;
   }

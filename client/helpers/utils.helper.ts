@@ -16,9 +16,8 @@ export const get = <T, K extends keyof T>(obj: T, path: K | string, defaultValue
 
 export const groupBy = <T, K extends keyof T>(list: T | T[], key: K): DictionaryArray<T> =>
   (Array.isArray(list) ? list : Object.values(list)).reduce(
-    (acc: DictionaryArray<T>, val: T, idx: number, arr: T | T[], k = val[key]) => {
+    (acc: DictionaryArray<T> | T[], val: T, idx: number, arr: T | T[], k = val[key]) => {
       if (!k) return acc;
-      // @ts-ignore
       acc[k] = acc[k] || [];
       acc[k].push(val);
       return acc;

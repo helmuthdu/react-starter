@@ -37,4 +37,6 @@ type DictionaryArray<T> = { [key: string]: [T] };
 
 interface Window {
   __NEXT_DATA__: any;
+  __PRELOADED_STATE__: object;
+  __REDUX_DEVTOOLS_EXTENSION__: object;
 }

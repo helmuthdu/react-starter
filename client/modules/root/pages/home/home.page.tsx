@@ -3,7 +3,7 @@ import React, { Component, ErrorInfo, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import DefaultLayout from '../../../../layouts/default/default.layout';
-import { AppState } from '../../../../pages/_app';
+import { AppState } from '../../../../stores';
 import { loading } from '../../../../stores/modules';
 import { Home } from '../../components/home/home';
 

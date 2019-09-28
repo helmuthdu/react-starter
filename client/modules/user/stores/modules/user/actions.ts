@@ -11,7 +11,7 @@ export interface Actions {
 
 export const actionGetUser = () => async (dispatch: Dispatch<Action>) =>
   dispatch({
-    type: ActionTypes.USER_SET_USER,
+    type: ActionTypes.USER_GET_USER,
     payload: {
       ...(await userApi.get())
     }
@@ -25,6 +25,7 @@ export const actionLogin = (payload: UserRequest) => async (dispatch: Dispatch<A
       isLogged: true
     }
   });
+
 export const actionLogout = () => (dispatch: Dispatch<Action>) =>
   dispatch({
     type: ActionTypes.USER_SET_USER,

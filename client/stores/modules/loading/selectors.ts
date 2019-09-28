@@ -1,4 +1,4 @@
-import { AppState } from '../../../pages/_app';
+import { AppState } from '../../../stores';
 
 export interface Selectors {
   isLoading: (state: AppState) => boolean;

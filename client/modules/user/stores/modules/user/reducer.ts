@@ -8,7 +8,6 @@ export type Action = Readonly<{
   payload: Payload;
 }>;
 
-// Reducer
 export const reducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case ActionTypes.USER_SET_USER:

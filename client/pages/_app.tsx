@@ -4,11 +4,7 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 
-import { State, stores } from '../modules';
 import createStore from '../stores';
-import * as rootStores from '../stores/modules';
-
-export type AppState = State & rootStores.State;
 
 class Applet extends App {
   public static async getInitialProps({ Component, router, ctx }: any) {
@@ -38,4 +34,4 @@ class Applet extends App {
     );
   }
 }
-export default withRedux(() => createStore([...rootStores.stores, ...stores]))(Applet);
+export default withRedux(createStore)(Applet);

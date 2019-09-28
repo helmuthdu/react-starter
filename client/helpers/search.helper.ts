@@ -13,9 +13,9 @@ interface InputObservableOptions {
  * @param options
  * @return Observable<string>
  */
-export const createSearchInputFromObservable = (
+export const searchInputObservable = (
   subject: Subject<string>,
-  options: InputObservableOptions
+  options: InputObservableOptions = {}
 ): Observable<string> => {
   const { time = 400, scheduler, minLength = 3 } = options;
   return subject.pipe(

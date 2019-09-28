@@ -1,6 +1,5 @@
 :global {
-  /*! minireset.css v0.0.4 | MIT License | github.com/jgthms/minireset.css */
-  // Blocks
+  /*! minireset.css v0.0.5 | MIT License | github.com/jgthms/minireset.css */
   html,
   body,
   p,
@@ -28,7 +27,6 @@
     padding: 0;
   }
 
-  // Headings
   h1,
   h2,
   h3,
@@ -39,12 +37,10 @@
     font-weight: normal;
   }
 
-  // List
   ul {
     list-style: none;
   }
 
-  // Form
   button,
   input,
   select,
@@ -52,50 +48,26 @@
     margin: 0;
   }
 
-  input[type='number'] {
-    -moz-appearance: textfield;
-  }
-
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 0;
-  }
-
-  // Box sizing
   html {
     box-sizing: border-box;
   }
 
-  * {
-    &,
-    &::before,
-    &::after {
-      box-sizing: inherit;
-    }
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
   }
 
-  // Media
-  embed,
-  iframe,
-  object,
+  img,
   video {
     height: auto;
     max-width: 100%;
   }
 
-  audio {
-    max-width: 100%;
-  }
-
-  // Iframe
   iframe {
     border: 0;
   }
 
-  // Table
   table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -104,13 +76,6 @@
   td,
   th {
     padding: 0;
-    &:not([align]) {
-      text-align: left;
-    }
-  }
-  a:-webkit-any-link {
-    color: inherit;
-    cursor: pointer;
-    text-decoration: none;
+    text-align: left;
   }
 }

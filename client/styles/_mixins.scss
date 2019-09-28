@@ -5,25 +5,25 @@
 }
 
 @mixin fullhd {
-  @media screen and (min-width: $breakpoint-xl) {
+  @media screen and (min-width: 1920px) {
     @content;
   }
 }
 
 @mixin widescreen {
-  @media screen and (min-width: $breakpoint-lg) {
+  @media screen and (min-width: 1280px) {
     @content;
   }
 }
 
 @mixin desktop {
-  @media screen and (min-width: $breakpoint-md) {
+  @media screen and (min-width: 960px) {
     @content;
   }
 }
 
 @mixin tablet {
-  @media screen and (min-width: $breakpoint-sm) {
+  @media screen and (min-width: 600px) {
     @content;
   }
 }

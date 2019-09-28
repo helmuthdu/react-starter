@@ -1,0 +1,16 @@
+{
+  "delay": 0,
+  "ignore": [
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    ".git",
+    "node_modules",
+    "client"
+  ],
+  "watch": [
+    "locales",
+    "server"
+  ],
+  "exec": "npm start",
+  "ext": "ts"
+}

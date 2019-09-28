@@ -7,11 +7,12 @@ export default class IntlDocument extends Document<any> {
   static async getInitialProps(context: any) {
     const props = await super.getInitialProps(context);
     const {
-      req: { locale }
+      req: { locale, localeDataScript }
     } = context;
     return {
       ...props,
-      locale
+      locale,
+      localeDataScript
     };
   }
 
@@ -24,6 +25,11 @@ export default class IntlDocument extends Document<any> {
         </Head>
         <body>
           <Main />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: this.props.localeDataScript
+            }}
+          />
           <NextScript />
         </body>
       </html>

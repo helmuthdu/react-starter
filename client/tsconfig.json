@@ -22,5 +22,5 @@
     }
   },
   "exclude": ["node_modules", "jest", "cypress"],
-  "include": ["typings.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

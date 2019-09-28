@@ -12,6 +12,6 @@
     }
   },
   "exclude": ["node_modules", "jest"],
-  "include": ["typings.ts", "**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts"],
   "files": ["src/index.ts"]
 }

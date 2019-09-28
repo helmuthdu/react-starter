@@ -5,17 +5,15 @@ import * as cors from 'cors';
 import * as errorHandler from 'errorhandler';
 import * as express from 'express';
 import { NextFunction, Request, Response } from 'express';
+import { readFileSync } from 'fs';
 import * as glob from 'glob';
 import * as helmet from 'helmet';
 import * as http from 'http';
 import * as methodOverride from 'method-override';
-import * as morgan from 'morgan';
 import { UrlLike } from 'next-server/router';
 import * as path from 'path';
-import { readFileSync } from 'fs';
 
 import { ApiRoutes } from './routes';
-import { logger } from './services';
 
 type RequestHandler = (req: http.IncomingMessage, res: http.ServerResponse, parsedUrl?: UrlLike) => Promise<void>;
 
@@ -98,20 +96,8 @@ export class Server {
    * @method config
    */
   public config() {
-    // add static paths
-    this.server.use(express.static(path.join(__dirname, 'public')));
-
-    // mount logger
-    this.server.use(
-      morgan('tiny', {
-        stream: {
-          write: (message: string) => logger.info(message.trim())
-        }
-      } as morgan.Options)
-    );
-
     // mount json form parser
-    this.server.use(bodyParser.json({ limit: '50mb' }));
+    this.server.use(bodyParser.json({ limit: '2000kb' }));
 
     // mount query string parser
     this.server.use(

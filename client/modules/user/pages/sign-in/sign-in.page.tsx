@@ -2,7 +2,7 @@ import React, { Component, HTMLAttributes, MouseEvent, SyntheticEvent } from 're
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { Subject } from 'rxjs';
-import { searchInputObservable } from '../../../../helpers';
+import { searchInputObservable } from '../../../../utils';
 import { AppState } from '../../../../stores';
 import { SignIn } from '../../components/sign-in/sign-in.component';
 import { DefaultLayout } from '../../layouts/default/default.layout';

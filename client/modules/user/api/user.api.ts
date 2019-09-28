@@ -1,5 +1,5 @@
+import { Http } from '@/utils';
 import { State } from '../stores/modules/user';
-import fetch from 'isomorphic-unfetch';
 
 export interface UserRequest {
   email: string;
@@ -20,11 +20,8 @@ const get = (): Promise<State> =>
   });
 
 const post = (payload: UserRequest): Promise<State> =>
-  fetch(`https://httpstat.us/200`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+  Http.post({
+    url: `https://httpstat.us/200`,
     body: JSON.stringify({
       username: payload.email,
       password: payload.password

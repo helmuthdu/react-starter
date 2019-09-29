@@ -1,0 +1,6 @@
+# docker-compose.yml
+version: "3"
+services:
+  app:
+    env_file: .env.local
+    command: npm run dev

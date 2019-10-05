@@ -9,31 +9,13 @@ import nextjs from './nextjs';
 
 import { ApiRoutes } from './routes';
 
-/**
- * The server.
- *
- * @class Server
- */
 export class Server {
-  /**
-   * Bootstrap the application.
-   *
-   * @class Server
-   * @method bootstrap
-   * @static
-   */
   public static bootstrap(): Server {
     return new Server();
   }
 
   public server: express.Application;
 
-  /**
-   * Constructor.
-   *
-   * @class Server
-   * @constructor
-   */
   constructor() {
     this.server = express();
 

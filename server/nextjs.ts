@@ -41,7 +41,7 @@ export default () => (
   next: NextFunction
 ) => {
   const accept = accepts(req as any);
-  const locale = accept.language(accept.languages(supportedLanguages) as any) || 'en';
+  const locale = accept.language(accept.languages(supportedLanguages) as any || ['en']);
   req.locale = locale;
   req.localeDataScript = getLocaleDataScript(locale);
   req.messages = require(path.resolve(`./locales/${locale}.json`));

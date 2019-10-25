@@ -1,7 +1,6 @@
 import React from 'react';
-import { USER_ROUTES } from '../../../user/routes/paths';
+import { USER_ROUTES, ROOT_ROUTES } from '../../../routes';
 import logo from '../../assets/images/logo.svg';
-import { ROOT_ROUTES } from '../../routes/paths';
 
 type Props = { onImageClick: () => void; onLinkClick: (route: USER_ROUTES | ROOT_ROUTES) => void };
 

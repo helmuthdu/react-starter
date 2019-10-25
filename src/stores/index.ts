@@ -6,11 +6,6 @@ import createSagaMiddleware from 'redux-saga';
 import { all, spawn } from 'redux-saga/effects';
 import thunkMiddleware from 'redux-thunk';
 
-declare const window: Window & {
-  __PRELOADED_STATE__: object;
-  __REDUX_DEVTOOLS_EXTENSION__: object;
-};
-
 export const isServer = !(typeof window !== 'undefined' && window.document && window.document.createElement);
 
 type StoreInstance = Readonly<{

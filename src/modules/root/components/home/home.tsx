@@ -1,8 +1,8 @@
 import React from 'react';
-import { USER_ROUTES, ROOT_ROUTES } from '../../../routes';
+import { USER_URL, ROOT_URL } from '../../../urls';
 import logo from '../../assets/images/logo.svg';
 
-type Props = { onLinkClick: (route: USER_ROUTES | ROOT_ROUTES) => void };
+type Props = { onLinkClick: (route: USER_URL | ROOT_URL) => void };
 export const Home = (props: Props) => (
   <div className="App">
     <header className="App-header">
@@ -14,11 +14,11 @@ export const Home = (props: Props) => (
         Learn React
       </a>
       Navigate to
-      <div className="App-link" onClick={() => props.onLinkClick(ROOT_ROUTES.ABOUT)} title="go to about page">
+      <div className="App-link" onClick={() => props.onLinkClick(ROOT_URL.ABOUT)} title="go to about page">
         about page
       </div>
       or to
-      <div className="App-link" onClick={() => props.onLinkClick(USER_ROUTES.SIGN_IN)} title="go to sign-in page">
+      <div className="App-link" onClick={() => props.onLinkClick(USER_URL.SIGN_IN)} title="go to sign-in page">
         sign-in page
       </div>
     </header>

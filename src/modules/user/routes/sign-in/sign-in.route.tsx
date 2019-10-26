@@ -1,6 +1,6 @@
 import React, { SyntheticEvent } from 'react';
 import { Subject } from 'rxjs';
-import { SignIn } from '../../components/sign-in/sign-in.component';
+import { SignIn } from '../../components/sign-in/sign-in';
 
 export const SignInRoute = () => {
   const username$ = new Subject<string>();

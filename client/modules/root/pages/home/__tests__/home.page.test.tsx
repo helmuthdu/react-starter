@@ -8,9 +8,9 @@ import thunk from 'redux-thunk';
 describe('Route -> Home', () => {
   const initialState = { loading: { count: 1 } };
 
-  const middlewares = [thunk];
+  const middleware = [thunk];
 
-  const store = configureMockStore(middlewares)({ loading: initialState });
+  const store = configureMockStore(middleware)({ loading: initialState });
 
   it('should match snapshot', () => {
     const { asFragment } = render(

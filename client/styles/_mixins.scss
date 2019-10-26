@@ -1,9 +1,3 @@
-@mixin font($filename, $localNames) {
-  src: $localNames, url('/static/assets/fonts/' + $filename + '.woff2') format('woff2'),
-    url('/static/assets/fonts/' + $filename + '.woff') format('woff'),
-    url('/static/assets/fonts/' + $filename + '.ttf') format('truetype');
-}
-
 @mixin fullhd {
   @media screen and (min-width: 1920px) {
     @content;

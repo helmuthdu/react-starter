@@ -11,9 +11,9 @@ describe('user/pages -> SignIn', () => {
     name: 'john doe'
   };
 
-  const middlewares = [thunk];
+  const middleware = [thunk];
 
-  const store = configureMockStore(middlewares)({ user: initialState });
+  const store = configureMockStore(middleware)({ user: initialState });
 
   it('should match snapshot', () => {
     const { asFragment } = render(

@@ -6,12 +6,10 @@ exports[`user/pages -> SignIn should match snapshot 1`] = `
     <input
       name="email"
       type="email"
-      value=""
     />
     <input
       name="password"
       type="password"
-      value=""
     />
     <button
       type="submit"

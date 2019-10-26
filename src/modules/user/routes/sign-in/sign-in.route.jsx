@@ -5,7 +5,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { Subject } from 'rxjs';
-import { createSearchInputFromObservable } from '../../../../helpers/search.helper';
+import { createSearchInputFromObservable } from '../../../../utils/search.util';
 import { SignIn } from '../../components/sign-in/sign-in.component';
 import { user } from '../../stores';
 

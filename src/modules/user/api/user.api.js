@@ -1,4 +1,4 @@
-import { Http } from '../../../helpers/api.helper';
+import { Http } from '../../../utils/api.util';
 
 const get = () =>
   new Promise(resolve => {

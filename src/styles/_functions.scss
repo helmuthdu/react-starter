@@ -1,0 +1,9 @@
+@function spacing($values...) {
+  $result: null;
+
+  @each $value in $values {
+    $result: append($result, if(type-of($value) == 'number', ($value * 8) + px, $value));
+  }
+
+  @return $result;
+}

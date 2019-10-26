@@ -1,6 +1,11 @@
+import DefaultLayout from '@/layouts/default/default.layout';
 import React from 'react';
-import HomeRoute from '../modules/root/pages/home/home.page';
+import HomePage from '../modules/root/pages/home/home.page';
 
-const Page = () => <HomeRoute />;
+const Page = () => (
+  <DefaultLayout>
+    <HomePage />
+  </DefaultLayout>
+);
 
 export default Page;

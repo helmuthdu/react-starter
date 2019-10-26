@@ -1,12 +1,12 @@
-import { Http } from '@/utils';
-import { State } from '../stores/modules/user';
+import { Http } from '../../../utils/api.util';
+import { IUser } from '../models/user';
 
 export interface UserRequest {
   email: string;
   password: string;
 }
 
-const get = (): Promise<State> =>
+const get = (): Promise<IUser> =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve({
@@ -19,14 +19,7 @@ const get = (): Promise<State> =>
     }, 1000);
   });
 
-const post = (payload: UserRequest): Promise<State> =>
-  Http.post({
-    url: `https://httpstat.us/200`,
-    body: JSON.stringify({
-      username: payload.email,
-      password: payload.password
-    })
-  }).then((res: Response) => res.body as any);
+const post = (payload: UserRequest) => Http.post({ url: '/users' });
 
 export const userApi = {
   get,

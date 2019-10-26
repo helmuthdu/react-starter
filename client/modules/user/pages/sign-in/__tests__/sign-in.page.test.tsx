@@ -1,26 +1,14 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { initialState } from '../../../stores/modules/user';
 import SignInPage from '../sign-in.page';
 
-describe('user/pages -> SignIn', () => {
+describe('user/page -> SignIn component', () => {
   const props: any = {
     name: 'john doe'
   };
 
-  const middleware = [thunk];
-
-  const store = configureMockStore(middleware)({ user: initialState });
-
   it('should match snapshot', () => {
-    const { asFragment } = render(
-      <Provider store={store}>
-        <SignInPage {...props} />
-      </Provider>
-    );
+    const { asFragment } = render(<SignInPage {...props} />);
     expect(asFragment()).toMatchSnapshot();
   });
 });

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Route -> About should match snapshot 1`] = `
+exports[`home/page -> About should match snapshot 1`] = `
 <DocumentFragment>
   <section>
     <p>

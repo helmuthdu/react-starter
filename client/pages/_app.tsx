@@ -1,12 +1,8 @@
-import withRedux from 'next-redux-wrapper';
 import App from 'next/app';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
-import { Provider } from 'react-redux';
 
-import createStore from '../stores';
-
-class Applet extends App {
+export default class extends App {
   public static async getInitialProps({ Component, router, ctx }: any) {
     let pageProps = {};
 
@@ -23,15 +19,12 @@ class Applet extends App {
   }
 
   public render() {
-    const { Component, pageProps, locale, messages, store } = this.props as any;
+    const { Component, pageProps, locale, messages } = this.props as any;
 
     return (
       <IntlProvider locale={locale} messages={messages}>
-        <Provider store={store}>
-          <Component {...pageProps} />
-        </Provider>
+        <Component {...pageProps} />
       </IntlProvider>
     );
   }
 }
-export default withRedux(createStore)(Applet);

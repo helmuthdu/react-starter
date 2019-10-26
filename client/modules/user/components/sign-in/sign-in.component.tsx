@@ -8,9 +8,8 @@ type FormValues = {
 
 type Props = {
   onSubmit: (values: FormValues) => void;
-  onChange: (evt: SyntheticEvent) => void;
+  onChange: (evt: SyntheticEvent<HTMLInputElement>) => void;
   onClick: (evt: MouseEvent) => void;
-  name: string;
 };
 
 export const SignIn = (props: Props) => {
@@ -29,7 +28,7 @@ export const SignIn = (props: Props) => {
         ref={register({ required: true })}
         type="email"
         name="email"
-        onChange={(evt: SyntheticEvent) => {
+        onChange={(evt: SyntheticEvent<HTMLInputElement>) => {
           props.onChange(evt);
         }}
       />
@@ -39,7 +38,6 @@ export const SignIn = (props: Props) => {
       <button type="submit" onClick={props.onClick}>
         Submit
       </button>
-      <p>current user: {props.name}</p>
     </form>
   );
 };

@@ -4,12 +4,9 @@ import { ROOT_ROUTES, USER_ROUTES } from '../../../routes';
 
 import styles from './home.scss';
 
-type Props = {
-  onImageClick: () => void;
-};
-export const Home = (props: Props) => (
+export const Home = () => (
   <div className={styles.app}>
-    <header className={styles.appHeader} onClick={props.onImageClick}>
+    <header className={styles.appHeader}>
       <img src="/static/assets/images/logo.svg" className={styles.appLogo} alt="logo" />
       <p>
         Edit <code>src/app.js</code> and save to reload.

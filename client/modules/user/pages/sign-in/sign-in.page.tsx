@@ -1,78 +1,20 @@
-import React, { Component, HTMLAttributes, MouseEvent, SyntheticEvent } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, compose, Dispatch } from 'redux';
+import React, { SyntheticEvent } from 'react';
 import { Subject } from 'rxjs';
-import { searchInputObservable } from '../../../../utils';
-import { AppState } from '../../../../stores';
 import { SignIn } from '../../components/sign-in/sign-in.component';
-import { DefaultLayout } from '../../layouts/default/default.layout';
-import { user } from '../../stores';
 
-type StateProps = Readonly<{
-  name: string;
-}>;
+export const SignInPage = () => {
+  const username$ = new Subject<string>();
 
-type DispatchProps = user.Actions;
-
-type OwnProps = HTMLAttributes<HTMLFormElement>;
-
-export type Props = StateProps & DispatchProps & OwnProps;
-
-type State = Readonly<{
-  username$: Subject<string>;
-}>;
-
-class SignInPage extends Component<Props, State> {
-  public state: State = {
-    username$: new Subject<string>()
-  };
-
-  public componentDidMount() {
-    this.props.actionGetUser();
-    searchInputObservable(this.state.username$, {}).subscribe((value: any) => {
-      console.log('ON_CHANGE_WITH_OBSERVABLE: ', value);
-    });
-  }
-
-  public render() {
-    return (
-      <DefaultLayout>
-        <SignIn
-          onSubmit={values => console.log(values)}
-          onChange={this.handleChange}
-          onClick={this.handleClick}
-          name={this.props.name}
-        />
-      </DefaultLayout>
-    );
-  }
-
-  private handleClick = (evt: MouseEvent) => {
+  const handleClick = (evt: React.MouseEvent) => {
     evt.preventDefault();
   };
 
-  private handleChange = (evt: SyntheticEvent<HTMLInputElement>) => {
+  const handleChange = (evt: SyntheticEvent<HTMLInputElement>) => {
     evt.preventDefault();
-    this.state.username$.next(evt.currentTarget.value);
+    username$.next(evt.currentTarget.value);
   };
-}
 
-const mapStateToProps = (state: AppState): StateProps => ({ name: state.user.name });
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
-  return bindActionCreators(
-    {
-      ...user.actions
-    },
-    dispatch
-  );
+  return <SignIn onSubmit={values => console.log(values)} onChange={handleChange} onClick={handleClick} />;
 };
 
-const enhance = compose(
-  connect<StateProps, DispatchProps, OwnProps, AppState>(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-);
-
-export default enhance(SignInPage);
+export default SignInPage;

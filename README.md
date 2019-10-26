@@ -5,7 +5,7 @@
 Step 1: Clone this repo
 
 ```
-$ git clone ttps://github.com/helmuthdu/react-starter
+$ git clone https://github.com/helmuthdu/react-starter
 $ cd nist-app
 ```
 
@@ -102,7 +102,6 @@ All your code lives in folder `client`
 ```
   -- src/
     -- api/            --> all api requests
-    -- helpers/        --> all non JSX utility
     -- assets/         --> all direct imported assets
     -- component/      --> all share components
     -- context/        --> all share context
@@ -116,6 +115,7 @@ All your code lives in folder `client`
     -- routes/          --> all routes (pages)
     -- static/         --> all static files
     -- styles/         --> all share styles
+    -- utils/          --> all non JSX utility
 ```
 
 - For `__tests__/` folder, it is covered at [Writing Unit Test](#writing-unit-test) section

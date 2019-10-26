@@ -1,12 +1,12 @@
-import { Http } from '../../../helpers/api.helper';
-import { State } from '../stores/modules/user';
+import { Http } from '../../../utils/api.util';
+import { IUser } from '../models/user';
 
 export interface UserRequest {
   email: string;
   password: string;
 }
 
-const get = (): Promise<State> =>
+const get = (): Promise<IUser> =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve({

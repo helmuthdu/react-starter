@@ -2,11 +2,10 @@ import React from 'react';
 import { USER_ROUTES, ROOT_ROUTES } from '../../../routes';
 import logo from '../../assets/images/logo.svg';
 
-type Props = { onImageClick: () => void; onLinkClick: (route: USER_ROUTES | ROOT_ROUTES) => void };
-
+type Props = { onLinkClick: (route: USER_ROUTES | ROOT_ROUTES) => void };
 export const Home = (props: Props) => (
   <div className="App">
-    <header className="App-header" onClick={props.onImageClick}>
+    <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
       <p>
         Edit <code>src/App.js</code> and save to reload.

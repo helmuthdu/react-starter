@@ -7,5 +7,3 @@ const SignInRoute = lazy(() => import('./sign-in/sign-in.route'));
 export const routes = [
   <DefaultLayoutRoute key={USER_ROUTES.SIGN_IN} path={USER_ROUTES.SIGN_IN} component={SignInRoute} />
 ];
-
-export default routes;

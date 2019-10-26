@@ -27,7 +27,6 @@ export const SignIn = props => {
       <button type="submit" onClick={props.onClick}>
         Submit
       </button>
-      <p>current user: {props.name}</p>
     </form>
   );
 };

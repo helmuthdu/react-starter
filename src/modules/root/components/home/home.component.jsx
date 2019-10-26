@@ -5,7 +5,7 @@ import logo from '../../assets/images/logo.svg';
 
 export const Home = props => (
   <div className="App">
-    <header className="App-header" onClick={props.onImageClick}>
+    <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
       <p>
         Edit <code>src/App.js</code> and save to reload.
@@ -26,6 +26,5 @@ export const Home = props => (
 );
 
 Home.propTypes = {
-  onImageClick: PropTypes.func.isRequired,
   onLinkClick: PropTypes.func.isRequired
 };

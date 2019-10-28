@@ -5,7 +5,7 @@
 Step 1: Clone this repo
 
 ```
-$ git clone ttps://github.com/helmuthdu/react-starter
+$ git clone https://github.com/helmuthdu/react-starter
 $ cd nist-app
 ```
 

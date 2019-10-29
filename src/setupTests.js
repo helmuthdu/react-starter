@@ -8,8 +8,8 @@ window.matchMedia =
   function() {
     return {
       matches: false,
-      addListener: function() {},
-      removeListener: function() {}
+      addListener: () => void 0,
+      removeListener: () => void 0
     };
   };
 

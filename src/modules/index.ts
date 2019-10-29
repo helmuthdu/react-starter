@@ -1,8 +1,17 @@
 import { routes as rootRoutes } from './root';
-import { routes as userRoutes } from './user';
+import * as userModule from './user';
 
-export const routes = [...rootRoutes, ...userRoutes];
+export type State = userModule.State;
+
+export type Action = userModule.Action;
+
+export type Mutations = userModule.Mutations;
+
+export const routes = [...rootRoutes, ...userModule.routes];
+
+export const stores = { ...userModule.stores };
 
 export default {
-  routes
+  routes,
+  stores
 };

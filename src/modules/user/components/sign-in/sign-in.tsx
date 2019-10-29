@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, MouseEvent } from 'react';
+import React, { MouseEvent, SyntheticEvent } from 'react';
 import useForm from 'react-hook-form';
 
 type FormValues = {

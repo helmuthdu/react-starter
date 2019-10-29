@@ -1,4 +1,4 @@
-import { Http } from '../../../utils/api.util';
+import { Http } from '../../../utils/http.util';
 import { IUser } from '../models/user';
 
 export interface UserRequest {

@@ -45,7 +45,7 @@ export class Http {
         return { ...res, data, ok: res.ok };
       })
       .catch(error => {
-        return { error };
+        return error;
       });
   }
 

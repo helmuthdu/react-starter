@@ -12,7 +12,7 @@ type Props = {
 };
 const StoreProvider = ({ reducer, initialState, children }: Props) => {
   const [state, dispatch] = useReducer<Reducer<AppState, AppAction>>(reducer, initialState);
-  const [storage, setStorage] = useLocalStorage<AppState>('storage');
+  const [storage, setStorage] = useLocalStorage<AppState>('_app_state');
 
   useEffect(() => {
     if (storage) {

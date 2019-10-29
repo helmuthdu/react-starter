@@ -41,9 +41,6 @@
     "rxjs": "^6.5.3"
   },
   "devDependencies": {
-    "@babel/plugin-transform-typescript": "^7.6.3",
-    "@babel/preset-typescript": "^7.6.0",
-    "@babel/register": "^7.6.2",
     "@cypress/webpack-preprocessor": "^4.1.0",
     "@storybook/addon-actions": "^5.2.5",
     "@storybook/addon-info": "^5.2.5",
@@ -82,7 +79,6 @@
     "jest-fetch-mock": "^2.1.2",
     "jest-transform-stub": "^2.0.0",
     "jest-watch-typeahead": "^0.4.0",
-    "jsdom-quokka-plugin": "^1.0.14",
     "lint-staged": "^9.4.2",
     "mutationobserver-shim": "^0.3.3",
     "prettier": "^1.18.2",

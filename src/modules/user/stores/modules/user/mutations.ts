@@ -4,10 +4,10 @@ import { ActionTypes } from './types';
 
 type Payload = State;
 
-export type Action = Readonly<{
+export type Action = {
   type: ActionTypes;
   payload: Payload;
-}>;
+};
 
 export type Mutations = {
   [ActionTypes.USER_SET_USER]: (state: AppState, payload: Payload) => AppState;

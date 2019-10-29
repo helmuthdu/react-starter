@@ -1,29 +1,29 @@
-import React, { createContext, Dispatch, Reducer, ReducerState, useContext, useEffect, useReducer } from 'react';
+import React, { createContext, Dispatch, Reducer, useContext, useEffect, useReducer } from 'react';
+import useLocalStorage from '../../hooks/localstorage.hook';
 import { AppAction, AppState } from '../../stores';
 
-const StoreContext = createContext<ReducerState<Reducer<AppState, AppAction>> | undefined>(undefined);
+const StoreContext = createContext<AppState | undefined>(undefined);
 const StoreDispatchContext = createContext<Dispatch<AppAction> | undefined>(undefined);
 
 type Props = {
-  reducer: Reducer<any, any>;
-  initialState: any;
+  reducer: Reducer<AppState, AppAction>;
+  initialState: AppState;
   children: React.ReactNode;
 };
 const StoreProvider = ({ reducer, initialState, children }: Props) => {
   const [state, dispatch] = useReducer<Reducer<AppState, AppAction>>(reducer, initialState);
+  const [storage, setStorage] = useLocalStorage<AppState>('storage');
 
   useEffect(() => {
-    const data = localStorage.getItem('storage');
-    if (data) {
-      dispatch({
-        type: 'dump',
-        payload: JSON.parse(data)
-      });
+    if (storage) {
+      dispatch({ type: 'dump', payload: storage });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('storage', JSON.stringify(state));
+    setStorage(state);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   return (

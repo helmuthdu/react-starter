@@ -8,4 +8,4 @@ export type State = Readonly<{
   user: user.State;
 }>;
 
-export { user };
+export const stores = { user };

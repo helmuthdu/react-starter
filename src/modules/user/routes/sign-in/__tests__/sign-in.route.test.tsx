@@ -4,9 +4,7 @@ import { AppTest } from '../../../../../components/utils/app-test';
 import SignInRoute from '../sign-in.route';
 
 describe('Route -> SignIn component', () => {
-  const props: any = {
-    name: 'john doe'
-  };
+  const props: any = {};
 
   it('should match snapshot', () => {
     const { asFragment } = render(

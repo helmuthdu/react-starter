@@ -1,4 +1,4 @@
-import { userApi, UserRequest } from '../../../api/user.api';
+import { userApi, UserRequest } from '../../../api';
 import { Action } from './mutations';
 import { ActionTypes } from './types';
 

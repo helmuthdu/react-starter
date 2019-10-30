@@ -4,8 +4,8 @@ export type Action = user.Action;
 
 export type Mutations = user.Mutations;
 
-export type State = Readonly<{
+export type State = {
   user: user.State;
-}>;
+};
 
 export const stores = { user };

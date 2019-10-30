@@ -8,7 +8,7 @@ import { initialState, reducer } from './stores';
 
 const App = () => (
   <IntlProvider locale="en">
-    <StoreProvider initialState={initialState} reducer={reducer}>
+    <StoreProvider initialState={initialState} reducer={reducer} logger>
       <AppRouter routes={routes} />
     </StoreProvider>
   </IntlProvider>

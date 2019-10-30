@@ -10,7 +10,9 @@ export const SignInRoute = () => {
   const username$ = new Subject<string>();
 
   useEffect(() => {
-    actionGetUser().then(action => dispatch(action));
+    if (!user.isLogged) {
+      dispatch(actionGetUser());
+    }
   }, [dispatch]);
 
   const handleClick = (evt: React.MouseEvent) => {

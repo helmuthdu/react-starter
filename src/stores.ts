@@ -1,7 +1,7 @@
 import { Action, Mutations, State, stores } from './modules';
 
 type RootAction = {
-  type: 'dump';
+  type: 'snapshot';
   payload: AppState;
 };
 
@@ -14,11 +14,11 @@ export const initialState: State = {
 };
 
 type RootMutations = {
-  dump: (state: AppState, payload: AppState) => AppState;
+  snapshot: (state: AppState, payload: AppState) => AppState;
 };
 
 const mutations: RootMutations & Mutations = {
-  dump: (state: AppState, payload: AppState) => ({ ...state, ...payload }),
+  snapshot: (state: AppState, payload: AppState) => ({ ...state, ...payload }),
   ...stores.user.mutations
 };
 

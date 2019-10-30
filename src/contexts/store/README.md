@@ -1,19 +1,10 @@
-# @react-simply/state
+# StoreContext
 
 Super simple state management for React apps.
 
-## Install
-
-```sh
-npm i @react-simply/state
-```
-
 ## Usage
 
-Read my [State Management with React Hooks and Context API at 10 lines of code!](https://medium.com/simply/state-management-with-react-hooks-and-context-api-at-10-lines-of-code-baf6be8302c) article on Medium or follow these steps:
-
-1. Wrap your React App into `StateProvider`.
-
+1. Wrap your React App into `StoreProvider`.
 2. Pass default state and reducer (simple function that accepts `state` object and `action` object):
 
 ```jsx harmony
@@ -34,9 +25,9 @@ const App = () => {
   };
 
   return (
-    <StateProvider initialState={initialState} reducer={reducer}>
+    <StoreProvider initialState={initialState} reducer={reducer}>
       // App content ...
-    </StateProvider>
+    </StoreProvider>
   );
 };
 ```
@@ -66,40 +57,42 @@ const ThemedButton = () => {
 ## Typescript
 
 ```typescript jsx
-type ITheme = {
-  primary: string;
+const App = () => {
+  type ITheme = {
+    primary: string;
+  };
+
+  type State = {
+    theme: ITheme;
+  };
+
+  const initialState: State = {
+    theme: { primary: 'green' }
+  };
+
+  type Actions = {
+    changeTheme: (state: State, value: any) => State;
+  };
+
+  const actions: Actions = {
+    changeTheme: (state: State, payload: any) => ({
+      ...state,
+      theme: payload
+    })
+  };
+
+  type Action = { type: keyof Actions; payload?: any };
+
+  const reducer = (state: State, action: Action) => {
+    return actions[action.type] ? actions[action.type](state, action.payload) : state;
+  };
+
+  return (
+    <StoreProvider initialState={initialState} reducer={reducer}>
+      // App content ...
+    </StoreProvider>
+  );
 };
-
-type State = {
-  theme: ITheme;
-};
-
-const initialState: State = {
-  theme: { primary: 'green' }
-};
-
-type Actions = {
-  changeTheme: (state: State, value: any) => State;
-};
-
-const actions: Actions = {
-  changeTheme: (state: State, payload: any) => ({
-    ...state,
-    theme: payload
-  })
-};
-
-type Action = { type: keyof Actions; payload?: any };
-
-const reducer = (state: State, action: Action) => {
-  return actions[action.type] ? actions[action.type](state, action.payload) : state;
-};
-
-const App = () => (
-  <StoreProvider initialState={initialState} reducer={reducer}>
-    // App content ...
-  </StoreProvider>
-);
 ```
 
 That's it. State management have never been easier!

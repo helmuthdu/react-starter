@@ -13,7 +13,7 @@ export const SignInRoute = () => {
     if (!user.isLogged) {
       dispatch(actionGetUser());
     }
-  }, [dispatch]);
+  }, [user, dispatch]);
 
   const handleClick = (evt: React.MouseEvent) => {
     evt.preventDefault();

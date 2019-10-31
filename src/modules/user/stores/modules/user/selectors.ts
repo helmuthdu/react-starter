@@ -10,9 +10,9 @@ export const getUserName = moize(
   { isDeepEqual: true }
 );
 
-export interface Getters {
+export interface Selectors {
   getUserName: (state: AppState) => string;
 }
-export const getters: Getters = {
+export const selectors: Selectors = {
   getUserName: (state: AppState) => getUserName(state.user)
 };

@@ -1,6 +1,6 @@
 export * from './actions';
-export * from './getters';
-export * from './mutations';
+export * from './selectors';
+export * from './reducer';
 export * from './state';
 export * from './types';
 

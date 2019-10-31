@@ -9,11 +9,11 @@ export type Action = {
   payload: Payload;
 };
 
-export type Mutations = {
+export type Reducer = {
   [ActionTypes.USER_SET_USER]: (state: AppState, payload: Payload) => AppState;
 };
 
-export const mutations: Mutations = {
+export const reducer: Reducer = {
   [ActionTypes.USER_SET_USER]: (state: AppState, payload: Payload) => ({
     ...state,
     user: { ...state.user, ...payload }

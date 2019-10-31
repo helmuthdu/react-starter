@@ -5,7 +5,7 @@ export type State = userModule.State;
 
 export type Action = userModule.Action;
 
-export type Mutations = userModule.Mutations;
+export type Reducer = userModule.Reducer;
 
 export const routes = [...rootRoutes, ...userModule.routes];
 

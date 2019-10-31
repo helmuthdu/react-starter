@@ -1,4 +1,4 @@
-import { Action, Mutations, State, stores } from './modules';
+import { Action, Reducer, State, stores } from './modules';
 
 type RootAction = {
   type: 'snapshot';
@@ -13,15 +13,15 @@ export const initialState: State = {
   [stores.user.name]: stores.user.initialState
 };
 
-type RootMutations = {
+type RootReducer = {
   snapshot: (state: AppState, payload: AppState) => AppState;
 };
 
-const mutations: RootMutations & Mutations = {
+const reducers: RootReducer & Reducer = {
   snapshot: (state: AppState, payload: AppState) => ({ ...state, ...payload }),
-  ...stores.user.mutations
+  ...stores.user.reducer
 };
 
 export const reducer = (state: AppState, action: AppAction) => {
-  return mutations[action.type] ? mutations[action.type](state, action.payload as any) : state;
+  return reducers[action.type] ? reducers[action.type](state, action.payload as any) : state;
 };

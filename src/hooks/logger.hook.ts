@@ -16,10 +16,10 @@ export const useLogger = () => {
     };
   };
 
-  const print = (newState: AppState) => {
+  const print = (nextState: AppState) => {
     if (isEmpty(logger.current)) return;
 
-    const { type, state: previousState, action, elapsed } = logger.current;
+    const { type, state: prevState, action, elapsed } = logger.current;
 
     const timestamp = new Date()
       .toISOString()
@@ -32,9 +32,9 @@ export const useLogger = () => {
       'color: inherit;',
       'color: gray; font-weight: lighter;'
     );
-    console.log('%c prev state', 'color: #9E9E9E;', previousState);
+    console.log('%c prev state', 'color: #9E9E9E;', prevState);
     console.log('%c action    ', 'color: #03A9F4;', action);
-    console.log('%c next state', 'color: #4CAF50;', newState);
+    console.log('%c next state', 'color: #4CAF50;', nextState);
     console.groupEnd();
 
     // Reset the actions dispatching list

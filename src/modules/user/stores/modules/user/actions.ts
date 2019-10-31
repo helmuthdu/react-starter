@@ -1,5 +1,5 @@
 import { userApi, UserRequest } from '../../../api';
-import { Action } from './mutations';
+import { Action } from './reducer';
 import { ActionTypes } from './types';
 
 export const actionGetUser = async () => ({

@@ -1,5 +1,6 @@
-import React, { createContext, Dispatch, Reducer, useCallback, useContext, useEffect, useReducer, useRef } from 'react';
+import React, { createContext, Dispatch, Reducer, useCallback, useContext, useEffect, useReducer } from 'react';
 import useLocalStorage from '../../hooks/localstorage.hook';
+import { useLogger } from '../../hooks/logger.hook';
 import { AppAction, AppState } from '../../stores';
 
 const StoreContext = createContext<AppState | undefined>(undefined);
@@ -16,9 +17,9 @@ type Props = {
 const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
   const [storage, setStorage] = useLocalStorage<AppState>('_app_state_snapshot');
   const [state, _dispatch] = useReducer<Reducer<AppState, AppAction>>(reducer, initialState);
-  // We use preState for storing the previous state and storing actionType
+  // We use preState for storing the previous state and storing action type
   // when if the user dispatch any action with type to in logging
-  const preState = useRef({ actions: [] } as { actions: { actionType: string; action: AppAction; state: AppState }[] });
+  const preState = useLogger();
 
   // @Note we added empty dependency for dispatch callback
   // because user can use it exactly the same way as normal dispatch
@@ -26,9 +27,9 @@ const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
   const dispatch = useCallback((action: AppDispatch): Promise<void> | void => {
     if (typeof action === 'function') return action(dispatch, state);
 
+    const time = Date.now();
     Promise.resolve(action).then(act => {
-      preState.current.actions = preState.current.actions || [];
-      preState.current.actions.push({ actionType: act.type, action: act, state: JSON.parse(JSON.stringify(state)) });
+      if (logger) preState.set(act, state, time);
 
       _dispatch(act);
     });
@@ -41,31 +42,7 @@ const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
     // Save state snapshot
     setStorage(state);
 
-    // we can print the logs only in case user enable it and user update state
-    if (!logger || !preState.current) return;
-
-    for (let i = 0; i < preState.current.actions.length; i++) {
-      const { actionType, state: previousState, action } = preState.current.actions[i];
-
-      const timestamp = new Date()
-        .toISOString()
-        .split('T')[1]
-        .substr(0, 12);
-
-      console.groupCollapsed(
-        `%caction %c${actionType} %c@ ${timestamp}`,
-        'color: gray; font-weight: lighter;',
-        'color: inherit;',
-        'color: gray; font-weight: lighter;'
-      );
-      console.log('%c prev state', 'color: #9E9E9E;', previousState);
-      console.log('%c action    ', 'color: #03A9F4;', action);
-      console.log('%c next state', 'color: #4CAF50;', state);
-      console.groupEnd();
-    }
-
-    // Reset the actions dispatching list
-    preState.current.actions = [];
+    if (logger) preState.print(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, logger]);
 

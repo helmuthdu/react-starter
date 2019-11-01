@@ -10,7 +10,7 @@ export type AppState = State;
 export type AppAction = RootAction | Action;
 
 export const initialState: State = {
-  [stores.user.name]: stores.user.initialState
+  ...(Object.entries(stores).reduce((acc, [, val]) => ({ ...acc, [val.name]: val.initialState }), {}) as State)
 };
 
 type RootReducer = {
@@ -19,7 +19,7 @@ type RootReducer = {
 
 const reducers: RootReducer & Reducer = {
   snapshot: (state: AppState, payload: AppState) => ({ ...state, ...payload }),
-  ...stores.user.reducer
+  ...(Object.entries(stores).reduce((acc, [, val]) => ({ ...acc, ...val.reducer }), {}) as Reducer)
 };
 
 export const reducer = (state: AppState, action: AppAction) => {

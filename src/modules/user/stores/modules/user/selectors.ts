@@ -13,6 +13,7 @@ export const getUserName = moize(
 export interface Selectors {
   getUserName: (state: AppState) => string;
 }
+
 export const selectors: Selectors = {
   getUserName: (state: AppState) => getUserName(state.user)
 };

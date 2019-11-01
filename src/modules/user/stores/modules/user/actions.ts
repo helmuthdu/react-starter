@@ -1,5 +1,4 @@
 import { userApi, UserRequest } from '../../../api';
-import { Action } from './reducer';
 import { ActionTypes } from './types';
 
 export const actionGetUser = async () => ({
@@ -22,13 +21,7 @@ export const actionLogout = () => ({
   payload: { name: '', username: '', email: '', isLogged: false, token: '' }
 });
 
-interface Actions {
-  actionGetUser: () => Promise<Action>;
-  actionLogin: (payload: UserRequest) => Promise<Action>;
-  actionLogout: () => Action;
-}
-
-export const actions: Actions = {
+export default {
   actionGetUser,
   actionLogin,
   actionLogout

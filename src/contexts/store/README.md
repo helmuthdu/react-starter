@@ -33,11 +33,11 @@ const App = () => {
 ```
 
 3\. Use and update your state in any component inside your App.
-`getState` function returns array, where first item is `state` object and second item is `dispatch` function that accepts the `action` as a parameter.
+`useStore` function returns array, where first item is `state` object and second item is `dispatch` function that accepts the `action` as a parameter.
 
 ```jsx harmony
 const ThemedButton = () => {
-  const [{ theme }, dispatch] = useState();
+  const [{ theme }, dispatch] = useStore();
 
   return (
     <Button
@@ -71,7 +71,7 @@ const App = () => {
   };
 
   type Actions = {
-    changeTheme: (state: State, value: any) => State;
+    changeTheme: (state: State, payload: any) => State;
   };
 
   const actions: Actions = {

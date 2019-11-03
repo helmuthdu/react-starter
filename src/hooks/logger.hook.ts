@@ -4,7 +4,7 @@ import { AppAction, AppState } from '../stores';
 type Logger = { type: string; action: AppAction; state: AppState; elapsed: number };
 
 export const useLogger = () => {
-  const logger = useRef<Logger>();
+  const logger = useRef<Logger | null>(null);
 
   const set = (action: AppAction, state: AppState, time: number) => {
     logger.current = {
@@ -37,7 +37,7 @@ export const useLogger = () => {
     console.groupEnd();
 
     // Reset the actions dispatching list
-    logger.current = undefined;
+    logger.current = null;
   };
 
   return { set, print };

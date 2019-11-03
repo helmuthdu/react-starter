@@ -28,7 +28,7 @@ const Container = () => {
 };
 
 const App = () => (
-  <StoreProvider initialState={initialState} reducer={reducer}>
+  <StoreProvider initialState={initialState} reducer={reducer} logger={process.env.NODE_ENV === 'development'}>
     <Container />
   </StoreProvider>
 );

@@ -1,5 +1,5 @@
 import { AppState } from '../index';
-import { State } from './state';
+import { State, SupportedLanguages } from './state';
 import { LocaleActionTypes } from './types';
 
 type Payload = Partial<State>;
@@ -19,7 +19,7 @@ export const reducer: Reducer = {
     ...state,
     locale: {
       ...state.locale,
-      language: payload.language || 'en'
+      language: payload.language || SupportedLanguages.English
     }
   }),
   [LocaleActionTypes.SET_LOCALE_MESSAGES]: (state: AppState, payload: Payload) => ({

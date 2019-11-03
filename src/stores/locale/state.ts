@@ -1,9 +1,13 @@
+export enum SupportedLanguages {
+  English = 'en'
+}
+
 export type State = Readonly<{
-  language: 'en';
+  language: SupportedLanguages;
   messages: Record<string, string>;
 }>;
 
 export const initialState: State = {
-  language: 'en',
+  language: SupportedLanguages.English,
   messages: {}
 };

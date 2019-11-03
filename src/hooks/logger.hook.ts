@@ -3,7 +3,10 @@ import { AppAction, AppState } from '../stores';
 
 type Logger = { type: string; action: AppAction; state: AppState; elapsed: number };
 
-export const useLogger = () => {
+export const useLogger = (): [
+  (action: AppAction, state: AppState, time: number) => void,
+  (nextState: AppState) => void
+] => {
   const logger = useRef<Logger | null>(null);
 
   const set = (action: AppAction, state: AppState, time: number) => {
@@ -40,5 +43,5 @@ export const useLogger = () => {
     logger.current = null;
   };
 
-  return { set, print };
+  return [set, print];
 };

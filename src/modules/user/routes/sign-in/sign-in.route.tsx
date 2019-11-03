@@ -2,7 +2,7 @@ import React, { Fragment, SyntheticEvent, useEffect } from 'react';
 import { Subject } from 'rxjs';
 import { useStore } from '../../../../contexts/store/store.context';
 import { SignIn } from '../../components/sign-in/sign-in';
-import { actionGetUser, getUserName } from '../../stores/modules/user';
+import { actionGetUser, getUserName } from '../../stores/user';
 
 export const SignInRoute = () => {
   const [{ user }, dispatch] = useStore();

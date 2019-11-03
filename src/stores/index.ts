@@ -1,5 +1,5 @@
-import * as userStore from '../modules/user/stores/modules/user';
-import * as localeStore from './modules/locale';
+import * as userStore from '../modules/user/stores/user';
+import * as localeStore from './locale';
 
 type RootAction = {
   type: 'snapshot';

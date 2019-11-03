@@ -1,5 +1,5 @@
 import moize from 'moize';
-import { AppState } from '../../index';
+import { AppState } from '../index';
 import { State } from './state';
 
 export const getCurrentLocale = moize((state: State) => state.language, { isDeepEqual: true });

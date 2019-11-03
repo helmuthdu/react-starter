@@ -1,5 +1,5 @@
 import moize from 'moize';
-import { AppState } from '../../../../../stores';
+import { AppState } from '../../../../stores';
 import { State } from './state';
 
 export const getUserName = moize(

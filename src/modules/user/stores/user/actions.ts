@@ -1,4 +1,4 @@
-import { userApi, UserRequest } from '../../../api';
+import { userApi, UserRequest } from '../../api';
 import { ActionTypes } from './types';
 
 export const actionGetUser = async () => ({

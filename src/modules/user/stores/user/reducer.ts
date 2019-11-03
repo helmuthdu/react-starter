@@ -1,4 +1,4 @@
-import { AppState } from '../../../../../stores';
+import { AppState } from '../../../../stores';
 import { State } from './state';
 import { ActionTypes } from './types';
 

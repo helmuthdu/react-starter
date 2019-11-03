@@ -5,7 +5,7 @@ import { StoreProvider, useStore } from './contexts/store/store.context';
 import { routes } from './modules';
 import AppRouter from './routes';
 import { initialState, reducer } from './stores';
-import { actionGetMessages } from './stores/modules/locale';
+import { actionGetMessages } from './stores/locale';
 
 const Container = () => {
   const [

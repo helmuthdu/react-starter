@@ -1,4 +1,4 @@
-import { Http } from '../../../utils/http.util';
+import { Http } from '../../utils/http.util';
 import { LocaleActionTypes } from './types';
 
 export const actionGetMessages = async (payload: string) => ({

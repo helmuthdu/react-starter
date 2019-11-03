@@ -1,4 +1,4 @@
-import { IUser, User } from '../../../models/user';
+import { IUser, User } from '../../models/user';
 
 export type State = Readonly<IUser>;
 

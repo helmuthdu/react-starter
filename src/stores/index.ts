@@ -30,5 +30,6 @@ const reducers: AppReducer = {
 };
 
 export const reducer = (state: AppState, action: AppAction) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (reducers as any)[action.type] ? (reducers as any)[action.type](state, action.payload as any) : state;
 };

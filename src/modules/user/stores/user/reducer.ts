@@ -1,20 +1,20 @@
 import { AppState } from '../../../../stores';
 import { State } from './state';
-import { ActionTypes } from './types';
+import { UserActionTypes } from './types';
 
 type Payload = State;
 
 export type Action = {
-  type: ActionTypes;
+  type: UserActionTypes;
   payload: Payload;
 };
 
 export type Reducer = {
-  [ActionTypes.USER_SET_USER]: (state: AppState, payload: Payload) => AppState;
+  [UserActionTypes.USER_SET_USER]: (state: AppState, payload: Payload) => AppState;
 };
 
 export const reducer: Reducer = {
-  [ActionTypes.USER_SET_USER]: (state: AppState, payload: Payload) => ({
+  [UserActionTypes.USER_SET_USER]: (state: AppState, payload: Payload) => ({
     ...state,
     user: { ...state.user, ...payload }
   })

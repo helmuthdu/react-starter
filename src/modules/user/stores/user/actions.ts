@@ -1,15 +1,15 @@
 import { userApi, UserRequest } from '../../api';
-import { ActionTypes } from './types';
+import { UserActionTypes } from './types';
 
 export const actionGetUser = async () => ({
-  type: ActionTypes.USER_SET_USER,
+  type: UserActionTypes.USER_SET_USER,
   payload: {
     ...(await userApi.get())
   }
 });
 
 export const actionLogin = async (payload: UserRequest) => ({
-  type: ActionTypes.USER_SET_USER,
+  type: UserActionTypes.USER_SET_USER,
   payload: {
     ...(await userApi.post(payload)).data,
     isLogged: true
@@ -17,7 +17,7 @@ export const actionLogin = async (payload: UserRequest) => ({
 });
 
 export const actionLogout = () => ({
-  type: ActionTypes.USER_SET_USER,
+  type: UserActionTypes.USER_SET_USER,
   payload: { name: '', username: '', email: '', isLogged: false, token: '' }
 });
 

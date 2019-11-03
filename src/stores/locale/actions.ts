@@ -14,5 +14,6 @@ export const actionSetLocale = (payload = SupportedLanguages.English): Action =>
 });
 
 export default {
+  actionGetMessages,
   actionSetLocale
 };

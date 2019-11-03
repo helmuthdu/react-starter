@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { IntlProvider } from 'react-intl';
-import { NotificationProvider } from './contexts/notification/notification.context';
+import { Notification } from './components/components/notification/notification';
 import { StoreProvider, useStore } from './contexts/store/store.context';
 import { routes } from './modules';
 import AppRouter from './routes';
@@ -23,9 +23,9 @@ const Container = () => {
 
   return (
     <IntlProvider locale={language} messages={messages}>
-      <NotificationProvider>
+      <Notification>
         <AppRouter routes={routes} />
-      </NotificationProvider>
+      </Notification>
     </IntlProvider>
   );
 };

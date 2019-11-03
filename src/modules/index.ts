@@ -1,17 +1,8 @@
 import { routes as rootRoutes } from './root';
-import * as userModule from './user';
+import { routes as userRoutes } from './user';
 
-export type State = userModule.State;
-
-export type Action = userModule.Action;
-
-export type Reducer = userModule.Reducer;
-
-export const routes = [...rootRoutes, ...userModule.routes];
-
-export const stores = { ...userModule.stores };
+export const routes = [...rootRoutes, ...userRoutes];
 
 export default {
-  routes,
-  stores
+  routes
 };

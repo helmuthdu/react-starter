@@ -3,7 +3,7 @@ import useLocalStorage from '../../hooks/localstorage.hook';
 import { useLogger } from '../../hooks/logger.hook';
 import { AppAction, AppState } from '../../stores';
 
-const StoreContext = createContext<AppState | undefined>(undefined);
+const StoreContext = createContext<AppState>({} as AppState);
 
 type AppDispatch = AppAction | Promise<AppAction> | ((dispatch: Dispatch<AppAction>, state: AppState) => Promise<void>);
 const StoreDispatchContext = createContext<Dispatch<AppDispatch> | undefined>(undefined);
@@ -60,6 +60,8 @@ const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
     </StoreContext.Provider>
   );
 };
+
+export const { Consumer: StoreConsumer } = StoreContext;
 
 const useStore = (): [AppState, Dispatch<AppDispatch>] => {
   const state = useContext(StoreContext) as AppState;

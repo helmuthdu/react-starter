@@ -15,11 +15,8 @@ type Props = {
 const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
   const [storage, setStorage] = useLocalStorage<AppState>('_app_state_snapshot');
   const [state, _dispatch] = useReducer<Reducer<AppState, AppAction>>(reducer, initialState);
-  const [setLog, printLog] = useLogger();
+  const [, setLog, printLog] = useLogger();
 
-  // @Note we added empty dependency for dispatch callback
-  // because user can use it exactly the same way as normal dispatch
-  // of useReducer for dependencies.
   const dispatch = useCallback(
     (action: AppDispatch): Promise<void> | void => {
       if (typeof action === 'function') return action(dispatch, state);
@@ -37,14 +34,11 @@ const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
 
   useEffect(() => {
     if (storage) {
-      // Load state snapshot
       dispatch({ type: 'snapshot', payload: storage });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // @Note after every dispatch state update useEffect get called because
-  // we added the state in dependencies.
   useEffect(() => {
     // Save state snapshot
     setStorage(state);

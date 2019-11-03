@@ -1,11 +1,10 @@
 import { useRef } from 'react';
-import isEmpty from 'lodash/isEmpty';
 import { AppAction, AppState } from '../stores';
 
 type Logger = { type: string; action: AppAction; state: AppState; elapsed: number };
 
 export const useLogger = () => {
-  const logger = useRef<Logger>({} as Logger);
+  const logger = useRef<Logger>();
 
   const set = (action: AppAction, state: AppState, time: number) => {
     logger.current = {
@@ -17,7 +16,7 @@ export const useLogger = () => {
   };
 
   const print = (nextState: AppState) => {
-    if (isEmpty(logger.current)) return;
+    if (!logger.current) return;
 
     const { type, state: prevState, action, elapsed } = logger.current;
 
@@ -38,7 +37,7 @@ export const useLogger = () => {
     console.groupEnd();
 
     // Reset the actions dispatching list
-    logger.current = {} as Logger;
+    logger.current = undefined;
   };
 
   return { set, print };

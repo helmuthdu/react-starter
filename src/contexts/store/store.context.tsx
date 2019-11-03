@@ -1,11 +1,9 @@
 import React, { createContext, Dispatch, Reducer, useCallback, useContext, useEffect, useReducer } from 'react';
 import useLocalStorage from '../../hooks/localstorage.hook';
 import { useLogger } from '../../hooks/logger.hook';
-import { AppAction, AppState } from '../../stores';
+import { AppAction, AppDispatch, AppState } from '../../stores';
 
 const StoreContext = createContext<AppState>({} as AppState);
-
-type AppDispatch = AppAction | Promise<AppAction> | ((dispatch: Dispatch<AppAction>, state: AppState) => Promise<void>);
 const StoreDispatchContext = createContext<Dispatch<AppDispatch> | undefined>(undefined);
 
 type Props = {
@@ -17,22 +15,31 @@ type Props = {
 const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
   const [storage, setStorage] = useLocalStorage<AppState>('_app_state_snapshot');
   const [state, _dispatch] = useReducer<Reducer<AppState, AppAction>>(reducer, initialState);
+
   // We use preState for storing the previous state and storing action type
   // when if the user dispatch any action with type to in logging
   const preState = useLogger();
 
-  // @Note we added empty dependency for dispatch callback
-  // because user can use it exactly the same way as normal dispatch
-  // of useReducer for dependencies.
-  const dispatch = useCallback((action: AppDispatch): Promise<void> | void => {
-    if (typeof action === 'function') return action(dispatch, state);
+  const dispatch = useCallback(
+    (action: AppDispatch): Promise<void> | void => {
+      if (typeof action === 'function') return action(dispatch, state);
 
-    const time = Date.now();
-    Promise.resolve(action).then(act => {
-      if (logger) preState.set(act, state, time);
+      const time = Date.now();
+      Promise.resolve(action).then(act => {
+        if (logger) preState.set(act, state, time);
 
-      _dispatch(act);
-    });
+        _dispatch(act);
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [_dispatch]
+  );
+
+  useEffect(() => {
+    if (storage) {
+      // Load state snapshot
+      dispatch({ type: 'snapshot', payload: storage });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -45,14 +52,6 @@ const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
     if (logger) preState.print(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, logger]);
-
-  useEffect(() => {
-    if (storage) {
-      // Load state snapshot
-      dispatch({ type: 'snapshot', payload: storage });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <StoreContext.Provider value={state}>

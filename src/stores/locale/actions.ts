@@ -10,13 +10,13 @@ export type Action = {
 };
 
 export const actionGetMessages = async (payload: string, callback?: () => void): Promise<Action> => ({
-  type: LocaleActionTypes.SET_LOCALE_MESSAGES,
+  type: LocaleActionTypes.LOCALE_SET_MESSAGES,
   payload: { messages: (await Http.get({ url: `/locales/${payload}.json` })).data },
   callback
 });
 
 export const actionSetLocale = (payload = SupportedLanguages.English, callback?: () => void): Action => ({
-  type: LocaleActionTypes.SET_LOCALE_LANGUAGE,
+  type: LocaleActionTypes.LOCALE_SET_LANGUAGE,
   payload: { language: payload },
   callback
 });

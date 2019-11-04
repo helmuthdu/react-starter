@@ -1,11 +1,8 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useStore } from '../../../contexts/store/store.context';
 import { actionDeleteNotification } from '../../../stores/notification';
 
-type Props = {
-  children?: React.ReactNode;
-};
-export const Notification = ({ children }: Props) => {
+export const Notification = () => {
   const [{ notification }, dispatch] = useStore();
 
   useEffect(() => {
@@ -15,10 +12,5 @@ export const Notification = ({ children }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notification]);
 
-  return (
-    <Fragment>
-      {children}
-      {notification.message}
-    </Fragment>
-  );
+  return <Fragment>{notification.message}</Fragment>;
 };

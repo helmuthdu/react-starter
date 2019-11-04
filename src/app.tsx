@@ -23,9 +23,8 @@ const Container = () => {
 
   return (
     <IntlProvider locale={language} messages={messages}>
-      <Notification>
-        <AppRouter routes={routes} />
-      </Notification>
+      <AppRouter routes={routes} />
+      <Notification />
     </IntlProvider>
   );
 };

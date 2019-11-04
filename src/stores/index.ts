@@ -6,6 +6,7 @@ import * as notificationStore from './notification';
 type RootAction = {
   type: 'snapshot';
   payload: AppState;
+  callback?: () => void;
 };
 
 export type AppState = {

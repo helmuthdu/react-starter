@@ -1,6 +1,6 @@
-import { INotification } from '../../models/notification/notification.interface';
+import { Notification } from '../../models/notification/notification.interface';
 
-export type State = Readonly<INotification>;
+export type State = Readonly<Notification>;
 
 export const initialState: State = {
   message: '',

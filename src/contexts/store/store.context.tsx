@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, Reducer, useCallback, useContext, useEffect, useReducer } from 'react';
+import React, { createContext, Dispatch, Reducer, useContext, useEffect, useReducer } from 'react';
 import useLocalStorage from '../../hooks/localstorage.hook';
 import { useLogger } from '../../hooks/logger.hook';
 import { AppAction, AppDispatch, AppState } from '../../stores';
@@ -17,20 +17,18 @@ const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
   const [state, _dispatch] = useReducer<Reducer<AppState, AppAction>>(reducer, initialState);
   const [, setLog, printLog] = useLogger();
 
-  const dispatch = useCallback(
-    (action: AppDispatch): Promise<void> | void => {
-      if (typeof action === 'function') return action(dispatch, state);
+  const dispatch = (action: AppDispatch): Promise<void> | void => {
+    if (typeof action === 'function') return action(dispatch, state);
 
-      const time = Date.now();
-      Promise.resolve(action).then(act => {
-        if (logger) setLog(act, state, time);
+    const time = Date.now();
+    Promise.resolve(action).then(act => {
+      if (logger) setLog(act, state, time);
 
-        _dispatch(act);
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [state, _dispatch]
-  );
+      _dispatch(act);
+
+      if (act.callback) act.callback();
+    });
+  };
 
   useEffect(() => {
     if (storage) {
@@ -40,12 +38,10 @@ const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
   }, []);
 
   useEffect(() => {
-    // Save state snapshot
     setStorage(state);
-
-    if (logger) printLog(state);
+    printLog(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, logger]);
+  }, [state]);
 
   return (
     <StoreContext.Provider value={state}>

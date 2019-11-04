@@ -2,19 +2,14 @@ import { AppState } from '../index';
 import { State } from './state';
 import { NotificationActionTypes } from './types';
 
-type Payload = State;
-
-export type Action = {
-  type: NotificationActionTypes;
-  payload: Payload;
-};
+export type NotificationPayload = State;
 
 export type Reducer = {
-  [NotificationActionTypes.SET_NOTIFICATION]: (state: AppState, payload: Payload) => AppState;
+  [NotificationActionTypes.SET_NOTIFICATION]: (state: AppState, payload: NotificationPayload) => AppState;
 };
 
 export const reducer: Reducer = {
-  [NotificationActionTypes.SET_NOTIFICATION]: (state: AppState, payload: Payload) => ({
+  [NotificationActionTypes.SET_NOTIFICATION]: (state: AppState, payload: NotificationPayload) => ({
     ...state,
     notification: {
       ...payload,

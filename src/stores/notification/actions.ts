@@ -10,16 +10,13 @@ export type Action = {
 
 export const actionDeleteNotification = (callback?: () => void): Action => ({
   type: NotificationActionTypes.SET_NOTIFICATION,
-  payload: {
-    message: '',
-    type: undefined
-  },
+  payload: { message: '', type: undefined },
   callback
 });
 
 export const actionSetNotification = (payload: Notification, callback?: () => void): Action => ({
   type: NotificationActionTypes.SET_NOTIFICATION,
-  payload: payload,
+  payload,
   callback
 });
 

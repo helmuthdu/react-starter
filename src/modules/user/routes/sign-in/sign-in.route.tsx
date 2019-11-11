@@ -1,6 +1,7 @@
 import React, { Fragment, SyntheticEvent, useEffect } from 'react';
 import { Subject } from 'rxjs';
 import { useStore } from '../../../../contexts/store/store.context';
+import { actionAddNotification } from '../../../../stores/notification';
 import { SignIn } from '../../components/sign-in/sign-in';
 import { actionGetUser, getUserName } from '../../stores/user';
 
@@ -17,6 +18,7 @@ export const SignInRoute = () => {
 
   const handleClick = (evt: React.MouseEvent) => {
     evt.preventDefault();
+    dispatch(actionAddNotification({ message: 'message' }));
   };
 
   const handleChange = (evt: SyntheticEvent<HTMLInputElement>) => {

@@ -16,3 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import 'cypress-testing-library/add-commands';
 import './commands';
+
+before(function() {
+  cy.polyfillFetch();
+});

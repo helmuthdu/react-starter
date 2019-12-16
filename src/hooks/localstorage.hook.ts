@@ -27,7 +27,7 @@ const useLocalStorage = <T>(key: string, initialValue?: T, raw?: boolean): [T, D
       localStorage.setItem(key, serializedState);
     } catch {
       // If user is in private mode or has storage restriction
-      // localStorage can throw. Also JSON.stringify can throw.
+      // localStorage can throw. Also, JSON.stringify can throw.
     }
   }, [state, key, raw]);
 

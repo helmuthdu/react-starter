@@ -1,27 +1,27 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import { MemoryRouter } from 'react-router';
-import { DefaultLayout, DefaultLayoutRoute } from '../default.layout';
+import { AppTest } from '../../../../../components/utils/app-test/app-test';
+import { UserLayout, UserLayoutRoute } from '../user.layout';
 
 const Component = () => <p>lorem ipsum</p>;
 
-describe('auth/layouts -> DefaultLayout component', () => {
+describe('user/layouts -> DefaultLayout component', () => {
   it('should match snapshot', () => {
     const { asFragment } = render(
-      <DefaultLayout>
+      <UserLayout>
         <Component />
-      </DefaultLayout>
+      </UserLayout>
     );
     expect(asFragment()).toMatchSnapshot();
   });
 });
 
-describe('auth/layouts -> DefaultLayoutRoute component', () => {
+describe('user/layouts -> DefaultLayoutRoute component', () => {
   it('should match snapshot', () => {
     const { asFragment } = render(
-      <MemoryRouter>
-        <DefaultLayoutRoute component={Component} />
-      </MemoryRouter>
+      <AppTest>
+        <UserLayoutRoute component={Component} />
+      </AppTest>
     );
     expect(asFragment()).toMatchSnapshot();
   });

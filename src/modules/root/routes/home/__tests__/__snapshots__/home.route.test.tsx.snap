@@ -16,7 +16,7 @@ exports[`Route -> Home should match snapshot 1`] = `
       <p>
         Edit 
         <code>
-          src/App.js
+          src/app.tsx
         </code>
          and save to reload.
       </p>
@@ -26,7 +26,7 @@ exports[`Route -> Home should match snapshot 1`] = `
         rel="noopener noreferrer"
         target="_blank"
       >
-        Learn React
+        LEARN_REACT
       </a>
       Navigate to
       <div

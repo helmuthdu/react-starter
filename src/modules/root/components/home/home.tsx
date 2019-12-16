@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { USER_URL, ROOT_URL } from '../../../urls';
+import { USER_URL, ROOT_URL } from '../../../paths';
 import logo from '../../assets/images/logo.svg';
 
 type Props = { onLinkClick: (route: USER_URL | ROOT_URL) => void };

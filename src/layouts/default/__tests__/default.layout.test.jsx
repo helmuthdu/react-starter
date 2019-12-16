@@ -5,7 +5,7 @@ import { DefaultLayout, DefaultLayoutRoute } from '../default.layout';
 
 const Component = () => <p>lorem ipsum</p>;
 
-describe('auth/layouts -> DefaultLayout component', () => {
+describe('layouts -> UserLayout component', () => {
   it('should match snapshot', () => {
     const { asFragment } = render(
       <DefaultLayout>
@@ -16,7 +16,7 @@ describe('auth/layouts -> DefaultLayout component', () => {
   });
 });
 
-describe('auth/layouts -> DefaultLayoutRoute component', () => {
+describe('layouts -> DefaultLayoutRoute component', () => {
   it('should match snapshot', () => {
     const { asFragment } = render(
       <MemoryRouter>

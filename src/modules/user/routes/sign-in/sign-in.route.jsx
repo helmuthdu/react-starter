@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Subject } from 'rxjs';
-import { SignIn } from '../../components/sign-in/sign-in.component';
+import { useStore } from '../../../../contexts/store/store.context';
+import { actionAddNotification } from '../../../../stores/notification';
+import { SignIn } from '../../components/sign-in/sign-in';
+import { actionGetUser, getUserName } from '../../stores/user';
 
 export const SignInRoute = () => {
+  const [{ user }, dispatch] = useStore();
+
   const username$ = new Subject();
+
+  useEffect(() => {
+    if (!user.isLogged) {
+      dispatch(actionGetUser());
+    }
+  }, [user, dispatch]);
 
   const handleClick = evt => {
     evt.preventDefault();
+    dispatch(actionAddNotification({ message: 'message' }));
   };
 
   const handleChange = evt => {
@@ -14,7 +26,12 @@ export const SignInRoute = () => {
     username$.next(evt.currentTarget.value);
   };
 
-  return <SignIn onSubmit={values => console.log(values)} onChange={handleChange} onClick={handleClick} />;
+  return (
+    <Fragment>
+      <SignIn onSubmit={values => console.log(values)} onChange={handleChange} onClick={handleClick} />
+      User: {getUserName(user)}
+    </Fragment>
+  );
 };
 
 export default SignInRoute;

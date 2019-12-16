@@ -1,5 +1,7 @@
 require('@testing-library/jest-dom/extend-expect');
 require('mutationobserver-shim');
+require('@formatjs/intl-relativetimeformat/dist/locale-data/en');
+require('@formatjs/intl-relativetimeformat/polyfill');
 
 global.fetch = require('jest-fetch-mock');
 

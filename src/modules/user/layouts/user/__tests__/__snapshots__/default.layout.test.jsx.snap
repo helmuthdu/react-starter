@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`layouts -> DefaultLayout component should match snapshot 1`] = `
+exports[`auth/layouts -> UserLayout component should match snapshot 1`] = `
 <DocumentFragment>
   <p>
     lorem ipsum
@@ -8,7 +8,7 @@ exports[`layouts -> DefaultLayout component should match snapshot 1`] = `
 </DocumentFragment>
 `;
 
-exports[`layouts -> DefaultLayoutRoute component should match snapshot 1`] = `
+exports[`auth/layouts -> DefaultLayoutRoute component should match snapshot 1`] = `
 <DocumentFragment>
   <p>
     lorem ipsum

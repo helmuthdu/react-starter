@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import useForm from 'react-hook-form';
 
@@ -29,4 +30,10 @@ export const SignIn = props => {
       </button>
     </form>
   );
+};
+
+SignIn.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired
 };

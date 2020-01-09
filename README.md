@@ -6,7 +6,7 @@ Step 1: Clone this repo
 
 ```
 $ git clone https://github.com/helmuthdu/react-starter
-$ cd nist-app
+$ cd react-starter
 ```
 
 Step 2: Install

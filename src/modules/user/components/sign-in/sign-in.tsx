@@ -1,5 +1,5 @@
 import React, { MouseEvent, SyntheticEvent } from 'react';
-import useForm from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 type FormValues = {
   email: string;

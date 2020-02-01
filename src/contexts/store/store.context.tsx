@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, Reducer, useContext, useEffect, useReducer } from 'react';
+import React, { createContext, Dispatch, Reducer, useCallback, useContext, useEffect, useReducer } from 'react';
 import useLocalStorage from '../../hooks/localstorage.hook';
 import { useLogger } from '../../hooks/logger.hook';
 import { AppAction, AppDispatch, AppState } from '../../stores';
@@ -17,7 +17,7 @@ const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
   const [state, _dispatch] = useReducer<Reducer<AppState, AppAction>>(reducer, initialState);
   const [, setLog, printLog] = useLogger();
 
-  const dispatch = (action: AppDispatch): Promise<void> | void => {
+  const dispatch = useCallback((action: AppDispatch): Promise<void> | void => {
     if (typeof action === 'function') return action(dispatch, state);
 
     const time = Date.now();
@@ -28,7 +28,8 @@ const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
 
       if (act.callback) act.callback();
     });
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (storage) {

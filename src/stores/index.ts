@@ -19,7 +19,7 @@ export type AppAction = RootAction | localeStore.Action | notificationStore.Acti
 
 export type AppDispatch =
   | AppAction
-  | Promise<AppAction>
+  | Promise<AppAction | void>
   | ((dispatch: Dispatch<AppAction>) => Promise<void> | void)
   | ((dispatch: Dispatch<AppAction>, state: AppState) => Promise<void> | void)
   | ((dispatch: Dispatch<AppDispatch>, state: AppState) => Promise<void> | void);

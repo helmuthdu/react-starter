@@ -22,11 +22,13 @@ const StoreProvider = ({ reducer, initialState, children, logger }: Props) => {
 
     const time = Date.now();
     Promise.resolve(action).then(act => {
-      if (logger) setLog(act, state, time);
+      if (act) {
+        if (logger) setLog(act, state, time);
 
-      _dispatch(act);
+        _dispatch(act);
 
-      if (act.callback) act.callback();
+        if (act.callback) act.callback();
+      }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

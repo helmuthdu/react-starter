@@ -1,4 +1,4 @@
-export enum ROOT_URL {
+export enum ROOT_ROUTES {
   ABOUT = '/about',
   HOME = '/'
 }

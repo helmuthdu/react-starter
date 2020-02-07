@@ -1,3 +1,3 @@
-export enum USER_URL {
+export enum USER_ROUTES {
   SIGN_IN = '/sign-in'
 }

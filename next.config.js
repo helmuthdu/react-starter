@@ -1,6 +1,8 @@
 require('dotenv').config();
 
-const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true'
+});
 const withSass = require('@zeit/next-sass');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
@@ -15,18 +17,6 @@ module.exports = withBundleAnalyzer(
     },
     distDir: '../dist',
     env: {},
-    analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
-    analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
-    bundleAnalyzerConfig: {
-      server: {
-        analyzerMode: 'static',
-        reportFilename: 'server.html'
-      },
-      browser: {
-        analyzerMode: 'static',
-        reportFilename: 'client.html'
-      }
-    },
     webpack(config, options) {
       config.module.rules.push(
         {

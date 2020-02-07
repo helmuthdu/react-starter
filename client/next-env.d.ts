@@ -31,9 +31,21 @@ declare module '*.jpg' {
   export default content;
 }
 
-type Dictionary<T> = { [key: string]: T };
+type Enum<E> = Record<keyof E, number | string> & { [k: number]: string };
 
-type DictionaryArray<T> = { [key: string]: [T] };
+type ValueOf<T> = T[keyof T];
+
+type Dictionary<T> = { [k: string]: T };
+
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? DeepPartial<U>[]
+    : T[P] extends readonly (infer U)[]
+    ? readonly DeepPartial<U>[]
+    : DeepPartial<T[P]>;
+};
+
+type DictionaryList<T> = { [k: string]: [T] };
 
 interface Window {
   __NEXT_DATA__: any;

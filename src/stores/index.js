@@ -15,6 +15,5 @@ const reducers = {
   ...userStore.reducer
 };
 
-export const reducer = (state, action) => {
-  return reducers[action.type] ? reducers[action.type](state, action.payload) : state;
-};
+export const reducer = (state, action) =>
+  reducers[action.type] ? reducers[action.type](state, action.payload) : state;

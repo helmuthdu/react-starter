@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import useForm from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 export const SignIn = props => {
   const { register, handleSubmit, errors } = useForm({ mode: `onChange` });

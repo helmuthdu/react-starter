@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { IntlProvider } from 'react-intl';
 import { Notification } from './components/components/notification/notification';
@@ -21,11 +21,15 @@ const Container = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
 
-  return (
-    <IntlProvider locale={language} messages={messages}>
-      <AppRouter routes={routes} />
-      <Notification />
-    </IntlProvider>
+  return useMemo(
+    () => (
+      <IntlProvider locale={language} messages={messages}>
+        <AppRouter routes={routes} />
+        <Notification />
+      </IntlProvider>
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [language, messages]
   );
 };
 

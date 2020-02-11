@@ -56,11 +56,6 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
     dispatch
   );
 
-const enhance = compose(
-  connect<StateProps, DispatchProps, OwnProps, AppState>(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-);
+const enhance = compose(connect<StateProps, DispatchProps, OwnProps, AppState>(mapStateToProps, mapDispatchToProps));
 
 export default enhance(HomeRoute);

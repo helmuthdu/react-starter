@@ -51,10 +51,7 @@ export default (
     }
   }
 
-  const composedEnhancers = compose(
-    applyMiddleware(...middleware),
-    ...enhancers
-  );
+  const composedEnhancers = compose(applyMiddleware(...middleware), ...enhancers);
 
   // Delete it once we have it stored in a variable
   if (!isServer) {
@@ -68,7 +65,8 @@ export default (
     });
 
   // Create the store
-  const store = createStore(rootReducer(history), initialState, composedEnhancers);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const store = createStore(rootReducer(history), initialState, composedEnhancers) as any;
 
   sagaMiddleware.run(function*() {
     yield all(stores.filter(str => str.sagas).map(str => spawn(str.sagas)));

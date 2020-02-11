@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`user/layouts -> UserLayout component should match snapshot 1`] = `<DocumentFragment />`;
+
+exports[`user/layouts -> UserLayoutRoute component should match snapshot 1`] = `
+<DocumentFragment>
+  <p>
+    lorem ipsum
+  </p>
+</DocumentFragment>
+`;

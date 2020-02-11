@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { Subject } from 'rxjs';
 import { AppState } from '../../../../app';
-import { createSearchInputFromObservable } from '../../../../helpers';
+import { searchDebounceObserver } from '../../../../utils';
 import { SignIn } from '../../components/sign-in/sign-in.component';
 import { user } from '../../stores';
 
@@ -31,7 +31,7 @@ export class SignInRoute extends Component<Props, State> {
 
   public componentDidMount() {
     this.props.actionGetUser();
-    createSearchInputFromObservable(this.state.username$, {}).subscribe((value: any) => {
+    searchDebounceObserver(this.state.username$, {}).subscribe((value: any) => {
       console.log('ON_CHANGE_WITH_OBSERVABLE: ', value);
     });
   }
@@ -51,9 +51,8 @@ export class SignInRoute extends Component<Props, State> {
     evt.preventDefault();
   };
 
-  private handleChange = (evt: SyntheticEvent) => {
+  private handleChange = (evt: SyntheticEvent<HTMLInputElement>) => {
     evt.preventDefault();
-    // @ts-ignore
     this.state.username$.next(evt.currentTarget.value);
   };
 }
@@ -70,11 +69,6 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   );
 };
 
-const enhance = compose(
-  connect<StateProps, DispatchProps, OwnProps, AppState>(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-);
+const enhance = compose(connect<StateProps, DispatchProps, OwnProps, AppState>(mapStateToProps, mapDispatchToProps));
 
 export default enhance(SignInRoute);

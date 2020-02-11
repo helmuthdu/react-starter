@@ -13,7 +13,7 @@ interface InputObservableOptions {
  * @param options
  * @return Observable<string>
  */
-export const createSearchInputFromObservable = (
+export const searchDebounceObserver = (
   subject: Subject<string>,
   options: InputObservableOptions = {}
 ): Observable<string> => {

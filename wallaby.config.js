@@ -44,6 +44,7 @@ module.exports = function(wallaby) {
         k => ~k.indexOf('^.+\\.(js|jsx') && void delete jestConfig.transform[k]
       );
       delete jestConfig.testEnvironment;
+      jestConfig.setupFilesAfterEnv = [`${wallaby.localProjectDir}/src/setupTests.js`];
       wallaby.testFramework.configure(jestConfig);
     },
 

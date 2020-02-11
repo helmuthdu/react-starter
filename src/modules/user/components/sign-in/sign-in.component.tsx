@@ -1,5 +1,5 @@
-import React, { SyntheticEvent, MouseEvent } from 'react';
-import useForm from 'react-hook-form';
+import React, { MouseEvent, SyntheticEvent } from 'react';
+import { useForm } from 'react-hook-form';
 
 type FormValues = {
   email: string;
@@ -8,7 +8,7 @@ type FormValues = {
 
 type Props = {
   onSubmit: (values: FormValues) => void;
-  onChange: (evt: SyntheticEvent) => void;
+  onChange: (evt: SyntheticEvent<HTMLInputElement>) => void;
   onClick: (evt: MouseEvent) => void;
   name: string;
 };
@@ -25,14 +25,7 @@ export const SignIn = (props: Props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input
-        ref={register({ required: true })}
-        type="email"
-        name="email"
-        onChange={(evt: SyntheticEvent) => {
-          props.onChange(evt);
-        }}
-      />
+      <input ref={register({ required: true })} type="email" name="email" onChange={evt => props.onChange(evt)} />
       {errors.email && <span>This field is required</span>}
       <input ref={register({ required: true })} type="password" name="password" />
       {errors.password && <span>This field is required</span>}

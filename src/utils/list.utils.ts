@@ -46,7 +46,10 @@ export const values = <T, K extends keyof T>(obj: T) => Object.values(obj) as T[
 export const last = <T>(arr: T[], total = 1): T[] => arr.slice(-total);
 
 export const pipe = <T extends unknown[], R>(fn: (...args: T) => R, ...fns: ((args: R) => R)[]) => (...args: T) =>
-  fns.reduce((prevFn, nextFn) => (value: R) => nextFn(prevFn(value)), value => value)(fn(...args));
+  fns.reduce(
+    (prevFn, nextFn) => (value: R) => nextFn(prevFn(value)),
+    value => value
+  )(fn(...args));
 
 export const sortBy = <T, K extends keyof T>(arr: T[], key: K) =>
   [...arr].sort((a: T, b: T) => (a[key] > b[key] ? 1 : b[key] > a[key] ? -1 : 0));

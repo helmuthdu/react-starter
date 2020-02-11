@@ -1,4 +1,4 @@
-import { Http } from '../../../helpers/api.helper';
+import { Http } from '../../../utils/http.util';
 import { State } from '../stores/modules/user';
 
 export interface UserRequest {

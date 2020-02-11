@@ -12,7 +12,7 @@ import {
   sortBy,
   uniq,
   values
-} from '../utils.helper';
+} from '../list.utils';
 
 describe('helpers -> utils', () => {
   it('should composes functions', () => {

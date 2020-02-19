@@ -1,7 +1,7 @@
 module.exports = function(wallaby) {
-  // Babel, jest-cli and some other modules may be located under
-  // react-scripts/node_modules, so need to let node.js know about it
   const path = require('path');
+  process.env.BABEL_ENV = 'test';
+  process.env.NODE_ENV = 'test';
   process.env.NODE_PATH +=
     path.delimiter +
     path.join(__dirname, 'node_modules') +
@@ -38,6 +38,7 @@ module.exports = function(wallaby) {
         k => ~k.indexOf('^.+\\.(js|jsx') && void delete jestConfig.transform[k]
       );
       delete jestConfig.testEnvironment;
+      jestConfig.setupFilesAfterEnv = [`${wallaby.localProjectDir}/src/setupTests.js`];
       wallaby.testFramework.configure(jestConfig);
     },
 

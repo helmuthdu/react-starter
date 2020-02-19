@@ -1,4 +1,3 @@
-// import * as Sentry from '@sentry/browser';
 import React from 'react';
 import { render, hydrate } from 'react-dom';
 import App from './app';
@@ -16,8 +15,3 @@ if (rootElement.hasChildNodes()) {
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
-
-// Sentry is an open-source error tracking tool that helps you monitor
-// and fix crashes in real time. Here we cover everything about the
-// product, the platform integrations, and our on-premise offering.
-// Sentry.init({ dsn: 'https://<key>@sentry.io/<project>' });

@@ -75,7 +75,7 @@ describe('helpers -> utils', () => {
     expect(get(obj, 'bar', 1)).toEqual(1);
   });
 
-  it.each([[null], [''], [{}], [[]]])(`should test if element (%p) is empty`, (...el: unknown[]) => {
+  it.each([[undefined], [null], [''], [{}], [[]]])(`should test if element (%p) is empty`, (...el: unknown[]) => {
     expect(isEmpty(el[0])).toEqual(true);
   });
 

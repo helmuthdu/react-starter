@@ -143,21 +143,8 @@ export const isEquals = function(a: any, b: any) {
   return false;
 };
 
-export const isEmpty = (input: any) => {
-  const inputType = type(input);
-  if (['Undefined', 'NaN', 'Number', 'Null'].includes(inputType)) return false;
-  if (!input) return true;
-
-  if (inputType === 'Object') {
-    return Object.keys(input).length === 0;
-  }
-
-  if (inputType === 'Array') {
-    return input.length === 0;
-  }
-
-  return false;
-};
+export const isEmpty = (val: any): boolean =>
+  [Object, Array].includes((val || {}).constructor) && !Object.entries(val || {}).length;
 
 export const isArray = (arr: any) => arr && [Array].includes((arr || {}).constructor);
 

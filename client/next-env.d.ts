@@ -31,11 +31,19 @@ declare module '*.jpg' {
   export default content;
 }
 
-type Enum<E> = Record<keyof E, number | string> & { [k: number]: string };
+interface Window {
+  __NEXT_DATA__: any;
+  __PRELOADED_STATE__: object;
+  __REDUX_DEVTOOLS_EXTENSION__: object;
+}
 
 type ValueOf<T> = T[keyof T];
 
-type Dictionary<T, K extends keyof any> = { [P in K]: T };
+type Nullable<T> = T | null;
+
+type Dictionary<T> = Record<T[keyof T] | keyof T | string, T | T[keyof T] | any>;
+
+type DictionaryArray<T> = Record<T[keyof T] | keyof T | string, T[] | any[]>;
 
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
@@ -44,9 +52,3 @@ type DeepPartial<T> = {
     ? readonly DeepPartial<U>[]
     : DeepPartial<T[P]>;
 };
-
-interface Window {
-  __NEXT_DATA__: any;
-  __PRELOADED_STATE__: object;
-  __REDUX_DEVTOOLS_EXTENSION__: object;
-}

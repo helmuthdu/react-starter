@@ -1,9 +1,6 @@
 /* eslint-disable */
 // https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore
 
-type Dictionary<T> = { [key: string]: T };
-type DictionaryArray<T> = { [key: string]: [T] };
-
 export const compose = <R>(fn: (args: R) => R, ...fns: ((args: R) => R)[]) =>
   fns.reduce((prevFn, nextFn) => value => prevFn(nextFn(value)), fn);
 
@@ -18,20 +15,20 @@ export const get = <T, K extends keyof T>(obj: T, path: K | string, defaultValue
     .filter(Boolean)
     .reduce((acc: any, cur: string) => (Object.hasOwnProperty.call(acc, cur) ? acc[cur] : defaultValue), obj);
 
-export const groupBy = <T, K extends keyof T>(list: T | T[] | ReadonlyArray<T>, key: K): DictionaryArray<T> =>
+export const groupBy = <T>(list: T | T[] | ReadonlyArray<T>, key: keyof T): DictionaryArray<T> =>
   (Array.isArray(list) ? list : Object.values(list)).reduce(
-    (acc: DictionaryArray<T>, val: T, idx: number, arr: T | T[] | ReadonlyArray<T>, k = val[key]) => {
-      if (!k) return acc;
-      acc[k] = acc[k] || [];
-      acc[k].push(val);
+    (acc, val: T, idx: number, arr: T[] | ReadonlyArray<T>, prop = val[key]) => {
+      if (!prop) return acc;
+      if (!acc[prop]) acc[prop] = [];
+      acc[prop].push(val);
       return acc;
     },
     {}
   );
 
-export const keyBy = <T, K extends keyof T>(list: T | T[] | ReadonlyArray<T>, key: K): Dictionary<T> =>
+export const keyBy = <T>(list: T | T[] | ReadonlyArray<T>, key: keyof T): Dictionary<T> =>
   (Array.isArray(list) ? list : Object.values(list)).reduce(
-    (acc: Dictionary<T>, val: T, idx: number, arr: T | T[] | ReadonlyArray<T>, prop = val[key]) => {
+    (acc, val: T, idx: number, arr: T[] | ReadonlyArray<T>, prop = val[key]) => {
       if (!prop) return acc;
       acc[prop] = val;
       return acc;
@@ -146,8 +143,21 @@ export const isEquals = function(a: any, b: any) {
   return false;
 };
 
-export const isEmpty = (val: any): boolean =>
-  [Object, Array].includes((val || {}).constructor) && !Object.entries(val || {}).length;
+export const isEmpty = (input: any) => {
+  const inputType = type(input);
+  if (['Undefined', 'NaN', 'Number', 'Null'].includes(inputType)) return false;
+  if (!input) return true;
+
+  if (inputType === 'Object') {
+    return Object.keys(input).length === 0;
+  }
+
+  if (inputType === 'Array') {
+    return input.length === 0;
+  }
+
+  return false;
+};
 
 export const isArray = (arr: any) => arr && [Array].includes((arr || {}).constructor);
 

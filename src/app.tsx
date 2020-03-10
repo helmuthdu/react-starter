@@ -35,7 +35,7 @@ const AppContent = () => {
       </IntlProvider>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [language, messages]
+    [messages]
   );
 };
 

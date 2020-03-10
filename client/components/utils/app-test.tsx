@@ -28,8 +28,6 @@ jest.mock('next/router', () => ({
 type Props = { children: any };
 export const AppTest = ({ children }: Props) => (
   <RouterContext.Provider value={mockedRouter as any}>
-    <IntlProvider locale="en">
-      {children}
-    </IntlProvider>
+    <IntlProvider locale="en">{children}</IntlProvider>
   </RouterContext.Provider>
 );

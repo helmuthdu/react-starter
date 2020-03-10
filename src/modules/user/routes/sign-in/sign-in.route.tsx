@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { Subject } from 'rxjs';
 import { AppState } from '../../../../app';
-import { searchDebounceObserver } from '../../../../utils';
+import { debaunceValueObserver } from '../../../../utils';
 import { SignIn } from '../../components/sign-in/sign-in.component';
 import { user } from '../../stores';
 
@@ -31,7 +31,7 @@ export class SignInRoute extends Component<Props, State> {
 
   public componentDidMount() {
     this.props.actionGetUser();
-    searchDebounceObserver(this.state.username$, {}).subscribe((value: any) => {
+    debaunceValueObserver(this.state.username$, {}).subscribe((value: any) => {
       console.log('ON_CHANGE_WITH_OBSERVABLE: ', value);
     });
   }

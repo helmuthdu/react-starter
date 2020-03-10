@@ -7,13 +7,7 @@ interface InputObservableOptions {
   minLength?: number;
 }
 
-/**
- * Creates an observable variable to be used with a search input
- * @param subject
- * @param options
- * @return Observable<string>
- */
-export const searchDebounceObserver = (
+export const debaunceValueObserver = (
   subject: Subject<string>,
   options: InputObservableOptions = {}
 ): Observable<string> => {

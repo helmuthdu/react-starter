@@ -24,10 +24,7 @@ export const useLogger = (): [
 
     const { type, state: prevState, action, elapsed } = logger.current;
 
-    const timestamp = new Date()
-      .toISOString()
-      .split('T')[1]
-      .substr(0, 12);
+    const timestamp = new Date().toISOString().split('T')[1].substr(0, 12);
 
     console.groupCollapsed(
       `%caction %c${type} %c@ ${timestamp} | ${elapsed}ms`,

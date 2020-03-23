@@ -85,7 +85,7 @@ export const type = (val: any) => {
   return 'Object';
 };
 
-export const isEquals = function(a: any, b: any) {
+export const isEquals = function (a: any, b: any) {
   if (arguments.length === 1) return (_b: any) => isEquals(a, _b);
 
   if (a === b) {

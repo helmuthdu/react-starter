@@ -68,7 +68,7 @@ export default (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const store = createStore(rootReducer(history), initialState, composedEnhancers) as any;
 
-  sagaMiddleware.run(function*() {
+  sagaMiddleware.run(function* () {
     yield all(stores.filter(str => str.sagas).map(str => spawn(str.sagas)));
   });
 

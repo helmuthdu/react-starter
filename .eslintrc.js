@@ -10,7 +10,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:react/recommended',
     'prettier/@typescript-eslint',
-    'prettier/react',
+    'prettier/react'
   ],
   plugins: ['prettier', 'jest', 'cypress'],
   rules: {

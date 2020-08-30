@@ -1,5 +1,5 @@
-import { Notification } from '../../../models/notification/notification.interface';
+import { NotificationScheme } from '../../../models/notification/notification.scheme';
 
-export type State = ReadonlyArray<Notification>;
+export type State = ReadonlyArray<NotificationScheme>;
 
 export const initialState: State = [];

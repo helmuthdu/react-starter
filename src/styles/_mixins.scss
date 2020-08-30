@@ -23,7 +23,7 @@
 }
 
 @mixin mobile {
-  @media only screen and (min-device-width: 360px) and (orientation: portrait) {
+  @media screen and (max-width: 599px) {
     @content;
   }
 }

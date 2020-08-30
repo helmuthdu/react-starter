@@ -1,15 +1,5 @@
-export type State = Readonly<{
-  name: string;
-  username: string;
-  email: string;
-  isLogged: boolean;
-  token: string;
-}>;
+import { User, UserScheme } from '../../../models/user';
 
-export const initialState: State = {
-  name: '',
-  username: '',
-  email: '',
-  isLogged: false,
-  token: ''
-};
+export type State = Readonly<UserScheme>;
+
+export const initialState: State = new User();

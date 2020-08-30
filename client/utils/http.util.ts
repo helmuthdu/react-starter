@@ -2,31 +2,40 @@ import fetch from 'isomorphic-unfetch';
 
 type HttpOptions = {
   body?: unknown;
-  headers?: object;
+  headers?: Record<string, unknown>;
   url: string;
 };
+
+type HttpResponse<T> =
+  | (Response & {
+      data: T;
+    })
+  | { error };
+
 export class Http {
-  static async get<T>(options: HttpOptions) {
+  static async get<T>(options: HttpOptions): Promise<HttpResponse<T>> {
     return await this.fetch<T>({ method: 'GET', ...options });
   }
 
-  static async post<T>(options: HttpOptions) {
+  static async post<T>(options: HttpOptions): Promise<HttpResponse<T>> {
     return await this.fetch<T>({ method: 'POST', ...options });
   }
 
-  static async put<T>(options: HttpOptions) {
+  static async put<T>(options: HttpOptions): Promise<HttpResponse<T>> {
     return await this.fetch<T>({ method: 'PUT', ...options });
   }
 
-  static async patch<T>(options: HttpOptions) {
+  static async patch<T>(options: HttpOptions): Promise<HttpResponse<T>> {
     return await this.fetch<T>({ method: 'PATCH', ...options });
   }
 
-  static async delete<T>(options: HttpOptions) {
+  static async delete<T>(options: HttpOptions): Promise<HttpResponse<T>> {
     return await this.fetch<T>({ method: 'DELETE', ...options });
   }
 
-  private static async fetch<T>(options: HttpOptions & { method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' }) {
+  private static async fetch<T>(
+    options: HttpOptions & { method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' }
+  ): Promise<HttpResponse<T>> {
     const { url, method, headers, body } = options;
 
     const req: RequestInit = {
@@ -45,7 +54,7 @@ export class Http {
       })
       .catch(error => {
         console.error(error);
-        return error;
+        return { error };
       });
   }
 

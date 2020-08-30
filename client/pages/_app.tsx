@@ -1,9 +1,16 @@
-import App from 'next/app';
+import App, { AppInitialProps } from 'next/app';
+import { AppContext } from 'next/dist/pages/_app';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 
+import '../styles/all.scss';
+
 export default class extends App {
-  public static async getInitialProps({ Component, router, ctx }: any) {
+  public static async getInitialProps({
+    Component,
+    router,
+    ctx
+  }: AppContext): Promise<AppInitialProps & Record<string, any>> {
     let pageProps = {};
 
     if (Component.getInitialProps) {
@@ -18,7 +25,7 @@ export default class extends App {
     return { pageProps, locale, messages };
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { Component, pageProps, locale, messages } = this.props as any;
 
     return (

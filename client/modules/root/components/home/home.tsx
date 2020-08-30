@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { ROOT_ROUTES, USER_ROUTES } from '../../../routes';
 
-import styles from './home.scss';
+import styles from './home.module.scss';
 
 export const Home = () => (
   <div className={styles.app}>

@@ -1,5 +1,3 @@
-import '@formatjs/intl-relativetimeformat/dist/locale-data/de';
-import '@formatjs/intl-relativetimeformat/polyfill';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import React from 'react';
 import { IntlProvider } from 'react-intl';

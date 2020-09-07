@@ -1,12 +1,12 @@
-import { Http } from '../../../utils/http.util';
-import { IUser } from '../models/user';
+import { Http } from '../../../utils';
+import { UserScheme } from '../models/user';
 
 export interface UserRequest {
   email: string;
   password: string;
 }
 
-const get = (): Promise<IUser> =>
+const get = (): Promise<UserScheme> =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve({
@@ -19,7 +19,7 @@ const get = (): Promise<IUser> =>
     }, 1000);
   });
 
-const post = (payload: UserRequest) => Http.post({ url: '/users' });
+const post = (payload: UserRequest) => Http.post({ url: '/users', body: payload });
 
 export const userApi = {
   get,

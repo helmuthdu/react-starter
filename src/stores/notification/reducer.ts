@@ -1,8 +1,8 @@
-import { Notification } from '../../models/notification/notification.interface';
+import { NotificationScheme } from '../../models/notification/notification.interface';
 import { AppState } from '../index';
 import { NotificationActionTypes } from './types';
 
-export type NotificationPayload = Notification;
+export type NotificationPayload = NotificationScheme;
 
 export type Reducer = {
   [NotificationActionTypes.NOTIFICATION_ADD_MESSAGE]: (state: AppState, payload: NotificationPayload) => AppState;

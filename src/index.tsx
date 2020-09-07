@@ -1,15 +1,12 @@
 import React from 'react';
-import { render, hydrate } from 'react-dom';
+import { render } from 'react-dom';
 import App from './app';
 import * as serviceWorker from './serviceWorker';
 
 const rootElement = document.getElementById('root') as HTMLDivElement;
+// Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' });
 
-if (rootElement.hasChildNodes()) {
-  hydrate(<App />, rootElement);
-} else {
-  render(<App />, rootElement);
-}
+render(<App />, rootElement);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

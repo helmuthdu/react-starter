@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.13.0",
-    "@sentry/browser": "^5.22.3",
+    "@sentry/react": "^5.22.3",
     "clsx": "^1.1.1",
     "dayjs": "^1.8.35",
     "isomorphic-unfetch": "^3.0.0",
@@ -39,6 +39,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-window": "^1.8.5",
+    "recoil": "0.0.10",
     "rxjs": "^6.6.2",
     "swr": "^0.3.2"
   },

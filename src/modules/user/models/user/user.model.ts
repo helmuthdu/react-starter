@@ -1,6 +1,6 @@
-import { IUser } from './user.interface';
+import { UserScheme } from './user.interface';
 
-export class User implements IUser {
+export class User implements UserScheme {
   name: '';
   username: '';
   email: '';

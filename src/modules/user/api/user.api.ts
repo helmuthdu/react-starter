@@ -1,12 +1,12 @@
 import { Http } from '../../../utils/http.util';
-import { IUser } from '../models/user';
+import { UserScheme } from '../models/user';
 
 export interface UserRequest {
   email: string;
   password: string;
 }
 
-const get = (): Promise<IUser> =>
+const get = (): Promise<UserScheme> =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve({

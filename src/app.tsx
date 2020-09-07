@@ -1,42 +1,34 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { IntlProvider } from 'react-intl';
+import { RecoilRoot, useRecoilState } from 'recoil';
 import { Notification } from './components/components/notification/notification';
-import { StoreProvider, useStore } from './contexts/store/store.context';
 import { routes } from './modules';
 import AppRouter from './routes';
-import { initialState, reducer } from './stores';
-import { actionGetMessages } from './stores/locale';
+import { fetchLocaleMessages, getLocale } from './stores/locale.state';
 
-const Container = () => {
-  const [
-    {
-      locale: { language, messages }
-    },
-    dispatch
-  ] = useStore();
+export const Container = () => {
+  const [{ language, messages }, setLocale] = useRecoilState(getLocale);
 
   useEffect(() => {
-    dispatch(actionGetMessages(language));
+    fetchLocaleMessages(language).then(messages => {
+      setLocale(locale => ({ ...locale, messages }));
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
 
-  return useMemo(
-    () => (
-      <IntlProvider locale={language} messages={messages}>
-        <AppRouter routes={routes} />
-        <Notification />
-      </IntlProvider>
-    ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [messages]
+  return (
+    <IntlProvider locale={language} messages={messages}>
+      <AppRouter routes={routes} />
+      <Notification />
+    </IntlProvider>
   );
 };
 
 const App = () => (
-  <StoreProvider initialState={initialState} reducer={reducer} logger={process.env.NODE_ENV === 'development'}>
+  <RecoilRoot>
     <Container />
-  </StoreProvider>
+  </RecoilRoot>
 );
 
 export default process.env.NODE_ENV === 'development' ? hot(App) : App;

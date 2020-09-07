@@ -1,13 +1,12 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
-import { StoreProvider } from '../../../contexts/store/store.context';
-import { initialState, reducer } from '../../../stores';
+import { RecoilRoot } from 'recoil';
 
 export const AppTest = ({ children }: any) => (
   <IntlProvider locale="en" onError={jest.fn()}>
-    <StoreProvider initialState={initialState} reducer={reducer}>
+    <RecoilRoot>
       <MemoryRouter>{children}</MemoryRouter>
-    </StoreProvider>
+    </RecoilRoot>
   </IntlProvider>
 );

@@ -1,24 +1,24 @@
-import React, { Fragment, SyntheticEvent, useEffect } from 'react';
+import React, { Fragment, SyntheticEvent } from 'react';
+import { useRecoilState } from 'recoil';
 import { Subject } from 'rxjs';
-import { useStore } from '../../../../contexts/store/store.context';
-import { actionAddNotification } from '../../../../stores/notification';
+import { notificationAddMessage, notificationState } from '../../../../stores/notification.state';
 import { SignIn } from '../../components/sign-in/sign-in';
-import { actionGetUser, getUserName } from '../../stores/user';
 
 export const SignInRoute = () => {
-  const [{ user }, dispatch] = useStore();
+  // const user = new User();
+  const [, setNotifications] = useRecoilState(notificationState);
 
   const username$ = new Subject<string>();
 
-  useEffect(() => {
-    if (!user.isLogged) {
-      dispatch(actionGetUser());
-    }
-  }, [user, dispatch]);
+  // useEffect(() => {
+  //   if (!user.isLogged) {
+  //     dispatch(actionGetUser());
+  //   }
+  // }, [user, dispatch]);
 
   const handleClick = (evt: React.MouseEvent) => {
     evt.preventDefault();
-    dispatch(actionAddNotification({ message: 'message' }));
+    notificationAddMessage({ message: 'message' }, setNotifications);
   };
 
   const handleChange = (evt: SyntheticEvent<HTMLInputElement>) => {
@@ -29,7 +29,7 @@ export const SignInRoute = () => {
   return (
     <Fragment>
       <SignIn onSubmit={values => console.log(values)} onChange={handleChange} onClick={handleClick} />
-      User: {getUserName(user)}
+      {/*User: {getUserName(user)}*/}
     </Fragment>
   );
 };

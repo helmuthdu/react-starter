@@ -1,4 +1,4 @@
-import { AppState } from '../index';
+import { AppState } from '../../index';
 import { State, SupportedLanguages } from './state';
 import { LocaleActionTypes } from './types';
 

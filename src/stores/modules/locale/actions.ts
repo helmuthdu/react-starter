@@ -1,4 +1,4 @@
-import { Http } from '../../utils/http.util';
+import { Http } from '../../../utils';
 import { LocalePayload } from './reducer';
 import { SupportedLanguages } from './state';
 import { LocaleActionTypes } from './types';

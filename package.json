@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.13.0",
-    "@sentry/browser": "^5.22.3",
+    "@sentry/react": "^5.22.3",
     "clsx": "^1.1.1",
     "dayjs": "^1.8.35",
     "isomorphic-unfetch": "^3.0.0",
@@ -36,11 +36,11 @@
     "react-hook-form": "^6.7.2",
     "react-hot-loader": "^4.12.21",
     "react-intl": "^5.8.0",
+    "react-query": "^2.15.4",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-window": "^1.8.5",
-    "rxjs": "^6.6.2",
-    "swr": "^0.3.2"
+    "rxjs": "^6.6.2"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.4.5",
@@ -96,7 +96,12 @@
     "webpack": "4.42.0"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+    "src/**/*.{js,jsx,ts,tsx,json}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "src/**/*.{css,scss,md}": [
       "prettier --write",
       "git add"
     ]

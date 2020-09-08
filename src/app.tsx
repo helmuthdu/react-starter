@@ -5,7 +5,7 @@ import { Notification } from './components/components/notification/notification'
 import { routes } from './modules';
 import AppRouter from './routes';
 import { StoreProvider, useStore } from './stores';
-import { actionGetMessages } from './stores/locale';
+import { actionGetMessages } from './stores/modules/locale';
 
 const Container = () => {
   const [

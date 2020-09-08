@@ -1,4 +1,4 @@
-import { NotificationScheme } from '../../models/notification/notification.interface';
+import { NotificationScheme } from '../../../models/notification/notification.interface';
 import { NotificationPayload } from './reducer';
 import { NotificationActionTypes } from './types';
 

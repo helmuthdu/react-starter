@@ -1,15 +1,10 @@
 import React, { createContext, Dispatch, Reducer, useCallback, useContext, useEffect, useReducer } from 'react';
 import useLocalStorage from '../hooks/localstorage.hook';
 import { useLogger } from '../hooks/logger.hook';
-import * as userStore from '../modules/user/stores/user';
-import * as localeStore from './locale';
-import * as notificationStore from './notification';
+import * as appModules from '../modules';
+import * as rootModules from './modules';
 
-export type AppState = {
-  locale: localeStore.State;
-  notification: notificationStore.State;
-  user: userStore.State;
-};
+export type AppState = rootModules.State & appModules.State;
 
 type RootAction = {
   type: 'snapshot';
@@ -17,7 +12,7 @@ type RootAction = {
   callback?: () => void;
 };
 
-export type AppAction = RootAction | localeStore.Action | notificationStore.Action | userStore.Action;
+export type AppAction = RootAction | rootModules.Action | appModules.Action;
 
 export type AppDispatch =
   | AppAction
@@ -27,19 +22,17 @@ export type AppDispatch =
 
 type SnapshotReducer = { snapshot: (state: AppState, payload: RootAction) => AppState };
 
-type AppReducer = SnapshotReducer | localeStore.Reducer | notificationStore.Reducer | userStore.Reducer;
+type AppReducer = SnapshotReducer | rootModules.Reducer | appModules.Reducer;
 
 const reducers: AppReducer = {
   snapshot: (state: AppState, payload: RootAction) => ({ ...state, ...payload }),
-  ...localeStore.reducer,
-  ...notificationStore.reducer,
-  ...userStore.reducer
+  ...rootModules.reducer,
+  ...appModules.reducer
 };
 
 const initialState: AppState = {
-  locale: localeStore.initialState,
-  notification: notificationStore.initialState,
-  user: userStore.initialState
+  ...rootModules.initialState,
+  ...appModules.initialState
 };
 
 const StoreContext = createContext<AppState>({} as AppState);

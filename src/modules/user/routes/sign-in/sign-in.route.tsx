@@ -1,7 +1,7 @@
 import React, { Fragment, SyntheticEvent, useEffect } from 'react';
 import { Subject } from 'rxjs';
 import { useStore } from '../../../../stores';
-import { actionAddNotification } from '../../../../stores/notification';
+import { actionAddNotification } from '../../../../stores/modules/notification';
 import { SignIn } from '../../components/sign-in/sign-in';
 import { actionGetUser, getUserName } from '../../stores/user';
 

@@ -4,16 +4,13 @@ import React, { Component, ErrorInfo, HTMLAttributes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose, Dispatch } from 'redux';
 import { AppState } from '../../../../app';
-import { loading } from '../../../../stores/modules';
 import { Home } from '../../components/home/home.component';
 
 import './home.route.scss';
 
-type StateProps = Readonly<{
-  isLoading: boolean;
-}>;
+type StateProps = Readonly<{}>;
 
-type DispatchProps = loading.Actions & {
+type DispatchProps = {
   linkTo: (path: string) => void;
 };
 
@@ -25,8 +22,6 @@ type State = Readonly<{ error: Error }>;
 
 export class HomeRoute extends Component<Props, State> {
   public componentDidMount() {
-    this.props.actionToggleLoading();
-
     return new Promise((resolve, reject) => {
       console.log('Before mounting HomePage component', this.props);
       return resolve();
@@ -39,19 +34,16 @@ export class HomeRoute extends Component<Props, State> {
   }
 
   public render() {
-    return <Home onImageClick={this.props.actionToggleLoading} onLinkClick={this.props.linkTo} />;
+    return <Home onImageClick={() => undefined} onLinkClick={this.props.linkTo} />;
   }
 }
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  isLoading: loading.selectors.isLoading(state)
-});
+const mapStateToProps = (state: AppState): StateProps => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
-      linkTo: path => push(path),
-      ...loading.actions
+      linkTo: path => push(path)
     },
     dispatch
   );

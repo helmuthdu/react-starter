@@ -12,11 +12,11 @@ export type Action = {
 export const actionGetMessages = (payload: string, callback?: () => void) => async (dispatch: Dispatch<Action>) =>
   dispatch({
     type: ActionTypes.LOCALE_SET_MESSAGES,
-    payload: { messages: (await Http.get({ url: `/locales/${payload}.json` })).data },
+    payload: { messages: (await Http.get({ url: `${process.env.PUBLIC_URL}/locales/${payload}.json` })).data },
     callback
   });
 
-export const actionSetLocale = (payload = SupportedLanguages.English, callback?: () => void): Action => ({
+export const actionSetLanguage = (payload = SupportedLanguages.English, callback?: () => void): Action => ({
   type: ActionTypes.LOCALE_SET_LANGUAGE,
   payload: { language: payload },
   callback
@@ -24,5 +24,5 @@ export const actionSetLocale = (payload = SupportedLanguages.English, callback?:
 
 export default {
   actionGetMessages,
-  actionSetLocale
+  actionSetLanguage
 };

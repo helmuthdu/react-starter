@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useStore } from '../../../contexts/store/store.context';
+import { useStore } from '../../../stores';
 import { actionNextNotification } from '../../../stores/notification';
 
 export const Notification = () => {

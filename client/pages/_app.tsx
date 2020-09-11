@@ -1,3 +1,4 @@
+import { StoreProvider } from '@/stores';
 import App, { AppInitialProps } from 'next/app';
 import { AppContext } from 'next/dist/pages/_app';
 import React from 'react';
@@ -29,9 +30,11 @@ export default class extends App {
     const { Component, pageProps, locale, messages } = this.props as any;
 
     return (
-      <IntlProvider locale={locale} messages={messages}>
-        <Component {...pageProps} />
-      </IntlProvider>
+      <StoreProvider logger={process.env.NODE_ENV === 'development'}>
+        <IntlProvider locale={locale} messages={messages}>
+          <Component {...pageProps} />
+        </IntlProvider>
+      </StoreProvider>
     );
   }
 }

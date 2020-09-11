@@ -1,14 +1,17 @@
+import { AppTest } from '@/components/utils/app-test';
 import { render } from '@testing-library/react';
 import React from 'react';
 import SignInPage from '../sign-in.page';
 
-describe('user/page -> SignIn component', () => {
-  const props: any = {
-    name: 'john doe'
-  };
+describe('user/page -> SignIn', () => {
+  const props: any = {};
 
   it('should match snapshot', () => {
-    const { asFragment } = render(<SignInPage {...props} />);
+    const { asFragment } = render(
+      <AppTest>
+        <SignInPage {...props} />
+      </AppTest>
+    );
     expect(asFragment()).toMatchSnapshot();
   });
 });

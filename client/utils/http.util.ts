@@ -6,11 +6,7 @@ type HttpOptions = {
   url: string;
 };
 
-type HttpResponse<T> =
-  | (Response & {
-      data: T;
-    })
-  | { error };
+type HttpResponse<T> = (Response & { data: T }) | { error: string; data?: any };
 
 export class Http {
   static async get<T>(options: HttpOptions): Promise<HttpResponse<T>> {

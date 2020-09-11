@@ -33,8 +33,6 @@ declare module '*.jpg' {
 
 interface Window {
   __NEXT_DATA__: any;
-  __PRELOADED_STATE__: object;
-  __REDUX_DEVTOOLS_EXTENSION__: object;
 }
 
 type ValueOf<T> = T[keyof T];

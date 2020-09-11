@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useStore } from '../../../contexts/store/store.context';
-import { actionNextNotification } from '../../../stores/notification';
+import { useStore } from '../../../stores';
+import { actionNextNotification } from '../../../stores/modules/notification';
 
 export const Notification = () => {
   const [{ notification }, dispatch] = useStore();

@@ -1,4 +1,4 @@
-import { Http } from '../../utils/http.util';
+import { Http } from '../../../utils/http.util';
 import { SupportedLanguages } from './state';
 import { LocaleActionTypes } from './types';
 

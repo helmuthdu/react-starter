@@ -2,12 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
-import { StoreProvider } from '../../../contexts/store/store.context';
-import { initialState, reducer } from '../../../stores';
+import { StoreProvider } from '../../../stores';
 
 export const AppTest = ({ children }) => (
   <IntlProvider locale="en">
-    <StoreProvider initialState={initialState} reducer={reducer}>
+    <StoreProvider>
       <MemoryRouter>{children}</MemoryRouter>
     </StoreProvider>
   </IntlProvider>

@@ -1,28 +1,34 @@
-import { Http } from '../../../utils';
-import { UserScheme } from '../models/user';
+import { Http } from '../../../utils/http.util';
+import { UserSchema } from '../models/user/user.interface';
 
-export interface UserRequest {
+export type UserRequest = Partial<UserSchema> & {
   email: string;
   password: string;
-}
+};
 
-const get = (): Promise<UserScheme> =>
+const signIn = async (payload: UserSchema): Promise<Partial<Response> & { data: UserSchema; error?: unknown }> =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve({
-        name: 'John Doe',
-        username: 'johndoe',
-        email: 'johndoe@mail.com',
-        isLogged: true,
-        token: 'secret'
+        ok: true,
+        status: 400,
+        data: {
+          userName: 'johndoe',
+          email: 'johndoe@mail.com',
+          token: 'secret'
+        }
       });
     }, 1000);
   });
 
-const post = async (payload: UserRequest): Promise<UserScheme> =>
-  (await Http.post<UserScheme>({ url: '/users', body: payload })).data;
+const signUp = async (payload: UserSchema) =>
+  Http.post<UserSchema>({ url: `${process.env.REACT_APP_IDENTITY_URL}/users/sign-up`, body: payload });
 
-export const userApi = {
-  get,
-  post
+const update = async (payload: UserSchema) =>
+  Http.put<UserSchema>({ url: `${process.env.REACT_APP_IDENTITY_URL}/users`, body: payload });
+
+export const usersApi = {
+  signIn,
+  signUp,
+  update
 };

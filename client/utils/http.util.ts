@@ -6,7 +6,7 @@ type HttpOptions = {
   url: string;
 };
 
-type HttpResponse<T> = (Response & { data: T }) | { error: string; data?: any };
+type HttpResponse<T> = Partial<Response> & { data: T; error?: any };
 
 export class Http {
   static async get<T>(options: HttpOptions): Promise<HttpResponse<T>> {
@@ -50,7 +50,7 @@ export class Http {
       })
       .catch(error => {
         console.error(error);
-        return { error };
+        return { ok: false, error, data: undefined as any };
       });
   }
 

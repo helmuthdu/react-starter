@@ -1,4 +1,4 @@
-import { NotificationScheme } from '@/models/notification/notification.interface';
+import { NotificationSchema } from '@/models/notification/notification.interface';
 import { NotificationPayload } from './reducer';
 import { NotificationActionTypes } from './types';
 
@@ -8,7 +8,7 @@ export type Action = {
   callback?: () => void;
 };
 
-export const actionAddNotification = (payload: NotificationScheme, callback?: () => void): Action => ({
+export const actionAddNotification = (payload: NotificationSchema, callback?: () => void): Action => ({
   type: NotificationActionTypes.NOTIFICATION_ADD_MESSAGE,
   payload,
   callback

@@ -1,7 +1,13 @@
-export interface UserScheme {
-  name: string;
-  username: string;
+export interface UserSchema {
   email: string;
-  isLogged: boolean;
-  token: string;
+  emailVerified?: boolean;
+  id?: number;
+  password?: string;
+  phoneNumber?: string;
+  phoneNumberVerified?: boolean;
+  newsletter?: boolean;
+  token?: string;
+  userName?: string;
+  googleId?: string;
+  facebookId?: string;
 }

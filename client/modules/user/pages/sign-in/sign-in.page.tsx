@@ -1,6 +1,6 @@
-import { actionGetUser, getUserName } from '@/modules/user/stores/user';
+import { actionSignIn, getUserName, isLoggedIn } from '@/modules/user/stores/user';
 import { useStore } from '@/stores';
-import React, { SyntheticEvent, useEffect, Fragment } from 'react';
+import React, { Fragment, SyntheticEvent, useEffect } from 'react';
 import { Subject } from 'rxjs';
 import { SignIn } from '../../components/sign-in/sign-in.component';
 
@@ -10,8 +10,8 @@ export const SignInPage = () => {
   const username$ = new Subject<string>();
 
   useEffect(() => {
-    if (!user.isLogged) {
-      dispatch(actionGetUser());
+    if (!isLoggedIn(user)) {
+      dispatch(actionSignIn({ email: 'email@mail.com' }));
     }
   }, [user, dispatch]);
 

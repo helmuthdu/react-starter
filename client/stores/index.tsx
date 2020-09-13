@@ -21,7 +21,7 @@ export type AppDispatch =
 
 type SnapshotReducer = { snapshot: (state: AppState, payload: RootAction) => AppState };
 
-type AppReducer = SnapshotReducer | rootModules.Reducer | appModules.Reducer;
+type AppReducer = SnapshotReducer & rootModules.Reducer & appModules.Reducer;
 
 const reducers: AppReducer = {
   snapshot: (state: AppState, payload: RootAction) => ({ ...state, ...payload }),
@@ -44,7 +44,8 @@ type Props = {
 const StoreProvider = ({ children, logger }: Props): JSX.Element => {
   const reducer = useCallback(
     (state: AppState, action: AppAction): AppState =>
-      reducers[action.type] ? reducers[action.type](state, action.payload) : state,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      reducers[action.type] ? reducers[action.type](state, action.payload as any) : state,
     []
   );
   const [state, _dispatch] = useReducer<Reducer<AppState, AppAction>>(reducer, initialState);

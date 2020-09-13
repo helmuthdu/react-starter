@@ -1,33 +1,37 @@
-/* eslint-disable */
 import fetch from 'isomorphic-unfetch';
 
 type HttpOptions = {
-  url: string;
-  headers?: object;
   body?: unknown;
+  headers?: Record<string, unknown>;
+  url: string;
 };
+
+type HttpResponse<T> = Partial<Response> & { data?: T; error?: unknown };
+
 export class Http {
-  static async get<T>(options: HttpOptions) {
+  static async get<T>(options: HttpOptions): Promise<HttpResponse<T>> {
     return await this.fetch<T>({ method: 'GET', ...options });
   }
 
-  static async post<T>(options: HttpOptions) {
+  static async post<T>(options: HttpOptions): Promise<HttpResponse<T>> {
     return await this.fetch<T>({ method: 'POST', ...options });
   }
 
-  static async put<T>(options: HttpOptions) {
+  static async put<T>(options: HttpOptions): Promise<HttpResponse<T>> {
     return await this.fetch<T>({ method: 'PUT', ...options });
   }
 
-  static async patch<T>(options: HttpOptions) {
+  static async patch<T>(options: HttpOptions): Promise<HttpResponse<T>> {
     return await this.fetch<T>({ method: 'PATCH', ...options });
   }
 
-  static async delete<T>(options: HttpOptions) {
+  static async delete<T>(options: HttpOptions): Promise<HttpResponse<T>> {
     return await this.fetch<T>({ method: 'DELETE', ...options });
   }
 
-  private static async fetch<T>(options: HttpOptions & { method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' }) {
+  private static async fetch<T>(
+    options: HttpOptions & { method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' }
+  ): Promise<HttpResponse<T>> {
     const { url, method, headers, body } = options;
 
     const req: RequestInit = {
@@ -42,19 +46,20 @@ export class Http {
     return fetch(url, req)
       .then(async (res: Response) => {
         const data: T = await res.json();
-        return { ...res, data, ok: res.ok };
+        return { ...res, data };
       })
       .catch(error => {
-        return error;
+        console.error(error);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return { error };
       });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static getHeaders(headers?: any) {
-    const options = {
+    return {
       'Content-Type': 'application/json',
       ...headers
     };
-
-    return options;
   }
 }

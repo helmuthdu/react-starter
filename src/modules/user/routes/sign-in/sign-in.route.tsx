@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { useStore } from '../../../../stores';
 import { actionAddNotification } from '../../../../stores/modules/notification';
 import { SignIn } from '../../components/sign-in/sign-in';
-import { actionGetUser, getUserName } from '../../stores/user';
+import { actionSignIn, getUserName, isLoggedIn } from '../../stores/user';
 
 export const SignInRoute = () => {
   const [{ user }, dispatch] = useStore();
@@ -11,8 +11,8 @@ export const SignInRoute = () => {
   const username$ = new Subject<string>();
 
   useEffect(() => {
-    if (!user.isLogged) {
-      dispatch(actionGetUser());
+    if (!isLoggedIn(user)) {
+      dispatch(actionSignIn({ email: 'email@mail.com' }));
     }
   }, [user, dispatch]);
 

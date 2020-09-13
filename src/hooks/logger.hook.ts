@@ -43,3 +43,5 @@ export const useLogger = (): [
 
   return [logger.current, set, print];
 };
+
+export default useLogger;

@@ -1,4 +1,5 @@
 import { AppState } from '../../../../stores';
+import { User } from '../../models/user';
 import { State } from './state';
 import { UserActionTypes } from './types';
 
@@ -11,6 +12,6 @@ export type Reducer = {
 export const reducer: Reducer = {
   [UserActionTypes.USER_SET_USER]: (state: AppState, payload: UserPayload) => ({
     ...state,
-    user: { ...state.user, ...payload }
+    user: User.create({ ...state.user, ...payload })
   })
 };

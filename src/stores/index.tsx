@@ -1,6 +1,5 @@
+import { useLocalStorage, useLogger } from '../hooks';
 import React, { createContext, Dispatch, Reducer, useCallback, useContext, useEffect, useReducer } from 'react';
-import useLocalStorage from '../hooks/localstorage.hook';
-import { useLogger } from '../hooks/logger.hook';
 import * as appModules from '../modules';
 import * as rootModules from './modules';
 
@@ -22,7 +21,7 @@ export type AppDispatch =
 
 type SnapshotReducer = { snapshot: (state: AppState, payload: RootAction) => AppState };
 
-type AppReducer = SnapshotReducer | rootModules.Reducer | appModules.Reducer;
+type AppReducer = SnapshotReducer & rootModules.Reducer & appModules.Reducer;
 
 const reducers: AppReducer = {
   snapshot: (state: AppState, payload: RootAction) => ({ ...state, ...payload }),
@@ -42,17 +41,16 @@ type Props = {
   children: React.ReactNode;
   logger?: boolean;
 };
-const StoreProvider = ({ children, logger }: Props) => {
-  const [storage, setStorage] = useLocalStorage<AppState>('_app_state_snapshot');
-
+const StoreProvider = ({ children, logger }: Props): JSX.Element => {
   const reducer = useCallback(
-    (state: AppState, action: AppAction) =>
+    (state: AppState, action: AppAction): AppState =>
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (reducers as any)[action.type] ? (reducers as any)[action.type](state, action.payload) : state,
+      reducers[action.type] ? reducers[action.type](state, action.payload as any) : state,
     []
   );
   const [state, _dispatch] = useReducer<Reducer<AppState, AppAction>>(reducer, initialState);
   const [, setLog, printLog] = useLogger();
+  const [storage, setStorage] = useLocalStorage<AppState>('_app_state_snapshot');
 
   const dispatch = useCallback((action: AppDispatch): Promise<void> | void => {
     if (typeof action === 'function') return action(dispatch, state);

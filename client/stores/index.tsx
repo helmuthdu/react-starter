@@ -1,6 +1,5 @@
+import { useLocalStorage, useLogger } from '@/hooks';
 import React, { createContext, Dispatch, Reducer, useCallback, useContext, useEffect, useReducer } from 'react';
-import useLocalStorage from '../hooks/localstorage.hook';
-import { useLogger } from '../hooks/logger.hook';
 import * as appModules from '../modules';
 import * as rootModules from './modules';
 
@@ -42,11 +41,10 @@ type Props = {
   children: React.ReactNode;
   logger?: boolean;
 };
-const StoreProvider = ({ children, logger }: Props) => {
+const StoreProvider = ({ children, logger }: Props): JSX.Element => {
   const reducer = useCallback(
-    (state: AppState, action: AppAction) =>
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (reducers as any)[action.type] ? (reducers as any)[action.type](state, action.payload) : state,
+    (state: AppState, action: AppAction): AppState =>
+      reducers[action.type] ? reducers[action.type](state, action.payload) : state,
     []
   );
   const [state, _dispatch] = useReducer<Reducer<AppState, AppAction>>(reducer, initialState);

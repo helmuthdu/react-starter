@@ -1,5 +1,5 @@
-import { NotificationScheme } from '../../../models/notification/notification.interface';
-import { AppState } from '../../index';
+import { NotificationScheme } from '@/models/notification/notification.interface';
+import { AppState } from '@/stores';
 import { NotificationActionTypes } from './types';
 
 export type NotificationPayload = NotificationScheme;

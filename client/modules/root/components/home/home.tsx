@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { ROOT_ROUTES, USER_ROUTES } from '../../../routes';
+import { ROOT_PAGES, USER_PAGES } from '../../../pages';
 
 import styles from './home.module.scss';
 
@@ -15,13 +15,13 @@ export const Home = () => (
         Learn React
       </a>
       Navigate to
-      <Link href={ROOT_ROUTES.ABOUT}>
+      <Link href={ROOT_PAGES.ABOUT}>
         <a className={styles.appLink} title="go to about page">
           about page
         </a>
       </Link>
       or to
-      <Link href={USER_ROUTES.SIGN_IN}>
+      <Link href={USER_PAGES.SIGN_IN}>
         <a className={styles.appLink} title="go to sign-in page">
           sign-in page
         </a>

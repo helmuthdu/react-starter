@@ -18,7 +18,7 @@ export const localeState: RecoilState<Locale> = atom({
   }
 });
 
-export const getLocale = selector<Locale>({
+export const selectLocale = selector<Locale>({
   key: 'GetLocaleMessages',
   get: ({ get }) => {
     const { language, messages } = get(localeState);

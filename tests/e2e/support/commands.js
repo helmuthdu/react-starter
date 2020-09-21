@@ -25,7 +25,6 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('polyfillFetch', () => {
-  Cypress.log({});
   cy.readFile('node_modules/unfetch/dist/unfetch.umd.js', { log: false })
     .as('unfetch')
     .then(unfetch => {

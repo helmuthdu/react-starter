@@ -74,7 +74,7 @@
     "sass": "^1.27.0",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4",
-    "webpack": "^4.44.1"
+    "webpack": "4.44.1"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json}": [

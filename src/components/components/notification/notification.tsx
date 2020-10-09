@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { notificationNextMessage, notificationState } from '../../../stores/notification.state';
 
 export const Notification = () => {
-  const [notifications, setNotifications] = useRecoilState(notificationState);
+  const [notification, setNotification] = useRecoilState(notificationState);
   const [open, setOpen] = useState<boolean>(true);
   const timeout = useRef<any>();
 
@@ -11,26 +11,26 @@ export const Notification = () => {
     setOpen(false);
 
     const getNextMessage = () => {
-      notificationNextMessage(setNotifications);
+      notificationNextMessage(setNotification);
       setOpen(true);
       timeout.current = undefined;
     };
 
-    if (notifications.length >= 1) {
+    if (notification.length >= 1) {
       if (timeout.current) clearTimeout(timeout.current);
       timeout.current = setTimeout(getNextMessage, 300);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [notifications]);
+  }, [notification]);
 
   useEffect(() => {
-    if (notifications.length > 0) setTimeout(handleClose, (notifications[0].timeout as number) * notifications.length);
+    if (notification.length > 0) setTimeout(handleClose, (notification[0].timeout as number) * notification.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [notifications]);
+  }, [notification]);
 
-  if (notifications.length === 0) {
+  if (notification.length === 0) {
     return null;
   }
 
-  return <div>{open && notifications[0].message}</div>;
+  return <div>{open && notification[0].message}</div>;
 };

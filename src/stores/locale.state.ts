@@ -32,6 +32,5 @@ export const selectLocale = selector<Locale>({
   }
 });
 
-export const fetchLocaleMessages = async (language: SupportedLanguages): Promise<Record<string, string>> => {
-  return (await Http.get({ url: `${process.env.PUBLIC_URL}/locales/${language}.json` })).data;
-};
+export const fetchLocaleMessages = async (language: SupportedLanguages): Promise<Record<string, string> | undefined> =>
+  (await Http.get<Record<string, string>>({ url: `${process.env.PUBLIC_URL}/locales/${language}.json` })).data;

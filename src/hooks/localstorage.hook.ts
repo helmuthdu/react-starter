@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 type Dispatch<A> = (value: A) => void;
 type SetStateAction<S> = S | ((prevState: S) => S);
 
-const useLocalStorage = <T>(key: string, initialValue?: T, raw?: boolean): [T, Dispatch<SetStateAction<T>>] => {
+export const useLocalStorage = <T>(key: string, initialValue?: T, raw?: boolean): [T, Dispatch<SetStateAction<T>>] => {
   const [state, setState] = useState<T>(() => {
     try {
       const localStorageValue = localStorage.getItem(key);

@@ -1,15 +1,15 @@
 import { atom, RecoilState } from 'recoil';
-import { Notification } from '../models/notification/notification.interface';
+import { NotificationSchema } from '../models/notification/notification.interface';
 
-type NotificationState = Notification[];
+type NotificationState = NotificationSchema[];
 
-export const notificationState: RecoilState<Notification[]> = atom({
+export const notificationState: RecoilState<NotificationSchema[]> = atom({
   key: 'notificationState',
-  default: [] as Notification[]
+  default: [] as NotificationSchema[]
 });
 
 export const notificationAddMessage = (
-  payload: Notification,
+  payload: NotificationSchema,
   setState: (state: (s: NotificationState) => NotificationState) => void
 ) => {
   setState(state => [

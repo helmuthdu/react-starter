@@ -3,6 +3,8 @@ import { routes as userRoutes } from './user';
 
 export const routes = [...rootRoutes, ...userRoutes];
 
-export default {
+const appModules = {
   routes
 };
+
+export default appModules;

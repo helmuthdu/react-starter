@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = {
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'

@@ -1,4 +1,4 @@
-module.exports = function(wallaby) {
+module.exports = function (wallaby) {
   const path = require('path');
   process.env.BABEL_ENV = 'test';
   process.env.NODE_ENV = 'test';
@@ -15,8 +15,7 @@ module.exports = function(wallaby) {
       'src/**/*.+(ts|tsx|json|snap|css|less|sass|scss|jpg|jpeg|gif|png|svg)',
       '!src/**/__tests__/**/*.ts?(x)',
       '!src/**/*.stories.ts?(x)',
-      '!src/**/*.d.ts',
-      '!src/serviceWorker.ts'
+      '!src/**/*.d.ts'
     ],
 
     tests: ['src/**/__tests__/**/*.ts?(x)'],

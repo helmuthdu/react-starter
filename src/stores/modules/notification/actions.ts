@@ -1,13 +1,13 @@
-import { NotificationScheme } from '../../../models/notification/notification.scheme';
+import { NotificationSchema } from '../../../models/notification/notification.schema';
 import { NotificationActionTypes } from './types';
 
 export type Action = {
   type: NotificationActionTypes;
-  payload?: NotificationScheme;
+  payload?: NotificationSchema;
   callback?: () => void;
 };
 
-export const actionAddNotification = (payload: NotificationScheme, callback?: () => void): Action => ({
+export const actionAddNotification = (payload: NotificationSchema, callback?: () => void): Action => ({
   type: NotificationActionTypes.NOTIFICATION_ADD_MESSAGE,
   payload,
   callback
@@ -23,8 +23,10 @@ export const actionNextNotification = (callback?: () => void): Action => ({
   callback
 });
 
-export default {
+const actions = {
   actionAddNotification,
   actionDeleteNotification,
   actionNextNotification
 };
+
+export default actions;

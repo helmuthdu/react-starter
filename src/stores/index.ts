@@ -15,7 +15,7 @@ type StoreInstance = Readonly<{
 
 let storeInstance: StoreInstance;
 
-export default (
+const buildStore = (
   // eslint-disable-next-line
   stores: { name: string; sagas?: any; reducer?: object }[] = [],
   url: string = process.env.PUBLIC_URL || '/'
@@ -79,3 +79,5 @@ export default (
 
   return storeInstance;
 };
+
+export default buildStore;

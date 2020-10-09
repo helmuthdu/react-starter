@@ -9,7 +9,7 @@ import { SignIn } from '../../components/sign-in/sign-in.component';
 import { user } from '../../stores';
 
 type StateProps = Readonly<{
-  name: string;
+  userName: string;
 }>;
 
 type DispatchProps = user.Actions & {
@@ -30,7 +30,7 @@ export class SignInRoute extends Component<Props, State> {
   };
 
   public componentDidMount() {
-    this.props.actionGetUser();
+    this.props.actionGetUser({ email: 'user@mail.com', password: 'secret' });
     debounceValueObservable(this.state.username$, {}).subscribe((value: any) => {
       console.log('ON_CHANGE_WITH_OBSERVABLE: ', value);
     });
@@ -42,7 +42,7 @@ export class SignInRoute extends Component<Props, State> {
         onSubmit={values => console.log(values)}
         onChange={this.handleChange}
         onClick={this.handleClick}
-        name={this.props.name}
+        name={this.props.userName}
       />
     );
   }
@@ -57,7 +57,7 @@ export class SignInRoute extends Component<Props, State> {
   };
 }
 
-const mapStateToProps = (state: AppState): StateProps => ({ name: state.user.name });
+const mapStateToProps = (state: AppState): StateProps => ({ userName: state.user.userName as string });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   return bindActionCreators(

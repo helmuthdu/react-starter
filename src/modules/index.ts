@@ -6,7 +6,9 @@ export type State = userModule.State;
 export const routes = [...rootModule.routes, ...userModule.routes];
 export const stores = [...userModule.stores];
 
-export default {
+const appModules = {
   routes,
   stores
 };
+
+export default appModules;

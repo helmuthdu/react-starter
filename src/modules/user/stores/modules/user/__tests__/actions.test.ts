@@ -1,10 +1,9 @@
+import { waitFor } from '@testing-library/dom';
 import configureMockStore, { MockStore } from 'redux-mock-store';
 import { actions, ActionTypes, State } from '..';
 
 describe('auth/store -> actions', () => {
   let store: MockStore;
-
-  const wait = () => new Promise(resolve => setImmediate(resolve));
 
   beforeEach(() => {
     // @ts-ignore
@@ -15,9 +14,7 @@ describe('auth/store -> actions', () => {
 
   it('should login successfully', async () => {
     const response: State = {
-      name: 'John Doe',
-      isLogged: true,
-      username: 'johndoe',
+      userName: 'John Doe',
       email: 'johndoe@mail.com',
       token: '123456'
     };
@@ -25,9 +22,7 @@ describe('auth/store -> actions', () => {
     // @ts-ignore
     fetch.mockResponse(JSON.stringify(response));
 
-    actions.actionLogin({ email: 'johndoe@mail.com', password: 'secret' })(store.dispatch);
-
-    await wait();
+    await waitFor(() => actions.actionSignUp({ email: 'johndoe@mail.com', password: 'secret' })(store.dispatch) as any);
 
     // @ts-ignore
     expect(fetch.mock.calls.length).toEqual(1);

@@ -23,3 +23,15 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('polyfillFetch', () => {
+  cy.readFile('node_modules/unfetch/dist/unfetch.umd.js', { log: false })
+    .as('unfetch')
+    .then(unfetch => {
+      Cypress.on('window:before:load', win => {
+        delete win.fetch;
+        win.eval(unfetch);
+        win.fetch = win.unfetch;
+      });
+    });
+});

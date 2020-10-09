@@ -4,11 +4,11 @@ import { IntlProvider } from 'react-intl';
 import { Provider, shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { routes, State, stores } from './modules';
 import AppRouter from './routes';
-import createStore from './stores';
+import buildStore from './stores';
 import { State as RootState, stores as rootStores } from './stores/modules';
 import { actionGetMessages } from './stores/modules/locale';
 
-const { store, history } = createStore([...rootStores, ...stores]);
+const { store, history } = buildStore([...rootStores, ...stores]);
 
 export type AppState = State & RootState;
 

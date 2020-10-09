@@ -1,5 +1,5 @@
-import { User, UserScheme } from '../../../models/user';
+import { User, UserSchema } from '../../../models/user';
 
-export type State = Readonly<UserScheme>;
+export type State = Readonly<UserSchema>;
 
 export const initialState: State = new User();

@@ -1,4 +1,4 @@
-import { NotificationScheme } from '../../../models/notification/notification.scheme';
+import { NotificationSchema } from '../../../models/notification/notification.schema';
 import { Action } from './actions';
 import { initialState, State } from './state';
 import { NotificationActionTypes } from './types';
@@ -9,7 +9,7 @@ export const reducer = (state: State = initialState, action: Action): State => {
       const notification = {
         ...action.payload,
         timeout: action.payload?.timeout || 5000
-      } as NotificationScheme;
+      } as NotificationSchema;
       return [...state, notification];
     case NotificationActionTypes.NOTIFICATION_DELETE_MESSAGES:
       return [];

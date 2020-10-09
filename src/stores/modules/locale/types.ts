@@ -1,4 +1,4 @@
-export enum ActionTypes {
+export enum LocaleActionTypes {
   LOCALE_SET_LANGUAGE = 'LOCALE/SET_LANGUAGE',
   LOCALE_SET_MESSAGES = 'LOCALE/SET_MESSAGES'
 }

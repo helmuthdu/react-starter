@@ -1,32 +1,41 @@
 import { Dispatch } from 'redux';
-import { userApi, UserRequest } from '../../../api/user.api';
+import { userApi, UserRequest } from '../../../api';
+import { UserSchema } from '../../../models/user';
 import { Action } from './reducer';
 import { ActionTypes } from './types';
 
 export interface Actions {
-  actionGetUser: () => (dispatch: Dispatch<Action>) => Promise<Action>;
-  actionLogin: (payload: UserRequest) => (dispatch: Dispatch<Action>) => Promise<Action>;
-  actionLogout: () => (dispatch: Dispatch<Action>) => Action;
+  actionGetUser: (payload: UserRequest) => (dispatch: Dispatch<Action>) => Promise<Action>;
+  actionSignIn: (payload: UserRequest) => (dispatch: Dispatch<Action>) => Promise<Action>;
+  actionSignUp: (payload: UserRequest) => (dispatch: Dispatch<Action>) => Promise<Action>;
+  actionLogout: () => (dispatch: Dispatch<Action>) => Promise<Action>;
 }
 
-export const actionGetUser = () => async (dispatch: Dispatch<Action>) =>
+export const actionGetUser = (payload: UserRequest) => async (dispatch: Dispatch<Action>) =>
   dispatch({
     type: ActionTypes.USER_SET_USER,
     payload: {
-      ...(await userApi.get())
-    }
+      ...(await userApi.signIn(payload))?.data
+    } as UserSchema
   });
 
-export const actionLogin = (payload: UserRequest) => async (dispatch: Dispatch<Action>) =>
+export const actionSignIn = (payload: UserRequest) => async (dispatch: Dispatch<Action>) =>
   dispatch({
     type: ActionTypes.USER_SET_USER,
     payload: {
-      ...(await userApi.post(payload)).data,
-      isLogged: true
-    }
+      ...(await userApi.signIn(payload))?.data
+    } as UserSchema
   });
 
-export const actionLogout = () => (dispatch: Dispatch<Action>) =>
+export const actionSignUp = (payload: UserRequest) => async (dispatch: Dispatch<Action>) =>
+  dispatch({
+    type: ActionTypes.USER_SET_USER,
+    payload: {
+      ...(await userApi.signUp(payload))?.data
+    } as UserSchema
+  });
+
+export const actionLogout = () => async (dispatch: Dispatch<Action>) =>
   dispatch({
     type: ActionTypes.USER_SET_USER,
     payload: { name: '', username: '', email: '', isLogged: false, token: '' }
@@ -34,6 +43,7 @@ export const actionLogout = () => (dispatch: Dispatch<Action>) =>
 
 export const actions: Actions = {
   actionGetUser,
-  actionLogin,
+  actionSignIn,
+  actionSignUp,
   actionLogout
 };

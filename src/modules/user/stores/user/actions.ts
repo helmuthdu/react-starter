@@ -52,8 +52,10 @@ export const actionSignOut = (callback?: () => void): Action => ({
   callback
 });
 
-export default {
+const actions = {
   actionSignUp,
   actionSignIn,
   actionSignOut
 };
+
+export default actions;

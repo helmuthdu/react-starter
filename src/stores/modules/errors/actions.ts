@@ -18,7 +18,9 @@ export const actionDeleteErrors = (callback?: () => void): Action => ({
   callback
 });
 
-export default {
+const actions = {
   actionAddError,
   actionDeleteErrors
 };
+
+export default actions;

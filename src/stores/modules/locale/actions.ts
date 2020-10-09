@@ -23,7 +23,9 @@ export const actionSetLanguage = (payload = SupportedLanguages.English, callback
   callback
 });
 
-export default {
+const actions = {
   actionGetMessages,
   actionSetLanguage
 };
+
+export default actions;

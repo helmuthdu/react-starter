@@ -37,10 +37,11 @@ export class Http {
     return fetch(url, req)
       .then(async res => {
         const data = await res.json();
-        return { ...res, data, ok: res.ok };
+        return { ...res, data };
       })
       .catch(error => {
-        return error;
+        console.error(error);
+        return { error };
       });
   }
 

@@ -16,8 +16,10 @@ export const actionNextNotification = callback => ({
   callback
 });
 
-export default {
+const actions = {
   actionAddNotification,
   actionDeleteNotification,
   actionNextNotification
 };
+
+export default actions;

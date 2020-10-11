@@ -11,8 +11,10 @@ export const initialState = {
 
 export const routes = [...rootModule.routes, ...userModule.routes];
 
-export default {
+const appModules = {
   initialState,
   reducer,
   routes
 };
+
+export default appModules;

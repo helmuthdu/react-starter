@@ -14,7 +14,9 @@ export const actionSetLocale = (payload = SupportedLanguages.English, callback) 
   callback
 });
 
-export default {
+const actions = {
   actionGetMessages,
   actionSetLocale
 };
+
+export default actions;

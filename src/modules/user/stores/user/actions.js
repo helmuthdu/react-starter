@@ -24,8 +24,10 @@ export const actionLogout = callback => ({
   callback
 });
 
-export default {
+const actions = {
   actionGetUser,
   actionLogin,
   actionLogout
 };
+
+export default actions;

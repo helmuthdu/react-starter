@@ -1,5 +1,4 @@
 require('@testing-library/jest-dom/extend-expect');
-require('dotenv').config();
 require('mutationobserver-shim');
 
 global.fetch = require('jest-fetch-mock');

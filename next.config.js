@@ -1,10 +1,9 @@
-require('dotenv').config();
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 });
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
-const Dotenv = require('dotenv-webpack');
 
 module.exports = withBundleAnalyzer({
   distDir: '../dist',
@@ -27,12 +26,6 @@ module.exports = withBundleAnalyzer({
     config.plugins = config.plugins || [];
     config.plugins = [
       ...config.plugins,
-
-      // Read the .env file
-      new Dotenv({
-        path: path.join(__dirname, '.env'),
-        systemvars: true
-      })
     ];
 
     return config;

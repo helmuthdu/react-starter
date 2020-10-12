@@ -1,4 +1,4 @@
-module.exports = function(wallaby) {
+module.exports = function (wallaby) {
   const path = require('path');
   process.env.BABEL_ENV = 'test';
   process.env.NODE_ENV = 'test';

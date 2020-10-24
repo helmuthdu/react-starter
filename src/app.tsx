@@ -5,7 +5,7 @@ import { RecoilRoot, useRecoilState } from 'recoil';
 import { Notification } from './components/components/notification/notification';
 import { routes } from './modules';
 import AppRouter from './routes';
-import { fetchLocaleMessages, selectLocale } from './stores/locale.state';
+import { fetchLocaleMessages, selectLocale } from './stores/locale.store';
 
 export const Container = () => {
   const [{ language, messages }, setLocale] = useRecoilState(selectLocale);

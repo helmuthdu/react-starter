@@ -1,7 +1,7 @@
 import React, { Fragment, SyntheticEvent } from 'react';
 import { useRecoilState } from 'recoil';
 import { Subject } from 'rxjs';
-import { notificationAddMessage, notificationState } from '../../../../stores/notification.state';
+import { notificationAddMessage, notificationState } from '../../../../stores/notification.store';
 import { SignIn } from '../../components/sign-in/sign-in';
 
 export const SignInRoute = () => {

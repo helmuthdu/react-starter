@@ -1,4 +1,4 @@
-import { waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/react';
 import configureMockStore, { MockStore } from 'redux-mock-store';
 import { actions, ActionTypes, State } from '..';
 

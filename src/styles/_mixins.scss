@@ -1,47 +1,55 @@
-@mixin fullhd {
-  @media screen and (min-width: 1920px) {
-    @content;
-  }
-}
+$fullhd: 1920px;
+$widescreen: 1280px;
+$desktop: 960px;
+$tablet: 768px;
+$tablet-landscape: 1024px;
+$mobile: 640px;
+$mobile-landscape: 480px;
 
-@mixin widescreen {
-  @media screen and (min-width: 1280px) {
-    @content;
+@mixin breakpoints($media) {
+  @if $media == fullhd {
+    @media only screen and (min-width: $fullhd) {
+      @content;
+    }
   }
-}
-
-@mixin desktop {
-  @media screen and (min-width: 960px) {
-    @content;
+  @if $media == widscreen {
+    @media only screen and (min-width: $widescreen) {
+      @content;
+    }
   }
-}
-
-@mixin tablet {
-  @media screen and (min-width: 600px) {
-    @content;
+  @if $media == desktop {
+    @media only screen and (min-width: $desktop) {
+      @content;
+    }
   }
-}
-
-@mixin mobile {
-  @media screen and (max-width: 599px) {
-    @content;
+  @if $media == tablet {
+    @media only screen and (min-width: $tablet) {
+      @content;
+    }
   }
-}
-
-@mixin iphone8 {
-  @media only screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) {
-    @content;
+  @if $media == tablet-landscape {
+    @media only screen and (min-device-width: $tablet) and (max-device-width: $tablet-landscape) and (orientation: landscape) {
+      @content;
+    }
   }
-}
-
-@mixin iphone8Plus {
-  @media only screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) {
-    @content;
+  @if $media == mobile {
+    @media only screen and (max-width: $mobile) {
+      @content;
+    }
   }
-}
-
-@mixin iphoneX {
-  @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-    @content;
+  @if $media == mobile-portrait {
+    @media only screen and (max-width: $mobile) and (orientation: portrait) {
+      @content;
+    }
+  }
+  @if $media == mobile-landscape {
+    @media only screen and (min-width: 320px) and (max-width: $mobile-landscape) and (orientation: landscape) {
+      @content;
+    }
+  }
+  @if $media == retina {
+    @media (-webkit-min-device-pixel-ratio: 2) {
+      @content;
+    }
   }
 }

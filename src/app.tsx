@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo } from 'react';
-import { hot } from 'react-hot-loader/root';
 import { IntlProvider } from 'react-intl';
 import { Notification } from './components/components/notification/notification';
 import { routes } from './modules';
@@ -38,4 +37,4 @@ const App = () => (
   </StoreProvider>
 );
 
-export default process.env.NODE_ENV === 'development' ? hot(App) : App;
+export default App;

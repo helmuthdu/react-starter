@@ -21,12 +21,10 @@ module.exports = withBundleAnalyzer({
       }
     );
 
-    config.resolve.alias['@'] = path.join(__dirname, 'client');
+    config.resolve.alias['@'] = path.join(__dirname, 'src');
 
     config.plugins = config.plugins || [];
-    config.plugins = [
-      ...config.plugins,
-    ];
+    config.plugins = [...config.plugins];
 
     return config;
   }

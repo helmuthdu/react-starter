@@ -1,5 +1,5 @@
+import { Component } from 'react';
 import { fireEvent, render } from '@testing-library/react';
-import React, { Component } from 'react';
 
 const STATUS = {
   HOVERED: 'hovered',
@@ -58,7 +58,6 @@ describe('component -> Link', () => {
   });
 
   it('should have text value', () => {
-    // @ts-ignore
     expect(getByText(/Facebook/i)).toBeInTheDocument();
   });
 
@@ -69,13 +68,11 @@ describe('component -> Link', () => {
 
   it('should change state onMouseEnter called', () => {
     fireEvent.mouseEnter(getByTestId('link-btn'));
-    // @ts-ignore
     expect(getByTestId('link-btn')).toHaveClass(STATUS.HOVERED);
   });
 
   it('should change state onMouseLeave called', () => {
     fireEvent.mouseLeave(getByTestId('link-btn'));
-    // @ts-ignore
     expect(getByTestId('link-btn')).toHaveClass(STATUS.NORMAL);
   });
 });

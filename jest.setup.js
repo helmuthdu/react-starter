@@ -5,16 +5,16 @@ global.fetch = require('jest-fetch-mock');
 
 window.matchMedia =
   window.matchMedia ||
-  function() {
+  function () {
     return {
       matches: false,
-      addListener: function() {},
-      removeListener: function() {}
+      addListener: jest.fn(),
+      removeListener: jest.fn()
     };
   };
 
 window.requestAnimationFrame =
   window.requestAnimationFrame ||
-  function(callback) {
+  function (callback) {
     setTimeout(callback, 0);
   };

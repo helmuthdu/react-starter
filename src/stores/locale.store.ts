@@ -1,6 +1,8 @@
 import { atom, RecoilState, selector } from 'recoil';
 import { Http } from '../utils';
 
+const STORE_ID = 'Locale';
+
 export enum SupportedLanguages {
   English = 'en'
 }
@@ -11,23 +13,23 @@ export type Locale = {
 };
 
 export const localeState: RecoilState<Locale> = atom({
-  key: 'LocaleState',
+  key: STORE_ID,
   default: {
     language: SupportedLanguages.English,
-    messages: JSON.parse(localStorage.getItem('LocaleState') ?? '{}')
+    messages: JSON.parse(localStorage.getItem(STORE_ID) ?? '{}')
   }
 });
 
-export const selectLocale = selector<Locale>({
-  key: 'GetLocaleMessages',
+export const localeStore = selector<Locale>({
+  key: 'LocaleStore',
   get: ({ get }) => {
-    const { language, messages } = get(localeState);
-    return { language, messages };
+    return get(localeState);
   },
   set: ({ set }, payload) => {
     set(localeState, state => {
-      localStorage.setItem('LocaleState', JSON.stringify({ ...state, ...payload }));
-      return { ...state, ...payload };
+      const locale = { ...state, ...payload };
+      localStorage.setItem(STORE_ID, JSON.stringify(locale));
+      return locale;
     });
   }
 });

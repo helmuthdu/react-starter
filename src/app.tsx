@@ -3,12 +3,13 @@ import { hot } from 'react-hot-loader/root';
 import { IntlProvider } from 'react-intl';
 import { RecoilRoot, useRecoilState } from 'recoil';
 import { Notification } from './components/components/notification/notification';
+import { ErrorBoundary } from './components/utils/error-boundary/error-boundary';
 import { routes } from './modules';
 import AppRouter from './routes';
-import { fetchLocaleMessages, selectLocale } from './stores/locale.store';
+import { fetchLocaleMessages, localeStore } from './stores/locale.store';
 
 export const Container = () => {
-  const [{ language, messages }, setLocale] = useRecoilState(selectLocale);
+  const [{ language, messages }, setLocale] = useRecoilState(localeStore);
 
   useEffect(() => {
     fetchLocaleMessages(language).then((messages = {}) => {
@@ -31,7 +32,9 @@ export const Container = () => {
 
 const App = () => (
   <RecoilRoot>
-    <Container />
+    <ErrorBoundary>
+      <Container />
+    </ErrorBoundary>
   </RecoilRoot>
 );
 

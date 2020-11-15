@@ -6,20 +6,11 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const path = require('path');
 
 module.exports = withBundleAnalyzer({
-  distDir: '../dist',
-  env: {},
   webpack(config) {
-    config.module.rules.push(
-      {
-        test: /\.svg$/,
-        use: ['@svgr/webpack']
-      },
-      {
-        test: /\.mjs$/,
-        include: /node_modules/,
-        type: 'javascript/auto'
-      }
-    );
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack']
+    });
 
     config.resolve.alias['@'] = path.join(__dirname, 'src');
 

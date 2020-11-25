@@ -24,7 +24,7 @@ export class HomeRoute extends Component<Props, State> {
   public componentDidMount() {
     return new Promise((resolve, reject) => {
       console.log('Before mounting HomePage component', this.props);
-      return resolve();
+      return resolve(true);
     });
   }
 

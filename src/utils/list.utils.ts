@@ -16,8 +16,8 @@ export const get = <T, K extends keyof T>(obj: T, path: K | string, defaultValue
     .reduce((acc: any, cur: string) => (Object.hasOwnProperty.call(acc, cur) ? acc[cur] : defaultValue), obj);
 
 export const groupBy = <T>(list: T | T[] | ReadonlyArray<T>, key: keyof T): DictionaryArray<T> =>
-  (Array.isArray(list) ? list : Object.values(list)).reduce(
-    (acc, val: T, idx: number, arr: T[] | ReadonlyArray<T>, prop = val[key]) => {
+  Object.values(list).reduce(
+    (acc: DictionaryArray<T>, val: T, idx: number, arr: T[] | ReadonlyArray<T>, prop = val[key]) => {
       if (!prop) return acc;
       if (!acc[prop]) acc[prop] = [];
       acc[prop].push(val);
@@ -27,8 +27,8 @@ export const groupBy = <T>(list: T | T[] | ReadonlyArray<T>, key: keyof T): Dict
   );
 
 export const keyBy = <T>(list: T | T[] | ReadonlyArray<T>, key: keyof T): Dictionary<T> =>
-  (Array.isArray(list) ? list : Object.values(list)).reduce(
-    (acc, val: T, idx: number, arr: T[] | ReadonlyArray<T>, prop = val[key]) => {
+  Object.values(list).reduce(
+    (acc: Dictionary<T>, val: T, idx: number, arr: T[] | ReadonlyArray<T>, prop = val[key]) => {
       if (!prop) return acc;
       acc[prop] = val;
       return acc;

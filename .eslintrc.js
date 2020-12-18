@@ -1,5 +1,6 @@
 module.exports = {
   env: {
+    node: true,
     'jest/globals': true,
     'cypress/globals': true
   },
@@ -22,5 +23,10 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'prettier/prettier': 'error',
     'no-console': 'off'
+  },
+  settings: {
+    react: {
+      version: 'detect'
+    }
   }
 };

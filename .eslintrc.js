@@ -4,7 +4,7 @@ module.exports = {
     'cypress/globals': true
   },
   extends: ['react-app', 'react-app/jest', 'plugin:prettier/recommended', 'prettier'],
-  plugins: ['prettier', 'jest', 'cypress'],
+  plugins: ['jest', 'cypress', 'prettier'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/prefer-interface': 0,

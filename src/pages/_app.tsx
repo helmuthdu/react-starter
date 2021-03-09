@@ -1,19 +1,38 @@
-import { StoreProvider } from '@/stores';
+import { fetchLocaleMessages, localeStore } from '@/stores/locale.store';
 import { AppInitialProps } from 'next/app';
 import { AppContext } from 'next/dist/pages/_app';
+import { useEffect, useMemo } from 'react';
 import { IntlProvider } from 'react-intl';
+import { RecoilRoot, useRecoilState } from 'recoil';
 
 import '../styles/all.scss';
 
-const App = ({ Component, pageProps, locale, messages }: any) => {
-  return (
-    <StoreProvider logger={process.env.NODE_ENV === 'development'}>
+export const I18n = ({ children }: any) => {
+  const [{ locale, messages }, setLocale] = useRecoilState(localeStore);
+
+  useEffect(() => {
+    fetchLocaleMessages(locale).then((messages = {}) => {
+      setLocale(state => ({ ...state, messages }));
+    });
+  }, [locale]);
+
+  return useMemo(
+    () => (
       <IntlProvider locale={locale} messages={messages}>
-        <Component {...pageProps} />
+        {children}
       </IntlProvider>
-    </StoreProvider>
+    ),
+    [messages]
   );
 };
+
+const App = ({ Component, pageProps }: any) => (
+  <RecoilRoot>
+    <I18n>
+      <Component {...pageProps} />
+    </I18n>
+  </RecoilRoot>
+);
 
 App.getInitialProps = async ({ Component, ctx }: AppContext): Promise<AppInitialProps & Record<string, any>> => {
   let pageProps = {};
@@ -22,10 +41,7 @@ App.getInitialProps = async ({ Component, ctx }: AppContext): Promise<AppInitial
     pageProps = await Component.getInitialProps(ctx);
   }
 
-  const { req } = ctx;
-  const { locale, messages } = req || window.__NEXT_DATA__.props;
-
-  return { pageProps, locale, messages };
+  return { pageProps };
 };
 
 export default App;

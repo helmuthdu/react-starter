@@ -1,6 +1,6 @@
-import { StoreProvider } from '@/stores';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import { IntlProvider } from 'react-intl';
+import { RecoilRoot } from 'recoil';
 
 const router = jest.mock('next/router', () => {
   const mockedRouter = {
@@ -27,8 +27,8 @@ const router = jest.mock('next/router', () => {
 type Props = { children: any };
 export const AppTest = ({ children }: Props) => (
   <RouterContext.Provider value={router as any}>
-    <StoreProvider>
+    <RecoilRoot>
       <IntlProvider locale="en">{children}</IntlProvider>
-    </StoreProvider>
+    </RecoilRoot>
   </RouterContext.Provider>
 );

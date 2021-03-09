@@ -17,6 +17,5 @@ exports[`user/page -> SignIn should match snapshot 1`] = `
       Submit
     </button>
   </form>
-  User: 
 </DocumentFragment>
 `;

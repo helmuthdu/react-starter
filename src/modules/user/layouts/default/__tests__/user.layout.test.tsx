@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react';
-import DefaultLayout from '../default.layout';
+import UserLayout from '../user.layout';
 
 const component = () => <p>lorem ipsum</p>;
 
-describe('layouts -> DefaultLayout component', () => {
+describe('layouts -> UserLayout component', () => {
   it('should match snapshot', () => {
-    const { asFragment } = render(<DefaultLayout>{component}</DefaultLayout>);
+    const { asFragment } = render(<UserLayout>{component}</UserLayout>);
     expect(asFragment()).toMatchSnapshot();
   });
 });

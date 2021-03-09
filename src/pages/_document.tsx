@@ -5,12 +5,8 @@ import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, Next
 export default class IntlDocument extends Document<any> {
   static async getInitialProps(context: DocumentContext): Promise<DocumentInitialProps & Record<string, any>> {
     const props = await super.getInitialProps(context);
-    const {
-      req: { locale }
-    } = context as any;
     return {
-      ...props,
-      locale
+      ...props
     };
   }
 

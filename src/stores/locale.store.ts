@@ -8,14 +8,14 @@ export enum SupportedLanguages {
 }
 
 export type Locale = {
-  language: SupportedLanguages;
+  locale: SupportedLanguages;
   messages: Record<string, string>;
 };
 
 export const localeState: RecoilState<Locale> = atom({
   key: STORE_ID,
   default: {
-    language: SupportedLanguages.English,
+    locale: SupportedLanguages.English,
     messages: JSON.parse(localStorage.getItem(STORE_ID) ?? '{}')
   }
 });

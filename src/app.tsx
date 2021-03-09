@@ -8,21 +8,20 @@ import { routes } from './modules';
 import AppRouter from './routes';
 import { fetchLocaleMessages, localeStore } from './stores/locale.store';
 
-export const Container = () => {
-  const [{ language, messages }, setLocale] = useRecoilState(localeStore);
+export const I18n = ({ children }: any) => {
+  const [{ locale, messages }, setLocale] = useRecoilState(localeStore);
 
   useEffect(() => {
-    fetchLocaleMessages(language).then((messages = {}) => {
-      setLocale(locale => ({ ...locale, messages }));
+    fetchLocaleMessages(locale).then((messages = {}) => {
+      setLocale(state => ({ ...state, messages }));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language]);
+  }, [locale]);
 
   return useMemo(
     () => (
-      <IntlProvider locale={language} messages={messages}>
-        <AppRouter routes={routes} />
-        <Notification />
+      <IntlProvider locale={locale} messages={messages}>
+        {children}
       </IntlProvider>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -33,7 +32,10 @@ export const Container = () => {
 const App = () => (
   <RecoilRoot>
     <ErrorBoundary>
-      <Container />
+      <I18n>
+        <AppRouter routes={routes} />
+        <Notification />
+      </I18n>
     </ErrorBoundary>
   </RecoilRoot>
 );

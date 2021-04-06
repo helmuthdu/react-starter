@@ -1,4 +1,4 @@
-import { useLocalStorage, useLogger } from '../hooks';
+import { useLocalStorage, useDispatchLogger } from '../hooks';
 import React, { createContext, Dispatch, Reducer, useCallback, useContext, useEffect, useReducer } from 'react';
 import * as appModules from '../modules';
 import * as rootModules from './modules';
@@ -49,7 +49,7 @@ const StoreProvider = ({ children, logger }: Props): JSX.Element => {
     []
   );
   const [state, _dispatch] = useReducer<Reducer<AppState, AppAction>>(reducer, initialState);
-  const [, setLog, printLog] = useLogger();
+  const [, setLog, printLog] = useDispatchLogger();
   const [storage, setStorage] = useLocalStorage<AppState>('_app_state_snapshot');
 
   const dispatch = useCallback((action: AppDispatch): Promise<void> | void => {

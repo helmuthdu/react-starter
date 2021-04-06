@@ -4,7 +4,7 @@ import Logger from './logger.util';
 const log = (type: keyof typeof Logger, method: string, url: string, data: any, time: number) => {
   const _url = url?.split('/') as string[];
   const timestamp = Logger.getTimestamp();
-  Logger.groupCollapsed(`Http.${method?.toLowerCase()}('…/${_url[_url.length - 1]}')`, time, 'HTTP');
+  Logger.groupCollapsed(`Http.${method?.toLowerCase()}('…/${_url[_url.length - 1]}')`, 'HTTP', time);
   Logger.setTimestamp(false);
   Logger.info('url:', url);
   Logger[type]('res:' as never, data);

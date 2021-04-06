@@ -18,7 +18,7 @@ export const loggerEffect = (name: string) => <T>({
   onSet: (param: (newValue: T | DefaultValue, oldValue: T | DefaultValue) => void) => void;
 }) => {
   onSet((nextState, prevState) => {
-    Logger.groupCollapsed(name, Date.now(), 'EFFECT');
+    Logger.groupCollapsed(name, 'EFFECT');
     Logger.debug('PREV_STATE', JSON.parse(JSON.stringify(prevState)));
     Logger.debug('NEXT_STATE', JSON.parse(JSON.stringify(nextState)));
     Logger.groupEnd();

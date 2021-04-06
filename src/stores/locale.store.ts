@@ -1,6 +1,6 @@
 import { atom, RecoilState } from 'recoil';
+import { localStorageEffect, loggerEffect } from '../effects';
 import { Http } from '../utils';
-import { localStorageEffect } from '../utils/localStorage.util';
 
 const STORE_ID = 'Locale';
 
@@ -19,7 +19,7 @@ export const localeState: RecoilState<Locale> = atom({
     locale: SupportedLanguages.English,
     messages: {}
   },
-  effects_UNSTABLE: [localStorageEffect('locales')]
+  effects_UNSTABLE: [localStorageEffect(STORE_ID), loggerEffect(STORE_ID.toUpperCase())]
 });
 
 export const fetchLocaleMessages = async (language: SupportedLanguages): Promise<Record<string, string> | undefined> =>

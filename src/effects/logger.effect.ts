@@ -1,7 +1,7 @@
 import { DefaultValue, RecoilState } from 'recoil';
+import Logger from '../utils/logger.util';
 
-export const localStorageEffect = (key: string) => <T>({
-  setSelf,
+export const loggerEffect = (name: string) => <T>({
   onSet
 }: {
   node: RecoilState<T>;
@@ -17,16 +17,10 @@ export const localStorageEffect = (key: string) => <T>({
   // Atom effect observers are called before global transaction observers
   onSet: (param: (newValue: T | DefaultValue, oldValue: T | DefaultValue) => void) => void;
 }) => {
-  const savedValue = localStorage.getItem(key);
-  if (savedValue != null) {
-    setSelf(JSON.parse(savedValue));
-  }
-
-  onSet(newValue => {
-    if (newValue instanceof DefaultValue) {
-      localStorage.removeItem(key);
-    } else {
-      localStorage.setItem(key, JSON.stringify(newValue));
-    }
+  onSet((nextState, prevState) => {
+    Logger.groupCollapsed(name, Date.now(), 'EFFECT');
+    Logger.debug('PREV_STATE', JSON.parse(JSON.stringify(prevState)));
+    Logger.debug('NEXT_STATE', JSON.parse(JSON.stringify(nextState)));
+    Logger.groupEnd();
   });
 };

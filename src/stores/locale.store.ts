@@ -1,5 +1,6 @@
-import { atom, RecoilState, selector } from 'recoil';
+import { atom, RecoilState } from 'recoil';
 import { Http } from '../utils';
+import { localStorageEffect } from '../utils/localStorage.util';
 
 const STORE_ID = 'Locale';
 
@@ -16,22 +17,9 @@ export const localeState: RecoilState<Locale> = atom({
   key: STORE_ID,
   default: {
     locale: SupportedLanguages.English,
-    messages: JSON.parse(localStorage.getItem(STORE_ID) ?? '{}')
-  }
-});
-
-export const localeStore = selector<Locale>({
-  key: 'LocaleStore',
-  get: ({ get }) => {
-    return get(localeState);
+    messages: {}
   },
-  set: ({ set }, payload) => {
-    set(localeState, state => {
-      const locale = { ...state, ...payload };
-      localStorage.setItem(STORE_ID, JSON.stringify(locale));
-      return locale;
-    });
-  }
+  effects_UNSTABLE: [localStorageEffect('locales')]
 });
 
 export const fetchLocaleMessages = async (language: SupportedLanguages): Promise<Record<string, string> | undefined> =>

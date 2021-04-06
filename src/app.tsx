@@ -6,10 +6,10 @@ import { Notification } from './components/components/notification/notification'
 import { ErrorBoundary } from './components/utils/error-boundary/error-boundary';
 import { routes } from './modules';
 import AppRouter from './routes';
-import { fetchLocaleMessages, localeStore } from './stores/locale.store';
+import { fetchLocaleMessages, localeState } from './stores/locale.store';
 
 export const I18n = ({ children }: any) => {
-  const [{ locale, messages }, setLocale] = useRecoilState(localeStore);
+  const [{ locale, messages }, setLocale] = useRecoilState(localeState);
 
   useEffect(() => {
     fetchLocaleMessages(locale).then((messages = {}) => {
@@ -19,11 +19,14 @@ export const I18n = ({ children }: any) => {
   }, [locale]);
 
   return useMemo(
-    () => (
-      <IntlProvider locale={locale} messages={messages}>
-        {children}
-      </IntlProvider>
-    ),
+    () =>
+      Object.keys(messages).length === 0 ? (
+        <span>loading...</span>
+      ) : (
+        <IntlProvider locale={locale} messages={messages}>
+          {children}
+        </IntlProvider>
+      ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [messages]
   );

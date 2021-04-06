@@ -13,7 +13,11 @@ type Props = {
 };
 
 export const SignIn = (props: Props) => {
-  const { register, handleSubmit, errors } = useForm<FormValues>({ mode: `onChange` });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FormValues>({ mode: `onChange` });
 
   const onSubmit = (data: FormValues) => {
     setTimeout(() => {
@@ -25,15 +29,14 @@ export const SignIn = (props: Props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input
-        ref={register({ required: true })}
+        {...register('email', { required: true })}
         type="email"
-        name="email"
         onChange={(evt: SyntheticEvent<HTMLInputElement>) => {
           props.onChange(evt);
         }}
       />
       {errors.email && <span>This field is required</span>}
-      <input ref={register({ required: true })} type="password" name="password" />
+      <input type="password" {...register('password', { required: true })} />
       {errors.password && <span>This field is required</span>}
       <button type="submit" onClick={props.onClick}>
         Submit

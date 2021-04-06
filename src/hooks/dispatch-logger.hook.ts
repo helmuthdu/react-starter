@@ -25,7 +25,7 @@ export const useDispatchLogger = (): [
 
     const { type, state: prevState, action, time } = logger.current;
 
-    Logger.groupCollapsed(type, time, 'ACTION');
+    Logger.groupCollapsed(type, 'ACTION', time);
     Logger.debug('ACTION', action);
     Logger.debug('PREV_STATE', prevState);
     Logger.debug('NEXT_STATE', nextState);

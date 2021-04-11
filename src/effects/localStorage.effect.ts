@@ -1,4 +1,5 @@
 import { DefaultValue, RecoilState } from 'recoil';
+import { getStorageItem, removeStorageItem, setStorageItem } from '../utils';
 
 export const localStorageEffect = (key: string) => <T>({
   setSelf,
@@ -17,16 +18,16 @@ export const localStorageEffect = (key: string) => <T>({
   // Atom effect observers are called before global transaction observers
   onSet: (param: (newValue: T | DefaultValue, oldValue: T | DefaultValue) => void) => void;
 }) => {
-  const savedValue = localStorage.getItem(key);
+  const savedValue = getStorageItem<T>(key);
   if (savedValue) {
-    setSelf(JSON.parse(savedValue));
+    setSelf(savedValue);
   }
 
   onSet(newValue => {
     if (newValue instanceof DefaultValue) {
-      localStorage.removeItem(key);
+      removeStorageItem(key);
     } else {
-      localStorage.setItem(key, JSON.stringify(newValue));
+      setStorageItem<T>(key, newValue);
     }
   });
 };

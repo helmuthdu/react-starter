@@ -2,7 +2,7 @@ import { atom, RecoilState } from 'recoil';
 import { localStorageEffect, loggerEffect } from '../effects';
 import { Http } from '../utils';
 
-const STORE_ID = 'Locale';
+const STORE_ID = 'locale';
 
 export enum SupportedLanguages {
   English = 'en'

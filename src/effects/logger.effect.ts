@@ -1,5 +1,5 @@
 import { DefaultValue, RecoilState } from 'recoil';
-import Logger from '../utils/logger.util';
+import { Logger } from '../utils';
 
 export const loggerEffect = (name: string) => <T>({
   onSet

@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch';
-import Logger from './logger.util';
+import { Logger } from './logger.util';
 
 const log = (type: keyof typeof Logger, method: string, url: string, data: any, time: number) => {
   const _url = url?.split('/') as string[];

@@ -1,20 +1,24 @@
 import React, { Suspense } from 'react';
 import { Redirect } from 'react-router';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import NotFoundRoute from './not-found/not-found.route';
+import { Notification } from '../components/components/notification/notification';
+import { I18nSwitch } from '../components/components/i18n/i18n-switch';
+import { I18nRouter } from '../components/components/i18n/i18n-router';
 
 export const AppRouter = ({ routes }: { routes: React.ReactNode[] }) => {
   return (
-    <Router>
+    <I18nRouter>
       <Suspense fallback={null}>
-        <Switch>
+        <I18nSwitch>
           {routes}
-          <Route path="/not-found" component={NotFoundRoute} />
-          <Redirect to="/not-found" />
-        </Switch>
+          <Route path="not-found" component={NotFoundRoute} />
+          <Redirect to="not-found" />
+        </I18nSwitch>
       </Suspense>
-    </Router>
+      <Notification />
+    </I18nRouter>
   );
 };
 

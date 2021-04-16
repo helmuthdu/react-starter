@@ -5,7 +5,7 @@ import { Http } from '../utils';
 const STORE_ID = 'locale';
 
 export enum SupportedLanguages {
-  English = 'en'
+  English = 'en-US'
 }
 
 export type Locale = {

@@ -1,5 +1,5 @@
 import { Observable, SchedulerLike, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, startWith } from 'rxjs/operators';
 
 interface InputObservableOptions {
   time?: number;
@@ -21,6 +21,7 @@ export const debounceValueObservable = (
   return subject.pipe(
     debounceTime(time, scheduler),
     filter(query => query.length >= minLength || query.length === 0),
-    distinctUntilChanged()
+    distinctUntilChanged(),
+    startWith('')
   );
 };

@@ -4,7 +4,11 @@ import { Logger } from './logger.util';
 const log = (type: keyof typeof Logger, url: string, req: RequestInit, res: unknown, time: number) => {
   const _url = url?.split('/') as string[];
   const timestamp = Logger.getTimestamp();
-  Logger.groupCollapsed(`Http.${req.method?.toLowerCase()}('…/${_url[_url.length - 1]}')`, 'HTTP', time);
+  Logger.groupCollapsed(
+    `Http.${req.method?.toLowerCase()}('…/${url[url.length - 1]}')`,
+    `HTTP|${type.toUpperCase()}`,
+    time
+  );
   Logger.setTimestamp(false);
   Logger.info('url:', url);
   Logger.debug('req:', req);

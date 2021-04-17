@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { USER_ROUTES, ROOT_ROUTES } from '../../../paths';
+import { USER_ROUTES, MAIN_ROUTES } from '../../../paths';
 import logo from '../../assets/images/logo.svg';
 
-type Props = { onLinkClick: (route: USER_ROUTES | ROOT_ROUTES) => void };
+type Props = { onLinkClick: (route: USER_ROUTES | MAIN_ROUTES) => void };
 export const Home = (props: Props) => (
   <div className="App">
     <header className="App-header">
@@ -15,7 +15,7 @@ export const Home = (props: Props) => (
         <FormattedMessage id="LEARN_REACT" />
       </a>
       Navigate to
-      <div className="App-link" onClick={() => props.onLinkClick(ROOT_ROUTES.ABOUT)} title="go to about page">
+      <div className="App-link" onClick={() => props.onLinkClick(MAIN_ROUTES.ABOUT)} title="go to about page">
         about page
       </div>
       or to

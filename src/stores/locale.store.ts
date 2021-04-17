@@ -22,5 +22,7 @@ export const localeState: RecoilState<Locale> = atom({
   effects_UNSTABLE: [localStorageEffect(STORE_ID), loggerEffect(STORE_ID.toUpperCase())]
 });
 
-export const fetchLocaleMessages = async (language: SupportedLanguages): Promise<Record<string, string> | undefined> =>
-  (await Http.get<Record<string, string>>({ url: `${process.env.PUBLIC_URL}/locales/${language}.json` })).data;
+export const loadTranslationsAsync = async (
+  language: SupportedLanguages
+): Promise<Record<string, string> | undefined> =>
+  await Http.get<Record<string, string>>(`${process.env.PUBLIC_URL}/locales/${language}.json`);

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { IntlProvider } from 'react-intl';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
-import { fetchLocaleMessages, localeState, SupportedLanguages } from '../../../stores/locale.store';
+import { loadTranslationsAsync, localeState, SupportedLanguages } from '../../../stores/locale.store';
 import { useRecoilState } from 'recoil';
 
 export const isLanguageSupported = (lang: SupportedLanguages): boolean =>
@@ -11,7 +11,7 @@ export const I18nRouter: React.FC = ({ children }) => {
   const [{ locale, messages }, setLocale] = useRecoilState(localeState);
 
   useEffect(() => {
-    fetchLocaleMessages(locale).then((messages = {}) => {
+    loadTranslationsAsync(locale).then((messages = {}) => {
       setLocale(state => ({ ...state, messages }));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

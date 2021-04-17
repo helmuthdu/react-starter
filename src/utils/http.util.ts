@@ -5,7 +5,7 @@ const log = (type: keyof typeof Logger, url: string, req: RequestInit, res: unkn
   const _url = url?.split('/') as string[];
   const timestamp = Logger.getTimestamp();
   Logger.groupCollapsed(
-    `Http.${req.method?.toLowerCase()}('…/${url[url.length - 1]}')`,
+    `Http.${req.method?.toLowerCase()}('…/${_url[_url.length - 1]}')`,
     `HTTP|${type.toUpperCase()}`,
     time
   );
@@ -43,7 +43,7 @@ export class Http {
   }
 
   private static async _fetch<T>(url: string, options: RequestInit): Promise<T> {
-    const { headers, body, ...rest } = options;
+    const { headers, ...rest } = options;
 
     const req: RequestInit = {
       headers: {
@@ -52,10 +52,6 @@ export class Http {
       },
       ...rest
     };
-
-    if (body) {
-      req.body = JSON.stringify(body);
-    }
 
     const time = Date.now();
     return fetch(url, req)

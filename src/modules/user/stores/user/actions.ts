@@ -13,36 +13,34 @@ export type Action = {
 };
 
 export const actionSignUp = (payload: UserSchema, callback?: () => void) => async (dispatch: Dispatch<AppDispatch>) => {
-  const res = await usersApi.signUp(payload);
-
-  if (res.error) {
-    dispatch(actionAddError({ signUpAlreadyExists: true }));
-  } else if (res.data) {
+  try {
+    const res = await usersApi.signUp(payload);
     dispatch({
       type: UserActionTypes.USER_SET_USER,
-      payload: { ...res.data },
+      payload: { ...res },
       callback
     });
     dispatch(actionDeleteErrors());
+  } catch (err) {
+    dispatch(actionAddError({ signUpAlreadyExists: true }));
   }
 };
 
 export const actionSignIn = (payload: UserSchema, callback?: () => void) => async (dispatch: Dispatch<AppDispatch>) => {
-  const res = await usersApi.signIn(payload);
-
-  if (res.error) {
-    if (res.status === 409) {
-      dispatch(actionAddError({ signInNotFound: true }));
-    } else {
-      dispatch(actionAddError({ signInWrongInput: true }));
-    }
-  } else if (res.data) {
+  try {
+    const res = await usersApi.signIn(payload);
     dispatch({
       type: UserActionTypes.USER_SET_USER,
       payload: { ...res.data },
       callback
     });
     dispatch(actionDeleteErrors());
+  } catch (err) {
+    if (err.status === 409) {
+      dispatch(actionAddError({ signInNotFound: true }));
+    } else {
+      dispatch(actionAddError({ signInWrongInput: true }));
+    }
   }
 };
 

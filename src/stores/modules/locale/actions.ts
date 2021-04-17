@@ -12,7 +12,7 @@ export type Action = {
 export const actionGetMessages = async (payload: string, callback?: () => void): Promise<Action> => ({
   type: LocaleActionTypes.LOCALE_SET_MESSAGES,
   payload: {
-    messages: (await Http.get({ url: `${process.env.PUBLIC_URL}/locales/${payload}.json` })).data as any
+    messages: (await Http.get(`${process.env.PUBLIC_URL}/locales/${payload}.json`)) as any
   },
   callback
 });

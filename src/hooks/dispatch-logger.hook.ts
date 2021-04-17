@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { AppAction, AppState } from '../stores';
-import Logger from '../utils/logger.util';
+import { Logger } from '../utils';
 
 type LoggerParams = { type: string; action: AppAction; state: AppState; time: number };
 

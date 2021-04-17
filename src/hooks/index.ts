@@ -1,2 +1,2 @@
-export * from './localstorage.hook';
 export * from './dispatch-logger.hook';
+export * from './storage.hook';

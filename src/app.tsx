@@ -1,39 +1,14 @@
-import React, { useEffect, useMemo } from 'react';
-import { IntlProvider } from 'react-intl';
-import { Notification } from './components/components/notification/notification';
+import React from 'react';
 import { routes } from './modules';
 import AppRouter from './routes';
-import { StoreProvider, useStore } from './stores';
-import { actionGetMessages } from './stores/modules/locale';
-
-const Container = () => {
-  const [
-    {
-      locale: { language, messages }
-    },
-    dispatch
-  ] = useStore();
-
-  useEffect(() => {
-    dispatch(actionGetMessages(language));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language]);
-
-  return useMemo(
-    () => (
-      <IntlProvider locale={language} messages={messages}>
-        <AppRouter routes={routes} />
-        <Notification />
-      </IntlProvider>
-    ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [messages]
-  );
-};
+import { StoreProvider } from './stores';
+import { ErrorBoundary } from './components/utils/error-boundary/error-boundary';
 
 const App = () => (
   <StoreProvider logger={process.env.NODE_ENV === 'development'}>
-    <Container />
+    <ErrorBoundary>
+      <AppRouter routes={routes} />
+    </ErrorBoundary>
   </StoreProvider>
 );
 

@@ -1,78 +1,78 @@
 import fetch from 'isomorphic-unfetch';
-import Logger from './logger.util';
+import { Logger } from './logger.util';
 
-const log = (type: keyof typeof Logger, method: string, url: string, data: any, time: number) => {
+const log = (type: keyof typeof Logger, url: string, req: RequestInit, res: unknown, time: number) => {
   const _url = url?.split('/') as string[];
   const timestamp = Logger.getTimestamp();
-  Logger.groupCollapsed(`Http.${method?.toLowerCase()}('…/${_url[_url.length - 1]}')`, 'HTTP', time);
+  Logger.groupCollapsed(
+    `Http.${req.method?.toLowerCase()}('…/${_url[_url.length - 1]}')`,
+    `HTTP|${type.toUpperCase()}`,
+    time
+  );
   Logger.setTimestamp(false);
   Logger.info('url:', url);
-  Logger[type]('res:' as never, data);
+  Logger.debug('req:', req);
+  Logger[type]('res:' as never, res);
   Logger.setTimestamp(timestamp);
   Logger.groupEnd();
 };
 
-type HttpParams = {
-  body?: unknown;
-  headers?: Record<string, unknown>;
-  url: string;
-};
-
-type FetchParams = HttpParams & { method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' };
-
-type HttpResponse<T> = Partial<Response> & { data?: T; error?: unknown };
-
 export class Http {
-  static async get<T>(params: HttpParams): Promise<HttpResponse<T>> {
-    return await this.fetch<T>({ method: 'GET', ...params });
+  private static _headers: Record<string, string> = {
+    'Content-Type': 'application/json'
+  };
+
+  static async get<T>(url: string, options?: RequestInit): Promise<T> {
+    return await this._fetch<T>(url, { method: 'GET', ...options });
   }
 
-  static async post<T>(params: HttpParams): Promise<HttpResponse<T>> {
-    return await this.fetch<T>({ method: 'POST', ...params });
+  static async post<T>(url: string, options?: RequestInit): Promise<T> {
+    return await this._fetch<T>(url, { method: 'POST', ...options });
   }
 
-  static async put<T>(params: HttpParams): Promise<HttpResponse<T>> {
-    return await this.fetch<T>({ method: 'PUT', ...params });
+  static async put<T>(url: string, options?: RequestInit): Promise<T> {
+    return await this._fetch<T>(url, { method: 'PUT', ...options });
   }
 
-  static async patch<T>(params: HttpParams): Promise<HttpResponse<T>> {
-    return await this.fetch<T>({ method: 'PATCH', ...params });
+  static async patch<T>(url: string, options?: RequestInit): Promise<T> {
+    return await this._fetch<T>(url, { method: 'PATCH', ...options });
   }
 
-  static async delete<T>(params: HttpParams): Promise<HttpResponse<T>> {
-    return await this.fetch<T>({ method: 'DELETE', ...params });
+  static async delete<T>(url: string, options?: RequestInit): Promise<T> {
+    return await this._fetch<T>(url, { method: 'DELETE', ...options });
   }
 
-  private static async fetch<T>(params: FetchParams): Promise<HttpResponse<T>> {
-    const { url, method, headers, body } = params;
+  private static async _fetch<T>(url: string, options: RequestInit): Promise<T> {
+    const { headers, ...rest } = options;
 
     const req: RequestInit = {
-      method,
-      headers: this.getHeaders(headers)
+      headers: {
+        ...this._headers,
+        ...headers
+      },
+      ...rest
     };
-
-    if (body) {
-      req.body = JSON.stringify(body);
-    }
 
     const time = Date.now();
     return fetch(url, req)
       .then(async (res: Response) => {
         const data: T = await res.json();
-        log('success', method, url, data, time);
-        return { ...res, data };
+        log('success', url, req, data, time);
+        return data;
       })
       .catch(error => {
-        log('error', method, url, error, time);
-        return { error };
+        log('error', url, req, error, time);
+        throw error;
       });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private static getHeaders(headers?: any) {
-    return {
-      'Content-Type': 'application/json',
-      ...headers
-    };
+  public static setHeaders(headers: Record<string, string | undefined>) {
+    Object.entries(headers).forEach(([key, val]) => {
+      if (val === undefined) {
+        delete this._headers[key];
+      } else {
+        this._headers[key] = val;
+      }
+    });
   }
 }

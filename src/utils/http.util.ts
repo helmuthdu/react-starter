@@ -14,31 +14,38 @@ const log = (type: keyof typeof Logger, url: string, req: RequestInit, res: unkn
 };
 
 export class Http {
+  private static _headers: Record<string, string> = {
+    'Content-Type': 'application/json'
+  };
+
   static async get<T>(url: string, options?: RequestInit): Promise<T> {
-    return await this.fetch<T>(url, { method: 'GET', ...options });
+    return await this._fetch<T>(url, { method: 'GET', ...options });
   }
 
   static async post<T>(url: string, options?: RequestInit): Promise<T> {
-    return await this.fetch<T>(url, { method: 'POST', ...options });
+    return await this._fetch<T>(url, { method: 'POST', ...options });
   }
 
   static async put<T>(url: string, options?: RequestInit): Promise<T> {
-    return await this.fetch<T>(url, { method: 'PUT', ...options });
+    return await this._fetch<T>(url, { method: 'PUT', ...options });
   }
 
   static async patch<T>(url: string, options?: RequestInit): Promise<T> {
-    return await this.fetch<T>(url, { method: 'PATCH', ...options });
+    return await this._fetch<T>(url, { method: 'PATCH', ...options });
   }
 
   static async delete<T>(url: string, options?: RequestInit): Promise<T> {
-    return await this.fetch<T>(url, { method: 'DELETE', ...options });
+    return await this._fetch<T>(url, { method: 'DELETE', ...options });
   }
 
-  private static async fetch<T>(url: string, options: RequestInit): Promise<T> {
+  private static async _fetch<T>(url: string, options: RequestInit): Promise<T> {
     const { headers, body, ...rest } = options;
 
     const req: RequestInit = {
-      headers: this.getHeaders(headers),
+      headers: {
+        ...this._headers,
+        ...headers
+      },
       ...rest
     };
 
@@ -59,11 +66,13 @@ export class Http {
       });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private static getHeaders(headers?: any) {
-    return {
-      'Content-Type': 'application/json',
-      ...headers
-    };
+  public static setHeaders(headers: Record<string, string | undefined>) {
+    Object.entries(headers).forEach(([key, val]) => {
+      if (val === undefined) {
+        delete this._headers[key];
+      } else {
+        this._headers[key] = val;
+      }
+    });
   }
 }

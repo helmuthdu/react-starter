@@ -19,16 +19,15 @@ export const I18nRouter: React.FC = ({ children }) => {
 
   return useMemo(
     () =>
-      Object.keys(messages).length === 0 ? (
-        <span>Loading...</span>
-      ) : (
+      Object.keys(messages).length === 0 ? null : (
         <BrowserRouter>
           <Route path="/:lang([a-zA-Z]{2}-[a-zA-Z]{2})">
             {({ match, location }) => {
               const lang: SupportedLanguages = ((match ? match.params : { lang: SupportedLanguages.English }) as any)
                 .lang;
-              console.log('I18nRouter');
+
               const { pathname } = location;
+
               if (!pathname.includes(`/${lang}/`)) {
                 return <Redirect to={`/${lang}/`} />;
               } else if (!isLanguageSupported(lang)) {

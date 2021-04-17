@@ -1,14 +1,14 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import { MemoryRouter } from 'react-router';
 import AppRouter from '../index';
+import { RecoilRoot } from 'recoil';
 
 describe('App router', () => {
   it('should match snapshot', () => {
     const { asFragment } = render(
-      <MemoryRouter>
+      <RecoilRoot>
         <AppRouter routes={[]} />
-      </MemoryRouter>
+      </RecoilRoot>
     );
     expect(asFragment()).toMatchSnapshot();
   });

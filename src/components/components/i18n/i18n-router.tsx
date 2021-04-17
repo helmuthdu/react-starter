@@ -18,29 +18,28 @@ export const I18nRouter: React.FC = ({ children }) => {
   }, []);
 
   return useMemo(
-    () =>
-      Object.keys(messages).length === 0 ? null : (
-        <BrowserRouter>
-          <Route path="/:lang([a-zA-Z]{2}-[a-zA-Z]{2})">
-            {({ match, location }) => {
-              const { pathname } = location;
-              const lang: SupportedLanguages = (match?.params as any)?.lang ?? SupportedLanguages.English;
+    () => (
+      <BrowserRouter>
+        <Route path="/:lang([a-zA-Z]{2}-[a-zA-Z]{2})">
+          {({ match, location }) => {
+            const { pathname } = location;
+            const lang: SupportedLanguages = (match?.params as any)?.lang ?? SupportedLanguages.English;
 
-              if (!pathname.includes(`/${lang}/`)) {
-                return <Redirect to={`/${lang}/`} />;
-              } else if (!isLanguageSupported(lang)) {
-                return <Redirect to={`/${SupportedLanguages.English}/`} />;
-              }
+            if (!pathname.includes(`/${lang}/`)) {
+              return <Redirect to={`/${lang}/`} />;
+            } else if (!isLanguageSupported(lang)) {
+              return <Redirect to={`/${SupportedLanguages.English}/`} />;
+            }
 
-              return (
-                <IntlProvider locale={lang} messages={messages}>
-                  {children}
-                </IntlProvider>
-              );
-            }}
-          </Route>
-        </BrowserRouter>
-      ),
+            return (
+              <IntlProvider locale={lang} messages={messages}>
+                {children}
+              </IntlProvider>
+            );
+          }}
+        </Route>
+      </BrowserRouter>
+    ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [messages]
   );

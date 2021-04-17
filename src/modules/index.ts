@@ -1,7 +1,7 @@
-import { routes as rootRoutes } from './main';
+import { routes as mainRoutes } from './main';
 import { routes as userRoutes } from './user';
 
-export const routes = [...rootRoutes, ...userRoutes];
+export const routes = [...mainRoutes, ...userRoutes];
 
 const appModules = {
   routes

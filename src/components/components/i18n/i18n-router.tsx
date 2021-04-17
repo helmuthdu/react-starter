@@ -23,10 +23,8 @@ export const I18nRouter: React.FC = ({ children }) => {
         <BrowserRouter>
           <Route path="/:lang([a-zA-Z]{2}-[a-zA-Z]{2})">
             {({ match, location }) => {
-              const lang: SupportedLanguages = ((match ? match.params : { lang: SupportedLanguages.English }) as any)
-                .lang;
-
               const { pathname } = location;
+              const lang: SupportedLanguages = (match?.params as any)?.lang ?? SupportedLanguages.English;
 
               if (!pathname.includes(`/${lang}/`)) {
                 return <Redirect to={`/${lang}/`} />;

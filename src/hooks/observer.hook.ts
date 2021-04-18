@@ -1,10 +1,10 @@
 /*
  * @example
- * const { subject: search$, callback: setSearch$ } = useSubject<string>();
- * const search = useObservable(search$.pipe(debounceTime(300), filter(query => !query || query.length >= 3 || query.length === 0), distinctUntilChanged()), '');
+ * const [search$, setSearch$] = useSubject<string>();
+ * const [search] = useObservable(search$.pipe(debounceTime(300), filter(query => !query || query.length >= 3 || query.length === 0), distinctUntilChanged()), '');
  */
 
-import { useEffect, useRef } from 'react';
+import { MutableRefObject, useEffect, useRef } from 'react';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 const useSubscribeTo = <T>(
@@ -12,15 +12,15 @@ const useSubscribeTo = <T>(
   next?: (value: T) => void,
   error?: (err: any) => void,
   complete?: () => void
-): Subscription => {
+): [Subscription] => {
   const subscription = observable.subscribe(next, error, complete);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => subscription.unsubscribe(), []);
-  return subscription;
+  return [subscription];
 };
 
-export const useObservable = <T>(observable: Observable<T>, defaultValue?: T) => {
-  const handler = useRef(defaultValue);
+export const useObservable = <T>(observable: Observable<T>, defaultValue?: T): [MutableRefObject<T>] => {
+  const handler = useRef(defaultValue) as MutableRefObject<T>;
   useSubscribeTo(
     observable,
     value => {
@@ -31,7 +31,7 @@ export const useObservable = <T>(observable: Observable<T>, defaultValue?: T) =>
     }
   );
 
-  return handler;
+  return [handler];
 };
 
 export const useSubscription = <T>(
@@ -39,14 +39,14 @@ export const useSubscription = <T>(
   next?: (value: T) => void,
   error?: (err: any) => void,
   complete?: () => void
-): Subscription => useSubscribeTo(observable, next, error, complete);
+): [Subscription] => useSubscribeTo(observable, next, error, complete);
 
-export const useSubject = <T>(): { subject: Subject<T>; callback: (value: T) => void } => {
+export const useSubject = <T>(): [Subject<T>, (value: T) => void] => {
   const subject = new Subject<T>();
-  return {
+  return [
     subject,
-    callback: (value: T) => {
+    (value: T) => {
       subject.next(value);
     }
-  };
+  ];
 };

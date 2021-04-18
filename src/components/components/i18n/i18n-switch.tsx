@@ -1,7 +1,7 @@
-import { useRecoilState } from 'recoil';
-import { localeState } from '../../../stores/locale.store';
 import React, { useCallback } from 'react';
 import { RouteProps, Switch } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { localeState } from '../../../stores/locale.store';
 
 export const I18nSwitch: React.FC = ({ children }) => {
   const [{ locale }] = useRecoilState(localeState);

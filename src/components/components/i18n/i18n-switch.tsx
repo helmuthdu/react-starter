@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { RouteProps, Switch } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { localeState } from '../../../stores/locale.store';
+import { useStorage } from '../../../hooks/storage.hook';
+import { LocaleMessages, LocaleStorageID } from './i18n-config';
 
 export const I18nSwitch: React.FC = ({ children }) => {
-  const [{ locale }] = useRecoilState(localeState);
+  const [{ locale }] = useStorage<LocaleMessages>(LocaleStorageID);
 
   const updateRoutePath = useCallback(
     (path: string | readonly string[] | undefined) => {

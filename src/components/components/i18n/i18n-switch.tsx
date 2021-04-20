@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { RouteProps, Switch } from 'react-router-dom';
 import { useStorage } from '../../../hooks/storage.hook';
-import { LocaleMessages, LocaleStorageID } from './i18n-config';
+import { LocaleMessages, LocaleStorageID } from './i18n';
 
 export const I18nSwitch: React.FC = ({ children }) => {
   const [{ locale }] = useStorage<LocaleMessages>(LocaleStorageID);

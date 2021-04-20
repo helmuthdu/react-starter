@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
-import { isLanguageSupported, SupportedLanguages } from './i18n-config';
+import { isLanguageSupported, SupportedLanguages } from './i18n';
 import { I18nProvider } from './i18n-provider';
 
 export const I18nRouter: React.FC = ({ children }) => (

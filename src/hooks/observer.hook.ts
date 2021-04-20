@@ -1,7 +1,7 @@
 /*
  * @example
  * const [search$, setSearch$] = useSubject<string>();
- * const [search] = useObservable(search$.pipe(debounceTime(300), filter(query => !query || query.length >= 3 || query.length === 0), distinctUntilChanged()), '');
+ * const search = useObservable(search$.pipe(debounceTime(300), filter(query => !query || query.length >= 3 || query.length === 0), distinctUntilChanged()), '');
  */
 
 import { MutableRefObject, useEffect, useRef } from 'react';
@@ -12,14 +12,14 @@ const useSubscribeTo = <T>(
   next?: (value: T) => void,
   error?: (err: any) => void,
   complete?: () => void
-): [Subscription] => {
+): Subscription => {
   const subscription = observable.subscribe(next, error, complete);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => subscription.unsubscribe(), []);
-  return [subscription];
+  return subscription;
 };
 
-export const useObservable = <T>(observable: Observable<T>, defaultValue?: T): [MutableRefObject<T>] => {
+export const useObservable = <T>(observable: Observable<T>, defaultValue?: T): MutableRefObject<T> => {
   const handler = useRef(defaultValue) as MutableRefObject<T>;
   useSubscribeTo(
     observable,
@@ -31,7 +31,7 @@ export const useObservable = <T>(observable: Observable<T>, defaultValue?: T): [
     }
   );
 
-  return [handler];
+  return handler;
 };
 
 export const useSubscription = <T>(
@@ -39,14 +39,12 @@ export const useSubscription = <T>(
   next?: (value: T) => void,
   error?: (err: any) => void,
   complete?: () => void
-): [Subscription] => useSubscribeTo(observable, next, error, complete);
+): Subscription => useSubscribeTo(observable, next, error, complete);
 
 export const useSubject = <T>(): [Subject<T>, (value: T) => void] => {
   const subject = new Subject<T>();
-  return [
-    subject,
-    (value: T) => {
-      subject.next(value);
-    }
-  ];
+  const set = (value: T) => {
+    subject.next(value);
+  };
+  return [subject, set];
 };

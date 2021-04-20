@@ -1,23 +1,21 @@
-import { useRef, useEffect } from 'react';
-import { getStorageItem, setStorageItem } from '../utils';
+import { useEffect, useState } from 'react';
+import { getStorageItem, Logger, setStorageItem } from '../utils';
 
-export const useStorage = <T>(key: string, defaultValue?: T, session = false) => {
-  const getItem = () => {
+export const useStorage = <T>(key: string, defaultValue?: T, session = false): [T, (data: T) => void] => {
+  const [storage, setStorage] = useState(() => {
     const item = getStorageItem<T>(key);
-    if (!item && defaultValue) {
+    if (item === undefined && defaultValue) {
       setStorageItem(key, defaultValue, session);
       return defaultValue;
     }
-    return item;
-  };
-
-  const storage = useRef(getItem());
+    return item as T;
+  });
 
   useEffect(() => {
-    setStorageItem(key, storage.current);
-  }, [key, storage]);
+    Logger.info(`[STORAGE] watch('${key}')`, storage);
+    setStorageItem(key, storage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storage]);
 
-  return storage;
+  return [storage, setStorage];
 };
-
-export default useStorage;

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { useWorkerFromCode } from '../../../../hooks/worker.hook';
+import { useWorker } from '../../../../hooks/worker.hook';
 import { Logger } from '../../../../utils';
 import { Home } from '../../components/home/home';
 
@@ -15,7 +15,7 @@ const resolve = (val: number): number => {
 export const HomeRoute = () => {
   const { push } = useHistory();
 
-  const [message, postMessage] = useWorkerFromCode(resolve, 0);
+  const [message, postMessage] = useWorker('W1', resolve, 0);
   const [, setStorage] = useStorage('fibonacci', message);
 
   useEffect(() => {

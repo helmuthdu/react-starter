@@ -4,7 +4,7 @@
  *   const fib = (i: number): number => (i <= 1 ? i : fib(i - 1) + fib(i - 2));
  *   return fib(val);
  * };
- * const [value, calc] = useWorkerFromScript(resolve);
+ * const [value, calc] = useWorker('w1', resolve, 0);
  */
 
 import { useEffect, useRef, useState } from 'react';
@@ -14,7 +14,7 @@ type UseWorker<T> = [T, (data: any) => void];
 
 const workers = new Map<string | number, Worker>();
 
-const useWorker = <T>(opts: {
+const useWorkerInit = <T>(opts: {
   code?: boolean;
   defaultValue?: T;
   id: string | number;
@@ -23,14 +23,14 @@ const useWorker = <T>(opts: {
   worker?: Worker;
 }): UseWorker<T> => {
   const worker = useRef<Worker>();
-  const [message, setMessage] = useState<T>(opts.defaultValue as T);
+  const [message, setMessage] = useState<T>(() => opts.defaultValue as T);
 
   const onMessage = (evt: MessageEvent) => {
     setMessage(evt.data);
   };
 
   const onError = (evt: ErrorEvent) => {
-    Logger.error('[WORKER] Message Failed', evt);
+    Logger.error(`[WORKER|${opts.id}] Message Failed`, evt);
   };
 
   const createWorker = () => {
@@ -47,17 +47,19 @@ const useWorker = <T>(opts: {
   const setupWorker = () => {
     createWorker();
     if (worker.current) {
-      worker.current.onmessage = onMessage;
-      worker.current.onerror = onError;
+      worker.current.addEventListener('message', onMessage, false);
+      worker.current.addEventListener('error', onError, false);
     } else {
-      Logger.error('[WORKER] Missing url or worker');
+      Logger.error(`[WORKER|${opts.id}] Missing id, url or worker`);
     }
   };
 
   const terminateWorker = () => {
-    Logger.info('[WORKER] Terminate Worker');
+    Logger.info(`[WORKER|${opts.id}] Terminate`);
     if (worker.current) {
-      if (opts.terminate) {
+      worker.current.removeEventListener('message', onMessage);
+      worker.current.removeEventListener('error', onError);
+      if (!opts.terminate) {
         worker.current.terminate();
       }
       worker.current = undefined;
@@ -69,11 +71,11 @@ const useWorker = <T>(opts: {
   };
 
   const postMessage = (data: any) => {
-    Logger.info('[WORKER] Post Message', data);
+    Logger.info(`[WORKER|${opts.id}] Post Message`, data);
     if (worker.current) {
       worker.current.postMessage(data);
     } else {
-      Logger.error('[WORKER] Worker not found');
+      Logger.error(`[WORKER|${opts.id}] Not found`);
     }
   };
 
@@ -84,31 +86,17 @@ const useWorker = <T>(opts: {
   return [message as T, postMessage];
 };
 
-// https://stackoverflow.com/a/52171480
-const generateId = (str: string, seed = 0) => {
-  let h1 = 0xdeadbeef ^ seed;
-  let h2 = 0x41c6ce57 ^ seed;
-  for (let i = 0, ch; i < str.length; i++) {
-    ch = str.charCodeAt(i);
-    h1 = Math.imul(h1 ^ ch, 2654435761);
-    h2 = Math.imul(h2 ^ ch, 1597334677);
-  }
-  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
-};
-
-export const useWorkerFromUrl = <T>(url: string, defaultValue?: T): UseWorker<T> =>
-  useWorker({ defaultValue, id: generateId(url), terminate: true, url });
-
-export const useWorkerFromCode = <T>(resolve: (data: any) => T, defaultValue?: T): UseWorker<T> => {
+export const useWorker = <T>(id: string, resolve: (data: any) => T, defaultValue?: T): UseWorker<T> => {
   const resolveString = resolve.toString();
   const webWorkerTemplate = `self.onmessage = function(e) { self.postMessage((${resolveString})(e.data)); }`;
   const blob = new Blob([webWorkerTemplate], { type: 'text/javascript' });
   const url = window.URL.createObjectURL(blob);
 
-  return useWorker<T>({ code: true, defaultValue, id: generateId(resolveString), terminate: true, url });
+  return useWorkerInit<T>({ code: true, defaultValue, id, terminate: true, url });
 };
 
-export const useWorkerFromWorker = <T>(worker: Worker, defaultValue?: T, id = 'aGVsbXV0aGR1'): UseWorker<T> =>
-  useWorker<T>({ defaultValue, id, worker });
+export const useWorkerFromUrl = <T>(id: string, url: string, defaultValue?: T): UseWorker<T> =>
+  useWorkerInit({ defaultValue, id, terminate: true, url });
+
+export const useWorkerFromWorker = <T>(id: string, worker: Worker, defaultValue?: T): UseWorker<T> =>
+  useWorkerInit<T>({ defaultValue, id, worker });

@@ -34,7 +34,7 @@ const useWorkerCreate = <T>(opts: UseWorkerCreateOptions<T>): UseWorker<T> => {
     Logger.error(`[WORKER|${opts.id}] Message Failed`, evt);
   };
 
-  const setupWorker = () => {
+  const setup = () => {
     if (!opts.worker && !opts.url) {
       Logger.error(`[WORKER|${opts.id}] Missing url/worker Property`);
       return;
@@ -45,7 +45,7 @@ const useWorkerCreate = <T>(opts: UseWorkerCreateOptions<T>): UseWorker<T> => {
     workers.set(opts.id, { ...opts, worker: worker.current });
   };
 
-  const terminateWorker = () => {
+  const terminate = () => {
     Logger.info(`[WORKER|${opts.id}] Terminate`);
     if (worker.current) {
       worker.current.removeEventListener('message', onMessage);
@@ -70,9 +70,9 @@ const useWorkerCreate = <T>(opts: UseWorkerCreateOptions<T>): UseWorker<T> => {
     }
   };
 
-  setupWorker();
+  setup();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => () => terminateWorker(), []);
+  useEffect(() => () => terminate(), []);
 
   return [message as T, postMessage];
 };

@@ -12,12 +12,12 @@ import { Logger } from '../utils';
 
 type UseWorker<T> = [T, (data: any) => void];
 
-const workers: Record<string, { terminate: () => void; worker?: Worker }> = {};
+const workers = new Map<string | number, Worker>();
 
 const useWorker = <T>(opts: {
   code?: boolean;
   defaultValue?: T;
-  id: string;
+  id: string | number;
   terminate?: boolean;
   url?: string;
   worker?: Worker;
@@ -34,14 +34,14 @@ const useWorker = <T>(opts: {
   };
 
   const createWorker = () => {
-    if (workers[opts.id]?.worker) {
-      worker.current = workers[opts.id].worker;
+    if (workers.has(opts.id)) {
+      worker.current = workers.get(opts.id);
     } else if (opts.worker) {
       worker.current = opts.worker;
     } else if (opts.url) {
       worker.current = new Worker(opts.url);
     }
-    workers[opts.id] = { terminate: terminateWorker, worker: worker.current };
+    workers.set(opts.id, worker.current as Worker);
   };
 
   const setupWorker = () => {
@@ -65,7 +65,7 @@ const useWorker = <T>(opts: {
     if (opts.code && opts.url) {
       window.URL.revokeObjectURL(opts.url);
     }
-    delete workers[opts.id];
+    workers.delete(opts.id);
   };
 
   const postMessage = (data: any) => {
@@ -84,7 +84,19 @@ const useWorker = <T>(opts: {
   return [message as T, postMessage];
 };
 
-const generateId = (val: any) => window.btoa(val);
+// https://stackoverflow.com/a/52171480
+const generateId = (str: string, seed = 0) => {
+  let h1 = 0xdeadbeef ^ seed;
+  let h2 = 0x41c6ce57 ^ seed;
+  for (let i = 0, ch; i < str.length; i++) {
+    ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+};
 
 export const useWorkerFromUrl = <T>(url: string, defaultValue?: T): UseWorker<T> =>
   useWorker({ defaultValue, id: generateId(url), terminate: true, url });

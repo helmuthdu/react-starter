@@ -65,8 +65,7 @@ export class Http {
 
     if (!activeRequests[id]) {
       const controller = new AbortController();
-      const signal = controller.signal;
-      const request = this._makeRequest(id, url, { ...cfg, signal });
+      const request = this._makeRequest(id, url, { ...cfg, signal: controller.signal });
       activeRequests[id] = { request, controller };
     }
 

@@ -1,6 +1,8 @@
 import fetch from 'isomorphic-unfetch';
 import { Logger } from './logger.util';
 
+type HttpRequestConfig = RequestInit & { id?: string };
+
 const log = (type: keyof typeof Logger, url: string, req: RequestInit, res: unknown, time: number) => {
   const _url = url?.split('/') as string[];
   const timestamp = Logger.getTimestamp();
@@ -17,31 +19,31 @@ const log = (type: keyof typeof Logger, url: string, req: RequestInit, res: unkn
   Logger.groupEnd();
 };
 
-const activeRequests = {} as Record<string, Promise<any>>;
+const activeRequests = {} as Record<string, { request: Promise<any>; controller: AbortController }>;
 
 export class Http {
   private static _headers: Record<string, string> = {
     'Content-Type': 'application/json'
   };
 
-  static async get<T>(url: string, options?: RequestInit, duplicated?: boolean): Promise<T> {
-    return await this._request<T>(url, { method: 'GET', ...options }, duplicated);
+  static async get<T>(url: string, config?: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
+    return await this._request<T>(url, { method: 'GET', ...config }, lastOnly);
   }
 
-  static async post<T>(url: string, options?: RequestInit, duplicated?: boolean): Promise<T> {
-    return await this._request<T>(url, { method: 'POST', ...options }, duplicated);
+  static async post<T>(url: string, config?: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
+    return await this._request<T>(url, { method: 'POST', ...config }, lastOnly);
   }
 
-  static async put<T>(url: string, options?: RequestInit, duplicated?: boolean): Promise<T> {
-    return await this._request<T>(url, { method: 'PUT', ...options }, duplicated);
+  static async put<T>(url: string, config?: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
+    return await this._request<T>(url, { method: 'PUT', ...config }, lastOnly);
   }
 
-  static async patch<T>(url: string, options?: RequestInit, duplicated?: boolean): Promise<T> {
-    return await this._request<T>(url, { method: 'PATCH', ...options }, duplicated);
+  static async patch<T>(url: string, config?: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
+    return await this._request<T>(url, { method: 'PATCH', ...config }, lastOnly);
   }
 
-  static async delete<T>(url: string, options?: RequestInit, duplicated?: boolean): Promise<T> {
-    return await this._request<T>(url, { method: 'DELETE', ...options }, duplicated);
+  static async delete<T>(url: string, config?: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
+    return await this._request<T>(url, { method: 'DELETE', ...config }, lastOnly);
   }
 
   public static setHeaders(headers: Record<string, string | undefined>) {
@@ -54,28 +56,24 @@ export class Http {
     });
   }
 
-  private static async _request<T>(url: string, options: RequestInit, duplicated?: boolean): Promise<T> {
-    const requestId = this.generateRequestId(options);
+  private static async _request<T>(url: string, config: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
+    const { id = this.generateRequestId(config), ...cfg } = config;
 
-    if (duplicated || !activeRequests[requestId]) {
-      const request = this._makeRequest(requestId, url, options, duplicated);
-
-      if (!duplicated) {
-        activeRequests[requestId] = request;
-      }
-
-      return request as Promise<T>;
+    if (activeRequests[id] && lastOnly) {
+      activeRequests[id].controller.abort();
     }
 
-    return activeRequests[requestId];
+    if (!activeRequests[id]) {
+      const controller = new AbortController();
+      const signal = controller.signal;
+      const request = this._makeRequest(id, url, { ...cfg, signal });
+      activeRequests[id] = { request, controller };
+    }
+
+    return activeRequests[id].request;
   }
 
-  private static _makeRequest<T>(
-    requestId: string,
-    url: string,
-    options: RequestInit,
-    duplicated?: boolean
-  ): Promise<T> {
+  private static _makeRequest<T>(id: string, url: string, options: RequestInit): Promise<T> {
     const { headers, ...rest } = options;
 
     const req: RequestInit = {
@@ -98,9 +96,7 @@ export class Http {
         throw error;
       })
       .finally(() => {
-        if (!duplicated) {
-          delete activeRequests[requestId];
-        }
+        delete activeRequests[id];
       });
   }
 

@@ -72,26 +72,23 @@ export class Http {
     return activeRequests[id].request;
   }
 
-  private static _makeRequest<T>(id: string, url: string, options: RequestInit): Promise<T> {
-    const { headers, ...rest } = options;
-
-    const req: RequestInit = {
+  private static _makeRequest<T>(id: string, url: string, config: RequestInit): Promise<T> {
+    const cfg: RequestInit = Object.assign({}, config, {
       headers: {
         ...this._headers,
-        ...headers
-      },
-      ...rest
-    };
+        ...config.headers
+      }
+    });
 
     const time = Date.now();
-    return fetch(url, req)
+    return fetch(url, cfg)
       .then(async (res: Response) => {
         const data: T = await res.json();
-        log('success', url, req, data, time);
+        log('success', url, cfg, data, time);
         return data;
       })
       .catch(error => {
-        log('error', url, req, error, time);
+        log('error', url, cfg, error, time);
         throw error;
       })
       .finally(() => {

@@ -78,8 +78,8 @@ export class Http {
         url,
         Object.assign({}, cfg, {
           body: JSON.stringify(config.body),
-          signal: controller.signal,
-          headers: skipCustomHeaders ? headers : { ...headers, ...this._headers }
+          headers: skipCustomHeaders ? headers : { ...headers, ...this._headers },
+          signal: controller.signal
         }) as RequestInit
       );
       activeRequests[id] = { request, controller };

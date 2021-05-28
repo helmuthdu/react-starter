@@ -26,24 +26,24 @@ export class Http {
     'Content-Type': 'application/json'
   };
 
-  static async get<T>(url: string, config?: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
-    return await this._request<T>(url, { method: 'GET', ...config }, lastOnly);
+  static async get<T>(url: string, config?: HttpRequestConfig, latestOnly?: boolean): Promise<T> {
+    return await this._request<T>(url, { method: 'GET', ...config }, latestOnly);
   }
 
-  static async post<T>(url: string, config?: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
-    return await this._request<T>(url, { method: 'POST', ...config }, lastOnly);
+  static async post<T>(url: string, config?: HttpRequestConfig, latestOnly?: boolean): Promise<T> {
+    return await this._request<T>(url, { method: 'POST', ...config }, latestOnly);
   }
 
-  static async put<T>(url: string, config?: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
-    return await this._request<T>(url, { method: 'PUT', ...config }, lastOnly);
+  static async put<T>(url: string, config?: HttpRequestConfig, latestOnly?: boolean): Promise<T> {
+    return await this._request<T>(url, { method: 'PUT', ...config }, latestOnly);
   }
 
-  static async patch<T>(url: string, config?: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
-    return await this._request<T>(url, { method: 'PATCH', ...config }, lastOnly);
+  static async patch<T>(url: string, config?: HttpRequestConfig, latestOnly?: boolean): Promise<T> {
+    return await this._request<T>(url, { method: 'PATCH', ...config }, latestOnly);
   }
 
-  static async delete<T>(url: string, config?: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
-    return await this._request<T>(url, { method: 'DELETE', ...config }, lastOnly);
+  static async delete<T>(url: string, config?: HttpRequestConfig, latestOnly?: boolean): Promise<T> {
+    return await this._request<T>(url, { method: 'DELETE', ...config }, latestOnly);
   }
 
   public static setHeaders(headers: Record<string, string | undefined>) {
@@ -56,10 +56,10 @@ export class Http {
     });
   }
 
-  private static async _request<T>(url: string, config: HttpRequestConfig, lastOnly?: boolean): Promise<T> {
+  private static async _request<T>(url: string, config: HttpRequestConfig, latestOnly?: boolean): Promise<T> {
     const { id = this.generateRequestId(config), ...cfg } = config;
 
-    if (activeRequests[id] && lastOnly) {
+    if (activeRequests[id] && latestOnly) {
       activeRequests[id].controller.abort();
     }
 

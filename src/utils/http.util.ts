@@ -1,10 +1,16 @@
 import fetch from 'isomorphic-unfetch';
 import { Logger } from './logger.util';
 
-type HttpRequestConfig = RequestInit & { id?: string; cancelable?: boolean; customHeaders?: boolean; url: string };
+type HttpRequestConfig = Omit<RequestInit, 'body'> & {
+  id?: string;
+  cancelable?: boolean;
+  customHeaders?: boolean;
+  url: string;
+  body?: any;
+};
 
 const log = (type: keyof typeof Logger, req: HttpRequestConfig, res: unknown, time: number) => {
-  const url = req.url?.split('/') as string[];
+  const url = req.url.split('/') as string[];
   const timestamp = Logger.getTimestamp();
   Logger.groupCollapsed(
     `Http.${req.method?.toLowerCase()}('…/${url[url.length - 1]}')`,
@@ -72,19 +78,19 @@ const _createRequest = <T>(config: HttpRequestConfig): Promise<T> => {
 };
 
 export const Http = {
-  get<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+  get<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
     return _createRequest<T>({ url, method: 'GET', ...config });
   },
-  post<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+  post<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
     return _createRequest<T>({ url, method: 'POST', ...config });
   },
-  put<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+  put<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
     return _createRequest<T>({ url, method: 'PUT', ...config });
   },
-  patch<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+  patch<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
     return _createRequest<T>({ url, method: 'PATCH', ...config });
   },
-  delete<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+  delete<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
     return _createRequest<T>({ url, method: 'DELETE', ...config });
   },
   setCustomHeaders(headers: Record<string, string | number | undefined>): void {

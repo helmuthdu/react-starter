@@ -1,19 +1,18 @@
 import fetch from 'isomorphic-unfetch';
 import { Logger } from './logger.util';
 
-type HttpRequestConfig = RequestInit & { id?: string; latestOnly?: boolean; skipCustomHeaders?: boolean };
+type HttpRequestConfig = RequestInit & { id?: string; cancelable?: boolean; customHeaders?: boolean; url: string };
 
-const log = (type: keyof typeof Logger, url: string, req: RequestInit, res: unknown, time: number) => {
-  const _url = url?.split('/') as string[];
+const log = (type: keyof typeof Logger, req: HttpRequestConfig, res: unknown, time: number) => {
+  const url = req.url?.split('/') as string[];
   const timestamp = Logger.getTimestamp();
   Logger.groupCollapsed(
-    `Http.${req.method?.toLowerCase()}('…/${_url[_url.length - 1]}')`,
+    `Http.${req.method?.toLowerCase()}('…/${url[url.length - 1]}')`,
     `HTTP|${type.toUpperCase()}`,
     time
   );
   Logger.setTimestamp(false);
-  Logger.info('url:', url);
-  Logger.debug('req:', req);
+  Logger.info('req: ', req);
   Logger[type]('res:' as never, res);
   Logger.setTimestamp(timestamp);
   Logger.groupEnd();
@@ -25,87 +24,76 @@ const defaultHeaders = {
   'Content-Type': 'application/json'
 };
 
-export class Http {
-  private static _headers: Record<string, string | number> = {};
+const _customHeaders: Record<string, string | number> = {};
 
-  static async get<T>(url: string, config?: HttpRequestConfig): Promise<T> {
-    return await this._request<T>(url, { method: 'GET', ...config });
+const _generateId = (options: any): string => {
+  return `${JSON.stringify(options)}`;
+};
+
+const _request = <T>(id: string, config: HttpRequestConfig): Promise<T> => {
+  const { url, ...cfg } = config;
+  const time = Date.now();
+  return fetch(url, cfg)
+    .then(async (res: Response) => {
+      const data: T = await res.json();
+      log('success', config, data, time);
+      return data;
+    })
+    .catch(error => {
+      log('error', config, error, time);
+      throw error;
+    })
+    .finally(() => {
+      delete activeRequests[id];
+    });
+};
+
+const _createRequest = <T>(config: HttpRequestConfig): Promise<T> => {
+  const { id = _generateId(config), headers = defaultHeaders, cancelable, customHeaders = true, ...cfg } = config;
+
+  if (activeRequests[id] && cancelable) {
+    activeRequests[id].controller.abort();
   }
 
-  static async post<T>(url: string, config?: HttpRequestConfig): Promise<T> {
-    return await this._request<T>(url, { method: 'POST', ...config });
+  if (!activeRequests[id]) {
+    const controller = new AbortController();
+    const request = _request(
+      id,
+      Object.assign({}, cfg, {
+        body: JSON.stringify(config.body),
+        headers: customHeaders ? { ...headers, ..._customHeaders } : headers,
+        signal: controller.signal
+      }) as HttpRequestConfig
+    );
+    activeRequests[id] = { request, controller };
   }
 
-  static async put<T>(url: string, config?: HttpRequestConfig): Promise<T> {
-    return await this._request<T>(url, { method: 'PUT', ...config });
-  }
+  return activeRequests[id].request;
+};
 
-  static async patch<T>(url: string, config?: HttpRequestConfig): Promise<T> {
-    return await this._request<T>(url, { method: 'PATCH', ...config });
-  }
-
-  static async delete<T>(url: string, config?: HttpRequestConfig): Promise<T> {
-    return await this._request<T>(url, { method: 'DELETE', ...config });
-  }
-
-  public static setHeaders(headers: Record<string, string | number | undefined>): void {
+export const Http = {
+  get<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+    return _createRequest<T>({ url, method: 'GET', ...config });
+  },
+  post<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+    return _createRequest<T>({ url, method: 'POST', ...config });
+  },
+  put<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+    return _createRequest<T>({ url, method: 'PUT', ...config });
+  },
+  patch<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+    return _createRequest<T>({ url, method: 'PATCH', ...config });
+  },
+  delete<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+    return _createRequest<T>({ url, method: 'DELETE', ...config });
+  },
+  setCustomHeaders(headers: Record<string, string | number | undefined>): void {
     Object.entries(headers).forEach(([key, val]) => {
       if (val === undefined) {
-        delete this._headers[key];
+        delete _customHeaders[key];
       } else {
-        this._headers[key] = val;
+        _customHeaders[key] = val;
       }
     });
   }
-
-  private static async _request<T>(url: string, config: HttpRequestConfig): Promise<T> {
-    const {
-      id = this.generateRequestId(config),
-      headers = defaultHeaders,
-      latestOnly,
-      skipCustomHeaders,
-      ...cfg
-    } = config;
-
-    if (activeRequests[id] && latestOnly) {
-      activeRequests[id].controller.abort();
-    }
-
-    if (!activeRequests[id]) {
-      const controller = new AbortController();
-      const request = this._makeRequest(
-        id,
-        url,
-        Object.assign({}, cfg, {
-          body: JSON.stringify(config.body),
-          headers: skipCustomHeaders ? headers : { ...headers, ...this._headers },
-          signal: controller.signal
-        }) as RequestInit
-      );
-      activeRequests[id] = { request, controller };
-    }
-
-    return activeRequests[id].request;
-  }
-
-  private static _makeRequest<T>(id: string, url: string, config: RequestInit): Promise<T> {
-    const time = Date.now();
-    return fetch(url, config)
-      .then(async (res: Response) => {
-        const data: T = await res.json();
-        log('success', url, config, data, time);
-        return data;
-      })
-      .catch(error => {
-        log('error', url, config, error, time);
-        throw error;
-      })
-      .finally(() => {
-        delete activeRequests[id];
-      });
-  }
-
-  private static generateRequestId(options: any): string {
-    return `${JSON.stringify(options)}`;
-  }
-}
+};

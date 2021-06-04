@@ -9,14 +9,16 @@ type HttpRequestConfig = Omit<RequestInit, 'body'> & {
   body?: any;
 };
 
-const log = (type: keyof typeof Logger, req: HttpRequestConfig, res: unknown, time: number) => {
-  const url = req.url.split('/') as string[];
+enum TypeSymbol {
+  success = '✓',
+  error = '✕'
+}
+
+const log = (type: keyof typeof TypeSymbol, req: HttpRequestConfig, res: unknown, time: number) => {
+  const url = (req.url?.replace(/http(s)?:\/\//, '').split('/') as string[]) ?? [];
+  url.shift();
   const timestamp = Logger.getTimestamp();
-  Logger.groupCollapsed(
-    `Http.${req.method?.toLowerCase()}('…/${url[url.length - 1]}')`,
-    `HTTP|${type.toUpperCase()}`,
-    time
-  );
+  Logger.groupCollapsed(`${req.method?.toUpperCase()}(…/${url.join('/')}) ${TypeSymbol[type]}`, `HTTP`, time);
   Logger.setTimestamp(false);
   Logger.info('req: ', req);
   Logger[type]('res:' as never, res);

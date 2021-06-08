@@ -1,4 +1,5 @@
 /// <reference types="react-scripts" />
+import { ILogger } from './utils';
 
 type ValueOf<T> = T[keyof T];
 
@@ -15,3 +16,9 @@ type DeepPartial<T> = {
     ? readonly DeepPartial<U>[]
     : DeepPartial<T[P]>;
 };
+
+export declare global {
+  interface Window {
+    logger: ILogger;
+  }
+}

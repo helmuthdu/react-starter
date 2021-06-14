@@ -16,9 +16,3 @@ type DeepPartial<T> = {
     ? readonly DeepPartial<U>[]
     : DeepPartial<T[P]>;
 };
-
-export declare global {
-  interface Window {
-    logger: ILogger;
-  }
-}

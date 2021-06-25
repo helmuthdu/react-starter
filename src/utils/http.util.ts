@@ -65,7 +65,7 @@ const createRequest = <T>(url: string, config: HttpRequestConfig): Promise<T> =>
   return activeRequests[id].request;
 };
 
-export const fetcher = <T>(url: string, config: RequestInit, id: string): Promise<T> => {
+export const fetcher = <T>(url: string, config: RequestInit, id?: string): Promise<T> => {
   const time = Date.now();
   return fetch(url, config)
     .then(async (res: Response) => {

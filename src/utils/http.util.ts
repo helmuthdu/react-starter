@@ -41,7 +41,7 @@ const generateId = (options: any): string => {
   return `${JSON.stringify(options)}`;
 };
 
-const createRequest = <T>(url: string, config: HttpRequestConfig): Promise<T> => {
+const makeRequest = <T>(url: string, config: HttpRequestConfig): Promise<T> => {
   const { id = generateId(config), headers = defaultHeaders, cancelable, customHeaders = true, ...cfg } = config;
 
   if (activeRequests[id] && cancelable) {
@@ -65,7 +65,7 @@ const createRequest = <T>(url: string, config: HttpRequestConfig): Promise<T> =>
   return activeRequests[id].request;
 };
 
-export const fetcher = <T>(url: string, config: RequestInit, id: string): Promise<T> => {
+export const fetcher = <T>(url: string, config: RequestInit, id?: string): Promise<T> => {
   const time = Date.now();
   return fetch(url, config)
     .then(async (res: Response) => {
@@ -86,19 +86,19 @@ export const fetcher = <T>(url: string, config: RequestInit, id: string): Promis
 
 export const Http = {
   get<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
-    return createRequest<T>(url, { method: 'GET', ...config });
+    return makeRequest<T>(url, { method: 'GET', ...config });
   },
   post<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
-    return createRequest<T>(url, { method: 'POST', ...config });
+    return makeRequest<T>(url, { method: 'POST', ...config });
   },
   put<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
-    return createRequest<T>(url, { method: 'PUT', ...config });
+    return makeRequest<T>(url, { method: 'PUT', ...config });
   },
   patch<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
-    return createRequest<T>(url, { method: 'PATCH', ...config });
+    return makeRequest<T>(url, { method: 'PATCH', ...config });
   },
   delete<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
-    return createRequest<T>(url, { method: 'DELETE', ...config });
+    return makeRequest<T>(url, { method: 'DELETE', ...config });
   },
   setCustomHeaders(headers: Record<string, string | number | undefined>): void {
     Object.entries(headers).forEach(([key, val]) => {

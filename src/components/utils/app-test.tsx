@@ -28,7 +28,9 @@ type Props = { children: any };
 export const AppTest = ({ children }: Props) => (
   <RouterContext.Provider value={router as any}>
     <RecoilRoot>
-      <IntlProvider locale="en">{children}</IntlProvider>
+      <IntlProvider locale="en" onError={() => undefined}>
+        {children}
+      </IntlProvider>
     </RecoilRoot>
   </RouterContext.Provider>
 );

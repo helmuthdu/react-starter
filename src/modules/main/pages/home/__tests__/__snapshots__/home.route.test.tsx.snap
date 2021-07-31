@@ -20,7 +20,7 @@ exports[`Route -> Home should match snapshot 1`] = `
         rel="noopener noreferrer"
         target="_blank"
       >
-        Learn React
+        LEARN_REACT
       </a>
       Navigate to
       <a

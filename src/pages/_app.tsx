@@ -1,47 +1,29 @@
-import { fetchLocaleMessages, localeStore } from '@/stores/locale.store';
+import { Http } from '@/utils';
 import { AppInitialProps } from 'next/app';
 import { AppContext } from 'next/dist/pages/_app';
-import { useEffect, useMemo } from 'react';
 import { IntlProvider } from 'react-intl';
-import { RecoilRoot, useRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import '../styles/all.scss';
 
-export const I18n = ({ children }: any) => {
-  const [{ locale, messages }, setLocale] = useRecoilState(localeStore);
+const loadTranslationsAsync = async (url: string, language: string): Promise<Record<string, string> | undefined> =>
+  await Http.get<Record<string, string>>(`http://${url}/static/locales/${language}.json`);
 
-  useEffect(() => {
-    fetchLocaleMessages(locale).then((messages = {}) => {
-      setLocale(state => ({ ...state, messages }));
-    });
-  }, [locale]);
-
-  return useMemo(
-    () => (
-      <IntlProvider locale={locale} messages={messages}>
-        {children}
-      </IntlProvider>
-    ),
-    [messages]
-  );
-};
-
-const App = ({ Component, pageProps }: any) => (
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const App = ({ Component, pageProps, locale, messages }: any) => (
   <RecoilRoot>
-    <I18n>
+    <IntlProvider locale={locale} messages={messages} onError={() => undefined}>
       <Component {...pageProps} />
-    </I18n>
+    </IntlProvider>
   </RecoilRoot>
 );
 
 App.getInitialProps = async ({ Component, ctx }: AppContext): Promise<AppInitialProps & Record<string, any>> => {
-  let pageProps = {};
+  const locale = (ctx.locale ?? ctx.defaultLocale) as string;
+  const messages = await loadTranslationsAsync(ctx.req?.headers.host as string, locale);
+  const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
-  }
-
-  return { pageProps };
+  return { locale, messages, pageProps };
 };
 
 export default App;

@@ -6,6 +6,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const path = require('path');
 
 module.exports = withBundleAnalyzer({
+  i18n: {
+    locales: ['en-US', 'de-DE', 'pt-BR'],
+    defaultLocale: 'en-US'
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

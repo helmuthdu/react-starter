@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
-import { ROOT_PAGES, USER_PAGES } from '../../../pages';
+import { MAIN_PAGES, USER_PAGES } from '../../../pages';
 
 import styles from './home.module.scss';
 
@@ -15,7 +15,7 @@ export const Home = () => (
         <FormattedMessage id="LEARN_REACT" />
       </a>
       Navigate to
-      <Link href={ROOT_PAGES.ABOUT}>
+      <Link href={MAIN_PAGES.ABOUT}>
         <a className={styles.appLink} title="go to about page">
           about page
         </a>

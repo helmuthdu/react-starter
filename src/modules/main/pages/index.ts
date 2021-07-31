@@ -1,4 +1,4 @@
-export enum ROOT_PAGES {
+export enum MAIN_PAGES {
   ABOUT = '/about',
   HOME = '/'
 }

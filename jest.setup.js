@@ -2,6 +2,7 @@ require('@testing-library/jest-dom/extend-expect');
 require('mutationobserver-shim');
 
 global.fetch = require('jest-fetch-mock');
+global.URL.createObjectURL = jest.fn();
 
 window.matchMedia =
   window.matchMedia ||

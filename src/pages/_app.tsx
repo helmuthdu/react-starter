@@ -15,10 +15,10 @@ const App = ({ Component, pageProps, locale, messages }: any) => (
   </RecoilRoot>
 );
 
-App.getInitialProps = async ({ Component, ctx }: AppContext): Promise<AppInitialProps & Record<string, any>> => {
-  const locale = (ctx.locale ?? ctx.defaultLocale) as string;
+App.getInitialProps = async ({ Component, ctx }: AppContext): Promise<Record<string, any>> => {
+  const locale = ctx.locale ?? ctx.defaultLocale;
   const messages = await Http.get(`http://${ctx.req?.headers.host}/static/locales/${locale}.json`);
-  const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+  const pageProps = (Component.getInitialProps ? await Component.getInitialProps(ctx) : {}) as AppInitialProps;
 
   return { locale, messages, pageProps };
 };

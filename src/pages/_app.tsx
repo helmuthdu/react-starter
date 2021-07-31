@@ -16,8 +16,8 @@ const App = ({ Component, pageProps, locale, messages }: any) => (
 );
 
 App.getInitialProps = async ({ Component, ctx }: AppContext): Promise<Record<string, any>> => {
-  const locale = ctx.locale ?? ctx.defaultLocale;
-  const messages = await Http.get(`http://${ctx.req?.headers.host}/static/locales/${locale}.json`);
+  const locale = ctx.locale ?? ctx.defaultLocale ?? 'en-US';
+  const messages = (await import(`../locales/${locale}`)).default ?? {};
   const pageProps = (Component.getInitialProps ? await Component.getInitialProps(ctx) : {}) as AppInitialProps;
 
   return { locale, messages, pageProps };

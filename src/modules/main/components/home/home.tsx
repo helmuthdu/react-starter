@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FormattedMessage } from 'react-intl';
 import { ROOT_PAGES, USER_PAGES } from '../../../pages';
 
 import styles from './home.module.scss';
@@ -11,7 +12,7 @@ export const Home = () => (
         Edit <code>src/app.js</code> and save to reload.
       </p>
       <a className={styles.appLink} href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-        Learn React
+        <FormattedMessage id="LEARN_REACT" />
       </a>
       Navigate to
       <Link href={ROOT_PAGES.ABOUT}>

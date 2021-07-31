@@ -6,9 +6,6 @@ import { RecoilRoot } from 'recoil';
 
 import '../styles/all.scss';
 
-const loadTranslationsAsync = async (url: string, language: string): Promise<Record<string, string> | undefined> =>
-  await Http.get<Record<string, string>>(`http://${url}/static/locales/${language}.json`);
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const App = ({ Component, pageProps, locale, messages }: any) => (
   <RecoilRoot>
@@ -20,7 +17,7 @@ const App = ({ Component, pageProps, locale, messages }: any) => (
 
 App.getInitialProps = async ({ Component, ctx }: AppContext): Promise<AppInitialProps & Record<string, any>> => {
   const locale = (ctx.locale ?? ctx.defaultLocale) as string;
-  const messages = await loadTranslationsAsync(ctx.req?.headers.host as string, locale);
+  const messages = await Http.get(`http://${ctx.req?.headers.host}/static/locales/${locale}.json`);
   const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 
   return { locale, messages, pageProps };

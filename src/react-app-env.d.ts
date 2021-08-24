@@ -1,6 +1,4 @@
 /// <reference types="react-scripts" />
-import { ILogger } from './utils';
-
 type ValueOf<T> = T[keyof T];
 
 type Nullable<T> = T | null;

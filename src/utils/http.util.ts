@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Logger } from './logger.util';
 
 export type HttpRequestConfig = Omit<RequestInit, 'body'> & {
@@ -36,10 +37,11 @@ const makeRequest = <T>(url: string, config: HttpRequestConfig): Promise<T> => {
 
   if (activeRequests[id]?.controller && cancelable) {
     activeRequests[id].controller.abort();
+    delete activeRequests[id];
   }
 
   if (!activeRequests[id]) {
-    const controller = process.browser ? new AbortController() : {} as any;
+    const controller = process.browser ? new AbortController() : ({} as any);
 
     const request = fetcher(
       url,

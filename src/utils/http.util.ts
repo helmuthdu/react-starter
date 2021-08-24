@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-unfetch';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Logger } from './logger.util';
 
 export type HttpRequestConfig = Omit<RequestInit, 'body'> & {
@@ -16,17 +16,8 @@ enum TypeSymbol {
 const log = (type: keyof typeof TypeSymbol, url: string, req: RequestInit, res: unknown, time: number) => {
   const _url = (url?.replace(/http(s)?:\/\//, '').split('/') as string[]) ?? [];
   _url.shift();
-  const timestamp = Logger.getTimestamp();
-  Logger.groupCollapsed(`${req.method?.toUpperCase()}(…/${_url.join('/')}) ${TypeSymbol[type]}`, `HTTP`, time);
-  Logger.setTimestamp(false);
-  Logger.info('REQUEST', req);
-  if (type === 'error') {
-    Logger.error(`XHR error ${req.method?.toUpperCase()} ${url}`, res);
-  } else {
-    Logger.success('RESPONSE', res);
-  }
-  Logger.setTimestamp(timestamp);
-  Logger.groupEnd();
+  const elapsed = Math.floor(Date.now() - time);
+  Logger.info(`HTTP::${req.method?.toUpperCase()}(…/${_url.join('/')}) ${TypeSymbol[type]} ${elapsed}ms`, res);
 };
 
 const activeRequests = {} as Record<string, { request: Promise<any>; controller: AbortController }>;
@@ -46,6 +37,7 @@ const makeRequest = <T>(url: string, config: HttpRequestConfig): Promise<T> => {
 
   if (activeRequests[id] && cancelable) {
     activeRequests[id].controller.abort();
+    delete activeRequests[id];
   }
 
   if (!activeRequests[id]) {

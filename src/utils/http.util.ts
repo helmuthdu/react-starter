@@ -1,78 +1,104 @@
-import fetch from 'isomorphic-unfetch';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Logger } from './logger.util';
 
-const log = (type: keyof typeof Logger, url: string, req: RequestInit, res: unknown, time: number) => {
-  const _url = url?.split('/') as string[];
-  const timestamp = Logger.getTimestamp();
-  Logger.groupCollapsed(
-    `Http.${req.method?.toLowerCase()}('…/${_url[_url.length - 1]}')`,
-    `HTTP|${type.toUpperCase()}`,
-    time
-  );
-  Logger.setTimestamp(false);
-  Logger.info('url:', url);
-  Logger.debug('req:', req);
-  Logger[type]('res:' as never, res);
-  Logger.setTimestamp(timestamp);
-  Logger.groupEnd();
+export type HttpRequestConfig = Omit<RequestInit, 'body'> & {
+  id?: string;
+  cancelable?: boolean;
+  customHeaders?: boolean;
+  body?: any;
 };
 
-export class Http {
-  private static _headers: Record<string, string> = {
-    'Content-Type': 'application/json'
-  };
+enum TypeSymbol {
+  success = '✓',
+  error = '✕'
+}
 
-  static async get<T>(url: string, options?: RequestInit): Promise<T> {
-    return await this._fetch<T>(url, { method: 'GET', ...options });
+const log = (type: keyof typeof TypeSymbol, url: string, req: RequestInit, res: unknown, time: number) => {
+  const _url = (url?.replace(/http(s)?:\/\//, '').split('/') as string[]) ?? [];
+  _url.shift();
+  const elapsed = Math.floor(Date.now() - time);
+  Logger.info(`HTTP::${req.method?.toUpperCase()}(…/${_url.join('/')}) ${TypeSymbol[type]} ${elapsed}ms`, res);
+};
+
+const activeRequests = {} as Record<string, { request: Promise<any>; controller: AbortController }>;
+
+const defaultHeaders = {
+  'Content-Type': 'application/json'
+};
+
+const customHeadersProps: Record<string, string | number> = {};
+
+const generateId = (options: any): string => {
+  return `${JSON.stringify(options)}`;
+};
+
+const makeRequest = <T>(url: string, config: HttpRequestConfig): Promise<T> => {
+  const { id = generateId(config), headers = defaultHeaders, cancelable, customHeaders = true, ...cfg } = config;
+
+  if (activeRequests[id] && cancelable) {
+    activeRequests[id].controller.abort();
+    delete activeRequests[id];
   }
 
-  static async post<T>(url: string, options?: RequestInit): Promise<T> {
-    return await this._fetch<T>(url, { method: 'POST', ...options });
+  if (!activeRequests[id]) {
+    const controller = new AbortController();
+    const request = fetcher(
+      url,
+      Object.assign({}, cfg, {
+        body: JSON.stringify(config.body),
+        headers: customHeaders ? { ...customHeadersProps, ...headers } : headers,
+        signal: controller.signal
+      }) as HttpRequestConfig,
+      id
+    );
+    activeRequests[id] = { request, controller };
   }
 
-  static async put<T>(url: string, options?: RequestInit): Promise<T> {
-    return await this._fetch<T>(url, { method: 'PUT', ...options });
-  }
+  return activeRequests[id].request;
+};
 
-  static async patch<T>(url: string, options?: RequestInit): Promise<T> {
-    return await this._fetch<T>(url, { method: 'PATCH', ...options });
-  }
+export const fetcher = <T>(url: string, config: RequestInit, id?: string): Promise<T> => {
+  const time = Date.now();
+  return fetch(url, config)
+    .then(async (res: Response) => {
+      const data: T = await res.json();
+      log('success', url, config, data, time);
+      return data;
+    })
+    .catch(error => {
+      log('error', url, config, error, time);
+      throw error;
+    })
+    .finally(() => {
+      if (id) {
+        delete activeRequests[id];
+      }
+    });
+};
 
-  static async delete<T>(url: string, options?: RequestInit): Promise<T> {
-    return await this._fetch<T>(url, { method: 'DELETE', ...options });
-  }
-
-  private static async _fetch<T>(url: string, options: RequestInit): Promise<T> {
-    const { headers, ...rest } = options;
-
-    const req: RequestInit = {
-      headers: {
-        ...this._headers,
-        ...headers
-      },
-      ...rest
-    };
-
-    const time = Date.now();
-    return fetch(url, req)
-      .then(async (res: Response) => {
-        const data: T = await res.json();
-        log('success', url, req, data, time);
-        return data;
-      })
-      .catch(error => {
-        log('error', url, req, error, time);
-        throw error;
-      });
-  }
-
-  public static setHeaders(headers: Record<string, string | undefined>) {
+export const Http = {
+  get<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
+    return makeRequest<T>(url, { method: 'GET', ...config });
+  },
+  post<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
+    return makeRequest<T>(url, { method: 'POST', ...config });
+  },
+  put<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
+    return makeRequest<T>(url, { method: 'PUT', ...config });
+  },
+  patch<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
+    return makeRequest<T>(url, { method: 'PATCH', ...config });
+  },
+  delete<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
+    return makeRequest<T>(url, { method: 'DELETE', ...config });
+  },
+  setCustomHeaders(headers: Record<string, string | number | undefined>): void {
     Object.entries(headers).forEach(([key, val]) => {
       if (val === undefined) {
-        delete this._headers[key];
+        delete customHeadersProps[key];
       } else {
-        this._headers[key] = val;
+        customHeadersProps[key] = val;
       }
     });
   }
-}
+};

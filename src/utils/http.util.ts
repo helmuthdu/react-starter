@@ -46,7 +46,7 @@ const makeRequest = <T>(url: string, config: HttpRequestConfig): Promise<T> => {
       url,
       Object.assign({}, cfg, {
         body: JSON.stringify(config.body),
-        headers: customHeaders ? { ...headers, ...customHeadersProps } : headers,
+        headers: customHeaders ? { ...customHeadersProps, ...headers } : headers,
         signal: controller.signal
       }) as HttpRequestConfig,
       id

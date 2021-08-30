@@ -167,4 +167,6 @@ export const Logger = {
   }
 };
 
-window.logger = Logger;
+if (typeof window !== 'undefined') {
+  window.logger = Logger;
+}

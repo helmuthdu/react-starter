@@ -1,10 +1,10 @@
 /*
  * @example
- * const { subject: search$, callback: setSearch$ } = useSubject<string>();
+ * const [search$, setSearch$] = useSubject<string>();
  * const search = useObservable(search$.pipe(debounceTime(300), filter(query => !query || query.length >= 3 || query.length === 0), distinctUntilChanged()), '');
  */
 
-import { useEffect, useRef } from 'react';
+import { MutableRefObject, useEffect, useRef } from 'react';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 const useSubscribeTo = <T>(
@@ -19,8 +19,8 @@ const useSubscribeTo = <T>(
   return subscription;
 };
 
-export const useObservable = <T>(observable: Observable<T>, defaultValue?: T) => {
-  const handler = useRef(defaultValue);
+export const useObservable = <T>(observable: Observable<T>, defaultValue?: T): MutableRefObject<T> => {
+  const handler = useRef(defaultValue) as MutableRefObject<T>;
   useSubscribeTo(
     observable,
     value => {
@@ -41,12 +41,10 @@ export const useSubscription = <T>(
   complete?: () => void
 ): Subscription => useSubscribeTo(observable, next, error, complete);
 
-export const useSubject = <T>(): { subject: Subject<T>; callback: (value: T) => void } => {
+export const useSubject = <T>(): [Subject<T>, (value: T) => void] => {
   const subject = new Subject<T>();
-  return {
-    subject,
-    callback: (value: T) => {
-      subject.next(value);
-    }
+  const set = (value: T) => {
+    subject.next(value);
   };
+  return [subject, set];
 };

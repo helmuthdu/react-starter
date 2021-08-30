@@ -1,4 +1,4 @@
-import * as rootModule from './root';
+import * as mainModule from './main';
 import * as userModule from './user';
 
 export type State = userModule.State;
@@ -15,7 +15,7 @@ export const initialState: State = {
   ...userModule.initialState
 };
 
-export const routes = [...rootModule.routes, ...userModule.routes];
+export const routes = [...mainModule.routes, ...userModule.routes];
 
 const appModules = {
   initialState,

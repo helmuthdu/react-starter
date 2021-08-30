@@ -1,13 +1,10 @@
 import React, { useCallback } from 'react';
 import { RouteProps, Switch } from 'react-router-dom';
-import { useStore } from '../../../stores';
+import { useStorage } from '../../../hooks/storage.hook';
+import { LocaleMessages, LocaleStorageID } from './i18n';
 
 export const I18nSwitch: React.FC = ({ children }) => {
-  const [
-    {
-      locale: { language }
-    }
-  ] = useStore();
+  const [{ locale }] = useStorage<LocaleMessages>(LocaleStorageID);
 
   const updateRoutePath = useCallback(
     (path: string | readonly string[] | undefined) => {
@@ -15,13 +12,13 @@ export const I18nSwitch: React.FC = ({ children }) => {
         case 'undefined':
           return undefined;
         case 'object':
-          return path.map(key => `/${language}/${key}`);
+          return path.map(key => `/${locale}/${key}`);
         default:
           const isFallbackRoute = path === '*';
-          return isFallbackRoute ? path : `/${language}/${path}`;
+          return isFallbackRoute ? path : `/${locale}/${path}`;
       }
     },
-    [language]
+    [locale]
   );
 
   return (

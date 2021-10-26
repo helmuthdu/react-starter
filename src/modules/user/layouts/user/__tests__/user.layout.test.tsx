@@ -20,7 +20,7 @@ describe('user/layouts -> DefaultLayoutRoute component', () => {
   it('should match snapshot', () => {
     const { asFragment } = render(
       <AppTest>
-        <UserLayoutRoute component={Component} />
+        <UserLayoutRoute element={Component} />
       </AppTest>
     );
     expect(asFragment()).toMatchSnapshot();

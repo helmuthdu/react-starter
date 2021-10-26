@@ -10,12 +10,7 @@
 import { Ref, useEffect, useRef, useState } from 'react';
 import { Logger } from '../utils';
 
-type UseWorker<T> = {
-  message: T;
-  post: (data: any) => void;
-  terminate: () => void;
-  worker: Ref<Worker | undefined>;
-};
+type UseWorker<T> = [T, (message: any) => void, () => void, Ref<Worker | undefined>];
 type UseWorkerCreateOptions<T> = {
   defaultValue?: T;
   id: string | number;
@@ -79,7 +74,7 @@ const useWorkerCreate = <T>(opts: UseWorkerCreateOptions<T>): UseWorker<T> => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => terminate(), []);
 
-  return { message, post, terminate, worker };
+  return [message, post, terminate, worker];
 };
 
 export const useWorker = <T>(id: string, func: (data: any) => T, defaultValue?: T): UseWorker<T> => {

@@ -1,19 +1,11 @@
 import React, { Fragment } from 'react';
-import { Route, RouteProps } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import './user.layout.scss';
 
-export const UserLayout = ({ children }: React.PropsWithChildren<{}>) => <Fragment>{children}</Fragment>;
-
-// eslint-disable-next-line
-export const UserLayoutRoute = ({ component: Component, ...rest }: { component: any } & RouteProps) => (
-  <Route
-    {...rest}
-    render={(matchProps: object) => (
-      <UserLayout>
-        <Component {...matchProps} />
-      </UserLayout>
-    )}
-  />
+export const UserLayout = () => (
+  <Fragment>
+    <Outlet />
+  </Fragment>
 );
 
-export default UserLayoutRoute;
+export default UserLayout;

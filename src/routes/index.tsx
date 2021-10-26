@@ -1,24 +1,61 @@
-import React, { Suspense } from 'react';
-import { Redirect } from 'react-router';
-import { Route } from 'react-router-dom';
+import React, { Suspense, useEffect } from 'react';
+import { RouteObject, useRoutes } from 'react-router';
+import isEqual from 'lodash/isEqual';
+import { IntlProvider } from 'react-intl';
+import { Http } from '../utils';
+import { useStorage } from '../hooks/storage.hook';
+import { NotFoundRoute } from './not-found/not-found.route';
 
-import NotFoundRoute from './not-found/not-found.route';
-import { Notification } from '../components/components/notification/notification';
-import { I18nSwitch } from '../components/components/i18n/i18n-switch';
-import { I18nRouter } from '../components/components/i18n/i18n-router';
+export type Locale = typeof locales[keyof typeof locales];
+export type LocaleMessages = { locale: Locale; messages: Record<string, any> };
 
-export const AppRouter = ({ routes }: { routes: React.ReactNode[] }) => {
+export const locales = {
+  english: 'en-US'
+} as const;
+
+export const isLanguageSupported = (locale: Locale): boolean => Object.values(locales).includes(locale);
+
+const loadTranslationsAsync = async (locale: Locale): Promise<Record<string, string> | undefined> =>
+  await Http.get<Record<string, string>>(`${process.env.PUBLIC_URL}/locales/${locale}.json`);
+
+export const AppRouter = ({ routes }: { routes: RouteObject[] }) => {
+  const locale = window.location.pathname.split('/')[1] as Locale;
+  const [localeStorage, setLocaleStorage] = useStorage<LocaleMessages>('locale', { locale, messages: {} });
+
+  useEffect(() => {
+    if (!locale || !isLanguageSupported(locale)) {
+      window.location.href = `/${locales.english}/`;
+    }
+
+    loadTranslationsAsync(locale).then((res = {}) => {
+      if (!isEqual(localeStorage.messages, res)) {
+        setLocaleStorage({ locale, messages: res });
+      }
+    });
+    // eslint-disable-next-line
+  }, []);
+
+  const routesComponent = useRoutes([
+    ...routes.map(route => {
+      const isFallbackRoute = route.path === '*';
+
+      if (route.path?.includes(locale)) {
+        return route;
+      }
+
+      route.path = isFallbackRoute ? route.path : `${locale}/${route.path}`;
+      return route;
+    }),
+    {
+      path: '*',
+      element: <NotFoundRoute />
+    }
+  ]);
+
   return (
-    <I18nRouter>
-      <Suspense fallback={null}>
-        <I18nSwitch>
-          {routes}
-          <Route path="not-found" component={NotFoundRoute} />
-          <Redirect to="not-found" />
-        </I18nSwitch>
-      </Suspense>
-      <Notification />
-    </I18nRouter>
+    <IntlProvider locale={locale} messages={localeStorage.messages} onError={() => undefined}>
+      <Suspense fallback={null}>{routesComponent}</Suspense>
+    </IntlProvider>
   );
 };
 

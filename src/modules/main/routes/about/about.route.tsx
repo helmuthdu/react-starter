@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AboutRoute = () => {
+export const AboutRoute = () => {
   return (
     <section>
       <p>This project is created by @helmuthdu.</p>

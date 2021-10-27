@@ -1,4 +1,4 @@
 export enum USER_ROUTES {
-  ROOT = 'user',
+  ROOT = 'sign-in',
   SIGN_IN = 'sign-in'
 }

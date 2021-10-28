@@ -4,8 +4,14 @@ import { Logger } from './logger.util';
 export type HttpRequestConfig = Omit<RequestInit, 'body'> & {
   id?: string;
   cancelable?: boolean;
-  customHeaders?: boolean;
   body?: any;
+};
+
+type ContextData = Record<string, string | number | undefined>;
+type ContextProps = {
+  url: string;
+  headers?: ContextData;
+  params?: ContextData;
 };
 
 enum TypeSymbol {
@@ -13,48 +19,42 @@ enum TypeSymbol {
   error = '✕'
 }
 
-const log = (type: keyof typeof TypeSymbol, url: string, req: RequestInit, res: unknown, time: number) => {
+const _activeRequests = {} as Record<string, { request: Promise<any>; controller: AbortController }>;
+
+const _generateId = (options: any): string => {
+  return `${JSON.stringify(options)}`;
+};
+
+const _log = (type: keyof typeof TypeSymbol, url: string, req: RequestInit, res: unknown, time: number) => {
   const _url = (url?.replace(/http(s)?:\/\//, '').split('/') as string[]) ?? [];
   _url.shift();
   const elapsed = Math.floor(Date.now() - time);
   Logger.info(`HTTP::${req.method?.toUpperCase()}(…/${_url.join('/')}) ${TypeSymbol[type]} ${elapsed}ms`, res);
 };
 
-const activeRequests = {} as Record<string, { request: Promise<any>; controller: AbortController }>;
+const _makeRequest = <T>(url: string, config: HttpRequestConfig, context?: ContextProps): Promise<T> => {
+  const { id = _generateId(config), headers, cancelable, ...cfg } = config;
 
-const defaultHeaders = {
-  'Content-Type': 'application/json'
-};
-
-const customHeadersProps: Record<string, string | number> = {};
-
-const generateId = (options: any): string => {
-  return `${JSON.stringify(options)}`;
-};
-
-const makeRequest = <T>(url: string, config: HttpRequestConfig): Promise<T> => {
-  const { id = generateId(config), headers = defaultHeaders, cancelable, customHeaders = true, ...cfg } = config;
-
-  if (activeRequests[id] && cancelable) {
-    activeRequests[id].controller.abort();
-    delete activeRequests[id];
+  if (_activeRequests[id] && cancelable) {
+    _activeRequests[id].controller.abort();
+    delete _activeRequests[id];
   }
 
-  if (!activeRequests[id]) {
+  if (!_activeRequests[id]) {
     const controller = new AbortController();
     const request = fetcher(
-      url,
+      context?.url ? `${context.url}/${url}` : url,
       Object.assign({}, cfg, {
-        body: JSON.stringify(config.body),
-        headers: customHeaders ? { ...customHeadersProps, ...headers } : headers,
+        body: config.body && JSON.stringify(config.body),
+        headers: context?.headers ? { ...context.headers, ...headers } : headers,
         signal: controller.signal
       }) as HttpRequestConfig,
       id
     );
-    activeRequests[id] = { request, controller };
+    _activeRequests[id] = { request, controller };
   }
 
-  return activeRequests[id].request;
+  return _activeRequests[id].request;
 };
 
 export const fetcher = <T>(url: string, config: RequestInit, id?: string): Promise<T> => {
@@ -62,43 +62,47 @@ export const fetcher = <T>(url: string, config: RequestInit, id?: string): Promi
   return fetch(url, config)
     .then(async (res: Response) => {
       const data: T = await res.json();
-      log('success', url, config, data, time);
+      _log('success', url, config, data, time);
       return data;
     })
     .catch(error => {
-      log('error', url, config, error, time);
+      _log('error', url, config, error, time);
       throw error;
     })
     .finally(() => {
       if (id) {
-        delete activeRequests[id];
+        delete _activeRequests[id];
       }
     });
 };
 
-export const Http = {
-  get<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
-    return makeRequest<T>(url, { method: 'GET', ...config });
+export const createHttpService = (context?: ContextProps) => ({
+  get<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+    return _makeRequest<T>(url, { method: 'GET', ...config });
   },
-  post<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
-    return makeRequest<T>(url, { method: 'POST', ...config });
+  post<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+    return _makeRequest<T>(url, { method: 'POST', ...config });
   },
-  put<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
-    return makeRequest<T>(url, { method: 'PUT', ...config });
+  put<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+    return _makeRequest<T>(url, { method: 'PUT', ...config });
   },
-  patch<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
-    return makeRequest<T>(url, { method: 'PATCH', ...config });
+  patch<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+    return _makeRequest<T>(url, { method: 'PATCH', ...config });
   },
-  delete<T>(url: string, config?: Omit<HttpRequestConfig, 'url'>): Promise<T> {
-    return makeRequest<T>(url, { method: 'DELETE', ...config });
+  delete<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+    return _makeRequest<T>(url, { method: 'DELETE', ...config });
   },
-  setCustomHeaders(headers: Record<string, string | number | undefined>): void {
+  setHeaders(headers: Record<string, string | undefined>): void {
     Object.entries(headers).forEach(([key, val]) => {
-      if (val === undefined) {
-        delete customHeadersProps[key];
-      } else {
-        customHeadersProps[key] = val;
+      if (context?.headers) {
+        if (val === undefined) {
+          delete context.headers[key];
+        } else {
+          context.headers[key] = val;
+        }
       }
     });
   }
-};
+});
+
+export const Http = createHttpService();

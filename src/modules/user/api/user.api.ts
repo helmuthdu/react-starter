@@ -22,10 +22,10 @@ const signIn = async (payload: UserSchema): Promise<Partial<Response> & { data: 
   });
 
 const signUp = async (payload: UserSchema) =>
-  Http.post<UserSchema>({ url: `${process.env.REACT_APP_IDENTITY_URL}/users/sign-up`, body: payload });
+  Http.post<UserSchema>(`${process.env.REACT_APP_IDENTITY_URL}/users/sign-up`, { body: payload });
 
 const update = async (payload: UserSchema) =>
-  Http.put<UserSchema>({ url: `${process.env.REACT_APP_IDENTITY_URL}/users`, body: payload });
+  Http.put<UserSchema>(`${process.env.REACT_APP_IDENTITY_URL}/users`, { body: payload });
 
 export const usersApi = {
   signIn,

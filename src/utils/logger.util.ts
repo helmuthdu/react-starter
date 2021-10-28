@@ -51,13 +51,13 @@ const state: Required<LoggerOptions> = Object.seal({
 
 const getTimestamp = (): string => new Date().toISOString().split('T')[1].substr(0, 12);
 
-const print = (level: LoggerLevelKey, color: keyof typeof COLORS, ...args: unknown[]) => {
+const print = (level: LoggerLevelKey, color: keyof typeof COLORS, ...args: any[]) => {
   const { logLevel, prefix, remote, timestamp } = state;
   const type = (['DEBUG', 'SUCCESS'].includes(level) ? 'log' : level.toLowerCase()) as keyof Console;
 
   if (logLevel > LogLevel[level]) return;
 
-  const stdout: unknown[] = [
+  const stdout: any[] = [
     `%c${level}%c`,
     `background: ${COLORS[color].BG}; color: ${COLORS[color].COLOR};
      border: 1px solid ${COLORS[color].BORDER}; border-radius: 4px; font-weight: bold;
@@ -79,7 +79,7 @@ const print = (level: LoggerLevelKey, color: keyof typeof COLORS, ...args: unkno
   }
 
   stdout.push('color: inherit;', ...args);
-  console[type](...stdout);
+  (console[type].apply as any)(null, stdout);
 
   if (remote.handler) {
     if (remote.logLevel > LogLevel[level]) return;
@@ -148,11 +148,7 @@ export const Logger = {
     if (logLevel > LogLevel.SUCCESS) return;
 
     const elapsed = Math.floor(Date.now() - time);
-    const colorMode = process.browser
-      ? window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'PREFIX_DM'
-        : 'PREFIX'
-      : 'PREFIX';
+    const colorMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'PREFIX_DM' : 'PREFIX';
 
     console.groupCollapsed(
       `%c${label}%c${prefix ? `${prefix}` : ''}%c${timestamp ? `${getTimestamp()}` : ''}%c${text} %c${

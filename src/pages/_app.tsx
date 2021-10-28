@@ -1,4 +1,3 @@
-import { Http } from '@/utils';
 import { AppInitialProps } from 'next/app';
 import { AppContext } from 'next/dist/pages/_app';
 import { IntlProvider } from 'react-intl';

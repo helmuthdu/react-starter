@@ -6,7 +6,13 @@ module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
   transform: {
     '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
-    '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest'
+    '^.+\\.(js|jsx|ts|tsx)$': [
+      '<rootDir>/node_modules/babel-jest',
+      {
+        presets: ['next/babel'],
+        plugins: []
+      }
+    ]
   },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'

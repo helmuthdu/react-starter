@@ -1,17 +1,18 @@
-import { Http } from '../utils';
+import { Http, Logger } from '../utils';
 import { useStorage } from '../hooks/storage.hook';
-import isEqual from 'lodash/isEqual';
 import { useEffect } from 'react';
 import { RouteObject } from 'react-router';
 
 export type Locale = typeof locales[keyof typeof locales];
-export type LocaleMessages = { locale: Locale; messages: Record<string, any> };
+export type LocaleStorage = { locale: Locale; messages: any; version: string };
+
+const APP_VERSION = process.env.REACT_APP_VERSION ?? '1.0.0';
 
 export const locales = {
   english: 'en-US'
 } as const;
 
-export const setLocale = (locale: Locale): Locale => {
+export const configureLocale = (locale: Locale): Locale => {
   Http.setHeaders({ 'Accept-Language': locale });
   (document.querySelector('html') as HTMLElement).setAttribute('lang', locale);
   return locale;
@@ -19,17 +20,37 @@ export const setLocale = (locale: Locale): Locale => {
 
 export const isLanguageSupported = (lang: Locale): boolean => Object.values(locales).includes(lang);
 
-export const useLocale = (locale: Locale): [LocaleMessages] => {
-  const [localeStorage, setLocaleStorage] = useStorage<LocaleMessages>('locale', { locale, messages: {} });
+export const useLocale = (locale: Locale): [LocaleStorage] => {
+  const [localeStorage, setLocaleStorage] = useStorage<LocaleStorage>('locale', {
+    locale,
+    messages: {},
+    version: '0.0.0'
+  });
 
   useEffect(() => {
-    if (isLanguageSupported(locale)) {
+    if (localeStorage.locale === locale && localeStorage.version === APP_VERSION) {
+      return;
+    }
+
+    if (!isLanguageSupported(locale)) {
+      Logger.error('Locale not supported');
+      return;
+    }
+
+    configureLocale(locale);
+
+    if (localeStorage.messages[locale] && localeStorage.version === APP_VERSION) {
+      setLocaleStorage({ ...localeStorage, locale });
+    } else {
       import(`./messages/${locale}.json`).then(({ default: messages }) => {
         if (!messages) {
-          throw new Error('Empty translation file');
-        } else if (!isEqual(localeStorage.messages, messages)) {
-          setLocaleStorage({ locale, messages });
+          throw new Error('Empty translations file');
         }
+        setLocaleStorage({
+          locale,
+          messages: { ...localeStorage.messages, [locale]: messages },
+          version: APP_VERSION
+        });
       });
     }
     // eslint-disable-next-line

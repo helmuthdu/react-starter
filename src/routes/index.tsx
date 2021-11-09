@@ -1,24 +1,50 @@
-import React, { Suspense } from 'react';
-import { Redirect } from 'react-router';
-import { Route } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { RouteObject, useRoutes } from 'react-router';
+import { IntlProvider } from 'react-intl';
+import { BrowserRouter } from 'react-router-dom';
+import { addLocaleToRoutePath, isLanguageSupported, Locale, useLocale } from '../locales';
 
-import NotFoundRoute from './not-found/not-found.route';
-import { Notification } from '../components/components/notification/notification';
-import { I18nSwitch } from '../components/components/i18n/i18n-switch';
-import { I18nRouter } from '../components/components/i18n/i18n-router';
+const AppI18n: React.FC<{ locale: Locale }> = ({ locale, children }) => {
+  const [localeStorage] = useLocale(locale);
 
-export const AppRouter = ({ routes }: { routes: React.ReactNode[] }) => {
   return (
-    <I18nRouter>
-      <Suspense fallback={null}>
-        <I18nSwitch>
-          {routes}
-          <Route path="not-found" component={NotFoundRoute} />
-          <Redirect to="not-found" />
-        </I18nSwitch>
-      </Suspense>
-      <Notification />
-    </I18nRouter>
+    <IntlProvider locale={localeStorage.locale} messages={localeStorage.messages} onError={() => undefined}>
+      {children}
+    </IntlProvider>
+  );
+};
+
+const AppRoutes: React.FC<{ routes: RouteObject[] }> = ({ routes }) => {
+  const NotFoundRoute = lazy(() => import('./not-found/not-found.route'));
+
+  const component = useRoutes([
+    ...routes.map(addLocaleToRoutePath),
+    {
+      path: 'not-found',
+      element: <NotFoundRoute />
+    },
+    {
+      path: '*',
+      element: <NotFoundRoute />
+    }
+  ]);
+
+  return <Suspense fallback={null}>{component}</Suspense>;
+};
+
+export const AppRouter: React.FC<{ routes: RouteObject[] }> = ({ routes }) => {
+  const locale: any = window.location.pathname.split('/')[1];
+
+  if (!isLanguageSupported(locale) && locale !== 'not-found') {
+    window.location.href = `/not-found`;
+  }
+
+  return (
+    <BrowserRouter>
+      <AppI18n locale={locale}>
+        <AppRoutes routes={routes} />
+      </AppI18n>
+    </BrowserRouter>
   );
 };
 

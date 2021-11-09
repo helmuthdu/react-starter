@@ -1,5 +1,5 @@
-import { useStorage, useDispatchLogger } from '../hooks';
 import React, { createContext, Dispatch, Reducer, useCallback, useContext, useEffect, useReducer } from 'react';
+import { useDispatchLogger, useStorage } from '../hooks';
 import * as appModules from '../modules';
 import * as rootModules from './modules';
 
@@ -34,7 +34,7 @@ const initialState: AppState = {
   ...appModules.initialState
 };
 
-const StoreContext = createContext<AppState>({} as AppState);
+const StoreStateContext = createContext<AppState>({} as AppState);
 const StoreDispatchContext = createContext<Dispatch<AppDispatch> | undefined>(undefined);
 
 type Props = {
@@ -44,7 +44,6 @@ type Props = {
 const StoreProvider = ({ children, logger }: Props): JSX.Element => {
   const reducer = useCallback(
     (state: AppState, action: AppAction): AppState =>
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       reducers[action.type] ? reducers[action.type](state, action.payload as any) : state,
     []
   );
@@ -53,7 +52,9 @@ const StoreProvider = ({ children, logger }: Props): JSX.Element => {
   const [storage, setStorage] = useStorage<AppState>('snapshot');
 
   const dispatch = useCallback((action: AppDispatch): Promise<void> | void => {
-    if (typeof action === 'function') return action(dispatch, state);
+    if (typeof action === 'function') {
+      return action(dispatch, state);
+    }
 
     const time = Date.now();
     Promise.resolve(action).then(act => {
@@ -80,16 +81,16 @@ const StoreProvider = ({ children, logger }: Props): JSX.Element => {
   }, [state]);
 
   return (
-    <StoreContext.Provider value={state}>
+    <StoreStateContext.Provider value={state}>
       <StoreDispatchContext.Provider value={dispatch}>{children}</StoreDispatchContext.Provider>
-    </StoreContext.Provider>
+    </StoreStateContext.Provider>
   );
 };
 
-const { Consumer: StoreConsumer } = StoreContext;
+const { Consumer: StoreConsumer } = StoreStateContext;
 
 const useStore = (): [AppState, Dispatch<AppDispatch>] => {
-  const state = useContext(StoreContext) as AppState;
+  const state = useContext(StoreStateContext) as AppState;
   if (state === undefined) {
     throw new Error(`useStore must be used within a StoreProvider`);
   }

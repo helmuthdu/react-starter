@@ -20,7 +20,7 @@ describe('layouts -> DefaultLayoutRoute component', () => {
   it('should match snapshot', () => {
     const { asFragment } = render(
       <MemoryRouter>
-        <DefaultLayoutRoute component={Component} />
+        <DefaultLayoutRoute element={Component} />
       </MemoryRouter>
     );
     expect(asFragment()).toMatchSnapshot();

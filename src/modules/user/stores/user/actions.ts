@@ -35,7 +35,7 @@ export const actionSignIn = (payload: UserSchema, callback?: () => void) => asyn
       callback
     });
     dispatch(actionDeleteErrors());
-  } catch (err) {
+  } catch (err: any) {
     if (err.status === 409) {
       dispatch(actionAddError({ signInNotFound: true }));
     } else {

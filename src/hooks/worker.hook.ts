@@ -4,13 +4,13 @@
  *   const fib = (i: number): number => (i <= 1 ? i : fib(i - 1) + fib(i - 2));
  *   return fib(val);
  * };
- * const [value, calc] = useWorker('w1', resolve, 0);
+ * const { message, post } = useWorker('W1', resolve, 0);
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { Ref, useEffect, useRef, useState } from 'react';
 import { Logger } from '../utils';
 
-type UseWorker<T> = [T, (data: any) => void];
+type UseWorker<T> = [T, (message: any) => void, () => void, Ref<Worker | undefined>];
 type UseWorkerCreateOptions<T> = {
   defaultValue?: T;
   id: string | number;
@@ -61,7 +61,7 @@ const useWorkerCreate = <T>(opts: UseWorkerCreateOptions<T>): UseWorker<T> => {
     }
   };
 
-  const postMessage = (data: any) => {
+  const post = (data: any) => {
     Logger.info(`[WORKER|${opts.id}] Post Message`, data);
     if (worker.current) {
       worker.current.postMessage(data);
@@ -74,7 +74,7 @@ const useWorkerCreate = <T>(opts: UseWorkerCreateOptions<T>): UseWorker<T> => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => terminate(), []);
 
-  return [message as T, postMessage];
+  return [message, post, terminate, worker];
 };
 
 export const useWorker = <T>(id: string, func: (data: any) => T, defaultValue?: T): UseWorker<T> => {

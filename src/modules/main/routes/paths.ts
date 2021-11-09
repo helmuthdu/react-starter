@@ -1,4 +1,4 @@
 export enum MAIN_ROUTES {
-  ABOUT = 'about',
-  HOME = ''
+  ROOT = '/',
+  ABOUT = 'about'
 }

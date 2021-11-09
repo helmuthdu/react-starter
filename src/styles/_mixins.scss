@@ -47,9 +47,4 @@ $mobile-landscape: 480px;
       @content;
     }
   }
-  @if $media == retina {
-    @media (-webkit-min-device-pixel-ratio: 2) {
-      @content;
-    }
-  }
 }

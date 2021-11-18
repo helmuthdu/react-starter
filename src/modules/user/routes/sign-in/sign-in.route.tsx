@@ -14,7 +14,7 @@ export const SignInRoute = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      dispatch(actionSignIn({ email: 'email@mail.com' }));
+      dispatch(actionSignIn({ email: 'email@mail.com', password: '1234' }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

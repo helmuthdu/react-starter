@@ -1,6 +1,6 @@
 import useSWR, { SWRConfiguration } from 'swr';
-import { fetcher } from '../utils';
+import { fetcher, HttpResponse } from '../utils';
 
 export const useHttp = <T>(url: string, config?: SWRConfiguration) => {
-  return useSWR<T>(url, fetcher, config);
+  return useSWR<HttpResponse<T>>(url, fetcher, config);
 };

@@ -1,20 +1,23 @@
 import React, { Fragment, SyntheticEvent, useEffect } from 'react';
 import { Subject } from 'rxjs';
-import { useStore } from '../../../../stores';
-import { actionAddNotification } from '../../../../stores/modules/notification';
+import { useAppDispatch, useAppSelector } from '../../../../stores';
+import { actionAddNotification } from '../../../../stores/modules/notification.store';
 import { SignIn } from '../../components/sign-in/sign-in';
-import { actionSignIn, getUserName, isLoggedIn } from '../../stores/user';
+import { actionSignIn, selectorUserName, selectorIsLoggedIn } from '../../stores/user.store';
 
 export const SignInRoute = () => {
-  const [{ user }, dispatch] = useStore();
+  const userName = useAppSelector(selectorUserName);
+  const isLoggedIn = useAppSelector(selectorIsLoggedIn);
+  const dispatch = useAppDispatch();
 
   const username$ = new Subject<string>();
 
   useEffect(() => {
-    if (!isLoggedIn(user)) {
+    if (!isLoggedIn) {
       dispatch(actionSignIn({ email: 'email@mail.com' }));
     }
-  }, [user, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleClick = (evt: React.MouseEvent) => {
     evt.preventDefault();
@@ -29,7 +32,7 @@ export const SignInRoute = () => {
   return (
     <Fragment>
       <SignIn onSubmit={values => console.log(values)} onChange={handleChange} onClick={handleClick} />
-      User: {getUserName(user)}
+      User: {userName}
     </Fragment>
   );
 };

@@ -6,18 +6,17 @@ export type UserRequest = Partial<UserSchema> & {
   password: string;
 };
 
-const signIn = async (payload: UserSchema): Promise<Partial<Response> & { data: UserSchema; error?: unknown }> =>
+const signIn = async (payload: UserSchema): Promise<Response & { data: UserSchema }> =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve({
-        ok: true,
         status: 400,
         data: {
           userName: 'johndoe',
           email: 'johndoe@mail.com',
           token: 'secret'
         }
-      });
+      } as any);
     }, 1000);
   });
 

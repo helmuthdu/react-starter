@@ -1,17 +1,9 @@
-import * as userStore from './user';
+import * as userStore from './user.store';
 
-export type Action = userStore.Action;
+export type State = { user: userStore.State };
 
-export type Reducer = userStore.Reducer;
+export type Reducer = typeof reducer;
 
-export const reducer: Reducer = {
-  ...userStore.reducer
-};
-
-export type State = {
-  user: userStore.State;
-};
-
-export const initialState: State = {
-  user: userStore.initialState
+export const reducer = {
+  user: userStore.reducer
 };

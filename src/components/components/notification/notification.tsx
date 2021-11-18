@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useStore } from '../../../stores';
-import { actionNextNotification } from '../../../stores/modules/notification';
+import { actionNextNotification, selectorNotification } from '../../../stores/modules/notification.store';
+import { useAppDispatch, useAppSelector } from '../../../stores';
 
 export const Notification = () => {
-  const [{ notification }, dispatch] = useStore();
+  const dispatch = useAppDispatch();
+  const notification = useAppSelector(selectorNotification);
   const [open, setOpen] = useState<boolean>(true);
   const timeout = useRef<any>();
 

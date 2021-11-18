@@ -1,12 +1,13 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { MemoryRouter } from 'react-router';
-import { StoreProvider } from '../../../stores';
+import { Provider } from 'react-redux';
+import { store } from '../../../stores';
 
 export const AppTest = ({ children }: any) => (
   <IntlProvider locale="en" onError={jest.fn()}>
-    <StoreProvider>
+    <Provider store={store}>
       <MemoryRouter>{children}</MemoryRouter>
-    </StoreProvider>
+    </Provider>
   </IntlProvider>
 );

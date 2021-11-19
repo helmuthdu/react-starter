@@ -4,16 +4,16 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { usersApi } from '../api';
 import { AppState } from '../../../stores';
 
-enum UserRequestError {
-  SignUpAlreadyExists,
-  SignInNotFound,
-  SignInWrongInput
+enum RequestErrorType {
+  UserAlreadyExists = 'USER_ALREADY_EXISTS',
+  UserNotFound = 'USER_NOT_FOUND',
+  UserInvalid = 'USER_INVALID'
 }
 
 export type State = {
   entity: UserSchema;
-  loading: 'idle' | 'pending';
-  error?: UserRequestError;
+  loading: 'idle' | 'pending' | 'completed';
+  error?: RequestErrorType;
 };
 
 export type UserPayload = { email: string; password: string };
@@ -30,7 +30,7 @@ export const actionSignUp = createAsyncThunk(`${name}/signUp`, async (payload: U
   try {
     return User.create((await usersApi.signUp(payload)).data);
   } catch (err) {
-    return rejectWithValue(UserRequestError.SignUpAlreadyExists);
+    return rejectWithValue(RequestErrorType.UserAlreadyExists);
   }
 });
 
@@ -39,9 +39,9 @@ export const actionSignIn = createAsyncThunk(`${name}/signIn`, async (payload: U
     return User.create((await usersApi.signIn(payload)).data);
   } catch (err: any) {
     if (err.status === 409) {
-      return rejectWithValue(UserRequestError.SignInNotFound);
+      return rejectWithValue(RequestErrorType.UserNotFound);
     } else {
-      return rejectWithValue(UserRequestError.SignInWrongInput);
+      return rejectWithValue(RequestErrorType.UserInvalid);
     }
   }
 });
@@ -58,23 +58,23 @@ export const slice = createSlice({
         state.loading = 'pending';
       })
       .addCase(actionSignUp.fulfilled, (state, action) => {
-        state.loading = 'idle';
+        state.loading = 'completed';
         state.entity = action.payload as UserSchema;
       })
       .addCase(actionSignUp.rejected, (state, action) => {
         state.loading = 'idle';
-        state.error = action.payload as UserRequestError;
+        state.error = action.payload as RequestErrorType;
       })
       .addCase(actionSignIn.pending, (state, action) => {
         state.loading = 'pending';
       })
       .addCase(actionSignIn.fulfilled, (state, action) => {
-        state.loading = 'idle';
+        state.loading = 'completed';
         state.entity = action.payload as UserSchema;
       })
       .addCase(actionSignIn.rejected, (state, action) => {
         state.loading = 'idle';
-        state.error = action.payload as UserRequestError;
+        state.error = action.payload as RequestErrorType;
       });
   }
 });
@@ -92,5 +92,3 @@ export const selectorIsLoggedIn = moize((state: AppState) => !!state.user.entity
 export const { actionSignOut } = slice.actions;
 
 export const reducer = slice.reducer;
-
-export type Reducer = typeof reducer;

@@ -4,7 +4,7 @@ import AppRouter from './routes';
 import { Provider } from 'react-redux';
 import { store } from './stores';
 import { ErrorBoundary } from './components/utils/error-boundary/error-boundary';
-import { Notification } from './components/components/notification/notification';
+import { Notification } from './components/components/notifications/notifications';
 
 const App = () => (
   <Provider store={store}>

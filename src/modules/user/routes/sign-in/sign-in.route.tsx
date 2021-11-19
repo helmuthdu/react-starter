@@ -1,7 +1,7 @@
 import React, { Fragment, SyntheticEvent, useEffect } from 'react';
 import { Subject } from 'rxjs';
 import { useAppDispatch, useAppSelector } from '../../../../stores';
-import { actionAddNotification } from '../../../../stores/modules/notification.store';
+import { actionAddNotification } from '../../../../stores/modules/notifications.store';
 import { SignIn } from '../../components/sign-in/sign-in';
 import { actionSignIn, selectorUserName, selectorIsLoggedIn } from '../../stores/user.store';
 

@@ -1,11 +1,9 @@
-import * as notificationStore from './notification.store';
+import * as notificationStore from './notifications.store';
 
 export type State = {
-  notification: notificationStore.State;
+  notifications: notificationStore.State;
 };
 
-export type Reducer = typeof reducer;
-
 export const reducer = {
-  notification: notificationStore.reducer
+  notifications: notificationStore.reducer
 };

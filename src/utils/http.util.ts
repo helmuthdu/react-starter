@@ -7,6 +7,12 @@ export type HttpRequestConfig = Omit<RequestInit, 'body'> & {
   body?: any;
 };
 
+export type HttpResponse<T> = {
+  data: T;
+  ok: boolean;
+  status: number;
+};
+
 type ContextData = Record<string, string | number | undefined>;
 type ContextProps = {
   url: string;
@@ -32,7 +38,7 @@ const _log = (type: keyof typeof TypeSymbol, url: string, req: RequestInit, res:
   Logger.info(`HTTP::${req.method?.toUpperCase()}(…/${_url.join('/')}) ${TypeSymbol[type]} ${elapsed}ms`, res);
 };
 
-const _makeRequest = <T>(url: string, config: HttpRequestConfig, context?: ContextProps): Promise<T> => {
+const _makeRequest = <T>(url: string, config: HttpRequestConfig, context?: ContextProps): Promise<HttpResponse<T>> => {
   const { id = _generateId(config), headers, cancelable, ...cfg } = config;
 
   if (_activeRequests[id] && cancelable) {
@@ -57,13 +63,13 @@ const _makeRequest = <T>(url: string, config: HttpRequestConfig, context?: Conte
   return _activeRequests[id].request;
 };
 
-export const fetcher = <T>(url: string, config: RequestInit, id?: string): Promise<T> => {
+export const fetcher = <T>(url: string, config: RequestInit, id?: string): Promise<HttpResponse<T>> => {
   const time = Date.now();
   return fetch(url, config)
     .then(async (res: Response) => {
       const data: T = await res.json();
       _log('success', url, config, data, time);
-      return data;
+      return { data, ok: res.ok, status: res.status };
     })
     .catch(error => {
       _log('error', url, config, error, time);
@@ -77,19 +83,19 @@ export const fetcher = <T>(url: string, config: RequestInit, id?: string): Promi
 };
 
 export const createHttpService = (context?: ContextProps) => ({
-  get<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+  get<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
     return _makeRequest<T>(url, { method: 'GET', ...config });
   },
-  post<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+  post<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
     return _makeRequest<T>(url, { method: 'POST', ...config });
   },
-  put<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+  put<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
     return _makeRequest<T>(url, { method: 'PUT', ...config });
   },
-  patch<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+  patch<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
     return _makeRequest<T>(url, { method: 'PATCH', ...config });
   },
-  delete<T>(url: string, config?: HttpRequestConfig): Promise<T> {
+  delete<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
     return _makeRequest<T>(url, { method: 'DELETE', ...config });
   },
   setHeaders(headers: Record<string, string | undefined>): void {

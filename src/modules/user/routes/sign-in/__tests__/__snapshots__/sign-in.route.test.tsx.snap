@@ -17,5 +17,6 @@ exports[`Route -> SignIn component should match snapshot 1`] = `
       Submit
     </button>
   </form>
+  User: 
 </DocumentFragment>
 `;

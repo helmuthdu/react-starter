@@ -14,7 +14,6 @@ const useSubscribeTo = <T>(
   complete?: () => void
 ): Subscription => {
   const subscription = observable.subscribe({ next, error, complete });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => subscription.unsubscribe(), []);
   return subscription;
 };

@@ -16,7 +16,6 @@ export const SignInRoute = () => {
     if (!isLoggedIn) {
       signInAction({ email: 'mail@mail.com', password: 'secrete' }, setUser);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = (evt: React.MouseEvent) => {

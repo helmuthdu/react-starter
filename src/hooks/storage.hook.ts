@@ -14,7 +14,6 @@ export const useStorage = <T>(key: string, defaultValue?: T, session = false): [
   useEffect(() => {
     Logger.info(`[STORAGE] watch('${key}')`, storage);
     setStorageItem(key, storage);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storage]);
 
   return [storage, setStorage];

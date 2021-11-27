@@ -14,7 +14,7 @@ const signIn = async (payload: UserRequestPayload): Promise<HttpResponse<UserSch
         status: 400,
         data: {
           userName: 'johndoe',
-          email: 'johndoe@mail.com',
+          email: payload.email,
           token: 'secret'
         }
       } as any);

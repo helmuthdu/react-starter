@@ -10,7 +10,7 @@ enum RequestErrorType {
 }
 
 export type State = {
-  data: UserSchema;
+  entity: UserSchema;
   status: 'idle' | 'pending' | 'completed';
   error?: RequestErrorType;
 };
@@ -18,7 +18,7 @@ export type State = {
 const STORE_ID = 'User';
 
 export const initialState: State = {
-  data: User.create(),
+  entity: User.create(),
   status: 'idle',
   error: undefined
 };
@@ -38,7 +38,7 @@ export const signUpAction = async (payload: UserRequestPayload, setState: (state
     const user = (await usersApi.signUp(payload)).data;
     setState(state => ({
       ...state,
-      data: User.create(user),
+      entity: User.create(user),
       status: 'completed'
     }));
   } catch (err) {
@@ -59,7 +59,7 @@ export const signInAction = async (payload: UserRequestPayload, setState: (state
     const user = (await usersApi.signIn(payload)).data;
     setState(state => ({
       ...state,
-      data: User.create(user),
+      entity: User.create(user),
       status: 'completed'
     }));
   } catch (err: any) {
@@ -73,5 +73,5 @@ export const signInAction = async (payload: UserRequestPayload, setState: (state
 
 export const isLoggedInSelector = selector({
   key: 'IsLoggedInSelector',
-  get: ({ get }) => !!get(userState).data?.token
+  get: ({ get }) => !!get(userState).entity.token
 });

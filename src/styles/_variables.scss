@@ -1,17 +1,17 @@
-//Font sizes
+// Font sizes
 :root {
-  --font-size-xxs: 0.75rem; //12
-  --font-size-xs: 0.875rem; //14
-  --font-size-sm: 0.9375rem; //15
-  --font-size-md: 1rem; //16
-  --font-size-lg: 1.25rem; //20
-  --font-size-xl: 1.5rem; //24
-  --font-size-xxl: 2rem; //30
-  --font-size-xxxl: 2.5rem; //40
-  --font-size-hg: 3rem; //48
-  --font-size-xh: 3.5rem; //56
-  --font-size-xxh: 4rem; //64
-  --font-size-xxxh: 4.5rem; //72
+  --font-size-xxs: 0.75rem; // 12
+  --font-size-xs: 0.875rem; // 14
+  --font-size-sm: 0.9375rem; // 15
+  --font-size-md: 1rem; // 16
+  --font-size-lg: 1.25rem; // 20
+  --font-size-xl: 1.5rem; // 24
+  --font-size-xxl: 2rem; // 30
+  --font-size-xxxl: 2.5rem; // 40
+  --font-size-hg: 3rem; // 48
+  --font-size-xh: 3.5rem; // 56
+  --font-size-xxh: 4rem; // 64
+  --font-size-xxxh: 4.5rem; // 72
 }
 
 $font-base: 16px !default;
@@ -28,7 +28,7 @@ $font-size-xh: var(--font-size-xh) !default;
 $font-size-xxh: var(--font-size-xxh) !default;
 $font-size-xxxh: var(--font-size-xxxh) !default;
 
-//Font family
+// Font family
 $font-weight-light: 300 !default;
 $font-weight-regular: 400 !default;
 $font-weight-medium: 500 !default;

@@ -18,14 +18,12 @@ export const Notification = () => {
 
     if (timeout.current) clearTimeout(timeout.current);
     timeout.current = setTimeout(getNextMessage, notifications[queue[0]].timeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications]);
 
   useEffect(() => {
     if (queue.length > 0) {
       showNotification();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications]);
 
   if (queue.length === 0) {

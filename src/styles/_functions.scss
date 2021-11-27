@@ -2,7 +2,7 @@
   $result: null;
 
   @each $value in $values {
-    $result: append($result, if(type-of($value) == 'number', ($value * 8) + px, $value));
+    $result: list.append($result, if(meta.type-of($value) == 'number', ($value * 8) + px, $value));
   }
 
   @return $result;

@@ -1,30 +1,54 @@
+import { NotificationType } from '@/models/notification/notification.type';
+import { generateUniqueId } from '@/utils/security.util';
 import { atom, RecoilState } from 'recoil';
-import { NotificationSchema } from '../models/notification/notification.interface';
 
-type NotificationState = NotificationSchema[];
+export type State = Readonly<{
+  queue: string[];
+  entities: Record<string, NotificationType>;
+}>;
 
-export const notificationState: RecoilState<NotificationSchema[]> = atom({
+export type NotificationPayload = NotificationType;
+
+export const name = 'notifications';
+
+export const initialState: State = {
+  queue: [],
+  entities: {}
+};
+
+export const notificationState: RecoilState<State> = atom({
   key: 'notificationState',
-  default: [] as NotificationSchema[]
+  default: initialState
 });
 
-export const notificationAddMessage = (
-  payload: NotificationSchema,
-  setState: (state: (s: NotificationState) => NotificationState) => void
-) => {
-  setState(state => [
-    ...state,
-    {
-      ...payload,
-      timeout: payload.timeout || 5000
+export const addNotificationAction = (payload: NotificationType, setState: (state: (s: State) => State) => void) => {
+  const id = generateUniqueId();
+  setState(state => ({
+    queue: [...state.queue, id],
+    entities: {
+      ...state.entities,
+      [id]: {
+        ...payload,
+        read: false,
+        timeout: payload.timeout || 5000
+      }
     }
-  ]);
+  }));
 };
 
-export const notificationClearMessages = (setState: (state: NotificationState) => void) => {
-  setState([]);
+export const actionClearNotifications = (setState: (state: State) => void) => {
+  setState(initialState);
 };
 
-export const notificationNextMessage = (setState: (state: (s: NotificationState) => NotificationState) => void) => {
-  setState(state => [...state].slice(1));
+export const actionNextNotification = (setState: (state: (s: State) => State) => void) => {
+  setState(state => ({
+    queue: state.queue.slice(1),
+    entities: {
+      ...state.entities,
+      [state.queue[0]]: {
+        ...state.entities[state.queue[0]],
+        read: true
+      }
+    }
+  }));
 };

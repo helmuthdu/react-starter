@@ -71,7 +71,6 @@ const useWorkerCreate = <T>(opts: UseWorkerCreateOptions<T>): UseWorker<T> => {
   };
 
   setup();
-
   useEffect(() => () => terminate(), []);
 
   return [message, post, terminate, worker];

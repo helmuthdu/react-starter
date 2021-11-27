@@ -1,5 +1,5 @@
+import { getStorageItem, Logger, setStorageItem } from '@/utils';
 import { useEffect, useState } from 'react';
-import { getStorageItem, Logger, setStorageItem } from '../utils';
 
 export const useStorage = <T>(key: string, defaultValue?: T, session = false): [T, (data: T) => void] => {
   const [storage, setStorage] = useState(() => {

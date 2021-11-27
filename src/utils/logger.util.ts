@@ -148,7 +148,8 @@ export const Logger = {
     if (logLevel > LogLevel.SUCCESS) return;
 
     const elapsed = Math.floor(Date.now() - time);
-    const colorMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'PREFIX_DM' : 'PREFIX';
+    const colorMode =
+      window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'PREFIX_DM' : 'PREFIX';
 
     console.groupCollapsed(
       `%c${label}%c${prefix ? `${prefix}` : ''}%c${timestamp ? `${getTimestamp()}` : ''}%c${text} %c${

@@ -12,7 +12,7 @@ export class User implements UserSchema {
   readonly facebookId?: string;
   readonly token?: string;
 
-  static create(user: UserSchema = {} as any): User {
-    return Object.assign({}, new User(), { ...user });
+  static create(user?: UserSchema) {
+    return Object.assign({}, new User(), { ...(user ?? {}) }) as UserSchema;
   }
 }

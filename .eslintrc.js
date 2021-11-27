@@ -1,5 +1,7 @@
 module.exports = {
   env: {
+    browser: true,
+    es2021: true,
     node: true,
     'jest/globals': true,
     'cypress/globals': true
@@ -18,6 +20,7 @@ module.exports = {
   plugins: ['jest', 'cypress', 'testing-library', 'prettier'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/prefer-interface': 0,
     'react/react-in-jsx-scope': 'off',
     'prettier/prettier': 'error',

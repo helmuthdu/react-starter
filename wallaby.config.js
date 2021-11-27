@@ -1,8 +1,8 @@
 module.exports = function (wallaby) {
   const path = require('path');
-  process.env.BABEL_ENV = 'test';
-  process.env.NODE_ENV = 'test';
-  process.env.NODE_PATH +=
+  import.meta.env.BABEL_ENV = 'test';
+  import.meta.env.NODE_ENV = 'test';
+  import.meta.env.NODE_PATH +=
     path.delimiter +
     path.join(__dirname, 'node_modules') +
     path.delimiter +

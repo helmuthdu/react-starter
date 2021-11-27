@@ -1,12 +1,12 @@
-import { Http, Logger } from '../utils';
-import { useStorage } from '../hooks/storage.hook';
 import { useEffect } from 'react';
 import { RouteObject } from 'react-router';
+import { useStorage } from '../hooks/storage.hook';
+import { Http, Logger } from '../utils';
 
 export type Locale = typeof locales[keyof typeof locales];
 export type LocaleStorage = { locale: Locale; messages: any; version: string };
 
-const APP_VERSION = process.env.REACT_APP_VERSION ?? '1.0.0';
+const APP_VERSION = import.meta.env.REACT_APP_VERSION ?? '1.0.0';
 
 export const locales = {
   english: 'en-US'

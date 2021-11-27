@@ -1,5 +1,5 @@
 import { atom, RecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { NotificationSchema } from '../models/notification/notification.interface';
+import { NotificationSchema } from '../types/notification/notification.type';
 import { generateUniqueId } from '../utils/security.util';
 
 export type State = Readonly<{

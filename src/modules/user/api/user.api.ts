@@ -1,5 +1,5 @@
 import { Http, HttpResponse } from '../../../utils';
-import { UserSchema } from '../models/user';
+import { UserSchema } from '../types/user.type';
 
 export type UserRequestPayload = Partial<UserSchema> & {
   email: string;
@@ -22,10 +22,10 @@ const signIn = async (payload: UserRequestPayload): Promise<HttpResponse<UserSch
   });
 
 const signUp = async (payload: UserRequestPayload) =>
-  Http.post<UserSchema>(`${process.env.REACT_APP_IDENTITY_URL}/users/sign-up`, { body: payload });
+  Http.post<UserSchema>(`${import.meta.env.REACT_APP_IDENTITY_URL}/users/sign-up`, { body: payload });
 
 const update = async (payload: UserRequestPayload) =>
-  Http.put<UserSchema>(`${process.env.REACT_APP_IDENTITY_URL}/users`, { body: payload });
+  Http.put<UserSchema>(`${import.meta.env.REACT_APP_IDENTITY_URL}/users`, { body: payload });
 
 export const usersApi = {
   signIn,

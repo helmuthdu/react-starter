@@ -4,8 +4,6 @@ import { AppTest } from '../../../../../components/utils/app-test/app-test';
 import HomeRoute from '../home.route';
 
 describe('Route -> Home', () => {
-  global.URL.createObjectURL = jest.fn();
-
   it('should match snapshot', () => {
     const { asFragment } = render(
       <AppTest>

@@ -1,26 +1,27 @@
 import React, { Fragment, SyntheticEvent, useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { Subject } from 'rxjs';
-import { addNotificationAction, notificationState } from '../../../../stores/notification.store';
+import { useAddNotification } from '../../../../stores/notification.store';
 import { SignIn } from '../../components/sign-in/sign-in';
-import { isLoggedInSelector, signInAction, userState } from '../../stores/user.store';
+import { isLoggedInSelector, userState, useSignIn } from '../../stores/user.store';
 
 export const SignInRoute = () => {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
-  const [user, setUser] = useRecoilState(userState);
-  const [, setNotifications] = useRecoilState(notificationState);
+  const user = useRecoilValue(userState);
+  const signIn = useSignIn();
+  const addNotification = useAddNotification();
 
   const username$ = new Subject<string>();
 
   useEffect(() => {
     if (!isLoggedIn) {
-      signInAction({ email: 'mail@mail.com', password: 'secrete' }, setUser);
+      signIn({ email: 'mail@mail.com', password: 'secrete' });
     }
   }, []);
 
   const handleClick = (evt: React.MouseEvent) => {
     evt.preventDefault();
-    addNotificationAction({ message: 'message' }, setNotifications);
+    addNotification({ message: 'message' });
   };
 
   const handleChange = (evt: SyntheticEvent<HTMLInputElement>) => {

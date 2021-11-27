@@ -1,4 +1,4 @@
-import { atom, RecoilState, selector } from 'recoil';
+import { atom, RecoilState, selector, useSetRecoilState } from 'recoil';
 import { localStorageEffect, loggerEffect } from '../../../effects';
 import { UserRequestPayload, usersApi } from '../api';
 import { User, UserSchema } from '../models/user';
@@ -29,46 +29,52 @@ export const userState: RecoilState<State> = atom({
   effects_UNSTABLE: [localStorageEffect(STORE_ID), loggerEffect(STORE_ID.toUpperCase())]
 });
 
-export const signUpAction = async (payload: UserRequestPayload, setState: (state: (s: State) => State) => void) => {
-  setState(state => ({
-    ...state,
-    status: 'pending'
-  }));
-  try {
-    const user = (await usersApi.signUp(payload)).data;
+export const useSignUp = () => {
+  const setState = useSetRecoilState(userState);
+  return async (payload: UserRequestPayload) => {
     setState(state => ({
       ...state,
-      entity: User.create(user),
-      status: 'completed'
+      status: 'pending'
     }));
-  } catch (err) {
-    setState(state => ({
-      ...state,
-      error: RequestErrorType.UserAlreadyExists,
-      status: 'idle'
-    }));
-  }
+    try {
+      const user = (await usersApi.signUp(payload)).data;
+      setState(state => ({
+        ...state,
+        entity: User.create(user),
+        status: 'completed'
+      }));
+    } catch (err) {
+      setState(state => ({
+        ...state,
+        error: RequestErrorType.UserAlreadyExists,
+        status: 'idle'
+      }));
+    }
+  };
 };
 
-export const signInAction = async (payload: UserRequestPayload, setState: (state: (s: State) => State) => void) => {
-  setState(state => ({
-    ...state,
-    status: 'pending'
-  }));
-  try {
-    const user = (await usersApi.signIn(payload)).data;
+export const useSignIn = () => {
+  const setState = useSetRecoilState(userState);
+  return async (payload: UserRequestPayload) => {
     setState(state => ({
       ...state,
-      entity: User.create(user),
-      status: 'completed'
+      status: 'pending'
     }));
-  } catch (err: any) {
-    setState(state => ({
-      ...state,
-      error: err.status === 409 ? RequestErrorType.UserNotFound : RequestErrorType.UserInvalid,
-      status: 'idle'
-    }));
-  }
+    try {
+      const user = (await usersApi.signIn(payload)).data;
+      setState(state => ({
+        ...state,
+        entity: User.create(user),
+        status: 'completed'
+      }));
+    } catch (err: any) {
+      setState(state => ({
+        ...state,
+        error: err.status === 409 ? RequestErrorType.UserNotFound : RequestErrorType.UserInvalid,
+        status: 'idle'
+      }));
+    }
+  };
 };
 
 export const isLoggedInSelector = selector({

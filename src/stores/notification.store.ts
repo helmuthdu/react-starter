@@ -1,4 +1,4 @@
-import { atom, RecoilState } from 'recoil';
+import { atom, RecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { NotificationSchema } from '../models/notification/notification.interface';
 import { generateUniqueId } from '../utils/security.util';
 
@@ -21,34 +21,41 @@ export const notificationState: RecoilState<State> = atom({
   default: initialState
 });
 
-export const addNotificationAction = (payload: NotificationSchema, setState: (state: (s: State) => State) => void) => {
-  const id = generateUniqueId();
-  setState(state => ({
-    queue: [...state.queue, id],
-    entities: {
-      ...state.entities,
-      [id]: {
-        ...payload,
-        read: false,
-        timeout: payload.timeout || 5000
+export const useAddNotification = () => {
+  const setState = useSetRecoilState(notificationState);
+  return (payload: NotificationSchema) => {
+    const id = generateUniqueId();
+    setState(state => ({
+      queue: [...state.queue, id],
+      entities: {
+        ...state.entities,
+        [id]: {
+          ...payload,
+          read: false,
+          timeout: payload.timeout || 5000
+        }
       }
-    }
-  }));
+    }));
+  };
 };
 
-export const actionClearNotifications = (setState: (state: State) => void) => {
-  setState(initialState);
+export const useResetNotifications = () => {
+  const resetState = useResetRecoilState(notificationState);
+  return () => resetState();
 };
 
-export const actionNextNotification = (setState: (state: (s: State) => State) => void) => {
-  setState(state => ({
-    queue: state.queue.slice(1),
-    entities: {
-      ...state.entities,
-      [state.queue[0]]: {
-        ...state.entities[state.queue[0]],
-        read: true
+export const useShowNextNotification = () => {
+  const setState = useSetRecoilState(notificationState);
+  return () => {
+    setState(state => ({
+      queue: state.queue.slice(1),
+      entities: {
+        ...state.entities,
+        [state.queue[0]]: {
+          ...state.entities[state.queue[0]],
+          read: true
+        }
       }
-    }
-  }));
+    }));
+  };
 };

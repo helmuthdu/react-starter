@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { actionNextNotification, notificationState } from '../../../stores/notification.store';
+import { useRecoilValue } from 'recoil';
+import { notificationState, useShowNextNotification } from '../../../stores/notification.store';
 
 export const Notification = () => {
-  const [{ entities: notifications, queue }, setNotification] = useRecoilState(notificationState);
+  const { entities: notifications, queue } = useRecoilValue(notificationState);
+  const showNextNotification = useShowNextNotification();
+
   const [show, setShow] = useState<boolean>(true);
   const timeout = useRef<any>();
 
@@ -12,7 +14,7 @@ export const Notification = () => {
 
     const getNextMessage = () => {
       setShow(false);
-      actionNextNotification(setNotification);
+      showNextNotification();
       timeout.current = undefined;
     };
 

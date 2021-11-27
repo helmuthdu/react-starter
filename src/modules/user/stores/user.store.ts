@@ -1,7 +1,7 @@
 import { atom, RecoilState, selector } from 'recoil';
 import { localStorageEffect, loggerEffect } from '../../../effects';
-import { User, UserSchema } from '../models/user';
 import { UserRequestPayload, usersApi } from '../api';
+import { User, UserSchema } from '../models/user';
 
 enum RequestErrorType {
   UserAlreadyExists = 'USER_ALREADY_EXISTS',
@@ -10,7 +10,7 @@ enum RequestErrorType {
 }
 
 export type State = {
-  data?: UserSchema;
+  data: UserSchema;
   status: 'idle' | 'pending' | 'completed';
   error?: RequestErrorType;
 };
@@ -18,7 +18,7 @@ export type State = {
 const STORE_ID = 'User';
 
 export const initialState: State = {
-  data: undefined,
+  data: User.create(),
   status: 'idle',
   error: undefined
 };
@@ -31,20 +31,19 @@ export const userState: RecoilState<State> = atom({
 
 export const signUpAction = async (payload: UserRequestPayload, setState: (state: (s: State) => State) => void) => {
   setState(state => ({
-    data: undefined,
-    status: 'pending',
-    error: undefined
+    ...state,
+    status: 'pending'
   }));
   try {
     const user = (await usersApi.signUp(payload)).data;
-    setState(() => ({
+    setState(state => ({
+      ...state,
       data: User.create(user),
-      error: undefined,
       status: 'completed'
     }));
   } catch (err) {
-    setState(() => ({
-      data: User.create(),
+    setState(state => ({
+      ...state,
       error: RequestErrorType.UserAlreadyExists,
       status: 'idle'
     }));
@@ -53,20 +52,19 @@ export const signUpAction = async (payload: UserRequestPayload, setState: (state
 
 export const signInAction = async (payload: UserRequestPayload, setState: (state: (s: State) => State) => void) => {
   setState(state => ({
-    data: undefined,
-    status: 'pending',
-    error: undefined
+    ...state,
+    status: 'pending'
   }));
   try {
     const user = (await usersApi.signIn(payload)).data;
-    setState(() => ({
+    setState(state => ({
+      ...state,
       data: User.create(user),
-      error: undefined,
       status: 'completed'
     }));
   } catch (err: any) {
-    setState(() => ({
-      data: User.create(),
+    setState(state => ({
+      ...state,
       error: err.status === 409 ? RequestErrorType.UserNotFound : RequestErrorType.UserInvalid,
       status: 'idle'
     }));

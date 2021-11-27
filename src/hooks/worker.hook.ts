@@ -71,7 +71,7 @@ const useWorkerCreate = <T>(opts: UseWorkerCreateOptions<T>): UseWorker<T> => {
   };
 
   setup();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   useEffect(() => () => terminate(), []);
 
   return [message, post, terminate, worker];

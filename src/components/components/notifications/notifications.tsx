@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  actionNextNotification,
-  selectorNotifications,
-  selectorNotificationsQueue
-} from '../../../stores/modules/notifications.store';
 import { useAppDispatch, useAppSelector } from '../../../stores';
+import {
+  notificationsQueueSelector,
+  notificationsSelector,
+  showNextNotificationAction
+} from '../../../stores/modules/notifications.store';
 
 export const Notification = () => {
   const dispatch = useAppDispatch();
-  const notifications = useAppSelector(selectorNotifications);
-  const queue = useAppSelector(selectorNotificationsQueue);
+  const notifications = useAppSelector(notificationsSelector);
+  const queue = useAppSelector(notificationsQueueSelector);
   const [show, setShow] = useState<boolean>(true);
   const timeout = useRef<any>();
 
@@ -18,20 +18,18 @@ export const Notification = () => {
 
     const getNextMessage = () => {
       setShow(false);
-      dispatch(actionNextNotification());
+      dispatch(showNextNotificationAction());
       timeout.current = undefined;
     };
 
     if (timeout.current) clearTimeout(timeout.current);
     timeout.current = setTimeout(getNextMessage, notifications[queue[0]].timeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications]);
 
   useEffect(() => {
     if (queue.length > 0) {
       showNotification();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications]);
 
   if (queue.length === 0) {

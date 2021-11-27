@@ -13,7 +13,7 @@ const signIn = async (payload: UserSchema): Promise<Response & { data: UserSchem
         status: 400,
         data: {
           userName: 'johndoe',
-          email: 'johndoe@mail.com',
+          email: payload.email,
           token: 'secret'
         }
       } as any);

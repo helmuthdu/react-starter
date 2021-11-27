@@ -1,8 +1,8 @@
-import moize from 'moize';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import moize from 'moize';
 import { NotificationSchema } from '../../models/notification/notification.type';
-import { AppState } from '../index';
 import { generateUniqueId } from '../../utils/security.util';
+import { AppState } from '../index';
 
 export type State = Readonly<{
   queue: string[];
@@ -18,11 +18,11 @@ export const initialState: State = {
   entities: {}
 };
 
-export const slice = createSlice({
+export const store = createSlice({
   name,
   initialState,
   reducers: {
-    actionAddNotification: (state, action: PayloadAction<NotificationPayload>) => {
+    addNotificationAction: (state, action: PayloadAction<NotificationPayload>) => {
       const id = generateUniqueId();
       const notification = {
         ...action.payload,
@@ -32,10 +32,10 @@ export const slice = createSlice({
       state.queue.push(id);
       state.entities[id] = notification;
     },
-    actionDeleteAllNotifications: state => {
+    resetNotificationsAction: state => {
       state.entities = {};
     },
-    actionNextNotification: state => {
+    showNextNotificationAction: state => {
       const notification = state.entities[state.queue[0]];
       if (notification) {
         notification.read = true;
@@ -45,9 +45,8 @@ export const slice = createSlice({
   }
 });
 
-export const selectorNotifications = moize((state: AppState) => state.notifications.entities, { isDeepEqual: true });
-export const selectorNotificationsQueue = moize((state: AppState) => state.notifications.queue, { isDeepEqual: true });
+export const reducer = store.reducer;
 
-export const { actionAddNotification, actionNextNotification, actionDeleteAllNotifications } = slice.actions;
-
-export const reducer = slice.reducer;
+export const notificationsSelector = moize((state: AppState) => state.notifications.entities, { isDeepEqual: true });
+export const notificationsQueueSelector = moize((state: AppState) => state.notifications.queue, { isDeepEqual: true });
+export const { addNotificationAction, showNextNotificationAction, resetNotificationsAction } = store.actions;

@@ -1,7 +1,7 @@
 import React, { Fragment, SyntheticEvent, useEffect } from 'react';
 import { Subject } from 'rxjs';
 import { useAppDispatch, useAppSelector } from '../../../../stores';
-import { actionAddNotification } from '../../../../stores/modules/notifications.store';
+import { addNotificationAction } from '../../../../stores/modules/notifications.store';
 import { SignIn } from '../../components/sign-in/sign-in';
 import { isLoggedInSelector, signInAction, userNameSelector } from '../../stores/user.store';
 
@@ -16,12 +16,11 @@ export const SignInRoute = () => {
     if (!isLoggedIn) {
       dispatch(signInAction({ email: 'email@mail.com', password: '1234' }));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = (evt: React.MouseEvent) => {
     evt.preventDefault();
-    dispatch(actionAddNotification({ message: 'message' }));
+    dispatch(addNotificationAction({ message: 'message' }));
   };
 
   const handleChange = (evt: SyntheticEvent<HTMLInputElement>) => {

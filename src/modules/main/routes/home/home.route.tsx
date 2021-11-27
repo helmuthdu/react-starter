@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { useStorage } from '../../../../hooks/storage.hook';
 import { useWorker } from '../../../../hooks/worker.hook';
 import { Logger } from '../../../../utils';
 import { Home } from '../../components/home/home';
 import './home.route.scss';
-import { useNavigate } from 'react-router';
 
 const resolve = (val: number): number => {
   const fib = (i: number): number => (i <= 1 ? i : fib(i - 1) + fib(i - 2));
@@ -19,13 +19,11 @@ export const HomeRoute = () => {
 
   useEffect(() => {
     postMessage(43);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     Logger.info('[WORKER] result:', message);
     setStorage(message);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message]);
 
   return <Home onLinkClick={navigate} />;

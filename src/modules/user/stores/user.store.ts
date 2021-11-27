@@ -10,16 +10,16 @@ enum RequestErrorType {
 }
 
 export type State = {
-  entity: UserSchema;
-  loading: 'idle' | 'pending' | 'completed';
+  data?: UserSchema;
+  status: 'idle' | 'pending' | 'completed';
   error?: RequestErrorType;
 };
 
 const STORE_ID = 'User';
 
 export const initialState: State = {
-  entity: User.create(),
-  loading: 'idle',
+  data: undefined,
+  status: 'idle',
   error: undefined
 };
 
@@ -31,47 +31,49 @@ export const userState: RecoilState<State> = atom({
 
 export const signUpAction = async (payload: UserRequestPayload, setState: (state: (s: State) => State) => void) => {
   setState(state => ({
-    ...state,
-    loading: 'pending'
+    data: undefined,
+    status: 'pending',
+    error: undefined
   }));
   try {
     const user = (await usersApi.signUp(payload)).data;
     setState(() => ({
-      entity: User.create(user),
+      data: User.create(user),
       error: undefined,
-      loading: 'completed'
+      status: 'completed'
     }));
   } catch (err) {
     setState(() => ({
-      entity: User.create(),
+      data: User.create(),
       error: RequestErrorType.UserAlreadyExists,
-      loading: 'idle'
+      status: 'idle'
     }));
   }
 };
 
 export const signInAction = async (payload: UserRequestPayload, setState: (state: (s: State) => State) => void) => {
   setState(state => ({
-    ...state,
-    loading: 'pending'
+    data: undefined,
+    status: 'pending',
+    error: undefined
   }));
   try {
     const user = (await usersApi.signIn(payload)).data;
     setState(() => ({
-      entity: User.create(user),
+      data: User.create(user),
       error: undefined,
-      loading: 'completed'
+      status: 'completed'
     }));
   } catch (err: any) {
     setState(() => ({
-      entity: User.create(),
+      data: User.create(),
       error: err.status === 409 ? RequestErrorType.UserNotFound : RequestErrorType.UserInvalid,
-      loading: 'idle'
+      status: 'idle'
     }));
   }
 };
 
 export const isLoggedInSelector = selector({
   key: 'IsLoggedInSelector',
-  get: ({ get }) => !!get(userState).entity.token
+  get: ({ get }) => !!get(userState).data?.token
 });

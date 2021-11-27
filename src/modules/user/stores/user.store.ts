@@ -46,7 +46,7 @@ export const signInAction = createAsyncThunk(`${name}/signIn`, async (payload: U
   }
 });
 
-export const userStore = createSlice({
+export const store = createSlice({
   name,
   initialState,
   reducers: {
@@ -83,6 +83,8 @@ export const userStore = createSlice({
   }
 });
 
+export const reducer = store.reducer;
+
 export const userNameSelector = moize(
   (state: AppState) => {
     console.log('getUserName', state.user.entity?.userName);
@@ -93,6 +95,4 @@ export const userNameSelector = moize(
 
 export const isLoggedInSelector = moize((state: AppState) => !!state.user.entity?.token, { isDeepEqual: true });
 
-export const { signOutAction } = userStore.actions;
-
-export const reducer = userStore.reducer;
+export const { signOutAction } = store.actions;

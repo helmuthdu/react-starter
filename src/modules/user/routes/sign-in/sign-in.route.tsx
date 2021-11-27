@@ -3,18 +3,18 @@ import { Subject } from 'rxjs';
 import { useAppDispatch, useAppSelector } from '../../../../stores';
 import { actionAddNotification } from '../../../../stores/modules/notifications.store';
 import { SignIn } from '../../components/sign-in/sign-in';
-import { actionSignIn, selectorUserName, selectorIsLoggedIn } from '../../stores/user.store';
+import { isLoggedInSelector, signInAction, userNameSelector } from '../../stores/user.store';
 
 export const SignInRoute = () => {
-  const userName = useAppSelector(selectorUserName);
-  const isLoggedIn = useAppSelector(selectorIsLoggedIn);
+  const userName = useAppSelector(userNameSelector);
+  const isLoggedIn = useAppSelector(isLoggedInSelector);
   const dispatch = useAppDispatch();
 
   const username$ = new Subject<string>();
 
   useEffect(() => {
     if (!isLoggedIn) {
-      dispatch(actionSignIn({ email: 'email@mail.com', password: '1234' }));
+      dispatch(signInAction({ email: 'email@mail.com', password: '1234' }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

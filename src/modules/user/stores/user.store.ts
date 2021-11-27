@@ -1,6 +1,6 @@
 import moize from 'moize';
 import { User, UserSchema } from '../models/user';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, Draft } from '@reduxjs/toolkit';
 import { usersApi } from '../api';
 import { AppState } from '../../../stores';
 
@@ -11,8 +11,8 @@ enum RequestErrorType {
 }
 
 export type State = {
-  entity: UserSchema;
-  loading: 'idle' | 'pending' | 'completed';
+  data?: UserSchema;
+  status: 'idle' | 'pending' | 'completed';
   error?: RequestErrorType;
 };
 
@@ -21,12 +21,12 @@ export type UserPayload = { email: string; password: string };
 export const name = 'user';
 
 export const initialState: State = {
-  entity: User.create(),
-  loading: 'idle',
+  data: undefined,
+  status: 'idle',
   error: undefined
 };
 
-export const actionSignUp = createAsyncThunk(`${name}/signUp`, async (payload: UserPayload, { rejectWithValue }) => {
+export const signUpAction = createAsyncThunk(`${name}/signUp`, async (payload: UserPayload, { rejectWithValue }) => {
   try {
     return User.create((await usersApi.signUp(payload)).data);
   } catch (err) {
@@ -34,7 +34,7 @@ export const actionSignUp = createAsyncThunk(`${name}/signUp`, async (payload: U
   }
 });
 
-export const actionSignIn = createAsyncThunk(`${name}/signIn`, async (payload: UserPayload, { rejectWithValue }) => {
+export const signInAction = createAsyncThunk(`${name}/signIn`, async (payload: UserPayload, { rejectWithValue }) => {
   try {
     return User.create((await usersApi.signIn(payload)).data);
   } catch (err: any) {
@@ -46,49 +46,53 @@ export const actionSignIn = createAsyncThunk(`${name}/signIn`, async (payload: U
   }
 });
 
-export const slice = createSlice({
+export const store = createSlice({
   name,
   initialState,
   reducers: {
-    actionSignOut: () => ({ entity: User.create(), loading: 'idle', error: undefined } as State)
+    signOutAction: () => ({ data: User.create(), status: 'idle', error: undefined } as State)
   },
   extraReducers: builder => {
     builder
-      .addCase(actionSignUp.pending, (state, action) => {
-        state.loading = 'pending';
+      .addCase(signUpAction.pending, (state: Draft<State>, action) => {
+        state.status = 'pending';
       })
-      .addCase(actionSignUp.fulfilled, (state, action) => {
-        state.loading = 'completed';
-        state.entity = action.payload as UserSchema;
+      .addCase(signUpAction.fulfilled, (state: Draft<State>, action) => {
+        state.status = 'completed';
+        state.data = action.payload as UserSchema;
+        state.error = undefined;
       })
-      .addCase(actionSignUp.rejected, (state, action) => {
-        state.loading = 'idle';
+      .addCase(signUpAction.rejected, (state: Draft<State>, action) => {
+        state.status = 'idle';
+        state.data = undefined;
         state.error = action.payload as RequestErrorType;
       })
-      .addCase(actionSignIn.pending, (state, action) => {
-        state.loading = 'pending';
+      .addCase(signInAction.pending, (state: Draft<State>, action) => {
+        state.status = 'pending';
       })
-      .addCase(actionSignIn.fulfilled, (state, action) => {
-        state.loading = 'completed';
-        state.entity = action.payload as UserSchema;
+      .addCase(signInAction.fulfilled, (state: Draft<State>, action) => {
+        state.status = 'completed';
+        state.data = action.payload as UserSchema;
+        state.error = undefined;
       })
-      .addCase(actionSignIn.rejected, (state, action) => {
-        state.loading = 'idle';
+      .addCase(signInAction.rejected, (state: Draft<State>, action) => {
+        state.status = 'idle';
+        state.data = undefined;
         state.error = action.payload as RequestErrorType;
       });
   }
 });
 
-export const selectorUserName = moize(
+export const userNameSelector = moize(
   (state: AppState) => {
-    console.log('getUserName', state.user.entity.userName);
-    return state.user.entity.userName;
+    console.log('getUserName', state.user.data?.userName);
+    return state.user.data?.userName;
   },
   { isDeepEqual: true }
 );
 
-export const selectorIsLoggedIn = moize((state: AppState) => !!state.user.entity.token, { isDeepEqual: true });
+export const isLoggedInSelector = moize((state: AppState) => !!state.user.data?.token, { isDeepEqual: true });
 
-export const { actionSignOut } = slice.actions;
+export const { signOutAction } = store.actions;
 
-export const reducer = slice.reducer;
+export const reducer = store.reducer;

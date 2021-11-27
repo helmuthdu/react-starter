@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import moize from 'moize';
-import { NotificationSchema } from '../../models/notification/notification.type';
+import { NotificationType } from '../../models/notification/notification.type';
 import { generateUniqueId } from '../../utils/security.util';
 import { AppState } from '../index';
 
 export type State = Readonly<{
   queue: string[];
-  entities: Record<string, NotificationSchema>;
+  entities: Record<string, NotificationType>;
 }>;
 
-export type NotificationPayload = NotificationSchema;
+export type NotificationPayload = NotificationType;
 
 export const name = 'notifications';
 

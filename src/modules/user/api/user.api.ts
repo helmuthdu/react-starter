@@ -1,5 +1,5 @@
 import { Http, HttpResponse } from '../../../utils';
-import { UserSchema } from '../types/user.type';
+import { UserSchema } from '../entities/user/user.type';
 
 export type UserRequestPayload = Partial<UserSchema> & {
   email: string;

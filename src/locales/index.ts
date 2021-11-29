@@ -6,7 +6,7 @@ import { Http, Logger } from '../utils';
 export type Locale = typeof locales[keyof typeof locales];
 export type LocaleStorage = { locale: Locale; messages: any; version: string };
 
-const APP_VERSION = import.meta.env.REACT_APP_VERSION ?? '1.0.0';
+const APP_VERSION = import.meta.env.SNOWPACK_PUBLIC_VERSION ?? '1.0.0';
 
 export const locales = {
   english: 'en-US'
@@ -42,16 +42,20 @@ export const useLocale = (locale: Locale): [LocaleStorage] => {
     if (localeStorage.messages[locale] && localeStorage.version === APP_VERSION) {
       setLocaleStorage({ ...localeStorage, locale });
     } else {
-      import(`./messages/${locale}.json`).then(({ default: messages }) => {
-        if (!messages) {
-          throw new Error('Empty translations file');
-        }
-        setLocaleStorage({
-          locale,
-          messages: { ...localeStorage.messages, [locale]: messages },
-          version: APP_VERSION
+      import(`./messages/${locale}.json`)
+        .then(({ default: messages }) => {
+          if (!messages) {
+            throw new Error('Empty translations file');
+          }
+          setLocaleStorage({
+            locale,
+            messages: { ...localeStorage.messages, [locale]: messages },
+            version: APP_VERSION
+          });
+        })
+        .catch(err => {
+          throw err;
         });
-      });
     }
     // eslint-disable-next-line
   }, [locale]);

@@ -36,14 +36,12 @@ module.exports = function (wallaby) {
     },
 
     setup: wallaby => {
-      const jestConfig = require('react-scripts/scripts/utils/createJestConfig')(p =>
-        require.resolve('react-scripts/' + p)
-      );
+      const jestConfig = require('@snowpack/app-scripts-react/jest.config.js');
       Object.keys(jestConfig.transform || {}).forEach(
         k => ~k.indexOf('^.+\\.(js|jsx') && void delete jestConfig.transform[k]
       );
       delete jestConfig.testEnvironment;
-      jestConfig.setupFilesAfterEnv = [`${wallaby.localProjectDir}/src/setupTests.js`];
+      jestConfig.setupFilesAfterEnv = [`${wallaby.localProjectDir}/jest.setup.js`];
       wallaby.testFramework.configure(jestConfig);
     },
 

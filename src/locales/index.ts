@@ -1,7 +1,7 @@
-import { Http, Logger } from '../utils';
-import { useStorage } from '../hooks/storage.hook';
 import { useEffect } from 'react';
 import { RouteObject } from 'react-router';
+import { useStorage } from '../hooks/storage.hook';
+import { Http, Logger } from '../utils';
 
 export type Locale = typeof locales[keyof typeof locales];
 export type LocaleStorage = { locale: Locale; messages: any; version: string };
@@ -42,16 +42,20 @@ export const useLocale = (locale: Locale): [LocaleStorage] => {
     if (localeStorage.messages[locale] && localeStorage.version === APP_VERSION) {
       setLocaleStorage({ ...localeStorage, locale });
     } else {
-      import(`./messages/${locale}.json`).then(({ default: messages }) => {
-        if (!messages) {
-          throw new Error('Empty translations file');
-        }
-        setLocaleStorage({
-          locale,
-          messages: { ...localeStorage.messages, [locale]: messages },
-          version: APP_VERSION
+      import(`./messages/${locale}.json`)
+        .then(({ default: messages }) => {
+          if (!messages) {
+            throw new Error('Empty translations file');
+          }
+          setLocaleStorage({
+            locale,
+            messages: { ...localeStorage.messages, [locale]: messages },
+            version: APP_VERSION
+          });
+        })
+        .catch(err => {
+          throw err;
         });
-      });
     }
     // eslint-disable-next-line
   }, [locale]);

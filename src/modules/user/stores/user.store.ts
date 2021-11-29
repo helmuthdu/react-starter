@@ -1,7 +1,7 @@
 import { atom, RecoilState, selector, useSetRecoilState } from 'recoil';
 import { localStorageEffect, loggerEffect } from '../../../effects';
 import { UserRequestPayload, usersApi } from '../api';
-import { User, UserSchema } from '../models/user';
+import { User, UserSchema } from '../entities/user';
 
 enum RequestErrorType {
   UserAlreadyExists = 'USER_ALREADY_EXISTS',

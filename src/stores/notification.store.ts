@@ -1,13 +1,13 @@
-import { NotificationType } from '@/models/notification/notification.type';
+import { NotificationSchema } from '@/entities/notification/notification.type';
 import { generateUniqueId } from '@/utils/security.util';
 import { atom, RecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 export type State = Readonly<{
   queue: string[];
-  entities: Record<string, NotificationType>;
+  entities: Record<string, NotificationSchema>;
 }>;
 
-export type NotificationPayload = NotificationType;
+export type NotificationPayload = NotificationSchema;
 
 export const name = 'notifications';
 
@@ -23,7 +23,7 @@ export const notificationState: RecoilState<State> = atom({
 
 export const useAddNotification = () => {
   const setState = useSetRecoilState(notificationState);
-  return (payload: NotificationType) => {
+  return (payload: NotificationSchema) => {
     const id = generateUniqueId();
     setState(state => ({
       queue: [...state.queue, id],

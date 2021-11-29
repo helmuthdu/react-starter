@@ -1,4 +1,8 @@
-/// <reference types="react-scripts" />
+declare module '*.svg' {
+  const ref: string;
+  export default ref;
+}
+
 type ValueOf<T> = T[keyof T];
 
 type Nullable<T> = T | null;

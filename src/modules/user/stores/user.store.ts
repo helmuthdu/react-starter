@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, Draft } from '@reduxjs/toolkit';
 import moize from 'moize';
 import { AppState } from '../../../stores';
 import { usersApi } from '../api';
-import { User, UserSchema } from '../models/user';
+import { User, UserSchema } from '../entities/user';
 
 enum RequestErrorType {
   UserAlreadyExists = 'USER_ALREADY_EXISTS',

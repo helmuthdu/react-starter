@@ -1,6 +1,7 @@
-export interface NotificationSchema {
+export type NotificationSchema = {
   message: string;
+  read?: boolean;
   timeout?: number;
-  type?: 'success' | 'info' | 'warning' | 'error';
   translate?: boolean;
-}
+  type?: 'success' | 'info' | 'warning' | 'error';
+};

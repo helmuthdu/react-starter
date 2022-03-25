@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, Draft } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector, createSlice, Draft } from '@reduxjs/toolkit';
 import moize from 'moize';
 import { AppState } from '../../../stores';
 import { usersApi } from '../api';
@@ -85,14 +85,17 @@ export const store = createSlice({
 
 export const reducer = store.reducer;
 
-export const userNameSelector = moize(
+export const userNameSelector = createSelector(
+  (state: AppState) => state,
   (state: AppState) => {
     console.log('getUserName', state.user.entity?.userName);
     return state.user.entity?.userName ?? '';
-  },
-  { isDeepEqual: true }
+  }
 );
 
-export const isLoggedInSelector = moize((state: AppState) => !!state.user.entity?.token, { isDeepEqual: true });
+export const isLoggedInSelector = createSelector(
+  (state: AppState) => state,
+  (state: AppState) => !!state.user.entity?.token
+);
 
 export const { signOutAction } = store.actions;

@@ -1,5 +1,10 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import {
+  TypedUseSelectorHook,
+  useDispatch as _useDispatch,
+  useSelector as _useSelector,
+  useStore as _useStore
+} from 'react-redux';
 import logger from 'redux-logger';
 import * as appModules from '../modules';
 import * as rootModules from './modules';
@@ -17,6 +22,6 @@ export const store = configureStore({
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)
 });
 
-// Use throughout your app instead of plain `useDispatch` and `useSelector`
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useStore = () => _useStore<AppState>();
+export const useDispatch = () => _useDispatch<AppDispatch>();
+export const useSelector: TypedUseSelectorHook<RootState> = _useSelector;

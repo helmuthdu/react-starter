@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../stores';
+import { useDispatch, useSelector } from '../../../stores';
 import {
   notificationsQueueSelector,
   notificationsSelector,
@@ -7,9 +7,9 @@ import {
 } from '../../../stores/modules/notifications.store';
 
 export const Notification = () => {
-  const dispatch = useAppDispatch();
-  const notifications = useAppSelector(notificationsSelector);
-  const queue = useAppSelector(notificationsQueueSelector);
+  const dispatch = useDispatch();
+  const notifications = useSelector(notificationsSelector);
+  const queue = useSelector(notificationsQueueSelector);
   const [show, setShow] = useState<boolean>(true);
   const timeout = useRef<any>();
 

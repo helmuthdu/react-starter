@@ -1,14 +1,15 @@
 import React, { Fragment, SyntheticEvent, useEffect } from 'react';
 import { Subject } from 'rxjs';
-import { useAppDispatch, useAppSelector } from '../../../../stores';
+import { useDispatch, useSelector, useStore } from '../../../../stores';
 import { addNotificationAction } from '../../../../stores/modules/notifications.store';
 import { SignIn } from '../../components/sign-in/sign-in';
 import { isLoggedInSelector, signInAction, userNameSelector } from '../../stores/user.store';
 
 export const SignInRoute = () => {
-  const userName = useAppSelector(userNameSelector);
-  const isLoggedIn = useAppSelector(isLoggedInSelector);
-  const dispatch = useAppDispatch();
+  const store = useStore();
+  const userName = useSelector(userNameSelector);
+  const isLoggedIn = useSelector(isLoggedInSelector);
+  const dispatch = useDispatch();
 
   const username$ = new Subject<string>();
 
@@ -16,6 +17,7 @@ export const SignInRoute = () => {
     if (!isLoggedIn) {
       dispatch(signInAction({ email: 'email@mail.com', password: '1234' }));
     }
+    console.log('STORE', store.getState());
   }, []);
 
   const handleClick = (evt: React.MouseEvent) => {

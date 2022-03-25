@@ -1,15 +1,16 @@
-import { Http } from '../../../utils';
+import { Http, HttpResponse } from '../../../utils';
 import { UserSchema } from '../entities/user';
 
-export type UserRequest = Partial<UserSchema> & {
+export type UserRequestPayload = Partial<UserSchema> & {
   email: string;
   password: string;
 };
 
-const signIn = async (payload: UserSchema): Promise<Response & { data: UserSchema }> =>
+const signIn = async (payload: UserRequestPayload): Promise<HttpResponse<UserSchema>> =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve({
+        ok: true,
         status: 400,
         data: {
           userName: 'johndoe',
@@ -20,11 +21,11 @@ const signIn = async (payload: UserSchema): Promise<Response & { data: UserSchem
     }, 1000);
   });
 
-const signUp = async (payload: UserSchema) =>
-  Http.post<UserSchema>(`${process.env.REACT_APP_IDENTITY_URL}/users/sign-up`, { body: JSON.stringify(payload) });
+const signUp = async (payload: UserRequestPayload) =>
+  Http.post<UserSchema>(`${process.env.REACT_APP_IDENTITY_URL}/users/sign-up`, { body: payload });
 
-const update = async (payload: UserSchema) =>
-  Http.put<UserSchema>(`${process.env.REACT_APP_IDENTITY_URL}/users`, { body: JSON.stringify(payload) });
+const update = async (payload: UserRequestPayload) =>
+  Http.put<UserSchema>(`${process.env.REACT_APP_IDENTITY_URL}/users`, { body: payload });
 
 export const usersApi = {
   signIn,

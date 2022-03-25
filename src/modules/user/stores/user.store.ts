@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSelector, createSlice, Draft } from '@reduxjs/toolkit';
-import moize from 'moize';
 import { AppState } from '../../../stores';
 import { usersApi } from '../api';
 import { User, UserSchema } from '../entities/user';

@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import moize from 'moize';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NotificationSchema } from '../../entities/notification/notification.type';
 import { generateUniqueId } from '../../utils/security.util';
 import { AppState } from '../index';
@@ -47,6 +46,13 @@ export const store = createSlice({
 
 export const reducer = store.reducer;
 
-export const notificationsSelector = moize((state: AppState) => state.notifications.entities, { isDeepEqual: true });
-export const notificationsQueueSelector = moize((state: AppState) => state.notifications.queue, { isDeepEqual: true });
+export const notificationsSelector = createSelector(
+  (state: AppState) => state,
+  (state: AppState) => state.notifications.entities
+);
+export const notificationsQueueSelector = createSelector(
+  (state: AppState) => state,
+  (state: AppState) => state.notifications.queue
+);
+
 export const { addNotificationAction, showNextNotificationAction, resetNotificationsAction } = store.actions;

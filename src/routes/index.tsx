@@ -1,10 +1,10 @@
 import React, { lazy, Suspense } from 'react';
-import { RouteObject, useRoutes } from 'react-router';
 import { IntlProvider } from 'react-intl';
+import { RouteObject, useRoutes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { addLocaleToRoutePath, isLanguageSupported, Locale, useLocale } from '../locales';
 
-const AppI18n: React.FC<{ locale: Locale }> = ({ locale, children }) => {
+const AppI18n: React.FC<{ locale: Locale; children: any }> = ({ locale, children }) => {
   const [localeStorage] = useLocale(locale);
 
   return (

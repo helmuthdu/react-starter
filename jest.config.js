@@ -18,5 +18,7 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
-  testURL: 'http://localhost/'
+  testEnvironmentOptions: {
+    url: 'http://localhost/'
+  }
 };

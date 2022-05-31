@@ -1,7 +1,7 @@
 import { Logger } from './logger.util';
 
 const generatePrefix = (): string => {
-  const appName = import.meta.env.SNOWPACK_PUBLIC_NAME ?? 'react_app';
+  const appName = import.meta.env.VITE_NAME ?? 'react_app';
   const environment = import.meta.env.NODE_ENV ?? 'development';
   return `${appName}_${environment.substr(0, 3)}`;
 };

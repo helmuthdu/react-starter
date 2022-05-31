@@ -1,4 +1,5 @@
-module.exports = function (wallaby) {
+/* eslint-disable @typescript-eslint/no-var-requires */
+module.exports = function () {
   const path = require('path');
   import.meta.env.BABEL_ENV = 'test';
   import.meta.env.NODE_ENV = 'test';
@@ -36,7 +37,7 @@ module.exports = function (wallaby) {
     },
 
     setup: wallaby => {
-      const jestConfig = require('@snowpack/app-scripts-react/jest.config.js');
+      const jestConfig = require('./jest.config.js');
       Object.keys(jestConfig.transform || {}).forEach(
         k => ~k.indexOf('^.+\\.(js|jsx') && void delete jestConfig.transform[k]
       );

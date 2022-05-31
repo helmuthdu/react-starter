@@ -4,7 +4,7 @@ import { IntlProvider } from 'react-intl';
 import { BrowserRouter } from 'react-router-dom';
 import { addLocaleToRoutePath, isLanguageSupported, Locale, useLocale } from '../locales';
 
-const AppI18n: React.FC<{ locale: Locale }> = ({ locale, children }) => {
+const AppI18n: React.FC<{ locale: Locale; children: any }> = ({ locale, children }) => {
   const [localeStorage] = useLocale(locale);
 
   return (

@@ -27,7 +27,7 @@ export const initialState: State = {
 export const userState: RecoilState<State> = atom({
   key: STORE_ID,
   default: initialState,
-  effects_UNSTABLE: [localStorageEffect(STORE_ID), loggerEffect(STORE_ID.toUpperCase())]
+  effects: [localStorageEffect(STORE_ID), loggerEffect(STORE_ID.toUpperCase())]
 });
 
 export const useSignUp = () => {

@@ -1,6 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NotificationSchema } from '../../entities/notification/notification.type';
-import { generateUniqueId } from '../../utils/security.util';
+import { uuid } from '../../utils/misc.util';
 import { AppState } from '../index';
 
 export type State = Readonly<{
@@ -22,7 +22,7 @@ export const store = createSlice({
   initialState,
   reducers: {
     addNotificationAction: (state, action: PayloadAction<NotificationPayload>) => {
-      const id = generateUniqueId();
+      const id = uuid();
       const notification = {
         ...action.payload,
         read: false,

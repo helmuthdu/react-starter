@@ -1,7 +1,7 @@
-import { Http, Logger } from '../utils';
-import { useStorage } from '../hooks/storage.hook';
 import { useEffect } from 'react';
 import { RouteObject } from 'react-router';
+import { useStorage } from '../hooks/storage.hook';
+import { Http, Logger } from '../utils';
 
 export type Locale = typeof locales[keyof typeof locales];
 export type LocaleStorage = { locale: Locale; messages: any; version: string };

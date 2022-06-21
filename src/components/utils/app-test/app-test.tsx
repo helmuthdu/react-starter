@@ -1,7 +1,7 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
-import { MemoryRouter } from 'react-router';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router';
 import { store } from '../../../stores';
 
 export const AppTest = ({ children }: any) => (

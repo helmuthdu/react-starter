@@ -1,10 +1,10 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { Notification } from './components/components/notifications/notifications';
+import { ErrorBoundary } from './components/utils/error-boundary/error-boundary';
 import { routes } from './modules';
 import AppRouter from './routes';
-import { Provider } from 'react-redux';
 import { store } from './stores';
-import { ErrorBoundary } from './components/utils/error-boundary/error-boundary';
-import { Notification } from './components/components/notifications/notifications';
 
 const App = () => (
   <Provider store={store}>

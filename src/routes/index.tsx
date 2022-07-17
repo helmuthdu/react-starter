@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
-import { RouteObject, useRoutes } from 'react-router';
 import { IntlProvider } from 'react-intl';
+import { RouteObject, useRoutes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { addLocaleToRoutePath, isLanguageSupported, Locale, useLocale } from '../locales';
 

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`Route -> SignIn component should match snapshot 1`] = `
+exports[`Route -> SignIn component > should match snapshot 1`] = `
 <DocumentFragment>
   <form>
     <input

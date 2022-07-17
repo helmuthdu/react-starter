@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Outlet } from 'react-router-dom';
-import './user.layout.scss';
+import './user.layout.css';
 
 export const UserLayout = () => (
   <Fragment>

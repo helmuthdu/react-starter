@@ -1,17 +1,14 @@
+import { SignIn } from '@/modules/user/components/sign-in/sign-in';
+import { isLoggedInSelector, userState, useSignIn } from '@/modules/user/stores/user.store';
+import { useAddNotification } from '@/stores/notification.store';
 import React, { Fragment, SyntheticEvent, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { Subject } from 'rxjs';
-import { useAddNotification } from '../../../../stores/notification.store';
-import { SignIn } from '../../components/sign-in/sign-in';
-import { isLoggedInSelector, userState, useSignIn } from '../../stores/user.store';
 
 export const SignInRoute = () => {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
   const user = useRecoilValue(userState);
   const signIn = useSignIn();
   const addNotification = useAddNotification();
-
-  const username$ = new Subject<string>();
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -26,7 +23,6 @@ export const SignInRoute = () => {
 
   const handleChange = (evt: SyntheticEvent<HTMLInputElement>) => {
     evt.preventDefault();
-    username$.next(evt.currentTarget.value);
   };
 
   return (

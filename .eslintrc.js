@@ -2,9 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true,
-    'jest/globals': true,
-    'cypress/globals': true
+    node: true
   },
   globals: {
     React: 'writable'
@@ -13,11 +11,10 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:cypress/recommended',
     'plugin:prettier/recommended',
     'prettier'
   ],
-  plugins: ['jest', 'cypress', 'testing-library', 'prettier'],
+  plugins: ['prettier'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
@@ -31,5 +28,19 @@ module.exports = {
     react: {
       version: 'detect'
     }
-  }
+  },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        'no-unused-vars': 'off'
+      }
+    },
+    {
+      files: ['**/__tests__/*.{j,t}s?(x)', '**/src/**/*.spec.{j,t}s?(x)'],
+      env: {
+        jest: true
+      }
+    }
+  ]
 };

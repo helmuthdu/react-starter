@@ -1,22 +1,17 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`Route -> Home should match snapshot 1`] = `
+exports[`Route -> Home > should match snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="App"
+    class="app"
   >
     <header
-      class="App-header"
+      class="app-header"
     >
       <img
         alt="logo"
-        class="App-logo"
-        src="function SvgLogo(props) {
-  return React.createElement(
-    'svg', 
-    Object.assign({}, props, {'data-file-name': SvgLogo.name})
-  );
-}"
+        class="app-logo"
+        src="/src/modules/main/assets/images/logo.svg"
       />
       <p>
         Edit 
@@ -26,7 +21,7 @@ exports[`Route -> Home should match snapshot 1`] = `
          and save to reload.
       </p>
       <a
-        class="App-link"
+        class="app-link"
         href="https://reactjs.org"
         rel="noopener noreferrer"
         target="_blank"
@@ -35,14 +30,14 @@ exports[`Route -> Home should match snapshot 1`] = `
       </a>
       Navigate to
       <div
-        class="App-link"
+        class="app-link"
         title="go to about page"
       >
         about page
       </div>
       or to
       <div
-        class="App-link"
+        class="app-link"
         title="go to sign-in page"
       >
         sign-in page

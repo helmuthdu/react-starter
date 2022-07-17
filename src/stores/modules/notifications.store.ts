@@ -1,6 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NotificationSchema } from '../../entities/notification/notification.type';
-import { uuid } from '../../utils/misc.util';
+import { uuid } from '../../utils/toolbox.util';
 import { AppState } from '../index';
 
 export type State = Readonly<{

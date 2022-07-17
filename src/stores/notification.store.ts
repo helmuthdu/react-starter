@@ -1,6 +1,6 @@
 import { atom, RecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { NotificationSchema } from '../entities/notification/notification.type';
-import { uuid } from '../utils/misc.util';
+import { uuid } from '../utils/toolbox.util';
 
 export type State = Readonly<{
   queue: string[];

@@ -4,14 +4,15 @@ import { defineConfig } from 'vite';
 
 const config = {
   plugins: [React()],
+  css: {
+    postcss: {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      plugins: [require('postcss-preset-env')({ stage: 0 })]
+    }
+  },
   resolve: {
     alias: {
       '@': join(__dirname, 'src')
-    }
-  },
-  css: {
-    postcss: {
-      plugins: [require('postcss-import'), require('postcss-nesting'), require('autoprefixer')]
     }
   }
 };

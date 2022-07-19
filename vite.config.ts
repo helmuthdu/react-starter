@@ -7,7 +7,7 @@ const config = {
   css: {
     postcss: {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      plugins: [require('postcss-preset-env')({ stage: 0 })]
+      plugins: [require('precss')({ stage: 0 })]
     }
   },
   resolve: {

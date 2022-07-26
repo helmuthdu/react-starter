@@ -1,5 +1,5 @@
 import { DefaultValue, RecoilState } from 'recoil';
-import { getStorageItem, removeStorageItem, setStorageItem } from '../utils';
+import { getStorageItem, removeStorageItem, setStorageItem } from '@/utils';
 
 export const localStorageEffect =
   (key: string) =>

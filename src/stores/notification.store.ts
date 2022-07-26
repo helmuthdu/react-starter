@@ -1,6 +1,6 @@
 import { atom, RecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { NotificationSchema } from '../entities/notification/notification.type';
-import { uuid } from '../utils/toolbox.util';
+import { NotificationSchema } from '@/entities/notification/notification.type';
+import { uuid } from '@/utils/toolbox.util';
 
 export type State = Readonly<{
   queue: string[];
@@ -9,7 +9,7 @@ export type State = Readonly<{
 
 export type NotificationPayload = NotificationSchema;
 
-export const name = 'notifications';
+export const name = 'notifications' as const;
 
 export const initialState: State = {
   queue: [],

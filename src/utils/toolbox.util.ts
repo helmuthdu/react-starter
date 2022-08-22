@@ -129,3 +129,28 @@ export const parseJson = <T, K>(data: K, defaultValue?: T): T | undefined => {
     return defaultValue;
   }
 };
+
+export const truncate = (value: string, limit = 25, completeWords = false, ellipsis = '…'): string => {
+  if (completeWords) {
+    limit = value.substring(0, limit).lastIndexOf(' ');
+  }
+  return value.length > limit ? `${value.substring(0, limit)}${ellipsis}` : value;
+};
+
+export const debounce = <T extends (...args: unknown[]) => void>(fn: T, ms = 0, immediate?: boolean) => {
+  let timeout: NodeJS.Timeout | undefined;
+
+  return (...args: unknown[]): ReturnType<T> | void => {
+    const callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = undefined;
+      if (!immediate) {
+        return fn(...args);
+      }
+    }, ms);
+    if (callNow) {
+      return fn(...args);
+    }
+  };
+};

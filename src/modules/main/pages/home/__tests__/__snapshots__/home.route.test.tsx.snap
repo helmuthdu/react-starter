@@ -6,7 +6,14 @@ exports[`Route -> Home should match snapshot 1`] = `
     <header>
       <img
         alt="logo"
+        data-nimg="1"
+        decoding="async"
+        height="840"
+        loading="lazy"
         src="/static/assets/images/logo.svg"
+        srcset="/static/assets/images/logo.svg 1x, /static/assets/images/logo.svg 2x"
+        style="color: transparent;"
+        width="595"
       />
       <p>
         Edit 
@@ -25,14 +32,12 @@ exports[`Route -> Home should match snapshot 1`] = `
       Navigate to
       <a
         href="/about"
-        title="go to about page"
       >
         about page
       </a>
       or to
       <a
         href="/sign-in"
-        title="go to sign-in page"
       >
         sign-in page
       </a>

@@ -8,7 +8,7 @@ import styles from './home.module.scss';
 export const Home = () => (
   <div className={styles.app}>
     <header className={styles.appHeader}>
-      <Image src="/static/assets/images/logo.svg" className={styles.appLogo} alt="logo" />
+      <Image src="/static/assets/images/logo.svg" className={styles.appLogo} alt="logo" height="840" width="595"/>
       <p>
         Edit <code>src/app.js</code> and save to reload.
       </p>
@@ -16,16 +16,12 @@ export const Home = () => (
         <FormattedMessage id="LEARN_REACT" />
       </a>
       Navigate to
-      <Link href={MAIN_PAGES.ABOUT}>
-        <a className={styles.appLink} title="go to about page">
-          about page
-        </a>
+      <Link href={MAIN_PAGES.ABOUT} className={styles.appLink} title="go to about page">
+        about page
       </Link>
       or to
-      <Link href={USER_PAGES.SIGN_IN}>
-        <a className={styles.appLink} title="go to sign-in page">
-          sign-in page
-        </a>
+      <Link href={USER_PAGES.SIGN_IN} className={styles.appLink} title="go to sign-in page">
+        sign-in page
       </Link>
     </header>
   </div>

@@ -163,7 +163,7 @@ export const debounce = <T extends (...args: unknown[]) => void>(fn: T, ms = 0, 
 
 type ArgumentsType<T> = T extends (...args: infer U) => any ? U : never;
 type UnwrapPromisify<T> = T extends Promise<infer U> ? U : T;
-export const bid =
+export const tryit =
   <T extends (...args: any) => any>(fn: T) =>
   async (...args: ArgumentsType<T>): Promise<{ error?: Error; data?: UnwrapPromisify<ReturnType<T>> }> => {
     try {

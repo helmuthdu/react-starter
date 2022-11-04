@@ -3,7 +3,7 @@ import { Logger } from './logger.util';
 const generatePrefix = (): string => {
   const appName = import.meta.env.VITE_NAME ?? 'react_app';
   const environment = import.meta.env.NODE_ENV ?? 'development';
-  return `${appName}_${environment.substr(0, 3)}`;
+  return `${appName}_${environment.substring(0, 3)}`;
 };
 
 const getKey = (key: string) => `${generatePrefix()}_${key}`.toLowerCase();

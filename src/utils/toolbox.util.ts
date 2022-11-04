@@ -172,3 +172,9 @@ export const tryit =
       return { error: err as Error, data: undefined };
     }
   };
+
+export const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+export const delay = async (fn: () => any, timer = 700) => {
+  await timeout(timer);
+  return fn();
+};

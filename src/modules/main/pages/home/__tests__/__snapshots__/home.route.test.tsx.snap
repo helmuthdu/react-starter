@@ -32,12 +32,14 @@ exports[`Route -> Home should match snapshot 1`] = `
       Navigate to
       <a
         href="/about"
+        title="go to about page"
       >
         about page
       </a>
       or to
       <a
         href="/sign-in"
+        title="go to sign-in page"
       >
         sign-in page
       </a>

@@ -11,8 +11,6 @@
     "test:watch": "jest --env=jsdom --coverage --watch",
     "test:coverage": "jest --env=jsdom --coverage",
     "test:debug": "jest --inspect-brk --runInBand --watch",
-    "test:e2e": "cypress open",
-    "test:e2e:run": "cypress run --headed",
     "lint": "npm run lint:script && npm run lint:style",
     "lint:script": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix --ignore-path .gitignore",
     "lint:style": "stylelint src/**/*.{css,scss}",

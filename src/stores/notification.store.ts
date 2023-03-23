@@ -1,6 +1,6 @@
-import { atom, RecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { NotificationSchema } from '@/entities/notification/notification.type';
 import { uuid } from '@/utils/toolbox.util';
+import { atom, RecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 export type State = Readonly<{
   queue: string[];
@@ -21,9 +21,11 @@ export const notificationState: RecoilState<State> = atom({
   default: initialState
 });
 
-export const useAddNotification = () => {
+export const useNotifier = () => {
+  const resetState = useResetRecoilState(notificationState);
   const setState = useSetRecoilState(notificationState);
-  return (payload: NotificationSchema) => {
+
+  const add = (payload: NotificationSchema) => {
     const id = uuid();
     setState(state => ({
       queue: [...state.queue, id],
@@ -37,16 +39,8 @@ export const useAddNotification = () => {
       }
     }));
   };
-};
 
-export const useResetNotifications = () => {
-  const resetState = useResetRecoilState(notificationState);
-  return () => resetState();
-};
-
-export const useShowNextNotification = () => {
-  const setState = useSetRecoilState(notificationState);
-  return () => {
+  const next = () => {
     setState(state => ({
       queue: state.queue.slice(1),
       entities: {
@@ -57,5 +51,13 @@ export const useShowNextNotification = () => {
         }
       }
     }));
+  };
+
+  const reset = () => resetState();
+
+  return {
+    add,
+    next,
+    reset
   };
 };

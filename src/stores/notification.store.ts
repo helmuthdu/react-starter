@@ -1,6 +1,6 @@
+import { atom, RecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { NotificationSchema } from '@/entities/notification/notification.type';
 import { uuid } from '@/utils/toolbox.util';
-import { atom, RecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 export type State = Readonly<{
   queue: string[];
@@ -27,6 +27,7 @@ export const useNotifier = () => {
 
   const add = (payload: NotificationSchema) => {
     const id = uuid();
+
     setState(state => ({
       queue: [...state.queue, id],
       entities: {

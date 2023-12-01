@@ -1,14 +1,14 @@
+import { Fragment, SyntheticEvent, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 import { SignIn } from '@/modules/user/components/sign-in/sign-in';
 import { isLoggedInSelector, userState, useSignIn } from '@/modules/user/stores/user.store';
-import { useAddNotification } from '@/stores/notification.store';
-import React, { Fragment, SyntheticEvent, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useNotifier } from '@/stores/notification.store';
 
 export const SignInRoute = () => {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
   const user = useRecoilValue(userState);
   const signIn = useSignIn();
-  const addNotification = useAddNotification();
+  const notifier = useNotifier();
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -18,7 +18,7 @@ export const SignInRoute = () => {
 
   const handleClick = (evt: React.MouseEvent) => {
     evt.preventDefault();
-    addNotification({ message: 'message' });
+    notifier.add({ message: 'message' });
   };
 
   const handleChange = (evt: SyntheticEvent<HTMLInputElement>) => {

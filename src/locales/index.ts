@@ -3,7 +3,7 @@ import { RouteObject } from 'react-router';
 import { useStorage } from '../hooks/storage.hook';
 import { Http, Logger } from '../utils';
 
-export type Locale = typeof locales[keyof typeof locales];
+export type Locale = (typeof locales)[keyof typeof locales];
 export type LocaleStorage = { locale: Locale; messages: any; version: string };
 
 const APP_VERSION = import.meta.env.VITE_VERSION ?? '1.0.0';
@@ -15,6 +15,7 @@ export const locales = {
 export const configureLocale = (locale: Locale): Locale => {
   Http.setHeaders({ 'Accept-Language': locale });
   (document.querySelector('html') as HTMLElement).setAttribute('lang', locale);
+
   return locale;
 };
 
@@ -24,7 +25,7 @@ export const useLocale = (locale: Locale): [LocaleStorage] => {
   const [localeStorage, setLocaleStorage] = useStorage<LocaleStorage>('locale', {
     locale,
     messages: {},
-    version: '0.0.0'
+    version: APP_VERSION
   });
 
   useEffect(() => {
@@ -33,7 +34,8 @@ export const useLocale = (locale: Locale): [LocaleStorage] => {
     }
 
     if (!isLanguageSupported(locale)) {
-      Logger.error('Locale not supported');
+      Logger.error('Locale not supported', locale);
+
       return;
     }
 
@@ -47,6 +49,7 @@ export const useLocale = (locale: Locale): [LocaleStorage] => {
           if (!messages) {
             throw new Error('Empty translations file');
           }
+
           setLocaleStorage({
             locale,
             messages: { ...localeStorage.messages, [locale]: messages },
@@ -73,5 +76,6 @@ export const addLocaleToRoutePath = (route: RouteObject) => {
   }
 
   route.path = `/:locale/${route.path?.startsWith('/') ? route.path?.substring(1) : route.path}`;
+
   return route;
 };

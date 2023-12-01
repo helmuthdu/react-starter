@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react';
-import React from 'react';
 import { AppTest } from '../../../../../components/utils/app-test/app-test';
 import HomeRoute from '../home.route';
 
@@ -10,6 +9,7 @@ describe('Route -> Home', () => {
         <HomeRoute />
       </AppTest>
     );
+
     expect(asFragment()).toMatchSnapshot();
   });
 });

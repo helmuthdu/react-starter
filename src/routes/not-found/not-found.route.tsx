@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const NotFoundRoute = () => (
   <div>
     <h1>You are here!</h1>

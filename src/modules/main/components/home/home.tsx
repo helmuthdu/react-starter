@@ -1,8 +1,7 @@
-import React from 'react';
+import './home.css';
 import { FormattedMessage } from 'react-intl';
 import { MAIN_ROUTES, USER_ROUTES } from '../../../paths';
 import logo from '../../assets/images/logo.svg';
-import './home.css';
 
 type Props = { onLinkClick: (route: USER_ROUTES | MAIN_ROUTES) => void };
 export const Home = (props: Props) => (

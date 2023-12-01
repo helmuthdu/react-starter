@@ -1,10 +1,16 @@
-import React, { lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { IntlProvider } from 'react-intl';
 import { RouteObject, useRoutes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { addLocaleToRoutePath, isLanguageSupported, Locale, useLocale } from '../locales';
 
-const AppI18n: React.FC<{ locale: Locale; children: any }> = ({ locale, children }) => {
+const AppI18n: React.FC<{ locale: Locale; children: any }> = ({
+  locale,
+  children
+}: {
+  locale: Locale;
+  children: React.ReactElement;
+}) => {
   const [localeStorage] = useLocale(locale);
 
   return (
@@ -14,7 +20,7 @@ const AppI18n: React.FC<{ locale: Locale; children: any }> = ({ locale, children
   );
 };
 
-const AppRoutes: React.FC<{ routes: RouteObject[] }> = ({ routes }) => {
+const AppRoutes: React.FC<{ routes: RouteObject[] }> = ({ routes }: { routes: RouteObject[] }) => {
   const NotFoundRoute = lazy(() => import('./not-found/not-found.route'));
 
   const component = useRoutes([
@@ -32,7 +38,7 @@ const AppRoutes: React.FC<{ routes: RouteObject[] }> = ({ routes }) => {
   return <Suspense fallback={null}>{component}</Suspense>;
 };
 
-export const AppRouter: React.FC<{ routes: RouteObject[] }> = ({ routes }) => {
+export const AppRouter: React.FC<{ routes: RouteObject[] }> = ({ routes }: { routes: RouteObject[] }) => {
   const locale: any = window.location.pathname.split('/')[1];
 
   if (!isLanguageSupported(locale) && locale !== 'not-found') {

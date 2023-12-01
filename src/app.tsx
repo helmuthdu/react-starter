@@ -1,4 +1,3 @@
-import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { Notification } from './components/components/notifications/notifications';
 import { ErrorBoundary } from './components/utils/error-boundary/error-boundary';

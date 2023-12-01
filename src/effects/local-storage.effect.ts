@@ -21,6 +21,7 @@ export const localStorageEffect =
     onSet: (param: (newValue: T | DefaultValue, oldValue: T | DefaultValue) => void) => void;
   }) => {
     const savedValue = getStorageItem<T>(key);
+
     if (savedValue) {
       setSelf(savedValue);
     }

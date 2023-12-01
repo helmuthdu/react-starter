@@ -31,13 +31,16 @@ export const userState: RecoilState<State> = atom({
 
 export const useSignUp = () => {
   const setState = useSetRecoilState(userState);
+
   return async (payload: UserRequestPayload) => {
     setState(state => ({
       ...state,
       status: 'pending'
     }));
+
     try {
       const user = (await usersApi.signUp(payload)).data;
+
       setState(state => ({
         ...state,
         entity: User.create(user),
@@ -55,13 +58,16 @@ export const useSignUp = () => {
 
 export const useSignIn = () => {
   const setState = useSetRecoilState(userState);
+
   return async (payload: UserRequestPayload) => {
     setState(state => ({
       ...state,
       status: 'pending'
     }));
+
     try {
       const user = (await usersApi.signIn(payload)).data;
+
       setState(state => ({
         ...state,
         entity: User.create(user),

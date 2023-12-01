@@ -14,12 +14,15 @@ const useSubscribeTo = <T>(
   complete?: () => void
 ): Subscription => {
   const subscription = observable.subscribe({ next, error, complete });
+
   useEffect(() => () => subscription.unsubscribe(), []);
+
   return subscription;
 };
 
 export const useObservable = <T>(observable: Observable<T>, defaultValue?: T): MutableRefObject<T> => {
   const handler = useRef(defaultValue) as MutableRefObject<T>;
+
   useSubscribeTo(
     observable,
     value => {
@@ -45,5 +48,6 @@ export const useSubject = <T>(): [Subject<T>, (value: T) => void] => {
   const set = (value: T) => {
     subject.next(value);
   };
+
   return [subject, set];
 };

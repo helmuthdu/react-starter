@@ -33,8 +33,11 @@ function _generateId(options: any): string {
 
 function _log(type: keyof typeof TypeSymbol, url: string, req: RequestInit, res: unknown, time: number) {
   const _url = (url?.replace(/http(s)?:\/\//, '').split('/') as string[]) ?? [];
+
   _url.shift();
+
   const elapsed = Math.floor(Date.now() - time);
+
   Logger.info(`HTTP::${req.method?.toUpperCase()}(…/${_url.join('/')}) ${TypeSymbol[type]} ${elapsed}ms`, res);
 }
 
@@ -57,6 +60,7 @@ function _makeRequest<T>(url: string, config: HttpRequestConfig, context?: Conte
       }) as HttpRequestConfig,
       id
     );
+
     _activeRequests[id] = { request, controller };
   }
 
@@ -65,10 +69,13 @@ function _makeRequest<T>(url: string, config: HttpRequestConfig, context?: Conte
 
 export function fetcher<T>(url: string, config: RequestInit, id?: string): Promise<HttpResponse<T>> {
   const time = Date.now();
+
   return fetch(url, config)
     .then(async (res: Response) => {
       const data: T = await res.json();
+
       _log('success', url, config, data, time);
+
       return { data, ok: res.ok, status: res.status };
     })
     .catch(error => {

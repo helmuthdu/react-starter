@@ -28,6 +28,7 @@ export const store = createSlice({
         read: false,
         timeout: action.payload.timeout || 5000
       };
+
       state.queue.push(id);
       state.entities[id] = notification;
     },
@@ -36,9 +37,11 @@ export const store = createSlice({
     },
     showNextNotificationAction: state => {
       const notification = state.entities[state.queue[0]];
+
       if (notification) {
         notification.read = true;
       }
+
       state.queue = state.queue.slice(1);
     }
   }

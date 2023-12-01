@@ -53,7 +53,7 @@ const getTimestamp = (): string => new Date().toISOString().split('T')[1].substr
 
 const print = (level: LoggerLevelKey, color: keyof typeof COLORS, ...args: any[]) => {
   const { logLevel, prefix, remote, timestamp } = state;
-  const type = (['DEBUG', 'SUCCESS'].includes(level) ? 'log' : level.toLowerCase()) as keyof Console;
+  const type = ['DEBUG', 'SUCCESS'].includes(level) ? 'log' : level.toLowerCase();
 
   if (logLevel > LogLevel[level]) return;
 
@@ -66,6 +66,7 @@ const print = (level: LoggerLevelKey, color: keyof typeof COLORS, ...args: any[]
 
   if (prefix) {
     const colorMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'PREFIX_DM' : 'PREFIX';
+
     stdout[0] = `${stdout[0]}${prefix}%c`;
     stdout.push(
       `background: ${COLORS[colorMode].BG}; color: ${COLORS[colorMode].COLOR}; border-radius: 8px;
@@ -79,10 +80,11 @@ const print = (level: LoggerLevelKey, color: keyof typeof COLORS, ...args: any[]
   }
 
   stdout.push('color: inherit;', ...args);
-  (console[type].apply as any)(null, stdout);
+  (console as any)[type].apply(null, stdout);
 
   if (remote.handler) {
     if (remote.logLevel > LogLevel[level]) return;
+
     remote.handler(level, ...args);
   }
 };
@@ -117,14 +119,17 @@ export const Logger = {
   },
   time(...args: any[]): void {
     if (state.logLevel > LogLevel.TIME) return;
+
     print('TIME', 'TIME', ...args);
   },
   timeEnd(): void {
     if (state.logLevel > LogLevel.TIME) return;
+
     console.timeEnd();
   },
   table(...args: any[]): void {
     if (state.logLevel > LogLevel.TABLE) return;
+
     console.table(...args);
   },
   debug(...args: any[]): void {
@@ -148,8 +153,7 @@ export const Logger = {
     if (logLevel > LogLevel.SUCCESS) return;
 
     const elapsed = Math.floor(Date.now() - time);
-    const colorMode =
-      window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'PREFIX_DM' : 'PREFIX';
+    const colorMode = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'PREFIX_DM' : 'PREFIX';
 
     console.groupCollapsed(
       `%c${label}%c${prefix ? `${prefix}` : ''}%c${timestamp ? `${getTimestamp()}` : ''}%c${text} %c${
@@ -164,6 +168,7 @@ export const Logger = {
   },
   groupEnd(): void {
     if (state.logLevel > LogLevel.SUCCESS) return;
+
     console.groupEnd();
   }
 };

@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
 import { USER_ROUTES } from './paths';
+
 // Layout
 const UserLayout = lazy(() => import('../layouts/user/user.layout'));
 // Component

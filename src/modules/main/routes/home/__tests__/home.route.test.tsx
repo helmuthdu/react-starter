@@ -12,6 +12,7 @@ describe('Route -> Home', () => {
         <HomeRoute />
       </AppTest>
     );
+
     expect(asFragment()).toMatchSnapshot();
   });
 });

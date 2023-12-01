@@ -17,6 +17,7 @@ export const SignInRoute = () => {
     if (!isLoggedIn) {
       dispatch(signInAction({ email: 'email@mail.com', password: '1234' }));
     }
+
     console.log('STORE', store.getState());
   }, []);
 

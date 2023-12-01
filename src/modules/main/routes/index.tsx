@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
 import { MAIN_ROUTES } from './paths';
+
 // Layout
 const DefaultLayout = lazy(() => import('../../../layouts/default/default.layout'));
 // Components

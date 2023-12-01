@@ -27,18 +27,21 @@ enum TypeSymbol {
 
 const _activeRequests = {} as Record<string, { request: Promise<any>; controller: AbortController }>;
 
-const _generateId = (options: any): string => {
+function _generateId(options: any): string {
   return `${JSON.stringify(options)}`;
-};
+}
 
-const _log = (type: keyof typeof TypeSymbol, url: string, req: RequestInit, res: unknown, time: number) => {
+function _log(type: keyof typeof TypeSymbol, url: string, req: RequestInit, res: unknown, time: number) {
   const _url = (url?.replace(/http(s)?:\/\//, '').split('/') as string[]) ?? [];
-  _url.shift();
-  const elapsed = Math.floor(Date.now() - time);
-  Logger.info(`HTTP::${req.method?.toUpperCase()}(…/${_url.join('/')}) ${TypeSymbol[type]} ${elapsed}ms`, res);
-};
 
-const _makeRequest = <T>(url: string, config: HttpRequestConfig, context?: ContextProps): Promise<HttpResponse<T>> => {
+  _url.shift();
+
+  const elapsed = Math.floor(Date.now() - time);
+
+  Logger.info(`HTTP::${req.method?.toUpperCase()}(…/${_url.join('/')}) ${TypeSymbol[type]} ${elapsed}ms`, res);
+}
+
+function _makeRequest<T>(url: string, config: HttpRequestConfig, context?: ContextProps): Promise<HttpResponse<T>> {
   const { id = _generateId(config), headers, cancelable, ...cfg } = config;
 
   if (_activeRequests[id] && cancelable) {
@@ -57,18 +60,22 @@ const _makeRequest = <T>(url: string, config: HttpRequestConfig, context?: Conte
       }) as HttpRequestConfig,
       id
     );
+
     _activeRequests[id] = { request, controller };
   }
 
   return _activeRequests[id].request;
-};
+}
 
-export const fetcher = <T>(url: string, config: RequestInit, id?: string): Promise<HttpResponse<T>> => {
+export function fetcher<T>(url: string, config: RequestInit, id?: string): Promise<HttpResponse<T>> {
   const time = Date.now();
+
   return fetch(url, config)
     .then(async (res: Response) => {
       const data: T = await res.json();
+
       _log('success', url, config, data, time);
+
       return { data, ok: res.ok, status: res.status };
     })
     .catch(error => {
@@ -80,35 +87,37 @@ export const fetcher = <T>(url: string, config: RequestInit, id?: string): Promi
         delete _activeRequests[id];
       }
     });
-};
+}
 
-export const createHttpService = (context?: ContextProps) => ({
-  get<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
-    return _makeRequest<T>(url, { method: 'GET', ...config });
-  },
-  post<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
-    return _makeRequest<T>(url, { method: 'POST', ...config });
-  },
-  put<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
-    return _makeRequest<T>(url, { method: 'PUT', ...config });
-  },
-  patch<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
-    return _makeRequest<T>(url, { method: 'PATCH', ...config });
-  },
-  delete<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
-    return _makeRequest<T>(url, { method: 'DELETE', ...config });
-  },
-  setHeaders(headers: Record<string, string | undefined>): void {
-    Object.entries(headers).forEach(([key, val]) => {
-      if (context?.headers) {
-        if (val === undefined) {
-          delete context.headers[key];
-        } else {
-          context.headers[key] = val;
+export function createHttpService(context?: ContextProps) {
+  return {
+    get<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
+      return _makeRequest<T>(url, { method: 'GET', ...config }, context);
+    },
+    post<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
+      return _makeRequest<T>(url, { method: 'POST', ...config }, context);
+    },
+    put<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
+      return _makeRequest<T>(url, { method: 'PUT', ...config }, context);
+    },
+    patch<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
+      return _makeRequest<T>(url, { method: 'PATCH', ...config }, context);
+    },
+    delete<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
+      return _makeRequest<T>(url, { method: 'DELETE', ...config }, context);
+    },
+    setHeaders(headers: Record<string, string | undefined>): void {
+      Object.entries(headers).forEach(([key, val]) => {
+        if (context?.headers) {
+          if (val === undefined) {
+            delete context.headers[key];
+          } else {
+            context.headers[key] = val;
+          }
         }
-      }
-    });
-  }
-});
+      });
+    }
+  };
+}
 
 export const Http = createHttpService();

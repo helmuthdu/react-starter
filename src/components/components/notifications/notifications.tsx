@@ -23,6 +23,7 @@ export const Notification = () => {
     };
 
     if (timeout.current) clearTimeout(timeout.current);
+
     timeout.current = setTimeout(getNextMessage, notifications[queue[0]].timeout);
   }, [notifications]);
 

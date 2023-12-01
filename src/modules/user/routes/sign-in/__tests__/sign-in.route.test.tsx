@@ -12,6 +12,7 @@ describe('Route -> SignIn component', () => {
         <SignInRoute {...props} />
       </AppTest>
     );
+
     expect(asFragment()).toMatchSnapshot();
   });
 });

@@ -17,7 +17,7 @@ export type State = {
 
 export type UserPayload = { email: string; password: string };
 
-export const name = 'user';
+export const STORE_ID = 'user' as const;
 
 export const initialState: State = {
   entity: undefined,
@@ -25,31 +25,37 @@ export const initialState: State = {
   error: undefined
 };
 
-export const signUpAction = createAsyncThunk(`${name}/signUp`, async (payload: UserPayload, { rejectWithValue }) => {
-  try {
-    return User.create((await usersApi.signUp(payload)).data);
-  } catch (err) {
-    return rejectWithValue(RequestErrorType.UserAlreadyExists);
-  }
-});
-
-export const signInAction = createAsyncThunk(`${name}/signIn`, async (payload: UserPayload, { rejectWithValue }) => {
-  try {
-    return User.create((await usersApi.signIn(payload)).data);
-  } catch (err: any) {
-    if (err.status === 409) {
-      return rejectWithValue(RequestErrorType.UserNotFound);
-    } else {
-      return rejectWithValue(RequestErrorType.UserInvalid);
+export const signUpAction = createAsyncThunk(
+  `${STORE_ID}/signUp`,
+  async (payload: UserPayload, { rejectWithValue }) => {
+    try {
+      return User.create((await usersApi.signUp(payload)).data);
+    } catch (err) {
+      return rejectWithValue(RequestErrorType.UserAlreadyExists);
     }
   }
-});
+);
+
+export const signInAction = createAsyncThunk(
+  `${STORE_ID}/signIn`,
+  async (payload: UserPayload, { rejectWithValue }) => {
+    try {
+      return User.create((await usersApi.signIn(payload)).data);
+    } catch (err: any) {
+      if (err.status === 409) {
+        return rejectWithValue(RequestErrorType.UserNotFound);
+      } else {
+        return rejectWithValue(RequestErrorType.UserInvalid);
+      }
+    }
+  }
+);
 
 export const store = createSlice({
-  name,
+  name: STORE_ID,
   initialState,
   reducers: {
-    signOutAction: () => ({ entity: User.create(), status: 'idle', error: undefined } as State)
+    signOutAction: () => ({ entity: User.create(), status: 'idle', error: undefined }) as State
   },
   extraReducers: builder => {
     builder
@@ -88,6 +94,7 @@ export const userNameSelector = createSelector(
   (state: AppState) => state,
   (state: AppState) => {
     console.log('getUserName', state.user.entity?.userName);
+
     return state.user.entity?.userName ?? '';
   }
 );

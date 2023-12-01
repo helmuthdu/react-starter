@@ -11,6 +11,7 @@ describe('App router', () => {
         <AppRouter routes={[]} />
       </Provider>
     );
+
     expect(asFragment()).toMatchSnapshot();
   });
 });

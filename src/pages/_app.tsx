@@ -1,9 +1,8 @@
+import '../styles/styles.scss';
 import { AppInitialProps } from 'next/app';
 import { AppContext } from 'next/dist/pages/_app';
 import { IntlProvider } from 'react-intl';
 import { RecoilRoot } from 'recoil';
-
-import '../styles/common.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const App = ({ Component, pageProps, locale, messages }: any) => (

@@ -8,6 +8,7 @@ export const usePromise = <T>(fn: (...args: any) => Promise<T>, defaultValue: T 
     loading.current = true;
     error.current = null;
     data.current = defaultValue;
+
     try {
       data.current = await fn(...args);
     } catch (err) {
@@ -16,5 +17,6 @@ export const usePromise = <T>(fn: (...args: any) => Promise<T>, defaultValue: T 
       loading.current = false;
     }
   };
+
   return { data, loading, error, run };
 };

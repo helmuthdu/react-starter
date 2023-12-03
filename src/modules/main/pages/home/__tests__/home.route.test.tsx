@@ -1,5 +1,5 @@
-import { AppTest } from '@/components/utils/app-test';
 import { render } from '@testing-library/react';
+import { AppTest } from '@/components/utils/app-test';
 import HomePage from '../home.page';
 
 describe('Route -> Home', () => {
@@ -9,6 +9,7 @@ describe('Route -> Home', () => {
         <HomePage />
       </AppTest>
     );
+
     expect(asFragment()).toMatchSnapshot();
   });
 });

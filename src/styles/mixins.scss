@@ -1,0 +1,31 @@
+@mixin breakpoints($media) {
+  @if $media == desktop-l {
+    @media only screen and (min-width: var(--size-screen-2xl)) {
+      @content;
+    }
+  } @else if $media == desktop-m {
+    @media only screen and (min-width: var(--size-screen-xl)) {
+      @content;
+    }
+  } @else if $media == desktop-s {
+    @media only screen and (min-width: var(--size-screen-lg)) {
+      @content;
+    }
+  } @else if $media == tablet-landscape {
+    @media only screen and (min-device-width: var(--size-screen-md)) and (max-device-width: var(--size-screen-lg)) and (orientation: landscape) {
+      @content;
+    }
+  } @else if $media == tablet {
+    @media only screen and (min-width: var(--size-screen-md)) {
+      @content;
+    }
+  } @else if $media == mobile-landscape {
+    @media only screen and (width >= 320px) and (max-width: var(--size-screen-sm)) and (orientation: landscape) {
+      @content;
+    }
+  } @else if $media == mobile {
+    @media only screen and (max-width: var(--size-screen-xs)) {
+      @content;
+    }
+  }
+}

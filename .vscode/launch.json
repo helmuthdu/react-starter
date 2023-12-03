@@ -10,6 +10,24 @@
       "sourceMapPathOverrides": {
         "webpack:///client/*": "${webRoot}/*"
       }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test:All",
+      "program": "${workspaceFolder}/node_modules/.bin/vitest",
+      "args": ["run"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test:Current File",
+      "program": "${workspaceFolder}/node_modules/.bin/vitest",
+      "args": ["run", "${relativeFile}"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }

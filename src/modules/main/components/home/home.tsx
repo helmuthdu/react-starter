@@ -1,14 +1,13 @@
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 import { MAIN_PAGES, USER_PAGES } from '../../../pages';
-
 import styles from './home.module.scss';
 
 export const Home = () => (
   <div className={styles.app}>
     <header className={styles.appHeader}>
-      <Image src="/static/assets/images/logo.svg" className={styles.appLogo} alt="logo" height="840" width="595"/>
+      <Image src="/static/assets/images/logo.svg" className={styles.appLogo} alt="logo" height="840" width="595" />
       <p>
         Edit <code>src/app.js</code> and save to reload.
       </p>

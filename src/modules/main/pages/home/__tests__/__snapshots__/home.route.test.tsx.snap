@@ -1,4 +1,59 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Route -> Home > should match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="_app_57789e"
+  >
+    <header
+      class="_appHeader_57789e"
+    >
+      <img
+        alt="logo"
+        class="_appLogo_57789e"
+        data-nimg="1"
+        decoding="async"
+        height="840"
+        loading="lazy"
+        src="/static/assets/images/logo.svg"
+        style="color: transparent;"
+        width="595"
+      />
+      <p>
+        Edit 
+        <code>
+          src/app.js
+        </code>
+         and save to reload.
+      </p>
+      <a
+        class="_appLink_57789e"
+        href="https://reactjs.org"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        LEARN_REACT
+      </a>
+      Navigate to
+      <a
+        class="_appLink_57789e"
+        href="/about"
+        title="go to about page"
+      >
+        about page
+      </a>
+      or to
+      <a
+        class="_appLink_57789e"
+        href="/sign-in"
+        title="go to sign-in page"
+      >
+        sign-in page
+      </a>
+    </header>
+  </div>
+</DocumentFragment>
+`;
 
 exports[`Route -> Home should match snapshot 1`] = `
 <DocumentFragment>
@@ -11,7 +66,6 @@ exports[`Route -> Home should match snapshot 1`] = `
         height="840"
         loading="lazy"
         src="/static/assets/images/logo.svg"
-        srcset="/static/assets/images/logo.svg 1x, /static/assets/images/logo.svg 2x"
         style="color: transparent;"
         width="595"
       />

@@ -1,5 +1,5 @@
-import { Logger } from '@/utils';
 import { DefaultValue, RecoilState } from 'recoil';
+import { Logger } from '@/utils';
 
 export const loggerEffect =
   (name: string) =>

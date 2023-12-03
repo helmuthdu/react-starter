@@ -37,8 +37,10 @@ const createWorker = <T>(opts: WorkerOptions<T>): UseWorker<T> => {
   const setup = () => {
     if (!opts.worker && !opts.url) {
       Logger.error(`[WORKER|${opts.id}] Missing url/worker Property`);
+
       return;
     }
+
     worker.current = opts.worker ?? new Worker(opts.url as string);
     worker.current.addEventListener('message', onMessage, false);
     worker.current.addEventListener('error', onError, false);
@@ -47,15 +49,19 @@ const createWorker = <T>(opts: WorkerOptions<T>): UseWorker<T> => {
 
   const terminate = () => {
     Logger.info(`[WORKER|${opts.id}] Terminate`);
+
     if (worker.current) {
       worker.current.removeEventListener('message', onMessage);
       worker.current.removeEventListener('error', onError);
+
       if (!opts.terminate) {
         worker.current.terminate();
       }
+
       if (opts.function && opts.url) {
         window.URL.revokeObjectURL(opts.url);
       }
+
       workers.delete(opts.id);
       worker.current = undefined;
     }
@@ -63,6 +69,7 @@ const createWorker = <T>(opts: WorkerOptions<T>): UseWorker<T> => {
 
   const post = (data: any) => {
     Logger.info(`[WORKER|${opts.id}] Post Message`, data);
+
     if (worker.current) {
       worker.current.postMessage(data);
     } else {
@@ -85,6 +92,7 @@ export const useWorker = <T>(id: string, func: (data: any) => T, defaultValue?: 
     const resolveString = func.toString();
     const webWorkerTemplate = `self.onmessage = function(e) { self.postMessage((${resolveString})(e.data)); }`;
     const blob = new Blob([webWorkerTemplate], { type: 'text/javascript' });
+
     opts.url = window.URL.createObjectURL(blob);
   }
 

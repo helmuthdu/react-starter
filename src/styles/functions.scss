@@ -1,0 +1,12 @@
+@use 'sass:list';
+@use 'sass:meta';
+
+@function size($values...) {
+  $size: null;
+
+  @each $value in $values {
+    $size: list.append($size, if(meta.type-of($value) == 'number', #{($value * 0.25) + rem}, $value));
+  }
+
+  @return $size;
+}

@@ -1,5 +1,5 @@
-import { getStorageItem, removeStorageItem, setStorageItem } from '@/utils';
 import { DefaultValue, RecoilState } from 'recoil';
+import { getStorageItem, removeStorageItem, setStorageItem } from '@/utils';
 
 export const localStorageEffect =
   (key: string) =>
@@ -21,6 +21,7 @@ export const localStorageEffect =
     onSet: (param: (newValue: T | DefaultValue, oldValue: T | DefaultValue) => void) => void;
   }) => {
     const savedValue = getStorageItem<T>(key);
+
     if (savedValue) {
       setSelf(savedValue);
     }

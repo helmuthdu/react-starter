@@ -1,8 +1,8 @@
-import { RouterContext } from 'next/dist/shared/lib/router-context';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { IntlProvider } from 'react-intl';
 import { RecoilRoot } from 'recoil';
 
-const router = jest.mock('next/router', () => {
+const router = vi.mock('next/router', () => {
   const mockedRouter = {
     back: jest.fn(),
     push: jest.fn(),
@@ -11,6 +11,7 @@ const router = jest.mock('next/router', () => {
     route: '/mock-route',
     pathname: 'mock-path'
   };
+
   return {
     default: mockedRouter,
     useRouter: jest.fn(() => mockedRouter),
@@ -19,6 +20,7 @@ const router = jest.mock('next/router', () => {
         ...component.defaultProps,
         router: mockedRouter
       };
+
       return component;
     }
   };

@@ -1,5 +1,5 @@
-import { AppTest } from '@/components/utils/app-test';
 import { render } from '@testing-library/react';
+import { AppTest } from '@/components/utils/app-test';
 import SignInPage from '../sign-in.page';
 
 describe('user/page -> SignIn', () => {
@@ -11,6 +11,7 @@ describe('user/page -> SignIn', () => {
         <SignInPage {...props} />
       </AppTest>
     );
+
     expect(asFragment()).toMatchSnapshot();
   });
 });

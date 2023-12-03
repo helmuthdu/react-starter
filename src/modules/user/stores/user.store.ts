@@ -1,5 +1,5 @@
 import { atom, RecoilState, selector, useSetRecoilState } from 'recoil';
-import { localStorageEffect, loggerEffect } from '../../../effects';
+import { localStorageEffect, loggerEffect } from '@/effects';
 import { UserRequestPayload, usersApi } from '../api';
 import { User, UserSchema } from '../entities/user';
 
@@ -15,7 +15,7 @@ export type State = {
   error?: RequestErrorType;
 };
 
-const STORE_ID = 'User';
+const STORE_ID = 'user' as const;
 
 export const initialState: State = {
   entity: User.create(),
@@ -26,18 +26,21 @@ export const initialState: State = {
 export const userState: RecoilState<State> = atom({
   key: STORE_ID,
   default: initialState,
-  effects_UNSTABLE: [localStorageEffect(STORE_ID), loggerEffect(STORE_ID.toUpperCase())]
+  effects: [localStorageEffect(STORE_ID), loggerEffect(STORE_ID.toUpperCase())]
 });
 
 export const useSignUp = () => {
   const setState = useSetRecoilState(userState);
+
   return async (payload: UserRequestPayload) => {
     setState(state => ({
       ...state,
       status: 'pending'
     }));
+
     try {
       const user = (await usersApi.signUp(payload)).data;
+
       setState(state => ({
         ...state,
         entity: User.create(user),
@@ -55,13 +58,16 @@ export const useSignUp = () => {
 
 export const useSignIn = () => {
   const setState = useSetRecoilState(userState);
+
   return async (payload: UserRequestPayload) => {
     setState(state => ({
       ...state,
       status: 'pending'
     }));
+
     try {
       const user = (await usersApi.signIn(payload)).data;
+
       setState(state => ({
         ...state,
         entity: User.create(user),

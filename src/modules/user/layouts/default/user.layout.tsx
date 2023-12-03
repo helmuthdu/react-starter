@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-export const UserLayout = ({ children }: { children: React.ReactNode }) => {
+export const UserLayout = ({ children }: { children: JSX.Element }) => {
   return <Fragment>{children}</Fragment>;
 };
 

@@ -1,4 +1,4 @@
-import { UserSchema } from './user.type';
+import { UserSchema } from './user.type.ts';
 
 export class User implements UserSchema {
   readonly email: string;

@@ -74,13 +74,11 @@ export const receiver = (event: string, fn: (arg?: any) => void, options?: { onc
     fn();
   }
 
-  useEffect(
-    () =>
-      function onUnmount() {
-        subscription.stop();
-      },
-    []
-  );
+  useEffect(() => {
+    return () => {
+      subscription.stop();
+    };
+  }, []);
 };
 
 export const transmitter = emit;

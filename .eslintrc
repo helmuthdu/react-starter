@@ -19,6 +19,7 @@
     "plugin:prettier/recommended"
   ],
   "plugins": ["simple-import-sort", "unused-imports", "vitest", "testing-library"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/explicit-module-boundary-types": 0,

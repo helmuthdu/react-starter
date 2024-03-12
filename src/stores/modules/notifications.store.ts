@@ -5,7 +5,7 @@ import { AppState } from '../index';
 
 export type State = Readonly<{
   queue: string[];
-  entities: Record<string, NotificationSchema>;
+  data: Record<string, NotificationSchema>;
 }>;
 
 export type NotificationPayload = NotificationSchema;
@@ -14,7 +14,7 @@ export const name = 'notifications';
 
 export const initialState: State = {
   queue: [],
-  entities: {}
+  data: {}
 };
 
 export const store = createSlice({
@@ -30,13 +30,13 @@ export const store = createSlice({
       };
 
       state.queue.push(id);
-      state.entities[id] = notification;
+      state.data[id] = notification;
     },
     resetNotificationsAction: state => {
-      state.entities = {};
+      state.data = {};
     },
     showNextNotificationAction: state => {
-      const notification = state.entities[state.queue[0]];
+      const notification = state.data[state.queue[0]];
 
       if (notification) {
         notification.read = true;
@@ -51,7 +51,7 @@ export const reducer = store.reducer;
 
 export const notificationsSelector = createSelector(
   (state: AppState) => state,
-  (state: AppState) => state.notifications.entities
+  (state: AppState) => state.notifications.data
 );
 export const notificationsQueueSelector = createSelector(
   (state: AppState) => state,

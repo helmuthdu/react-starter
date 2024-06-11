@@ -13,7 +13,7 @@ export const routes = [
     element: <DefaultLayout />,
     children: [
       { index: true, element: <HomeRoute /> },
-      { path: MAIN_ROUTES.ABOUT, element: <AboutRoute /> }
-    ]
-  }
+      { path: MAIN_ROUTES.ABOUT, element: <AboutRoute /> },
+    ],
+  },
 ];

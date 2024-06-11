@@ -1,12 +1,13 @@
-import { lazy, Suspense } from 'react';
+import { type JSXElementConstructor, type ReactElement, Suspense, lazy } from 'react';
 import { IntlProvider } from 'react-intl';
-import { RouteObject, useRoutes } from 'react-router';
+import { type RouteObject, useRoutes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
-import { addLocaleToRoutePath, isLanguageSupported, Locale, useLocale } from '../locales';
+import { type Locale, addLocaleToRoutePath, isLanguageSupported, useLocale } from '../locales';
 
-const AppI18n: React.FC<{ locale: Locale; children: any }> = ({
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+const AppI18n: React.FC<{ locale: Locale; children: ReactElement<any, string | JSXElementConstructor<any>> }> = ({
   locale,
-  children
+  children,
 }: {
   locale: Locale;
   children: React.ReactElement;
@@ -27,27 +28,27 @@ const AppRoutes: React.FC<{ routes: RouteObject[] }> = ({ routes }: { routes: Ro
     ...routes.map(addLocaleToRoutePath),
     {
       path: 'not-found',
-      element: <NotFoundRoute />
+      element: <NotFoundRoute />,
     },
     {
       path: '*',
-      element: <NotFoundRoute />
-    }
+      element: <NotFoundRoute />,
+    },
   ]);
 
   return <Suspense fallback={null}>{component}</Suspense>;
 };
 
 export const AppRouter: React.FC<{ routes: RouteObject[] }> = ({ routes }: { routes: RouteObject[] }) => {
-  const locale: any = window.location.pathname.split('/')[1];
+  const locale = window.location.pathname.split('/')[1];
 
-  if (!isLanguageSupported(locale) && locale !== 'not-found') {
-    window.location.href = `/not-found`;
+  if (!isLanguageSupported(locale as Locale) && locale !== 'not-found') {
+    window.location.href = '/not-found';
   }
 
   return (
     <BrowserRouter>
-      <AppI18n locale={locale}>
+      <AppI18n locale={locale as Locale}>
         <AppRoutes routes={routes} />
       </AppI18n>
     </BrowserRouter>

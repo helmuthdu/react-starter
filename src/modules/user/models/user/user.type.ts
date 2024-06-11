@@ -1,13 +1,13 @@
-export type UserSchema = {
+export type UserJSON = {
   email: string;
   emailVerified?: boolean;
+  facebookId?: string;
+  googleId?: string;
   id?: number;
+  newsletter?: boolean;
   password?: string;
   phoneNumber?: string;
   phoneNumberVerified?: boolean;
-  newsletter?: boolean;
   token?: string;
   userName?: string;
-  googleId?: string;
-  facebookId?: string;
 };

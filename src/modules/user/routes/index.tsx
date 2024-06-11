@@ -10,6 +10,6 @@ export const routes = [
   {
     path: USER_ROUTES.ROOT,
     element: <UserLayout />,
-    children: [{ index: true, element: <SignInRoute /> }]
-  }
+    children: [{ index: true, element: <SignInRoute /> }],
+  },
 ];

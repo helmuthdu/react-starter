@@ -1,13 +1,13 @@
-import { Http, HttpResponse } from '@/utils';
-import { UserSchema } from '../entities/user/user.type';
+import type { UserJSON } from '@/modules/user/models/user/user.type';
+import { Http, type HttpResponse } from '@/utils';
 
-export type UserRequestPayload = Partial<UserSchema> & {
+export type UserRequestPayload = Partial<UserJSON> & {
   email: string;
   password: string;
 };
 
-const signIn = async (payload: UserRequestPayload): Promise<HttpResponse<UserSchema>> =>
-  new Promise(resolve => {
+const signIn = async (payload: UserRequestPayload): Promise<HttpResponse<UserJSON>> =>
+  new Promise((resolve) => {
     setTimeout(() => {
       resolve({
         ok: true,
@@ -15,20 +15,20 @@ const signIn = async (payload: UserRequestPayload): Promise<HttpResponse<UserSch
         data: {
           userName: 'johndoe',
           email: payload.email,
-          token: 'secret'
-        }
-      } as any);
+          token: 'secret',
+        },
+      });
     }, 1000);
   });
 
 const signUp = async (payload: UserRequestPayload) =>
-  Http.post<UserSchema>(`${import.meta.env.VITE_IDENTITY_URL}/users/sign-up`, { body: payload });
+  Http.post<UserJSON>(`${import.meta.env.VITE_IDENTITY_URL}/users/sign-up`, { body: payload });
 
 const update = async (payload: UserRequestPayload) =>
-  Http.put<UserSchema>(`${import.meta.env.VITE_IDENTITY_URL}/users`, { body: payload });
+  Http.put<UserJSON>(`${import.meta.env.VITE_IDENTITY_URL}/users`, { body: payload });
 
 export const usersApi = {
   signIn,
   signUp,
-  update
+  update,
 };

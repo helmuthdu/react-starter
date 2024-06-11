@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
 import { useStorage } from '@/hooks/storage.hook.ts';
 import { useWorker } from '@/hooks/worker.hook.ts';
 import { Logger } from '@/utils';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { Home } from '../../components/home/home';
 
 const resolve = (val: number): number => {
@@ -17,10 +17,12 @@ export const HomeRoute = () => {
   const [message, postMessage] = useWorker('W1', resolve, 0);
   const [, setStorage] = useStorage('fibonacci', message);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     postMessage(43);
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     Logger.info('[WORKER] result:', message);
     setStorage(message);

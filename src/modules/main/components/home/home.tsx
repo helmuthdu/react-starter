@@ -15,11 +15,19 @@ export const Home = (props: Props) => (
         <FormattedMessage id="LEARN_REACT" />
       </a>
       Navigate to
-      <div className="app-link" onClick={() => props.onLinkClick(MAIN_ROUTES.ABOUT)} title="go to about page">
+      <div
+        className="app-link"
+        onClick={() => props.onLinkClick(MAIN_ROUTES.ABOUT)}
+        onKeyDown={() => props.onLinkClick(MAIN_ROUTES.ABOUT)}
+        title="go to about page">
         about page
       </div>
       or to
-      <div className="app-link" onClick={() => props.onLinkClick(USER_ROUTES.SIGN_IN)} title="go to sign-in page">
+      <div
+        className="app-link"
+        onClick={() => props.onLinkClick(USER_ROUTES.SIGN_IN)}
+        onKeyDown={() => props.onLinkClick(MAIN_ROUTES.ABOUT)}
+        title="go to sign-in page">
         sign-in page
       </div>
     </header>

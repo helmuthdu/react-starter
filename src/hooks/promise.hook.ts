@@ -1,22 +1,25 @@
 import { useRef } from 'react';
+import { Logger } from '../utils';
 
-export const usePromise = <T>(fn: (...args: any) => Promise<T>, defaultValue: T = null as any) => {
-  const data = useRef<T>(defaultValue);
-  const loading = useRef(false);
-  const error = useRef<unknown>(null);
-  const run = async (...args: any) => {
-    loading.current = true;
-    error.current = null;
-    data.current = defaultValue;
+export enum PromiseStatus {
+  PENDING = 'PENDING',
+  RESOLVED = 'RESOLVED',
+  REJECTED = 'REJECTED',
+}
 
+export const usePromise = <T>(fn: (...args: unknown[]) => Promise<T>, defaultValue?: T) => {
+  const value = useRef(defaultValue);
+  const status = useRef<PromiseStatus>();
+  const run = async (...args: unknown[]) => {
     try {
-      data.current = await fn(...args);
+      status.current = PromiseStatus.PENDING;
+      value.current = await fn(...args);
+      status.current = PromiseStatus.RESOLVED;
     } catch (err) {
-      error.current = err;
-    } finally {
-      loading.current = false;
+      Logger.error('usePromise -> promise failed', err);
+      status.current = PromiseStatus.REJECTED;
     }
   };
 
-  return { data, loading, error, run };
+  return { value, status, run };
 };

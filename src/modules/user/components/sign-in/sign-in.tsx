@@ -1,4 +1,4 @@
-import { MouseEvent, SyntheticEvent } from 'react';
+import type { MouseEvent, SyntheticEvent } from 'react';
 import { useForm } from 'react-hook-form';
 
 type FormValues = {
@@ -16,8 +16,8 @@ export const SignIn = (props: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
-  } = useForm<FormValues>({ mode: `onChange` });
+    formState: { errors },
+  } = useForm<FormValues>({ mode: 'onChange' });
 
   const onSubmit = (data: FormValues) => {
     setTimeout(() => {

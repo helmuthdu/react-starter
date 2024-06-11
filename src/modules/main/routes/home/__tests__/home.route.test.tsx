@@ -7,7 +7,7 @@ describe('Route -> Home', () => {
     const { asFragment } = render(
       <AppTest>
         <HomeRoute />
-      </AppTest>
+      </AppTest>,
     );
 
     expect(asFragment()).toMatchSnapshot();

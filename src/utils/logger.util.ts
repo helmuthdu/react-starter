@@ -7,7 +7,7 @@ declare global {
 export type LoggerLevelKey = keyof typeof LogLevel;
 export type LoggerRemoteOptions = {
   logLevel: LogLevel;
-  handler: (...args: any[]) => void;
+  handler: (...args: unknown[]) => void;
 };
 export type LoggerOptions = {
   remote?: LoggerRemoteOptions;
@@ -27,41 +27,41 @@ export const COLORS = {
   TIME: { COLOR: '#ffffff', BG: '#0097a7', BORDER: '#00838f' },
   WARN: { COLOR: '#ffffff', BG: '#ffb300', BORDER: '#ffa000' },
   PREFIX: { COLOR: '#000000', BG: '#fafafa', BORDER: '#c7c7c7' },
-  PREFIX_DM: { COLOR: '#ffffff', BG: '#424242', BORDER: '#212121' }
+  PREFIX_DM: { COLOR: '#ffffff', BG: '#424242', BORDER: '#212121' },
 };
 
 export enum LogLevel {
-  DEBUG,
-  TRACE,
-  TIME,
-  TABLE,
-  INFO,
-  SUCCESS,
-  WARN,
-  ERROR,
-  OFF
+  DEBUG = 0,
+  TRACE = 1,
+  TIME = 2,
+  TABLE = 3,
+  INFO = 4,
+  SUCCESS = 5,
+  WARN = 6,
+  ERROR = 7,
+  OFF = 8,
 }
 
 const state: Required<LoggerOptions> = Object.seal({
   logLevel: import.meta.env.NODE_ENV === 'production' ? LogLevel.ERROR : LogLevel.DEBUG,
   prefix: '',
   remote: {} as LoggerRemoteOptions,
-  timestamp: false
+  timestamp: false,
 });
 
-const getTimestamp = (): string => new Date().toISOString().split('T')[1].substr(0, 12);
+const getTimestamp = (): string => new Date().toISOString().split('T')[1].substring(0, 12);
 
-const print = (level: LoggerLevelKey, color: keyof typeof COLORS, ...args: any[]) => {
+const print = (level: LoggerLevelKey, color: keyof typeof COLORS, ...args: unknown[]) => {
   const { logLevel, prefix, remote, timestamp } = state;
-  const type = ['DEBUG', 'SUCCESS'].includes(level) ? 'log' : level.toLowerCase();
+  const type = (['DEBUG', 'SUCCESS'].includes(level) ? 'log' : level.toLowerCase()) as keyof Console;
 
   if (logLevel > LogLevel[level]) return;
 
-  const stdout: any[] = [
+  const stdout: string[] = [
     `%c${level}%c`,
     `background: ${COLORS[color].BG}; color: ${COLORS[color].COLOR};
      border: 1px solid ${COLORS[color].BORDER}; border-radius: 4px; font-weight: bold;
-     padding: 0 3px; margin-right: ${timestamp || prefix ? '6px' : '0'};`
+     padding: 0 3px; margin-right: ${timestamp || prefix ? '6px' : '0'};`,
   ];
 
   if (prefix) {
@@ -70,7 +70,7 @@ const print = (level: LoggerLevelKey, color: keyof typeof COLORS, ...args: any[]
     stdout[0] = `${stdout[0]}${prefix}%c`;
     stdout.push(
       `background: ${COLORS[colorMode].BG}; color: ${COLORS[colorMode].COLOR}; border-radius: 8px;
-       padding: 0 3px; margin-right: ${timestamp ? '6px' : '0'}; margin-top: 2px; font: italic small-caps bold 12px;`
+       padding: 0 3px; margin-right: ${timestamp ? '6px' : '0'}; margin-top: 2px; font: italic small-caps bold 12px;`,
     );
   }
 
@@ -79,8 +79,8 @@ const print = (level: LoggerLevelKey, color: keyof typeof COLORS, ...args: any[]
     stdout.push('color: gray;');
   }
 
-  stdout.push('color: inherit;', ...args);
-  (console as any)[type].apply(null, stdout);
+  stdout.push('color: inherit;', ...(args as string[]));
+  (console[type] as (...args: unknown[]) => void)(...stdout);
 
   if (remote.handler) {
     if (remote.logLevel > LogLevel[level]) return;
@@ -114,10 +114,10 @@ export const Logger = {
   setTimestamp(enabled: boolean): void {
     state.timestamp = enabled;
   },
-  trace(...args: any[]): void {
+  trace(...args: unknown[]): void {
     print('TRACE', 'TRACE', ...args);
   },
-  time(...args: any[]): void {
+  time(...args: unknown[]): void {
     if (state.logLevel > LogLevel.TIME) return;
 
     print('TIME', 'TIME', ...args);
@@ -127,24 +127,24 @@ export const Logger = {
 
     console.timeEnd();
   },
-  table(...args: any[]): void {
+  table(...args: unknown[]): void {
     if (state.logLevel > LogLevel.TABLE) return;
 
     console.table(...args);
   },
-  debug(...args: any[]): void {
+  debug(...args: unknown[]): void {
     print('DEBUG', 'DEBUG', ...args);
   },
-  info(...args: any[]): void {
+  info(...args: unknown[]): void {
     print('INFO', 'INFO', ...args);
   },
-  success(...args: any[]): void {
+  success(...args: unknown[]): void {
     print('SUCCESS', 'SUCCESS', ...args);
   },
-  warn(...args: any[]): void {
+  warn(...args: unknown[]): void {
     print('WARN', 'WARN', ...args);
   },
-  error(...args: any[]): void {
+  error(...args: unknown[]): void {
     print('ERROR', 'ERROR', ...args);
   },
   groupCollapsed(text: string, label = 'GROUP', time: number = Date.now()): void {
@@ -163,14 +163,14 @@ export const Logger = {
       `background: ${COLORS[colorMode].BG}; color: ${COLORS[colorMode].COLOR}; border-radius: 8px; padding: 0 3px; margin-right: 6px; margin-top: 2px; font: italic small-caps bold 12px; font-weight: lighter;`,
       'color: gray; font-weight: lighter; margin-right: 6px;',
       'color: inherit;',
-      'color: gray; font-weight: lighter;'
+      'color: gray; font-weight: lighter;',
     );
   },
   groupEnd(): void {
     if (state.logLevel > LogLevel.SUCCESS) return;
 
     console.groupEnd();
-  }
+  },
 };
 
 if (typeof window !== 'undefined') {

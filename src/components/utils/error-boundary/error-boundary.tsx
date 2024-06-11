@@ -1,8 +1,8 @@
-import { Component, ErrorInfo } from 'react';
+import { Component, type ErrorInfo, type ReactNode } from 'react';
 
-export class ErrorBoundary extends Component<{ children: any }> {
+export class ErrorBoundary extends Component<{ children: ReactNode }> {
   state = {
-    hasError: false
+    hasError: false,
   };
 
   static getDerivedStateFromError(error: Error) {

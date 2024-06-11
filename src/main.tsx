@@ -7,5 +7,5 @@ const container = document.getElementById('root');
 ReactDOM.createRoot(container as HTMLElement).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

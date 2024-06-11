@@ -1,18 +1,18 @@
-import { DefaultValue, RecoilState } from 'recoil';
 import { getStorageItem, removeStorageItem, setStorageItem } from '@/utils';
+import { DefaultValue, type RecoilState } from 'recoil';
 
 export const localStorageEffect =
   (key: string) =>
   <T>({
     setSelf,
-    onSet
+    onSet,
   }: {
     node: RecoilState<T>;
     trigger: 'set' | 'get';
 
     // Call synchronously to initialize value or async to change it later
     setSelf: (
-      param: T | DefaultValue | Promise<T | DefaultValue> | ((param: T | DefaultValue) => T | DefaultValue)
+      param: T | DefaultValue | Promise<T | DefaultValue> | ((param: T | DefaultValue) => T | DefaultValue),
     ) => void;
     resetSelf: () => void;
 
@@ -26,7 +26,7 @@ export const localStorageEffect =
       setSelf(savedValue);
     }
 
-    onSet(newValue => {
+    onSet((newValue) => {
       if (newValue instanceof DefaultValue) {
         removeStorageItem(key);
       } else {

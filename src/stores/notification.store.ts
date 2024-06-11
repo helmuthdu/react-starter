@@ -1,10 +1,10 @@
-import { atom, RecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { NotificationSchema } from '@/entities/notification/notification.type';
+import type { NotificationSchema } from '@/models/notification/notification.type';
 import { uuid } from '@/utils/toolbox.util';
+import { type RecoilState, atom, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 export type State = Readonly<{
   queue: string[];
-  entities: Record<string, NotificationSchema>;
+  data: Record<string, NotificationSchema>;
 }>;
 
 export type NotificationPayload = NotificationSchema;
@@ -13,12 +13,12 @@ export const name = 'notifications' as const;
 
 export const initialState: State = {
   queue: [],
-  entities: {}
+  data: {},
 };
 
 export const notificationState: RecoilState<State> = atom({
   key: 'notificationState',
-  default: initialState
+  default: initialState,
 });
 
 export const useNotifier = () => {
@@ -28,29 +28,29 @@ export const useNotifier = () => {
   const add = (payload: NotificationSchema) => {
     const id = uuid();
 
-    setState(state => ({
+    setState((state) => ({
       queue: [...state.queue, id],
-      entities: {
-        ...state.entities,
+      data: {
+        ...state.data,
         [id]: {
           ...payload,
           read: false,
-          timeout: payload.timeout || 5000
-        }
-      }
+          timeout: payload.timeout || 5000,
+        },
+      },
     }));
   };
 
   const next = () => {
-    setState(state => ({
+    setState((state) => ({
       queue: state.queue.slice(1),
-      entities: {
-        ...state.entities,
+      data: {
+        ...state.data,
         [state.queue[0]]: {
-          ...state.entities[state.queue[0]],
-          read: true
-        }
-      }
+          ...state.data[state.queue[0]],
+          read: true,
+        },
+      },
     }));
   };
 
@@ -59,6 +59,6 @@ export const useNotifier = () => {
   return {
     add,
     next,
-    reset
+    reset,
   };
 };

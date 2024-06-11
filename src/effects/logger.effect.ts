@@ -1,17 +1,17 @@
-import { DefaultValue, RecoilState } from 'recoil';
+import type { DefaultValue, RecoilState } from 'recoil';
 import { Logger } from '../utils';
 
 export const loggerEffect =
   (name: string) =>
   <T>({
-    onSet
+    onSet,
   }: {
     node: RecoilState<T>;
     trigger: 'set' | 'get';
 
     // Call synchronously to initialize value or async to change it later
     setSelf: (
-      param: T | DefaultValue | Promise<T | DefaultValue> | ((param: T | DefaultValue) => T | DefaultValue)
+      param: T | DefaultValue | Promise<T | DefaultValue> | ((param: T | DefaultValue) => T | DefaultValue),
     ) => void;
     resetSelf: () => void;
 

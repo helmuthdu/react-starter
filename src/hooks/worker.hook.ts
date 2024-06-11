@@ -7,10 +7,11 @@
  * const { message, post } = useWorker('W1', resolve, 0);
  */
 
-import { Ref, useEffect, useRef, useState } from 'react';
+import { type Ref, useEffect, useRef, useState } from 'react';
 import { Logger } from '../utils';
 
-type UseWorker<T> = [T, (message: any) => void, () => void, Ref<Worker | undefined>];
+type UseWorker<T> = [T, (message: unknown) => void, () => void, Ref<Worker | undefined>];
+
 type WorkerOptions<T> = {
   defaultValue?: T;
   id: string | number;
@@ -20,7 +21,7 @@ type WorkerOptions<T> = {
   worker?: Worker;
 };
 
-const workers = new Map<string | number, WorkerOptions<any>>();
+const workers = new Map<string | number, WorkerOptions<unknown>>();
 
 const createWorker = <T>(opts: WorkerOptions<T>): UseWorker<T> => {
   const worker = useRef<Worker>();
@@ -67,7 +68,7 @@ const createWorker = <T>(opts: WorkerOptions<T>): UseWorker<T> => {
     }
   };
 
-  const post = (data: any) => {
+  const post = (data: unknown) => {
     Logger.info(`[WORKER|${opts.id}] Post Message`, data);
 
     if (worker.current) {
@@ -78,12 +79,13 @@ const createWorker = <T>(opts: WorkerOptions<T>): UseWorker<T> => {
   };
 
   setup();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => () => terminate(), []);
 
   return [message, post, terminate, worker];
 };
 
-export const useWorker = <T>(id: string, func: (data: any) => T, defaultValue?: T): UseWorker<T> => {
+export const useWorker = <T>(id: string, func: (data: never) => T, defaultValue?: T): UseWorker<T> => {
   let opts: WorkerOptions<T> = { defaultValue, function: true, id, terminate: true };
 
   if (workers.has(id)) {
@@ -100,7 +102,7 @@ export const useWorker = <T>(id: string, func: (data: any) => T, defaultValue?: 
 };
 
 export const useWorkerFromUrl = <T>(id: string, url: string, defaultValue?: T): UseWorker<T> =>
-  createWorker({ defaultValue, id, terminate: true, url });
+  createWorker<T>({ defaultValue, id, terminate: true, url });
 
 export const useWorkerFromWorker = <T>(id: string, worker: Worker, defaultValue?: T): UseWorker<T> =>
   createWorker<T>({ defaultValue, id, worker });

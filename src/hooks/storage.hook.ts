@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getStorageItem, Logger, setStorageItem } from '../utils';
+import { Logger, getStorageItem, setStorageItem } from '../utils';
 
 export const useStorage = <T>(key: string, defaultValue?: T, session = false): [T, (data: T) => void] => {
   const [storage, setStorage] = useState(() => {
@@ -14,6 +14,7 @@ export const useStorage = <T>(key: string, defaultValue?: T, session = false): [
     return item as T;
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     Logger.info(`[STORAGE] watch('${key}')`, storage);
     setStorageItem(key, storage);

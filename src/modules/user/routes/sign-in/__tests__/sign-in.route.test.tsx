@@ -1,15 +1,15 @@
-import { render } from '@testing-library/react';
 import { AppTest } from '@/components/utils/app-test/app-test';
+import { render } from '@testing-library/react';
 import SignInRoute from '../sign-in.route';
 
 describe('Route -> SignIn component', () => {
-  const props: any = {};
+  const props = {};
 
   it('should match snapshot', () => {
     const { asFragment } = render(
       <AppTest>
         <SignInRoute {...props} />
-      </AppTest>
+      </AppTest>,
     );
 
     expect(asFragment()).toMatchSnapshot();

@@ -4,7 +4,7 @@ import { routes as userRoutes } from './user';
 export const routes = [...mainRoutes, ...userRoutes];
 
 const appModules = {
-  routes
+  routes,
 };
 
 export default appModules;

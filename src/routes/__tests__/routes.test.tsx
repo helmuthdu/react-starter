@@ -7,7 +7,7 @@ describe('App router', () => {
     const { asFragment } = render(
       <RecoilRoot>
         <AppRouter routes={[]} />
-      </RecoilRoot>
+      </RecoilRoot>,
     );
 
     expect(asFragment()).toMatchSnapshot();

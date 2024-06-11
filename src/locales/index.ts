@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
-import { RouteObject } from 'react-router';
+import type { RouteObject } from 'react-router';
 import { useStorage } from '../hooks/storage.hook';
 import { Http, Logger } from '../utils';
 
-export type Locale = (typeof locales)[keyof typeof locales];
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type LocaleStorage = { locale: Locale; messages: any; version: string };
+export type Locale = (typeof locales)[keyof typeof locales];
 
 const APP_VERSION = import.meta.env.VITE_VERSION ?? '1.0.0';
 
 export const locales = {
-  english: 'en-US'
+  english: 'en-US',
 } as const;
 
 export const configureLocale = (locale: Locale): Locale => {
@@ -25,9 +26,10 @@ export const useLocale = (locale: Locale): [LocaleStorage] => {
   const [localeStorage, setLocaleStorage] = useStorage<LocaleStorage>('locale', {
     locale,
     messages: {},
-    version: APP_VERSION
+    version: APP_VERSION,
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (localeStorage.locale === locale && localeStorage.version === APP_VERSION) {
       return;
@@ -53,10 +55,10 @@ export const useLocale = (locale: Locale): [LocaleStorage] => {
           setLocaleStorage({
             locale,
             messages: { ...localeStorage.messages, [locale]: messages },
-            version: APP_VERSION
+            version: APP_VERSION,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           throw err;
         });
     }
@@ -67,7 +69,7 @@ export const useLocale = (locale: Locale): [LocaleStorage] => {
 };
 
 export const addLocaleToRoutePath = (route: RouteObject) => {
-  if (route.path?.includes(`/:locale/`) || route.index) {
+  if (route.path?.includes('/:locale/') || route.index) {
     return route;
   }
 

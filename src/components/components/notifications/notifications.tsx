@@ -3,12 +3,14 @@ import { useRecoilValue } from 'recoil';
 import { notificationState, useNotifier } from '../../../stores/notification.store';
 
 export const Notification = () => {
-  const { entities: notifications, queue } = useRecoilValue(notificationState);
+  const { data: notifications, queue } = useRecoilValue(notificationState);
   const notifier = useNotifier();
 
   const [show, setShow] = useState<boolean>(true);
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const timeout = useRef<any>();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const showNotification = useCallback(() => {
     setShow(true);
 
@@ -23,6 +25,7 @@ export const Notification = () => {
     timeout.current = setTimeout(getNextMessage, notifications[queue[0]].timeout);
   }, [notifications]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (queue.length > 0) {
       showNotification();

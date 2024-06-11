@@ -4,6 +4,7 @@ import { Logger } from './logger.util';
 export type HttpRequestConfig = Omit<RequestInit, 'body'> & {
   id?: string;
   cancelable?: boolean;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   body?: any;
 };
 
@@ -22,12 +23,14 @@ type ContextProps = {
 
 enum TypeSymbol {
   success = '✓',
-  error = '✕'
+  error = '✕',
 }
 
-const _activeRequests = {} as Record<string, { request: Promise<any>; controller: AbortController }>;
+type ActiveRequest<T> = { request: Promise<T>; controller: AbortController };
 
-function _generateId(options: any): string {
+const _activeRequests = {} as Record<string, ActiveRequest<unknown>>;
+
+function _generateId(options: unknown): string {
   return `${JSON.stringify(options)}`;
 }
 
@@ -56,18 +59,18 @@ function _makeRequest<T>(url: string, config: HttpRequestConfig, context?: Conte
       Object.assign({}, cfg, {
         body: config.body && JSON.stringify(config.body),
         headers: context?.headers ? { ...context.headers, ...headers } : headers,
-        signal: controller.signal
+        signal: controller.signal,
       }) as HttpRequestConfig,
-      id
+      id,
     );
 
     _activeRequests[id] = { request, controller };
   }
 
-  return _activeRequests[id].request;
+  return _activeRequests[id].request as Promise<HttpResponse<T>>;
 }
 
-export function fetcher<T>(url: string, config: RequestInit, id?: string): Promise<HttpResponse<T>> {
+export async function fetcher<T>(url: string, config: RequestInit, id?: string): Promise<HttpResponse<T>> {
   const time = Date.now();
 
   return fetch(url, config)
@@ -78,7 +81,7 @@ export function fetcher<T>(url: string, config: RequestInit, id?: string): Promi
 
       return { data, ok: res.ok, status: res.status };
     })
-    .catch(error => {
+    .catch((error) => {
       _log('error', url, config, error, time);
       throw error;
     })
@@ -116,7 +119,7 @@ export function createHttpService(context?: ContextProps) {
           }
         }
       });
-    }
+    },
   };
 }
 

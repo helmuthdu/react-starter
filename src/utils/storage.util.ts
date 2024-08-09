@@ -1,8 +1,8 @@
 import { Logger } from './logger.util';
 
 const generatePrefix = (): string => {
-  const appName = (import.meta.env.VITE_NAME as string) ?? 'react_app';
-  const environment = (import.meta.env.NODE_ENV as string) ?? 'development';
+  const appName = (import.meta.env.VITE_NAME as string) ?? 'app';
+  const environment = (import.meta.env.NODE_ENV as string) ?? 'dev';
 
   return `${appName}_${environment.substring(0, 3)}`;
 };
@@ -40,7 +40,7 @@ export const getStorageItem = <T>(key: string, defaultValue?: T): T => {
   const item = sessionStorage.getItem(getKey(key)) ?? localStorage.getItem(getKey(key));
 
   try {
-    return typeof item === 'string' ? JSON.parse(item) : defaultValue;
+    return item ? JSON.parse(item) : defaultValue;
   } catch {
     if (item !== undefined) {
       return item as unknown as T;

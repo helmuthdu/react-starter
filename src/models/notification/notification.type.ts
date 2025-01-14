@@ -1,4 +1,4 @@
-export type NotificationSchema = {
+export type MessageJSON = {
   message: string;
   read?: boolean;
   timeout?: number;

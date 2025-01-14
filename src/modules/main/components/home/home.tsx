@@ -7,11 +7,11 @@ type Props = { onLinkClick: (route: USER_ROUTES | MAIN_ROUTES) => void };
 export const Home = (props: Props) => (
   <div className="app">
     <header className="app-header">
-      <img src={logo} className="app-logo" alt="logo" />
+      <img alt="logo" className="app-logo" src={logo} />
       <p>
         Edit <code>src/app.tsx</code> and save to reload.
       </p>
-      <a className="app-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
+      <a className="app-link" href="https://reactjs.org" rel="noopener noreferrer" target="_blank">
         <FormattedMessage id="LEARN_REACT" />
       </a>
       Navigate to

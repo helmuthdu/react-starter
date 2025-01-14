@@ -1,4 +1,4 @@
-@import 'preflight';
-@import 'theme';
-@import 'mixins';
-@import 'functions';
+@forward 'preflight';
+@forward 'theme';
+@forward 'mixins';
+@forward 'functions';

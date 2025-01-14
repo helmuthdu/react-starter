@@ -1,5 +1,5 @@
-import type { UserJSON } from '@/modules/user/models/user/user.type';
-import { Http, type HttpResponse } from '@/utils';
+import type { UserJSON } from '@/models/user/user.type';
+import { Http, type HttpResponse } from '@/utils/http.util';
 
 export type UserRequestPayload = Partial<UserJSON> & {
   email: string;
@@ -16,7 +16,8 @@ const signIn = async (payload: UserRequestPayload): Promise<HttpResponse<UserJSO
           userName: 'johndoe',
           email: payload.email,
           token: 'secret',
-        },
+          roles: ['user'],
+        } satisfies UserJSON,
       });
     }, 1000);
   });
@@ -27,7 +28,7 @@ const signUp = async (payload: UserRequestPayload) =>
 const update = async (payload: UserRequestPayload) =>
   Http.put<UserJSON>(`${import.meta.env.VITE_IDENTITY_URL}/users`, { body: payload });
 
-export const usersApi = {
+export const userApi = {
   signIn,
   signUp,
   update,

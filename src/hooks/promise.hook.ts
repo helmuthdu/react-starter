@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Logger } from '../utils';
+import { Logger } from '../utils/logger.util';
 
 export enum PromiseStatus {
   PENDING = 'PENDING',

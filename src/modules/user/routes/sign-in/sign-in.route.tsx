@@ -1,14 +1,11 @@
 import { SignIn } from '@/modules/user/components/sign-in/sign-in';
-import { isLoggedInSelector, useSignIn, userState } from '@/modules/user/stores/user.store';
-import { useNotifier } from '@/stores/notification.store';
+import { useNotificationStore } from '@/stores/notification.store';
+import { useStore } from '@/stores/user.store';
 import { Fragment, type SyntheticEvent, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
 
 export const SignInRoute = () => {
-  const isLoggedIn = useRecoilValue(isLoggedInSelector);
-  const user = useRecoilValue(userState);
-  const signIn = useSignIn();
-  const notifier = useNotifier();
+  const { user, signIn, isLoggedIn } = useStore();
+  const notifier = useNotificationStore();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -28,8 +25,8 @@ export const SignInRoute = () => {
 
   return (
     <Fragment>
-      <SignIn onSubmit={(values) => console.log(values)} onChange={handleChange} onClick={handleClick} />
-      User: {user.entity.userName}
+      <SignIn onChange={handleChange} onClick={handleClick} onSubmit={(values) => console.log(values)}/>
+      User: {user.data.userName}
     </Fragment>
   );
 };

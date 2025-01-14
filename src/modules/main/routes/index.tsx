@@ -1,9 +1,7 @@
 import { lazy } from 'react';
 import { MAIN_ROUTES } from './paths';
 
-// Layout
 const DefaultLayout = lazy(() => import('../../../layouts/default/default.layout'));
-// Components
 const HomeRoute = lazy(() => import('./home/home.route'));
 const AboutRoute = lazy(() => import('./about/about.route'));
 

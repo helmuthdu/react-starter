@@ -1,9 +1,7 @@
 import { lazy } from 'react';
 import { USER_ROUTES } from './paths';
 
-// Layout
 const UserLayout = lazy(() => import('../layouts/user/user.layout'));
-// Component
 const SignInRoute = lazy(() => import('./sign-in/sign-in.route'));
 
 export const routes = [

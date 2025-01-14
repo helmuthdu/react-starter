@@ -11,8 +11,7 @@ const getEvent = (event: string) => events?.[event];
 const getEventById = (event: string, id: string) => events?.[event]?.[id];
 
 const setEvent = (event: string, id: string, fn: (...args: unknown[]) => void) => {
-  if (!getEvent(event)) events[event] = {};
-
+  events[event] ||= {};
   events[event][id] = fn;
 };
 
@@ -66,24 +65,11 @@ export const receiver = (
   fn: (...args: unknown[]) => void,
   options?: { once: boolean; immediate: boolean },
 ) => {
-  let subscription: Subscription;
+  const subscription: Subscription = options?.once ? once(event, fn) : on(event, fn);
 
-  if (options?.once) {
-    subscription = once(event, fn);
-  } else {
-    subscription = on(event, fn);
-  }
+  if (options?.immediate) fn();
 
-  if (options?.immediate) {
-    fn();
-  }
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    return () => {
-      subscription.stop();
-    };
-  }, []);
+  useEffect(() => subscription.stop());
 };
 
 export const transmitter = emit;

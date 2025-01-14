@@ -30,15 +30,15 @@ export const SignIn = (props: Props) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <input
         {...register('email', { required: true })}
-        type="email"
         onChange={(evt: SyntheticEvent<HTMLInputElement>) => {
           props.onChange(evt);
         }}
+        type="email"
       />
       {errors.email && <span>This field is required</span>}
       <input type="password" {...register('password', { required: true })} />
       {errors.password && <span>This field is required</span>}
-      <button type="submit" onClick={props.onClick}>
+      <button onClick={props.onClick} type="submit">
         Submit
       </button>
     </form>

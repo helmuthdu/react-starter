@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import type { RouteObject } from 'react-router';
 import { useStorage } from '../hooks/storage.hook';
-import { Http, Logger } from '../utils';
+import { Http } from '../utils/http.util';
+import { Logger } from '../utils/logger.util';
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type LocaleStorage = { locale: Locale; messages: any; version: string };

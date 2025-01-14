@@ -1,3 +1,5 @@
+export type UserRole = 'admin' | 'moderator' | 'user';
+
 export type UserJSON = {
   email: string;
   emailVerified?: boolean;
@@ -8,6 +10,7 @@ export type UserJSON = {
   password?: string;
   phoneNumber?: string;
   phoneNumberVerified?: boolean;
+  roles: UserRole[];
   token?: string;
   userName?: string;
 };

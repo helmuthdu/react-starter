@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { notificationState, useNotifier } from '../../../stores/notification.store';
+import { useNotificationStore } from '../../../stores/notification.store';
 
 export const Notification = () => {
-  const { data: notifications, queue } = useRecoilValue(notificationState);
-  const notifier = useNotifier();
+  const { notifications: {data: messages, queue} } = useNotificationStore();
+  const notifier = useNotificationStore();
 
   const [show, setShow] = useState<boolean>(true);
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -22,19 +21,19 @@ export const Notification = () => {
 
     if (timeout.current) clearTimeout(timeout.current);
 
-    timeout.current = setTimeout(getNextMessage, notifications[queue[0]].timeout);
-  }, [notifications]);
+    timeout.current = setTimeout(getNextMessage, messages[queue[0]].timeout);
+  }, [messages]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (queue.length > 0) {
       showNotification();
     }
-  }, [notifications]);
+  }, [messages]);
 
   if (queue.length === 0) {
     return null;
   }
 
-  return <div>{show && notifications[queue[0]].message}</div>;
+  return <div>{show && messages[queue[0]].message}</div>;
 };

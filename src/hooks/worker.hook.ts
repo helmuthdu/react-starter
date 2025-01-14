@@ -8,7 +8,7 @@
  */
 
 import { type Ref, useEffect, useRef, useState } from 'react';
-import { Logger } from '../utils';
+import { Logger } from '../utils/logger.util';
 
 type UseWorker<T> = [T, (message: unknown) => void, () => void, Ref<Worker | undefined>];
 

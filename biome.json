@@ -1,14 +1,8 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "files": {
-    "include": [
-      "*.js",
-      "*.ts",
-      "*.jsx",
-      "*.tsx",
-      "*.json",
-      "*.html"
-    ]
+    "include": ["*.js", "*.ts", "*.jsx", "*.tsx", "*.json", "*.html"],
+    "ignore": ["node_modules", "dist", "build", "coverage", "tsconfig.*"]
   },
   "formatter": {
     "attributePosition": "auto",

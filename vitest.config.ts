@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
-import React from '@vitejs/plugin-react-swc';
 import { join } from 'node:path';
+import React from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 
 export default defineConfig({

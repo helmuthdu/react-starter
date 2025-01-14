@@ -40,7 +40,7 @@ export const getStorageItem = <T>(key: string, defaultValue?: T, parser?: (val: 
   const item = sessionStorage.getItem(getKey(key)) ?? localStorage.getItem(getKey(key));
 
   try {
-    return item ? parser ? parser(JSON.parse(item)) : JSON.parse(item) : defaultValue;
+    return item ? (parser ? parser(JSON.parse(item)) : JSON.parse(item)) : defaultValue;
   } catch {
     if (item !== undefined) {
       return item as unknown as T;

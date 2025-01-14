@@ -12,9 +12,9 @@ type SpreadProperties<L, R, K extends keyof L & keyof R> = {
 };
 type Spread<L, R> = OptionalObject<
   Pick<L, Exclude<keyof L, keyof R>> &
-  Pick<R, Exclude<keyof R, OptionalPropertyNames<R>>> &
-  Pick<R, Exclude<OptionalPropertyNames<R>, keyof L>> &
-  SpreadProperties<L, R, OptionalPropertyNames<R> & keyof L>
+    Pick<R, Exclude<keyof R, OptionalPropertyNames<R>>> &
+    Pick<R, Exclude<OptionalPropertyNames<R>, keyof L>> &
+    SpreadProperties<L, R, OptionalPropertyNames<R> & keyof L>
 >;
 type Merge<A> = A extends [infer L, ...infer R] ? Spread<L, Merge<R>> : unknown;
 type Entries<T> = { [K in keyof T]: [K, T[K]] }[keyof T][];

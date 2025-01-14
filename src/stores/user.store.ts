@@ -1,4 +1,4 @@
-import { userApi, type UserRequestPayload } from '@/api/user.api';
+import { type UserRequestPayload, userApi } from '@/api/user.api';
 import { User, type UserJSON } from '@/models/user';
 import { Logger } from '@/utils/logger.util';
 import { getStorageItem, setStorageItem } from '@/utils/storage.util';

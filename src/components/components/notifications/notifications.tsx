@@ -2,7 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNotificationStore } from '../../../stores/notification.store';
 
 export const Notification = () => {
-  const { notifications: {data: messages, queue} } = useNotificationStore();
+  const {
+    notifications: { data: messages, queue },
+  } = useNotificationStore();
   const notifier = useNotificationStore();
 
   const [show, setShow] = useState<boolean>(true);

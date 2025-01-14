@@ -25,7 +25,7 @@ export const SignInRoute = () => {
 
   return (
     <Fragment>
-      <SignIn onChange={handleChange} onClick={handleClick} onSubmit={(values) => console.log(values)}/>
+      <SignIn onChange={handleChange} onClick={handleClick} onSubmit={(values) => console.log(values)} />
       User: {user.data.userName}
     </Fragment>
   );

@@ -5,8 +5,8 @@ import AppRouter from './routes';
 
 const App = () => (
   <ErrorBoundary>
-    <AppRouter routes={routes}/>
-    <Notification/>
+    <AppRouter routes={routes} />
+    <Notification />
   </ErrorBoundary>
 );
 

@@ -1,10 +1,10 @@
-import { routes as mainRoutes } from './main';
-import { routes as userRoutes } from './user';
+import * as homeModule from './home';
+import * as userModule from './user';
 
-export const routes = [...mainRoutes, ...userRoutes];
+export const routes = [...homeModule.routes, ...userModule.routes];
+export const stores = { ...userModule.stores };
 
-const appModules = {
+export default {
   routes,
+  stores,
 };
-
-export default appModules;

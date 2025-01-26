@@ -1,22 +1,20 @@
 import { SignIn } from '@/modules/user/components/sign-in/sign-in';
-import { useNotificationStore } from '@/stores/notification.store';
-import { useStore } from '@/stores/user.store';
+import { useStore } from '@/stores';
 import { Fragment, type SyntheticEvent, useEffect } from 'react';
 
 export const SignInRoute = () => {
-  const { user, signIn, isLoggedIn } = useStore();
-  const notifier = useNotificationStore();
+  const { user: userStore, notifications: notificationStore } = useStore();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: -
   useEffect(() => {
-    if (!isLoggedIn) {
-      signIn({ email: 'mail@mail.com', password: 'secrete' });
+    if (!userStore.getters.isLoggedIn) {
+      userStore.actions.signIn({ email: 'mail@mail.com', password: 'secrete' });
     }
   }, []);
 
   const handleClick = (evt: React.MouseEvent) => {
     evt.preventDefault();
-    notifier.add({ message: 'message' });
+    notificationStore.actions.add({ message: 'message' });
   };
 
   const handleChange = (evt: SyntheticEvent<HTMLInputElement>) => {
@@ -25,8 +23,13 @@ export const SignInRoute = () => {
 
   return (
     <Fragment>
-      <SignIn onChange={handleChange} onClick={handleClick} onSubmit={(values) => console.log(values)} />
-      User: {user.data.userName}
+      <SignIn
+        onChange={handleChange}
+        onClick={handleClick}
+        onSubmit={(values) => console.log(values)}
+        pending={userStore.getters.isPending}
+      />
+      User: {userStore.state.data.userName}
     </Fragment>
   );
 };

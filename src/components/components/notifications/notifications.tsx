@@ -1,15 +1,16 @@
+import { useStore } from '@/stores';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useNotificationStore } from '../../../stores/notification.store';
 
 export const Notification = () => {
   const {
-    notifications: { data: messages, queue },
-  } = useNotificationStore();
-  const notifier = useNotificationStore();
+    notifications: {
+      state: { data, queue },
+      actions: { next },
+    },
+  } = useStore();
 
   const [show, setShow] = useState<boolean>(true);
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  const timeout = useRef<any>();
+  const timeout = useRef<ReturnType<typeof setTimeout>>(null);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const showNotification = useCallback(() => {
@@ -17,25 +18,25 @@ export const Notification = () => {
 
     const getNextMessage = () => {
       setShow(false);
-      notifier.next();
-      timeout.current = undefined;
+      next();
+      timeout.current = null;
     };
 
     if (timeout.current) clearTimeout(timeout.current);
 
-    timeout.current = setTimeout(getNextMessage, messages[queue[0]].timeout);
-  }, [messages]);
+    timeout.current = setTimeout(getNextMessage, data[queue[0]].timeout);
+  }, [data]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (queue.length > 0) {
       showNotification();
     }
-  }, [messages]);
+  }, [data]);
 
   if (queue.length === 0) {
     return null;
   }
 
-  return <div>{show && messages[queue[0]].message}</div>;
+  return <div>{show && data[queue[0]].message}</div>;
 };

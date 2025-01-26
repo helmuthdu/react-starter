@@ -7,27 +7,20 @@ type FormValues = {
 };
 
 type Props = {
+  pending?: boolean;
   onSubmit: (values: FormValues) => void;
   onChange: (evt: SyntheticEvent<HTMLInputElement>) => void;
   onClick: (evt: MouseEvent) => void;
 };
 
 export const SignIn = (props: Props) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>({ mode: 'onChange' });
-
-  const onSubmit = (data: FormValues) => {
-    setTimeout(() => {
-      alert(JSON.stringify(data, null, 2));
-    }, 400);
-    props.onSubmit(data);
-  };
+  const { register, handleSubmit, formState } = useForm<FormValues>({ mode: 'onChange' });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit((data: FormValues) => {
+        props.onSubmit(data);
+      })}>
       <input
         {...register('email', { required: true })}
         onChange={(evt: SyntheticEvent<HTMLInputElement>) => {
@@ -35,10 +28,10 @@ export const SignIn = (props: Props) => {
         }}
         type="email"
       />
-      {errors.email && <span>This field is required</span>}
+      {formState.errors.email && <span>This field is required</span>}
       <input type="password" {...register('password', { required: true })} />
-      {errors.password && <span>This field is required</span>}
-      <button onClick={props.onClick} type="submit">
+      {formState.errors.password && <span>This field is required</span>}
+      <button disabled={props.pending} onClick={props.onClick} type="submit">
         Submit
       </button>
     </form>

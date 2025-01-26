@@ -1,7 +1,6 @@
 import type { MessageJSON } from '@/models/notification/notification.type';
-import { Logger } from '@/utils/logger.util';
-import { clone, diff, uuid } from '@/utils/toolbox.util';
-import { useStore as asRef } from '@nanostores/react';
+import { createReactStore, createStore } from '@/utils/store.util.ts';
+import { uuid } from '@/utils/toolbox.util';
 import { map } from 'nanostores';
 
 export type State = Readonly<{
@@ -17,14 +16,6 @@ export const initialState: State = {
 };
 
 export const state = map<State>(initialState);
-
-state.subscribe((curr, prev) => {
-  Logger.groupCollapsed(name, 'NANOSTORE');
-  Logger.debug('PREV_STATE', clone(prev));
-  Logger.debug('CURR_STATE', clone(curr));
-  Logger.debug('STATE_DIFF', diff(curr, prev));
-  Logger.groupEnd();
-});
 
 const actions = {
   add: (payload: MessageJSON) => {
@@ -59,12 +50,6 @@ const actions = {
   reset: () => state.set(initialState),
 };
 
-export const store = {
-  notifications: state,
-  ...actions,
-};
+export const store = createStore(name, { state, actions });
 
-export const useNotificationStore = () => ({
-  notifications: asRef(state),
-  ...actions,
-});
+export const useStore = createReactStore({ state, actions });

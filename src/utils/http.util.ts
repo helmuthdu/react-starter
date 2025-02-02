@@ -1,24 +1,24 @@
 import { Logger } from './logger.util';
 
-export type HttpRequestConfig = Omit<RequestInit, 'body'> & {
+type RequestConfig = Omit<RequestInit, 'body'> & {
   id?: string;
   cancelable?: boolean;
   // biome-ignore lint/suspicious/noExplicitAny: -
   body?: any;
 };
 
-export type HttpResponse<T> = {
+type RequestParams = Record<string, string | number | undefined>;
+
+export type RequestResponse<T> = {
   data: T;
   ok: boolean;
   status: number;
 };
 
-type ContextData = Record<string, string | number | undefined>;
-
 type ContextProps = {
   expiresIn?: number;
-  headers?: ContextData;
-  params?: ContextData;
+  headers?: Record<string, string>;
+  params?: RequestParams;
   timeout?: number;
   url: string;
 };
@@ -26,7 +26,7 @@ type ContextProps = {
 type RequestData<T> = {
   controller: AbortController;
   expires: ReturnType<typeof setTimeout>;
-  request: Promise<HttpResponse<T>>;
+  request: Promise<RequestResponse<T>>;
   status: RequestStatus;
   timeout: ReturnType<typeof setTimeout>;
 };
@@ -64,108 +64,152 @@ export enum RequestStatus {
 const REQUEST_TIMEOUT = 1000 * 5; // 5 seconds
 const CACHE_EXPIRES_IN = 1000 * 60 * 2; // 2 minutes
 
-const requestData = {} as Record<string, RequestData<unknown>>;
+const HttpCache = {
+  cache: {} as Record<string, RequestData<unknown>>,
+
+  set<T>(id: string, data: RequestData<T>) {
+    HttpCache.cache[id] = data;
+  },
+
+  get<T>(id: string): RequestData<T> | undefined {
+    return HttpCache.cache[id] as RequestData<T>;
+  },
+
+  delete(id: string) {
+    if (this.cache[id]?.status === RequestStatus.PENDING) {
+      HttpCache.cache[id].controller.abort('Request aborted');
+    }
+
+    clearTimeout(HttpCache.cache[id]?.expires);
+    clearTimeout(HttpCache.cache[id]?.timeout);
+    delete HttpCache.cache[id];
+  },
+};
 
 function log(type: keyof typeof ResponseTypeSymbol, url: string, req: RequestInit, res: unknown, time: number) {
   const elapsed = Math.floor(Date.now() - time);
   const logType = type.toUpperCase() as Lowercase<keyof typeof ResponseTypeSymbol>;
-  const logUrl = (url?.replace(/http(s)?:\/\//, '').split('/') as string[]) ?? [];
-  logUrl.shift();
+  const logUrl = url
+    .replace(/http(s)?:\/\//, '')
+    .split('/')
+    .slice(1)
+    .join('/');
 
-  Logger[logType](
-    `HTTP::${req.method?.toUpperCase()}(…/${logUrl.join('/')}) ${ResponseTypeSymbol[type]} ${elapsed}ms`,
+  Logger[logType](`HTTP::${req.method?.toUpperCase()}(…/${logUrl}) ${ResponseTypeSymbol[type]} ${elapsed}ms`, {
     res,
-  );
+    req,
+    url,
+  });
 }
 
-function deleteRequest(id: string) {
-  if (requestData[id]?.status === RequestStatus.PENDING) requestData[id].controller.abort('Request aborted');
-
-  clearTimeout(requestData[id].expires);
-  clearTimeout(requestData[id].timeout);
-  delete requestData[id];
-}
-
-function makeRequest<T>(url: string, config: HttpRequestConfig, context?: ContextProps): Promise<HttpResponse<T>> {
+function makeRequest<T>(url: string, config: RequestConfig, context?: ContextProps): Promise<RequestResponse<T>> {
   const { id = JSON.stringify({ url, ...config }), headers, cancelable, ...cfg } = config;
-  const data = requestData[id];
+  const cachedRequest = HttpCache.get<T>(id);
 
-  if ((cancelable && data?.status === RequestStatus.PENDING) || data?.status === RequestStatus.ERROR) {
-    deleteRequest(id);
+  if (
+    (cancelable && cachedRequest?.status === RequestStatus.PENDING) ||
+    cachedRequest?.status === RequestStatus.ERROR
+  ) {
+    HttpCache.delete(id);
   }
 
-  if (!data) {
+  if (!cachedRequest) {
     const controller = new AbortController();
     const request = fetcher<T>(
       context?.url ? `${context.url}/${url}` : url,
-      Object.assign({}, cfg, {
+      {
+        ...cfg,
         body: config.body && JSON.stringify(config.body),
-        headers: context?.headers ? { ...context.headers, ...headers } : headers,
+        headers: { ...(context?.headers ?? {}), ...headers },
         signal: controller.signal,
-      }) as HttpRequestConfig,
-      id,
+      } as RequestConfig,
+      { id },
     );
 
-    requestData[id] = {
+    HttpCache.set(id, {
       controller,
-      expires: setTimeout(() => delete requestData[id], context?.expiresIn ?? CACHE_EXPIRES_IN),
+      expires: setTimeout(() => HttpCache.delete(id), context?.expiresIn ?? CACHE_EXPIRES_IN),
       request,
       status: RequestStatus.PENDING,
       timeout: setTimeout(() => {
-        if (requestData[id].status === RequestStatus.PENDING) controller.abort('Request timeout');
+        if (HttpCache.get(id)?.status === RequestStatus.PENDING) {
+          controller.abort('Request timeout');
+        }
       }, context?.timeout ?? REQUEST_TIMEOUT),
-    };
+    });
   }
 
-  return requestData[id].request as Promise<HttpResponse<T>>;
+  return HttpCache.get<T>(id)!.request;
 }
 
-export async function fetcher<T>(url: string, config: RequestInit, id?: string): Promise<HttpResponse<T>> {
+export function buildUrl(baseUrl: string, params?: RequestParams): string {
+  if (!params) return baseUrl;
+  const searchParams = new URLSearchParams(params as Record<string, string>);
+  return `${baseUrl}?${searchParams.toString()}`;
+}
+
+export async function fetcher<T>(
+  url: string,
+  config: RequestInit,
+  { id, retries = 2 }: { id?: string; retries?: number },
+): Promise<RequestResponse<T>> {
   const time = Date.now();
 
-  return fetch(url, config)
-    .then(async (res: Response) => {
-      const data: T = await res.json();
+  try {
+    const response = await fetch(url, config);
+    const contentType = response.headers.get('content-type') ?? '';
 
-      log('SUCCESS', url, config, data, time);
+    let data: T;
+    if (contentType.includes('application/json')) {
+      data = await response.json();
+    } else if (contentType.includes('text')) {
+      data = (await response.text()) as T;
+    } else {
+      data = (await response.blob()) as T;
+    }
 
-      if (id) {
-        requestData[id].status = RequestStatus.SUCCESS;
-      }
+    log('SUCCESS', url, config, data, time);
 
-      return { data, ok: res.ok, status: res.status };
-    })
-    .catch((error) => {
-      log('ERROR', url, config, error, time);
+    if (id) {
+      HttpCache.get(id)!.status = RequestStatus.SUCCESS;
+    }
 
-      if (id) {
-        requestData[id].status = RequestStatus.ERROR;
-      }
+    return { data, ok: response.ok, status: response.status };
+  } catch (error) {
+    log('ERROR', url, config, error, time);
 
-      throw error;
-    })
-    .finally(() => {
-      if (id && config.method !== RequestMethod.GET) {
-        deleteRequest(id);
-      }
-    });
+    if (id) {
+      HttpCache.get(id)!.status = RequestStatus.ERROR;
+    }
+
+    // Retry logic for network-related errors
+    if (retries > 0 && error instanceof TypeError) {
+      return fetcher(url, config, { id, retries: retries - 1 });
+    }
+
+    throw error;
+  } finally {
+    if (id && config.method !== RequestMethod.GET) {
+      HttpCache.delete(id);
+    }
+  }
 }
 
 export function createHttpService(context = {} as ContextProps) {
   return {
-    delete<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
+    delete<T>(url: string, config?: RequestConfig): Promise<RequestResponse<T>> {
       return makeRequest<T>(url, { method: RequestMethod.DELETE, ...config }, context);
     },
-    get<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
+    get<T>(url: string, config?: RequestConfig): Promise<RequestResponse<T>> {
       return makeRequest<T>(url, { method: RequestMethod.GET, ...config }, context);
     },
-    patch<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
+    patch<T>(url: string, config?: RequestConfig): Promise<RequestResponse<T>> {
       return makeRequest<T>(url, { method: RequestMethod.PATCH, ...config }, context);
     },
-    post<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
+    post<T>(url: string, config?: RequestConfig): Promise<RequestResponse<T>> {
       return makeRequest<T>(url, { method: RequestMethod.POST, ...config }, context);
     },
-    put<T>(url: string, config?: HttpRequestConfig): Promise<HttpResponse<T>> {
+    put<T>(url: string, config?: RequestConfig): Promise<RequestResponse<T>> {
       return makeRequest<T>(url, { method: RequestMethod.PUT, ...config }, context);
     },
     setHeaders(payload: Record<string, string | undefined>): void {

@@ -5,7 +5,7 @@ export type UserJSON = {
   emailVerified?: boolean;
   facebookId?: string;
   googleId?: string;
-  id?: number;
+  id?: string;
   newsletter?: boolean;
   password?: string;
   phoneNumber?: string;

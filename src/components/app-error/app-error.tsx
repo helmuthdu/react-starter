@@ -1,6 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 
-export class ErrorBoundary extends Component<{ children: ReactNode }> {
+export class AppError extends Component<{ children: ReactNode }> {
   state = {
     hasError: false,
   };

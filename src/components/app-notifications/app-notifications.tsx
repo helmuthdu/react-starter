@@ -1,7 +1,7 @@
 import { useStore } from '@/stores';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-export const Notification = () => {
+export const AppNotification = () => {
   const {
     notifications: {
       state: { data, queue },
@@ -12,7 +12,7 @@ export const Notification = () => {
   const [show, setShow] = useState<boolean>(true);
   const timeout = useRef<ReturnType<typeof setTimeout>>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: -
   const showNotification = useCallback(() => {
     setShow(true);
 
@@ -27,7 +27,7 @@ export const Notification = () => {
     timeout.current = setTimeout(getNextMessage, data[queue[0]].timeout);
   }, [data]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: -
   useEffect(() => {
     if (queue.length > 0) {
       showNotification();

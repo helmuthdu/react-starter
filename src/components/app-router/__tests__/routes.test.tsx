@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import AppRouter from '../index';
+import { AppRouter } from '../app-router';
 
 describe('App router', () => {
   it('should match snapshot', () => {

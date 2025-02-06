@@ -1,13 +1,13 @@
-import { Notification } from './components/components/notifications/notifications';
-import { ErrorBoundary } from './components/utils/error-boundary/error-boundary';
-import { routes } from './modules';
-import AppRouter from './routes';
+import { AppError } from './components/app-error/app-error';
+import { AppNotification } from './components/app-notifications/app-notifications';
+import { AppRouter } from './components/app-router/app-router';
+import { routes } from './routes';
 
 const App = () => (
-  <ErrorBoundary>
+  <AppError>
     <AppRouter routes={routes} />
-    <Notification />
-  </ErrorBoundary>
+    <AppNotification />
+  </AppError>
 );
 
 export default App;

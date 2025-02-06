@@ -5,7 +5,7 @@ export class User implements UserJSON {
   readonly emailVerified?: boolean;
   readonly facebookId?: string;
   readonly googleId?: string;
-  readonly id?: number;
+  readonly id?: string;
   readonly password?: string;
   readonly phoneNumber?: string;
   readonly phoneNumberVerified?: boolean;

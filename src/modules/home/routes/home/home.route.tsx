@@ -17,12 +17,12 @@ export const HomeRoute = () => {
   const [message, postMessage] = useWorker('W1', resolve, 0);
   const [, setStorage] = useStorage('fibonacci', message);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: -
   useEffect(() => {
     postMessage(43);
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: -
   useEffect(() => {
     Logger.info('[WORKER] result:', message);
     setStorage(message);

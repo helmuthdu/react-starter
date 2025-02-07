@@ -4,7 +4,7 @@ import { useStorage } from '../hooks/storage.hook';
 import { Http } from '../utils/http.util';
 import { Logger } from '../utils/logger.util';
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: -
 export type LocaleStorage = { locale: Locale; messages: any; version: string };
 export type Locale = (typeof locales)[keyof typeof locales];
 
@@ -21,7 +21,7 @@ export const configureLocale = (locale: Locale): Locale => {
   return locale;
 };
 
-export const isLanguageSupported = (lang: Locale): boolean => Object.values(locales).includes(lang);
+export const isLanguageSupported = (locale: Locale): boolean => Object.values(locales).includes(locale);
 
 export const useLocale = (locale: Locale): [LocaleStorage] => {
   const [localeStorage, setLocaleStorage] = useStorage<LocaleStorage>('locale', {
@@ -30,7 +30,7 @@ export const useLocale = (locale: Locale): [LocaleStorage] => {
     version: APP_VERSION,
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: -
   useEffect(() => {
     if (localeStorage.locale === locale && localeStorage.version === APP_VERSION) {
       return;
@@ -63,7 +63,6 @@ export const useLocale = (locale: Locale): [LocaleStorage] => {
           throw err;
         });
     }
-    // eslint-disable-next-line
   }, [locale]);
 
   return [localeStorage];

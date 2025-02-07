@@ -1,4 +1,3 @@
-import { addLocaleToRoutePath } from '@/locales';
 import { type FC, Suspense } from 'react';
 import { type RouteObject, useRoutes } from 'react-router';
 
@@ -11,7 +10,7 @@ export const NotFoundRoute = () => (
 
 export const AppRoutes: FC<{ routes: RouteObject[] }> = ({ routes }: { routes: RouteObject[] }) => {
   const component = useRoutes([
-    ...routes.map(addLocaleToRoutePath),
+    ...routes,
     {
       path: 'not-found',
       element: <NotFoundRoute />,

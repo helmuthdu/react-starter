@@ -67,15 +67,10 @@ export function registerPermissions<Resource extends string>(
   resource: Resource,
   actions: Partial<Record<PermissionAction, PermissionCheck<Resource>>>,
 ): void {
-  if (!Roles[role]) {
-    Roles[role] = {};
-  }
+  Roles[role] ||= {};
+  Roles[role][resource] ||= {};
 
-  if (!Roles[role]![resource]) {
-    Roles[role]![resource] = {};
-  }
-
-  Object.assign(Roles[role]![resource]!, actions);
+  Object.assign(Roles[role][resource], actions);
 }
 
 /**

@@ -28,7 +28,6 @@ type RequestData<T> = {
   expires: ReturnType<typeof setTimeout>;
   request: Promise<RequestResponse<T>>;
   status: RequestStatus;
-  timeout: ReturnType<typeof setTimeout>;
 };
 
 enum ResponseTypeSymbol {
@@ -81,7 +80,6 @@ const HttpCache = {
     }
 
     clearTimeout(HttpCache.cache[id]?.expires);
-    clearTimeout(HttpCache.cache[id]?.timeout);
     delete HttpCache.cache[id];
   },
 };
@@ -115,13 +113,14 @@ function makeRequest<T>(url: string, config: RequestConfig, context?: ContextPro
 
   if (!cachedRequest) {
     const controller = new AbortController();
+    const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(context?.timeout ?? REQUEST_TIMEOUT)]);
     const request = fetcher<T>(
       context?.url ? `${context.url}/${url}` : url,
       {
         ...cfg,
         body: config.body && JSON.stringify(config.body),
         headers: { ...(context?.headers ?? {}), ...headers },
-        signal: controller.signal,
+        signal,
       } as RequestConfig,
       { id },
     );
@@ -131,11 +130,6 @@ function makeRequest<T>(url: string, config: RequestConfig, context?: ContextPro
       expires: setTimeout(() => HttpCache.delete(id), context?.expiresIn ?? CACHE_EXPIRES_IN),
       request,
       status: RequestStatus.PENDING,
-      timeout: setTimeout(() => {
-        if (HttpCache.get(id)?.status === RequestStatus.PENDING) {
-          controller.abort('Request timeout');
-        }
-      }, context?.timeout ?? REQUEST_TIMEOUT),
     });
   }
 

@@ -13,20 +13,19 @@ export type State = {
 
 export const name = 'user' as const;
 
-export const initialState: State = getStorageItem<State>(
-  name,
-  {
+const initialState: State = getStorageItem<State>(name, {
+  defaultValue: {
     data: User.create(),
     status: RequestStatus.PENDING,
     error: undefined,
   } satisfies State,
-  (state) => ({
+  parser: (state) => ({
     ...state,
     data: User.create(state.data),
   }),
-);
+});
 
-export const state = map<State>(initialState);
+const state = map<State>(initialState);
 
 const getters = {
   isLoggedIn: computed(state, (s) => !!s.data.token),
@@ -89,6 +88,6 @@ const actions = {
   },
 };
 
-export const store = createStore(name, { state, getters, actions });
+export const userStore = createStore(name, { state, getters, actions });
 
-export const useStore = createReactStore({ state, getters, actions });
+export const useUserStore = createReactStore({ state, getters, actions });

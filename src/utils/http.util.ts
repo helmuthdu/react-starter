@@ -67,19 +67,19 @@ const HttpCache = {
   cache: {} as Record<string, RequestData<unknown>>,
 
   set<T>(id: string, data: RequestData<T>) {
-    HttpCache.cache[id] = data;
+    this.cache[id] = data;
   },
 
   get<T>(id: string): RequestData<T> | undefined {
-    return HttpCache.cache[id] as RequestData<T>;
+    return this.cache[id] as RequestData<T>;
   },
 
   delete(id: string) {
     if (this.cache[id]?.status === RequestStatus.PENDING) {
-      HttpCache.cache[id].controller.abort('Request aborted');
+      this.cache[id].controller.abort('Request aborted');
     }
 
-    clearTimeout(HttpCache.cache[id]?.expires);
+    clearTimeout(this.cache[id]?.expires);
     delete HttpCache.cache[id];
   },
 };

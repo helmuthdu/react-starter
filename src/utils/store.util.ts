@@ -1,6 +1,6 @@
-import { Logger } from '@/utils/logger.util.ts';
-import { setStorageItem } from '@/utils/storage.util.ts';
-import { clone } from '@/utils/toolbox.util.ts';
+import { Logger } from '@/utils/logger.util';
+import { setStorageItem } from '@/utils/storage.util';
+import { clone } from '@/utils/toolbox.util';
 import { useStore } from '@nanostores/react';
 import type { MapStore, Store, StoreValue } from 'nanostores';
 

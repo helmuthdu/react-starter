@@ -1,5 +1,5 @@
 import type { MessageJSON } from '@/models/notification/notification.type';
-import { createReactStore, createStore } from '@/utils/store.util.ts';
+import { createReactStore, createStore } from '@/utils/store.util';
 import { uuid } from '@/utils/toolbox.util';
 import { map } from 'nanostores';
 

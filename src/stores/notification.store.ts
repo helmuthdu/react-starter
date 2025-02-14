@@ -50,6 +50,6 @@ const actions = {
   reset: () => state.set(initialState),
 };
 
-export const store = createStore(name, { state, actions });
+export const notificationStore = createStore(name, { state, actions });
 
-export const useStore = createReactStore({ state, actions });
+export const useNotificationStore = createReactStore({ state, actions });

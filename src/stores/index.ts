@@ -2,27 +2,27 @@ import appModules from '../modules';
 import * as notificationStore from './notification.store';
 
 export const stores = {
-  ...Object.values(appModules.stores).reduce(
-    (acc, store) => {
-      acc[store.name] = store.store;
+  ...Object.entries(appModules.stores).reduce(
+    (acc, [name, { store }]) => {
+      acc[name as keyof typeof appModules.stores] = store;
       return acc;
     },
     {} as {
       [key in keyof typeof appModules.stores]: (typeof appModules.stores)[key]['store'];
     },
   ),
-  [notificationStore.name]: notificationStore.store,
+  [notificationStore.name]: notificationStore.notificationStore,
 };
 
 export const useStore = () => ({
-  ...Object.values(appModules.stores).reduce(
-    (acc, store) => {
-      acc[store.name] = store.useStore();
+  ...Object.entries(appModules.stores).reduce(
+    (acc, [name, { useStore }]) => {
+      acc[name as keyof typeof appModules.stores] = useStore();
       return acc;
     },
     {} as {
       [key in keyof typeof appModules.stores]: ReturnType<(typeof appModules.stores)[key]['useStore']>;
     },
   ),
-  [notificationStore.name]: notificationStore.useStore(),
+  [notificationStore.name]: notificationStore.useNotificationStore(),
 });

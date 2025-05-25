@@ -24,7 +24,7 @@ type WorkerOptions<T> = {
 const workers = new Map<string | number, WorkerOptions<unknown>>();
 
 const createWorker = <T>(opts: WorkerOptions<T>): UseWorker<T> => {
-  const worker = useRef<Worker>();
+  const worker = useRef<Worker | undefined>(undefined);
   const [message, setMessage] = useState<T>(() => opts.defaultValue as T);
 
   const onMessage = (evt: MessageEvent) => {
@@ -79,7 +79,7 @@ const createWorker = <T>(opts: WorkerOptions<T>): UseWorker<T> => {
   };
 
   setup();
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: -
   useEffect(() => () => terminate(), []);
 
   return [message, post, terminate, worker];

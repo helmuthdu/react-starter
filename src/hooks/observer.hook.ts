@@ -13,9 +13,9 @@ const useSubscribeTo = <T, E>(
   error?: (err: E) => void,
   complete?: () => void,
 ): Subscription => {
-  const subscription = observable.subscribe({ next, error, complete });
+  const subscription = observable.subscribe({ complete, error, next });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: -
   useEffect(() => () => subscription.unsubscribe(), []);
 
   return subscription;

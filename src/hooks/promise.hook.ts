@@ -9,7 +9,7 @@ export enum PromiseStatus {
 
 export const usePromise = <T>(fn: (...args: unknown[]) => Promise<T>, defaultValue?: T) => {
   const value = useRef(defaultValue);
-  const status = useRef<PromiseStatus>();
+  const status = useRef<PromiseStatus>(PromiseStatus.PENDING);
   const run = async (...args: unknown[]) => {
     try {
       status.current = PromiseStatus.PENDING;
@@ -21,5 +21,5 @@ export const usePromise = <T>(fn: (...args: unknown[]) => Promise<T>, defaultVal
     }
   };
 
-  return { value, status, run };
+  return { run, status, value };
 };

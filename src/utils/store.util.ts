@@ -1,8 +1,8 @@
-import { Logger } from '@/utils/logger.util';
-import { setStorageItem } from '@/utils/storage.util';
-import { clone } from '@/utils/toolbox.util';
 import { useStore } from '@nanostores/react';
 import type { MapStore, Store, StoreValue } from 'nanostores';
+import { clone } from './index';
+import { Logger } from './logger.util';
+import { Storage } from './storage.util';
 
 type NanoStore<State, Actions, Getters> = {
   state: State;
@@ -24,7 +24,7 @@ export const createStore = <
     Logger.debug('CURR_STATE', clone(curr));
     Logger.groupEnd();
 
-    setStorageItem(name, curr);
+    Storage.setItem(name, curr);
   });
 
   return store;
@@ -39,7 +39,7 @@ export const createReactStore =
     store: NanoStore<State, Actions, Getters>,
   ) =>
   () => ({
-    state: useStore(store.state),
+    actions: store.actions,
     getters: Object.entries(store.getters ?? {}).reduce(
       (acc, [key, val]) => {
         acc[key as keyof Getters] = useStore(val as Store);
@@ -47,5 +47,5 @@ export const createReactStore =
       },
       {} as { [K in keyof Getters]: StoreValue<Getters[K]> },
     ),
-    actions: store.actions,
+    state: useStore(store.state),
   });

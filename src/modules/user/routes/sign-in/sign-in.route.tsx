@@ -1,6 +1,6 @@
-import { SignIn } from '@/modules/user/components/sign-in/sign-in';
-import { useStore } from '@/stores';
 import { Fragment, type SyntheticEvent, useEffect } from 'react';
+import { useStore } from '../../../../stores';
+import { SignIn } from '../../components/sign-in/sign-in';
 
 export const SignInRoute = () => {
   const { user: userStore, notifications: notificationStore } = useStore();

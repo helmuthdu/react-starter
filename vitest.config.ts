@@ -11,15 +11,16 @@ export default defineConfig({
     },
   },
   test: {
-    globals: true,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'lcov'],
+    },
     environment: 'jsdom',
+    globals: true,
     include: [
       '**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
       '**/__tests__/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
     ],
-    setupFiles: './vitest.setup.ts',
-    coverage: {
-      reporter: ['text', 'lcov'],
-    },
+    setupFiles: ['./vitest.setup.ts'],
   },
 });

@@ -1,5 +1,5 @@
-import { useStore } from '@/stores';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useStore } from '../../stores';
 
 export const AppNotification = () => {
   const {

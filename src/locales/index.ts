@@ -77,7 +77,7 @@ export const addLocaleToRoutePath = (route: RouteObject) => {
     route.children = route.children.map(addLocaleToRoutePath);
   }
 
-  route.path = `/:locale/${route.path?.startsWith('/') ? route.path?.substring(1) : route.path}`;
+  route.path = `/:locale/${route.path?.startsWith('/') ? route.path?.substring(1) : (route.path ?? '')}`;
 
   return route;
 };

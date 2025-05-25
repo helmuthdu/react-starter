@@ -17,6 +17,7 @@ export const stores = {
 export const useStore = () => ({
   ...Object.entries(appModules.stores).reduce(
     (acc, [name, { useStore }]) => {
+      // biome-ignore lint/correctness/useHookAtTopLevel: this is a valid use case
       acc[name as keyof typeof appModules.stores] = useStore();
       return acc;
     },

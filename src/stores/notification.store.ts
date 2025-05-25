@@ -1,7 +1,7 @@
-import type { MessageJSON } from '@/models/notification/notification.type';
-import { createReactStore, createStore } from '@/utils/store.util';
-import { uuid } from '@/utils/toolbox.util';
 import { map } from 'nanostores';
+import type { MessageJSON } from '../models/notification/notification.type';
+import { uuid } from '../utils';
+import { createReactStore, createStore } from '../utils/store.util';
 
 export type State = Readonly<{
   queue: string[];
@@ -11,8 +11,8 @@ export type State = Readonly<{
 export const name = 'notifications' as const;
 
 export const initialState: State = {
-  queue: [],
   data: {},
+  queue: [],
 };
 
 export const state = map<State>(initialState);
@@ -23,7 +23,6 @@ const actions = {
     const currentState = state.get();
 
     state.set({
-      queue: [...currentState.queue, id],
       data: {
         ...currentState.data,
         [id]: {
@@ -32,12 +31,12 @@ const actions = {
           timeout: payload.timeout || 5000,
         },
       },
+      queue: [...currentState.queue, id],
     });
   },
   next: () => {
     const currentState = state.get();
     state.set({
-      queue: currentState.queue.slice(1),
       data: {
         ...currentState.data,
         [currentState.queue[0]]: {
@@ -45,11 +44,12 @@ const actions = {
           read: true,
         },
       },
+      queue: currentState.queue.slice(1),
     });
   },
   reset: () => state.set(initialState),
 };
 
-export const notificationStore = createStore(name, { state, actions });
+export const notificationStore = createStore(name, { actions, state });
 
-export const useNotificationStore = createReactStore({ state, actions });
+export const useNotificationStore = createReactStore({ actions, state });

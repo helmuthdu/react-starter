@@ -1,8 +1,8 @@
-import { useStorage } from '@/hooks/storage.hook';
-import { useWorker } from '@/hooks/worker.hook';
-import { Logger } from '@/utils/logger.util';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { useStorage } from '../../../../hooks/storage.hook';
+import { useWorker } from '../../../../hooks/worker.hook';
+import { Logger } from '../../../../utils/logger.util';
 import { Home } from '../../components/home/home';
 
 const resolve = (val: number): number => {

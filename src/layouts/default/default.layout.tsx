@@ -1,4 +1,4 @@
-import './default.layout.css';
+import '../../styles/styles.scss';
 import { Fragment } from 'react';
 import { Outlet } from 'react-router-dom';
 

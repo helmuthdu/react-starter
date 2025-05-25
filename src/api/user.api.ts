@@ -1,5 +1,5 @@
-import type { UserJSON } from '@/models/user/user.type';
-import { Http, type RequestResponse } from '@/utils/http.util';
+import type { UserJSON } from '../models/user';
+import { Http, type RequestResponse } from '../utils/http.util';
 
 export type UserRequestPayload = Partial<UserJSON> & {
   email: string;
@@ -10,14 +10,14 @@ const signIn = async (payload: UserRequestPayload): Promise<RequestResponse<User
   new Promise((resolve) => {
     setTimeout(() => {
       resolve({
+        data: {
+          email: payload.email,
+          roles: ['user'],
+          token: 'secret',
+          userName: 'johndoe',
+        } satisfies UserJSON,
         ok: true,
         status: 400,
-        data: {
-          userName: 'johndoe',
-          email: payload.email,
-          token: 'secret',
-          roles: ['user'],
-        } satisfies UserJSON,
       });
     }, 1000);
   });

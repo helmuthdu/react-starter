@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { AppTest } from '../../../../../components/utils/app-test/app-test';
+import { AppTest } from '../../../../../components/app-test/app-test';
 import HomeRoute from '../home.route';
 
 describe('Route -> Home', () => {

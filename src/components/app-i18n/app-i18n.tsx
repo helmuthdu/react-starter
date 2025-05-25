@@ -1,15 +1,8 @@
-import { type Locale, useLocale } from '@/locales';
-import type { FC, JSXElementConstructor, ReactElement } from 'react';
+import type { PropsWithChildren } from 'react';
 import { IntlProvider } from 'react-intl';
+import { type Locale, useLocale } from '../../locales';
 
-// biome-ignore lint/suspicious/noExplicitAny: -
-export const AppI18n: FC<{ locale: Locale; children: ReactElement<any, string | JSXElementConstructor<any>> }> = ({
-  locale,
-  children,
-}: {
-  locale: Locale;
-  children: ReactElement;
-}) => {
+export const AppI18n = ({ locale, children }: PropsWithChildren<{ locale: Locale }>) => {
   const [localeStorage] = useLocale(locale);
 
   return (

@@ -7,11 +7,11 @@ const AboutRoute = lazy(() => import('./about/about.route'));
 
 export const routes = [
   {
-    path: HOME_ROUTES.ROOT,
-    element: <DefaultLayout />,
     children: [
-      { index: true, element: <HomeRoute /> },
-      { path: HOME_ROUTES.ABOUT, element: <AboutRoute /> },
+      { element: <HomeRoute />, index: true },
+      { element: <AboutRoute />, path: HOME_ROUTES.ABOUT },
     ],
+    element: <DefaultLayout />,
+    path: HOME_ROUTES.ROOT,
   },
 ];

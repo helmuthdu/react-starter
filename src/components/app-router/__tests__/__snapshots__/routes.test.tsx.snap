@@ -1,3 +1,14 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`App router > should match snapshot 1`] = `<DocumentFragment />`;
+exports[`App router > should match snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <h1>
+      You are here!
+    </h1>
+    <h2>
+      But nothing found for you #404
+    </h2>
+  </div>
+</DocumentFragment>
+`;

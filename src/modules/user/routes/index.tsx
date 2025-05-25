@@ -6,8 +6,8 @@ const SignInRoute = lazy(() => import('./sign-in/sign-in.route'));
 
 export const routes = [
   {
-    path: USER_ROUTES.ROOT,
+    children: [{ element: <SignInRoute />, index: true }],
     element: <UserLayout />,
-    children: [{ index: true, element: <SignInRoute /> }],
+    path: USER_ROUTES.ROOT,
   },
 ];

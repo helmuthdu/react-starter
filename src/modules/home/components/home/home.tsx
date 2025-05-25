@@ -4,6 +4,7 @@ import { HOME_ROUTES, USER_ROUTES } from '../../../paths';
 import logo from '../../assets/images/logo.svg';
 
 type Props = { onLinkClick: (route: USER_ROUTES | HOME_ROUTES) => void };
+
 export const Home = (props: Props) => (
   <div className="app">
     <header className="app-header">
@@ -15,21 +16,23 @@ export const Home = (props: Props) => (
         <FormattedMessage id="LEARN_REACT" />
       </a>
       Navigate to
-      <div
+      <button
         className="app-link"
         onClick={() => props.onLinkClick(HOME_ROUTES.ABOUT)}
         onKeyDown={() => props.onLinkClick(HOME_ROUTES.ABOUT)}
-        title="go to about page">
+        title="go to about page"
+        type="button">
         about page
-      </div>
+      </button>
       or to
-      <div
+      <button
         className="app-link"
         onClick={() => props.onLinkClick(USER_ROUTES.SIGN_IN)}
         onKeyDown={() => props.onLinkClick(HOME_ROUTES.ABOUT)}
-        title="go to sign-in page">
+        title="go to sign-in page"
+        type="button">
         sign-in page
-      </div>
+      </button>
     </header>
   </div>
 );

@@ -1,4 +1,4 @@
-import { type FC, Suspense } from 'react';
+import { Suspense } from 'react';
 import { type RouteObject, useRoutes } from 'react-router';
 
 export const NotFoundRoute = () => (
@@ -8,16 +8,16 @@ export const NotFoundRoute = () => (
   </div>
 );
 
-export const AppRoutes: FC<{ routes: RouteObject[] }> = ({ routes }: { routes: RouteObject[] }) => {
+export const AppRoutes = ({ routes }: { routes: RouteObject[] }) => {
   const component = useRoutes([
     ...routes,
     {
-      path: 'not-found',
       element: <NotFoundRoute />,
+      path: 'not-found',
     },
     {
-      path: '*',
       element: <NotFoundRoute />,
+      path: '*',
     },
   ]);
 

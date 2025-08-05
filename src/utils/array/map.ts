@@ -13,15 +13,18 @@ import type { CallbackDynamic, ResultArray } from '../types';
  * map(arr, async x => x * 2); // Promise<[2, 4, 6]>
  * ```
  *
- * @param array The array to be transformed.
- * @param callback The function to invoke for each element in the array.
+ * @param array - The array to be transformed.
+ * @param callback - The function to invoke for each element in the array.
  *
  * @return The transformed array, either as a synchronous result or a Promise if lazy is set.
  *
  * @throws {TypeError} If the provided array is not an array.
  */
 export function map<T, R, C extends CallbackDynamic<T, R>>(array: T[], callback: C): ResultArray<C> {
-  assert(isArray(array), IS_ARRAY_ERROR_MSG, { args: { array }, type: TypeError });
+  assert(isArray(array), IS_ARRAY_ERROR_MSG, {
+    args: { array },
+    type: TypeError,
+  });
 
   const result = Array(array.length);
 

@@ -1,5 +1,3 @@
-import { typeOf } from './typeOf';
-
 /**
  * Determines if the passed value is a function.
  *
@@ -15,7 +13,7 @@ import { typeOf } from './typeOf';
  * @returns `true` if the value is a function, else `false`.
  */
 export function isFunction(arg: unknown): boolean {
-  return ['Promise', 'Function'].includes(typeOf(arg));
+  return typeof arg === 'function';
 }
 
 export const IS_FUNCTION_ERROR_MSG = 'Expected a function';

@@ -1,7 +1,6 @@
 import { typeOf } from './typeOf';
 
 /**
- * @description
  * Checks if the value is a boolean.
  *
  * @example
@@ -22,6 +21,6 @@ import { typeOf } from './typeOf';
  *
  * @returns `true` if the value is a boolean, else `false`.
  */
-export function isBoolean(arg: unknown): boolean {
-  return typeOf(arg) === 'Boolean';
+export function isBoolean(arg: unknown): arg is boolean {
+  return typeOf(arg) === 'boolean';
 }

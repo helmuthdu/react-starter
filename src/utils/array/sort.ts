@@ -1,5 +1,5 @@
 import { assert } from '../function/assert';
-import { compare } from '../string/compare';
+import { compare } from '../function/compare';
 import { IS_ARRAY_ERROR_MSG, isArray } from '../typed/isArray';
 
 /**

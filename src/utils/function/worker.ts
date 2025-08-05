@@ -6,7 +6,8 @@
  * await sum(1, 2); // 3
  *
  * @param callback - A function that receives the worker's `self` and performs work.
- * @param dependencies - Optional array of URLs to scripts that the worker should import.
+ * @param dependencies - (optional) array of URLs to scripts that the worker should import.
+ *
  * @returns A function that takes the arguments for the callback and returns a promise with the result.
  */
 // biome-ignore lint/suspicious/noExplicitAny: -

@@ -1,8 +1,11 @@
+import { isProd } from './env.util';
+import { assert } from './function/assert';
 import { Logger } from './logger.util';
+import { isString } from './typed/isString';
 
-const appName = (import.meta.env.VITE_NAME as string) ?? 'app';
-const environment = (import.meta.env.NODE_ENV as string)?.substring(0, 3) ?? 'dev';
-const prefix = `${appName}_${environment}`.toLowerCase();
+const appName = import.meta.env.VITE_NAME ?? 'app';
+const environment = isProd() ? 'prod' : 'dev';
+let prefix = `${appName}_${environment}`.toLowerCase();
 const getKey = (key: string): string => `${prefix}_${key.toLowerCase()}`;
 const getStorage = (session?: boolean): Storage | null =>
   typeof window !== 'undefined' ? (session ? sessionStorage : localStorage) : null;
@@ -27,8 +30,9 @@ export const Storage = {
     }
   },
 
-  removeItem(key: string): void {
-    this.setItem(key, undefined);
+  removeItem(key: string, session = false): void {
+    // Remove from both storages if not session
+    this.setItem(key, undefined, session);
   },
 
   setItem<T>(key: string, value?: T, session = false): void {
@@ -40,6 +44,7 @@ export const Storage = {
     try {
       if (value === undefined) {
         storage.removeItem(storageKey);
+        // Remove from both storages if not session
         if (!session) getStorage(true)?.removeItem(storageKey);
       } else {
         storage.setItem(storageKey, JSON.stringify(value));
@@ -47,5 +52,10 @@ export const Storage = {
     } catch (error) {
       Logger.error(`Failed to save item "${storageKey}" into storage:`, error);
     }
+  },
+
+  setPrefix(newPrefix: string) {
+    assert(isString(newPrefix), 'Prefix must be a string');
+    prefix = `${newPrefix}_${environment}`.toLowerCase();
   },
 };

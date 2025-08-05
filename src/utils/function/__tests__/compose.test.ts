@@ -34,7 +34,7 @@ describe('compose', () => {
     const add = (x: number) => x + 2;
 
     const composedFn = compose(returnUndefined, add);
-    expect(composedFn()).toBeUndefined();
+    expect(composedFn(1)).toBeUndefined();
   });
 
   it('should handle asynchronous functions', async () => {

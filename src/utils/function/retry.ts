@@ -12,11 +12,11 @@ import { sleep } from './sleep';
  * ```
  *
  * @param fn - The asynchronous function to retry.
- * @param options - Options for retrying the function.
+ * @param options - (optional) Options for retrying the function.
  * @param [options.times=3] - The number of retry attempts.
  * @param [options.delay=250] - The delay in milliseconds between retries.
  * @param [options.backoff=1] - Exponential backoff factor (default: 1 → no backoff).
- * @param [options.signal] - An optional `AbortSignal` to allow canceling retries.
+ * @param [options.signal] - `AbortSignal` to allow canceling retries.
  *
  * @returns The result of the asynchronous function.
  */

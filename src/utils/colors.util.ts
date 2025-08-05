@@ -1,4 +1,4 @@
-type ColorType = 'hex' | 'rgb' | 'hsl';
+type ColorFormat = 'hex' | 'rgb' | 'hsl';
 
 const createRegexValidator =
   (pattern: RegExp) =>
@@ -102,15 +102,37 @@ export class Colorful {
   private _hex = '#000000';
   private _rgb: { r: number; g: number; b: number } = { b: 0, g: 0, r: 0 };
   private _hsl: { h: number; s: number; l: number } = { h: 0, l: 0, s: 0 };
+  private _alpha = 0;
 
-  constructor(color: string) {
+  constructor(color = '#000000', alpha = 0) {
     this.setColor(color);
+    this.alpha = alpha;
   }
 
   private extractNumbers(color: string): number[] {
     const matches = color.match(/\d+/g);
     if (!matches) throw new Error('No numbers found in color string');
     return matches.map(Number);
+  }
+
+  public getDominantColorFromImage(image: HTMLImageElement, format: ColorFormat = 'rgb'): string {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 1;
+    canvas.height = 1;
+
+    if (!ctx) throw new Error('Failed to get canvas context');
+
+    //draw the image to one pixel and let the browser find the dominant color
+    ctx.drawImage(image, 0, 0, 1, 1);
+
+    //get pixel color
+    const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+
+    this.setColor(`rgb(${r}, ${g}, ${b})`);
+    this.alpha = (a / 255) * 100;
+
+    return this.getFormat(format);
   }
 
   public setColor(color: string): void {
@@ -133,21 +155,45 @@ export class Colorful {
     }
   }
 
-  public getFormat(type: ColorType): string {
-    switch (type) {
+  public set alpha(value: number) {
+    if (value < 0 || value > 100) {
+      throw new Error('Alpha must be a number between 0 and 100');
+    }
+    this._alpha = value;
+  }
+
+  public get alpha(): number {
+    return this._alpha;
+  }
+
+  public getFormat(format: ColorFormat): string {
+    const alpha = this._alpha > 0 ? this._alpha / 100 : undefined;
+    switch (format) {
       case 'hex':
+        if (alpha !== undefined) {
+          const a = Math.round(alpha * 255)
+            .toString(16)
+            .padStart(2, '0');
+          return `${this._hex}${a}`;
+        }
         return this._hex;
       case 'rgb':
+        if (alpha !== undefined) {
+          return `rgba(${this._rgb.r}, ${this._rgb.g}, ${this._rgb.b}, ${alpha})`;
+        }
         return `rgb(${this._rgb.r}, ${this._rgb.g}, ${this._rgb.b})`;
       case 'hsl':
+        if (alpha !== undefined) {
+          return `hsla(${this._hsl.h}, ${this._hsl.s}%, ${this._hsl.l}%, ${alpha})`;
+        }
         return `hsl(${this._hsl.h}, ${this._hsl.s}%, ${this._hsl.l}%)`;
       default:
-        throw new Error(`Unhandled color type: ${type}`);
+        throw new Error(`Unhandled color type: ${format}`);
     }
   }
 
   public get hex(): string {
-    return this._hex;
+    return this.getFormat('hex');
   }
 
   public get rgb(): { r: number; g: number; b: number } {

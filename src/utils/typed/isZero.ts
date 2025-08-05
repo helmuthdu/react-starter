@@ -21,6 +21,6 @@
  * @returns `true` if the value is a positive number, else `false`.
  *
  */
-export function isZero(arg: unknown): boolean {
+export function isZero(arg: unknown): arg is number {
   return typeof arg === 'number' && arg === 0;
 }

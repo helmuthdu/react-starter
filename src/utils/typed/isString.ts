@@ -1,5 +1,3 @@
-import { typeOf } from './typeOf';
-
 /**
  * Determines if the passed value is a String.
  *
@@ -13,8 +11,8 @@ import { typeOf } from './typeOf';
  *
  * @returns `true` if the value is a String, else `false`.
  */
-export function isString(arg: unknown): boolean {
-  return typeOf(arg) === 'String';
+export function isString(arg: unknown): arg is string {
+  return typeof arg === 'string';
 }
 
 export const IS_STRING_ERROR_MSG = 'Expected a string';

@@ -11,7 +11,7 @@
  *
  * @returns `true` if the value is a valid Date object, else `false`.
  */
-export function isDate(arg: unknown): boolean {
+export function isDate(arg: unknown): arg is Date {
   return arg instanceof Date && !Number.isNaN(arg.getTime());
 }
 

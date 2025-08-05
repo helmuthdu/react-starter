@@ -25,6 +25,13 @@ export const HomeRoute = () => {
   // biome-ignore lint/correctness/useExhaustiveDependencies: -
   useEffect(() => {
     Logger.info('[WORKER] result:', message);
+
+    if (message > 0) {
+      Logger.success('[WORKER] it worked!');
+    } else {
+      Logger.warn('[WORKER] engine is getting started');
+      Logger.trace('what happened here', { message });
+    }
     setStorage(message);
   }, [message]);
 

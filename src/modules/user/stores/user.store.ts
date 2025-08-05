@@ -1,7 +1,7 @@
 import { computed, map, task } from 'nanostores';
 import { type UserRequestPayload, userApi } from '../../../api';
 import { User, type UserJSON } from '../../../models/user';
-import { RequestErrorType, RequestStatus } from '../../../utils/http.util';
+import { type RequestErrorType, RequestStatus } from '../../../utils/http.util';
 import { Storage } from '../../../utils/storage.util';
 import { createReactStore, createStore } from '../../../utils/store.util';
 
@@ -56,7 +56,7 @@ const actions = {
     } catch (err: any) {
       state.set({
         data: User.create(),
-        error: err.status === 409 ? RequestErrorType.CONFLICT : RequestErrorType.NOT_FOUND,
+        error: err.status,
         status: RequestStatus.ERROR,
       });
     }
@@ -81,7 +81,7 @@ const actions = {
     } catch (err: any) {
       state.set({
         data: User.create(),
-        error: err.status === 409 ? RequestErrorType.CONFLICT : RequestErrorType.BAD_REQUEST,
+        error: err.status,
         status: RequestStatus.ERROR,
       });
     }

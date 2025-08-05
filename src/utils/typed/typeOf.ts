@@ -1,27 +1,27 @@
-// src/utils/superdash.util/typed/typeOf.ts
 export type ArgType =
-  | 'Array'
-  | 'Boolean'
-  | 'Date'
-  | 'Error'
-  | 'Function'
-  | 'Map'
-  | 'NaN'
-  | 'Null'
-  | 'Number'
-  | 'Object'
-  | 'Promise'
-  | 'RegExp'
-  | 'Set'
-  | 'String'
-  | 'WeakMap'
-  | 'WeakSet'
-  | 'Undefined';
+  | 'array'
+  | 'boolean'
+  | 'date'
+  | 'error'
+  | 'function'
+  | 'map'
+  | 'nan'
+  | 'null'
+  | 'number'
+  | 'object'
+  | 'promise'
+  | 'regexp'
+  | 'set'
+  | 'string'
+  | 'symbol'
+  | 'weakmap'
+  | 'weakset'
+  | 'undefined';
 
 // biome-ignore lint/suspicious/noExplicitAny: -
 const specialCases = new Map<any, ArgType>([
-  [null, 'Null'],
-  [undefined, 'Undefined'],
+  [null, 'null'],
+  [undefined, 'undefined'],
 ]);
 
 /**
@@ -29,22 +29,22 @@ const specialCases = new Map<any, ArgType>([
  *
  * @example
  * ```ts
- * typeOf(null); // 'Null'
- * typeOf(undefined); // 'Undefined'
- * typeOf(NaN); // 'NaN'
- * typeOf(async function() {}); // 'Promise'
- * typeOf(123); // 'Number'
- * typeOf('abc'); // 'String'
- * typeOf({}); // 'Object'
- * typeOf([]); // 'Array'
- * typeOf(() => {}); // 'Function'
- * typeOf(new Date()); // 'Date'
- * typeOf(new Error()); // 'Error'
- * typeOf(new Map()); // 'Map'
- * typeOf(new Set()); // 'Set'
- * typeOf(new WeakMap()); // 'WeakMap'
- * typeOf(new WeakSet()); // 'WeakSet'
- * typeOf(new RegExp('')); // 'RegExp'
+ * typeOf(null); // 'null'
+ * typeOf(undefined); // 'undefined'
+ * typeOf(NaN); // 'nan'
+ * typeOf(async function() {}); // 'promise'
+ * typeOf(123); // 'number'
+ * typeOf('abc'); // 'string'
+ * typeOf({}); // 'object'
+ * typeOf([]); // 'array'
+ * typeOf(() => {}); // 'function'
+ * typeOf(new Date()); // 'date'
+ * typeOf(new Error()); // 'error'
+ * typeOf(new Map()); // 'map'
+ * typeOf(new Set()); // 'set'
+ * typeOf(new WeakMap()); // 'weakmap'
+ * typeOf(new WeakSet()); // 'weakset'
+ * typeOf(new RegExp('')); // 'regexp'
  * ```
  *
  * @param arg - The argument whose type is to be determined.
@@ -53,9 +53,9 @@ const specialCases = new Map<any, ArgType>([
  */
 export function typeOf(arg: unknown): ArgType {
   if (specialCases.has(arg)) return specialCases.get(arg)!;
-  if (typeof arg === 'number' && Number.isNaN(arg)) return 'NaN';
+  if (typeof arg === 'number' && Number.isNaN(arg)) return 'nan';
 
   const type = Object.prototype.toString.call(arg).slice(8, -1);
 
-  return type === 'AsyncFunction' ? 'Promise' : (type as ArgType);
+  return type === 'AsyncFunction' ? 'promise' : (type.toLowerCase() as ArgType);
 }

@@ -1,110 +1,123 @@
-import type { UserJSON, UserRole } from '../models/user';
+/** biome-ignore-all lint/suspicious/noExplicitAny: - */
 import { Logger } from './logger.util';
 
+export type BaseUser = {
+  id: string;
+  roles: string[];
+};
 type PermissionAction = 'view' | 'create' | 'update' | 'delete';
-type PermissionCheck<T = unknown> = boolean | ((user: UserJSON, data: T) => boolean);
-type ResourcePermissions = Map<string, Partial<Record<PermissionAction, PermissionCheck>>>;
-type RolesWithPermissions = Map<UserRole, ResourcePermissions>;
+type PermissionCheck<T extends BaseUser = BaseUser, D extends Record<string, any> = Record<string, any>> =
+  | boolean
+  | ((user: T, data: D) => boolean);
+type ResourcePermissions<T extends BaseUser = BaseUser, D extends Record<string, any> = Record<string, any>> = Map<
+  string,
+  Partial<Record<PermissionAction, PermissionCheck<T, D>>>
+>;
+type RolesWithPermissions<T extends BaseUser = BaseUser, D extends Record<string, any> = Record<string, any>> = Map<
+  string,
+  ResourcePermissions<T, D>
+>;
 
-export const Roles: RolesWithPermissions = new Map([
-  [
-    'admin',
-    new Map([
-      [
-        '*',
-        {
-          create: true,
-          delete: true,
-          update: true,
-          view: true,
-        },
-      ],
-    ]),
-  ],
-]);
+const Roles: RolesWithPermissions = new Map();
 
-/**
- * Registers permissions for a specific role and resource.
- *
- * @remarks
- * This function allows you to define permissions for a specific role and resource.
- * You can specify which actions (view, create, update, delete) are allowed for that role on the resource.
- *
- * @example
- * ```ts
- * registerPermissions('admin', 'posts', {
- *   view: true,
- *   create: true,
- *   update: (user, data) => user.id === data.userId,
- *   delete: false,
- * });
- * ```
- *
- * @param role - The role to which the permissions apply.
- * @param resource - The resource for which the permissions are defined.
- * @param actions - An object defining the permissions for the specified role and resource.
- *
- * @throws {Error} If the arguments are invalid or if the role is not found.
- */
-export function registerPermissions(
-  role: UserRole,
-  resource: string,
-  actions: Partial<Record<PermissionAction, PermissionCheck>>,
-): void {
-  if (!role || !resource) {
-    throw new Error('Invalid arguments provided to register permissions.');
-  }
-
-  const rolePermissions = Roles.get(role) ?? new Map();
-  const resourcePermissions = { ...rolePermissions.get(resource), ...actions };
-  rolePermissions.set(resource, resourcePermissions);
-  Roles.set(role, rolePermissions);
-}
-
-/**
- * Determines whether a user has permission to perform a specific action on a given resource.
- *
- * @example
- * ```ts
- * const user = { id: '123', roles: ['admin'] };
- * const resource = 'posts';
- * const action = 'view';
- *
- * hasPermission(user, resource, action) // true;
- * ```
- *
- * @example
- * ```ts
- * const user = { id: '123', roles: ['user'] };
- * const resource = 'posts';
- * const action = 'update';
- * const data = { userId: '321' };
- *
- * hasPermission(user, resource, action, data) // false;
- * ```
- *
- * @param user - The user object containing information about the user's roles.
- * @param resource - The resource identifier to check permissions for.
- * @param action - The action to check permission for, such as "read", "write", etc.
- * @param [data] - Optional contextual data used for evaluating dynamic permissions.
- *
- * @return Returns true if the user is allowed to perform the action on the resource; otherwise, false.
- */
-export function hasPermission(user: UserJSON, resource: string, action: PermissionAction, data?: unknown): boolean {
-  const result = user.roles.some((role) => {
-    const rolePermissions = Roles.get(role);
-    if (!rolePermissions) return false;
-
-    const resourcePermissions = rolePermissions.get(resource) || rolePermissions.get('*');
-    if (!resourcePermissions) return false;
-
-    const permission = resourcePermissions[action];
-    if (typeof permission === 'function') {
-      return data !== undefined ? permission(user, data) : false;
+export const Permissions = {
+  /**
+   * Determines whether a user has permission to perform a specific action on a given resource.
+   *
+   * @example
+   * ```ts
+   * const user = { id: '123', roles: ['admin'] };
+   * const resource = 'posts';
+   * Permissions.check(user, resource, 'view'); // true;
+   * ```
+   *
+   * @param user - The user object containing information about the user's roles.
+   * @param resource - The resource identifier to check permissions for.
+   * @param action - The action to check permission for, such as "view", "create", "update", or "delete".
+   * @param [data] - Optional contextual data used for evaluating dynamic permissions.
+   *
+   * @return Returns true if the user is allowed to perform the action on the resource; otherwise, false.
+   */
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: -
+  check<T extends BaseUser, D extends Record<string, any>>(
+    user: T,
+    resource: string,
+    action: PermissionAction,
+    data?: D,
+  ): boolean {
+    // Use Set to avoid duplicate roles
+    const allRoles = new Set([...(user.roles || []), '*']);
+    for (const role of allRoles) {
+      const rolePermissions = Roles.get(role);
+      if (!rolePermissions) continue;
+      const resourcePermissions = rolePermissions.get(resource) || rolePermissions.get('*');
+      if (!resourcePermissions) continue;
+      const permission = resourcePermissions[action];
+      if (typeof permission === 'function') {
+        if (data === undefined) continue;
+        if (permission(user, data)) {
+          Logger.debug(`Permission check: User ${user.id} - ${action} on ${resource} -> true`);
+          return true;
+        }
+      } else if (permission) {
+        Logger.debug(`Permission check: User ${user.id} - ${action} on ${resource} -> true`);
+        return true;
+      }
     }
-    return Boolean(permission);
-  });
+    Logger.debug(`Permission check: User ${user.id} - ${action} on ${resource} -> false`);
+    return false;
+  },
 
-  Logger.debug(`Permission check: User ${user.id} - ${action} on ${resource} -> ${result}`);
-  return result;
-}
+  clear() {
+    Roles.clear();
+    Logger.debug('All permissions have been cleared.');
+  },
+
+  /**
+   * Registers a new permission for a specific role and resource.
+   *
+   * @example
+   * ```ts
+   * Permissions.register('admin', 'posts', {
+   *   view: true,
+   *   create: (user, data) => user.id === data.authorId,
+   *   update: (user, data) => user.id === data.authorId,
+   *   delete: false,
+   * });
+   * ```
+   *
+   * @remarks
+   * This function allows you to define permissions for a specific role and resource.
+   * You can specify which actions (view, create, update, delete) are allowed for that role on the resource.
+   * If a permission already exists for the role and resource, it will be updated with the new actions.
+   *
+   * @param role - The role to register permissions for (e.g., 'admin', 'user').
+   * @param resource - The resource identifier (e.g., 'posts', 'comments').
+   * @param actions - An object containing the actions and their corresponding permission checks.
+   *
+   * @throws {Error} If the role or resource is not provided.
+   */
+  register<T extends BaseUser, D extends Record<string, any>>(
+    role: string,
+    resource: string,
+    actions: Partial<Record<PermissionAction, PermissionCheck<T, D>>>,
+  ): void {
+    if (!role || !resource) {
+      throw new Error('Invalid arguments provided to register permissions.');
+    }
+    let rolePermissions = Roles.get(role);
+    if (!rolePermissions) {
+      rolePermissions = new Map();
+      Roles.set(role, rolePermissions);
+    }
+    const existing = rolePermissions.get(resource) || {};
+    // Merge new actions with existing ones
+    const resourcePermissions = { ...existing, ...actions };
+    rolePermissions.set(resource, resourcePermissions as any);
+    Logger.debug(`Permissions for role '${role}' and resource '${resource}' registered/updated.`);
+  },
+
+  get roles() {
+    return new Map(Roles);
+  },
+};

@@ -1,5 +1,3 @@
-import { typeOf } from './typeOf';
-
 /**
  * Determines if the passed value is an object.
  *
@@ -16,8 +14,8 @@ import { typeOf } from './typeOf';
  *
  * @returns `true` if the value is an object, else `false`.
  */
-export function isObject(arg: unknown): boolean {
-  return typeOf(arg) === 'Object';
+export function isObject(arg: unknown): arg is object {
+  return typeof arg === 'object' && arg !== null && !Array.isArray(arg);
 }
 
 export const IS_OBJECT_ERROR_MSG = 'Expected an object';

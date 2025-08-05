@@ -22,6 +22,6 @@
  * @returns `true` if the value is a positive number, else `false`.
  *
  */
-export function isPositive(arg: unknown): boolean {
-  return typeof arg === 'number' && !Number.isNaN(arg) && Number.isFinite(arg) && arg > 0;
+export function isPositive(arg: unknown): arg is number {
+  return typeof arg === 'number' && arg > 0;
 }

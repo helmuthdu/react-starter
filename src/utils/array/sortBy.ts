@@ -1,4 +1,4 @@
-import { compareMany } from '../string/compareMany';
+import { compareBy } from '../function/compareBy';
 
 /**
  * Sorts an array of objects based on multiple selectors.
@@ -20,5 +20,5 @@ import { compareMany } from '../string/compareMany';
  * @returns A new sorted array.
  */
 export const sortBy = <T>(array: T[], selectors: Partial<Record<keyof T, 'asc' | 'desc'>>) => {
-  return [...array].sort(compareMany(selectors));
+  return [...array].sort(compareBy(selectors));
 };

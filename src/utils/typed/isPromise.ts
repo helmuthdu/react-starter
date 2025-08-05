@@ -14,8 +14,8 @@ import { typeOf } from './typeOf';
  *
  * @returns `true` if the value is a promise, else `false`.
  */
-export function isPromise(arg: unknown): boolean {
-  return typeOf(arg) === 'Promise';
+export function isPromise(arg: unknown): arg is Promise<unknown> {
+  return typeOf(arg) === 'promise';
 }
 
 export const IS_PROMISE_ERROR_MSG = 'Expected a promise';

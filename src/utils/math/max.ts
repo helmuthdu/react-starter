@@ -14,7 +14,7 @@
  * ```
  *
  * @param array - A list of values to evaluate for the maximum.
- * @param callback - An optional callback function to map the values.
+ * @param callback - (optional) callback function to map the values.
  *
  * @returns The maximum value in the provided arguments, or `undefined` if no arguments are given.
  */

@@ -16,7 +16,7 @@ import type { Predicate } from '../types';
  *
  * @param array - The array to search through.
  * @param predicate - A function that is called for each element in the array.
- * @param [defaultValue] - An optional value to return if no element satisfies the predicate.
+ * @param [defaultValue] - (optional) value to return if no element satisfies the predicate.
  *
  * @return The first element in the array that satisfies the predicate, or the default value if none match.
  */

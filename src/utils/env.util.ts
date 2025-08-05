@@ -1,7 +1,10 @@
+// biome-ignore lint/suspicious/noExplicitAny: -
+const env = (import.meta as any)?.env ?? {};
+
 export function isDev() {
-  return import.meta?.env?.NODE_ENV === 'development';
+  return env.NODE_ENV === 'development';
 }
 
 export function isProd() {
-  return import.meta?.env?.NODE_ENV === 'production';
+  return env.NODE_ENV === 'production';
 }

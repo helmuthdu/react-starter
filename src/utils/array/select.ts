@@ -16,7 +16,7 @@ import type { CallbackDynamic, Predicate, ResultArray } from '../types';
  *
  * @param array - The array to select from.
  * @param callback - The function to map the values.
- * @param predicate - The function to filter the values.
+ * @param [predicate] - (optional) The function to filter the values.
  *
  * @returns A new array with the selected values.
  *

@@ -13,7 +13,7 @@
  *
  * @returns `true` if the value is null or undefined, else `false`.
  */
-export function isNil(arg: unknown): boolean {
+export function isNil(arg: unknown): arg is null | undefined {
   return arg === undefined || arg === null;
 }
 

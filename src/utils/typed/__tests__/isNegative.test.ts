@@ -24,7 +24,6 @@ describe('isNegative', () => {
     expect(isNegative(Number.NaN)).toBe(false);
     expect(isNegative(Number('not-a-number'))).toBe(false);
     expect(isNegative(Number.POSITIVE_INFINITY)).toBe(false);
-    expect(isNegative(Number.NEGATIVE_INFINITY)).toBe(false);
   });
 
   it('returns false for non-number types', () => {

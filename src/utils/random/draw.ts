@@ -1,6 +1,6 @@
-import { random } from 'lodash';
 import { assert } from '../function/assert';
 import { IS_ARRAY_ERROR_MSG, isArray } from '../typed/isArray';
+import { random } from './random';
 
 /**
  * “Draw” a random item from an array.

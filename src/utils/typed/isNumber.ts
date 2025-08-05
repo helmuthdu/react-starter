@@ -1,5 +1,3 @@
-import { typeOf } from './typeOf';
-
 /**
  * Determines if the passed value is a number.
  *
@@ -13,8 +11,8 @@ import { typeOf } from './typeOf';
  *
  * @returns `true` if the value is a number, else `false`.
  */
-export function isNumber(arg: unknown): boolean {
-  return typeOf(arg) === 'Number';
+export function isNumber(arg: unknown): arg is number {
+  return typeof arg === 'number' && !Number.isNaN(arg);
 }
 
 export const IS_NUMBER_ERROR_MSG = 'Expected a number';

@@ -1,4 +1,6 @@
 import { assert } from '../function/assert';
+import { isArray } from '../typed/isArray';
+import { isNil } from '../typed/isNil';
 import { IS_OBJECT_ERROR_MSG, isObject } from '../typed/isObject';
 import type { Obj } from '../types';
 
@@ -54,14 +56,12 @@ export function path<T extends Obj, P extends string>(
   let current: any = item;
 
   for (const fragment of fragments) {
-    if (current == null || typeof current !== 'object') {
+    if (isNil(current) || typeof current !== 'object') {
       return handleError(`Cannot read property '${fragment}' of ${current}`, throwOnMissing, defaultValue);
     }
 
     current =
-      allowArrayIndex && Array.isArray(current) && /^\d+$/.test(fragment)
-        ? current[Number(fragment)]
-        : current[fragment];
+      allowArrayIndex && isArray(current) && /^\d+$/.test(fragment) ? current[Number(fragment)] : current[fragment];
 
     if (current === undefined) {
       return handleError(`Property '${fragment}' does not exist`, throwOnMissing, defaultValue);

@@ -26,8 +26,8 @@ type CacheEntry<T extends Fn> = {
  *
  * @param fn - The function to memorize.
  * @param options - Memoization options.
- * @param [options.ttl] - Optional time-to-live (TTL) for cache expiration (in milliseconds).
- * @param [options.maxSize] - Optional maximum cache size (LRU eviction).
+ * @param [options.ttl] - (optional) time-to-live (TTL) for cache expiration (in milliseconds).
+ * @param [options.maxSize] - (optional) maximum cache size (LRU eviction).
  *
  * @returns A new function that memorizes the input function.
  */

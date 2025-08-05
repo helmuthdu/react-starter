@@ -1,5 +1,3 @@
-import { typeOf } from './typeOf';
-
 /**
  * Determines if the passed value is an array.
  *
@@ -13,8 +11,8 @@ import { typeOf } from './typeOf';
  *
  * @returns `true` if the value is an array, else `false`.
  */
-export function isArray(arg: unknown[]): boolean {
-  return typeOf(arg) === 'Array';
+export function isArray(arg: unknown): arg is Array<unknown> {
+  return Array.isArray(arg);
 }
 
 export const IS_ARRAY_ERROR_MSG = 'Expected an array';

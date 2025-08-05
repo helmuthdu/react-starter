@@ -12,6 +12,7 @@ import { isObject } from './isObject';
  * isEmpty([]); // true
  * isEmpty({}); // true
  * isEmpty(''); // true
+ * isEmpty(0); // false
  * isEmpty(123); // false
  * isEmpty('abc'); // false
  * isEmpty([1, 2, 3]); // false

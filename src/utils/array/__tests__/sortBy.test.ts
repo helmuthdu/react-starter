@@ -20,7 +20,8 @@ describe('sortBy', () => {
       { age: 30, name: 'Bob' },
       { age: 30, name: 'Charlie' },
     ];
-    expect(sortBy(data, { age: 'desc', name: 'asc' })).toEqual([
+    // biome-ignore assist/source/useSortedKeys: the order matters
+    expect(sortBy(data, { name: 'asc', age: 'desc' })).toEqual([
       { age: 30, name: 'Alice' },
       { age: 25, name: 'Alice' },
       { age: 30, name: 'Bob' },

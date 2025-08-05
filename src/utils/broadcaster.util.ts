@@ -1,13 +1,14 @@
 import { Logger } from './logger.util';
 import { uuid } from './random/uuid';
 
-type EventCallback = (...args: unknown[]) => void | Promise<void>;
-type EventMap = Map<string, EventCallback>;
-type Subscription = { stop: () => void };
+type BroadcasterEventCallback = (...args: unknown[]) => void | Promise<void>;
+type BroadcasterEventMap = Map<string, BroadcasterEventCallback>;
+type BroadcasterEventOptions = { immediate: boolean };
+type BroadcasterSubscription = { stop: () => void; off: () => void };
 
-const events = new Map<string, EventMap>();
+const events = new Map<string, BroadcasterEventMap>();
 
-const getEvent = (event: string): EventMap => {
+const getEvent = (event: string): BroadcasterEventMap => {
   if (!events.has(event)) {
     events.set(event, new Map());
   }
@@ -38,29 +39,31 @@ export const Broadcaster = {
     }
   },
 
-  on(event: string, fn: EventCallback): Subscription {
+  on(event: string, fn: BroadcasterEventCallback, options?: BroadcasterEventOptions): BroadcasterSubscription {
     const id = uuid();
     getEvent(event).set(id, fn);
-    return { stop: () => removeEvent(event, id) };
+
+    if (options?.immediate) {
+      fn();
+    }
+
+    return { off: () => this.off(event), stop: () => removeEvent(event, id) };
   },
 
-  once(event: string, fn: EventCallback): Subscription {
+  once(event: string, fn: BroadcasterEventCallback, options?: BroadcasterEventOptions): BroadcasterSubscription {
     const id = uuid();
-    const wrappedFn: EventCallback = async (...args) => {
+
+    const wrappedFn: BroadcasterEventCallback = async (...args) => {
       await fn(...args);
       removeEvent(event, id);
     };
+
     getEvent(event).set(id, wrappedFn);
-    return { stop: () => removeEvent(event, id) };
+
+    if (options?.immediate) {
+      fn();
+    }
+
+    return { off: () => this.off(event), stop: () => removeEvent(event, id) };
   },
-};
-
-export const transmitter = Broadcaster.emit;
-
-export const receiver = (event: string, fn: EventCallback, options?: { once?: boolean; immediate?: boolean }) => {
-  const subscription = options?.once ? Broadcaster.once(event, fn) : Broadcaster.on(event, fn);
-
-  if (options?.immediate) fn();
-
-  return subscription;
 };

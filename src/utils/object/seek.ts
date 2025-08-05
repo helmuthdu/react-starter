@@ -1,10 +1,7 @@
 import { assert } from '../function/assert';
 import { similarity } from '../string/similarity';
-import { isArray } from '../typed/isArray';
-import { IS_BETWEEN_ERROR_MSG, isBetween } from '../typed/isBetween';
-import { isNil } from '../typed/isNil';
-import { isObject } from '../typed/isObject';
-import type { Obj } from '../types';
+import { is } from '../typed/is';
+import { IS_WITHIN_ERROR_MSG, isWithin } from '../typed/isWithin';
 
 /**
  * Recursively checks if an object contains a value similar to the search string.
@@ -31,23 +28,21 @@ import type { Obj } from '../types';
  * @returns Whether the object contains a matching value.
  */
 export function seek<T>(item: T, query: string, tone = 1): boolean {
-  assert(isBetween(tone, 0, 1), IS_BETWEEN_ERROR_MSG, { args: { max: 1, min: 0, tone }, type: TypeError });
+  assert(isWithin(tone, 0, 1), IS_WITHIN_ERROR_MSG, { args: { max: 1, min: 0, tone }, type: TypeError });
 
-  if (typeof item === 'string' || typeof item === 'number') {
+  if (is('string', item) || is('number', item)) {
     return similarity(String(item), query) >= tone;
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: -
-  return Object.values(item as Record<string, any>).some((value) => {
-    if (isNil(value)) return false;
+  return Object.values(item as Record<string, unknown>).some((value) => {
+    if (is('nil', value)) return false;
 
-    if (isArray(value)) {
-      // biome-ignore lint/suspicious/noExplicitAny: -
-      return value.some((v: any) => (isObject(v) ? seek(v as Obj, query, tone) : similarity(String(v), query) >= tone));
+    if (is('array', value)) {
+      return value.some((v) => (is('object', v) ? seek(v, query, tone) : similarity(String(v), query) >= tone));
     }
 
-    if (isObject(value)) {
-      return seek(value as Obj, query, tone);
+    if (is('object', value)) {
+      return seek(value, query, tone);
     }
 
     return similarity(String(value), query) >= tone;

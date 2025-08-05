@@ -29,7 +29,7 @@ export function group<T, K extends keyof T, R extends T[K] extends string ? T[K]
 
   for (let index = 0; index < array.length; index++) {
     const item = array[index];
-    const key = (getKey(item) || '_') as R;
+    const key = String(getKey(item) || '_') as R;
 
     result[key] ||= [] as T[];
     result[key].push(item);

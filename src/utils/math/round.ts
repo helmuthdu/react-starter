@@ -13,7 +13,7 @@
  *
  * @param value - The number to round.
  * @param precision - The number of decimal places to round to.
- * @param parser - An optional function to convert the number to a value.
+ * @param [parser] - (optional) function to convert the number to a value.
  *
  * @returns The rounded number.
  */

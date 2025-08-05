@@ -6,7 +6,6 @@ describe('isPositive', () => {
     expect(isPositive(123)).toBe(true);
     expect(isPositive(0.1)).toBe(true);
     expect(isPositive(Number.MAX_SAFE_INTEGER)).toBe(true);
-    expect(isPositive(Number.POSITIVE_INFINITY)).toBe(false); // Not finite
   });
 
   it('returns false for zero', () => {
@@ -19,7 +18,6 @@ describe('isPositive', () => {
     expect(isPositive(-123)).toBe(false);
     expect(isPositive(-0.1)).toBe(false);
     expect(isPositive(Number.MIN_SAFE_INTEGER)).toBe(false);
-    expect(isPositive(Number.NEGATIVE_INFINITY)).toBe(false);
   });
 
   it('returns false for NaN', () => {

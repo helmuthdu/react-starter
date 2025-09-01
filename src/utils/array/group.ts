@@ -12,7 +12,7 @@ import type { Selector } from '../types';
  * ```
  *
  * @param array - The array to group.
- * @param selector
+ * @param selector - The function to generate the key for each element. It can be a string representing the key or a function that returns the key.
  *
  * @returns an object with keys as the grouped values and values as arrays of elements.
  *

@@ -17,29 +17,35 @@ describe('attempt', () => {
 
   it('should execute the function and return the result', async () => {
     const mockFn = vi.fn().mockResolvedValue(42);
-    const [result] = await attempt(mockFn);
+    const result = await attempt(mockFn);
     expect(result).toBe(42);
     expect(mockFn).toHaveBeenCalledTimes(1);
   });
 
   it('should retry the function if it fails and return the result on success', async () => {
     const mockFn = vi.fn().mockRejectedValueOnce(new Error('First failure')).mockResolvedValue(42);
-    const [result] = await attempt(mockFn, { retries: 1 });
+    const result = await attempt(mockFn, undefined, { retries: 1 });
     expect(result).toBe(42);
     expect(mockFn).toHaveBeenCalledTimes(2);
   });
 
-  it('should return undefined if all retries fail', async () => {
+  it('should return the defaultValue if all retries fail', async () => {
     const mockFn = vi.fn().mockRejectedValue(new Error('Failure'));
-    const [result, error] = await attempt(mockFn, { retries: 2 });
+    const result = await attempt(mockFn, 'default', { retries: 2 });
+    expect(result).toBe('default');
+    expect(mockFn).toHaveBeenCalledTimes(3);
+  });
+
+  it('should return undefined if all retries fail and no defaultValue is provided', async () => {
+    const mockFn = vi.fn().mockRejectedValue(new Error('Failure'));
+    const result = await attempt(mockFn, undefined, { retries: 2 });
     expect(result).toBeUndefined();
-    expect(error).toBeDefined();
     expect(mockFn).toHaveBeenCalledTimes(3);
   });
 
   it('should log an error if no error handler is provided and silent is false', async () => {
     const mockFn = vi.fn().mockRejectedValue(new Error('Failure'));
-    await attempt(mockFn, { retries: 1, silent: false });
+    await attempt(mockFn, undefined, { retries: 1, silent: false });
     expect(Logger.error).toHaveBeenCalledTimes(1);
     expect(Logger.error).toHaveBeenCalledWith(
       expect.stringContaining('all attempts failed'),
@@ -49,15 +55,14 @@ describe('attempt', () => {
 
   it('should not log an error if silent is true', async () => {
     const mockFn = vi.fn().mockRejectedValue(new Error('Failure'));
-    await attempt(mockFn, { retries: 1, silent: true });
+    await attempt(mockFn, undefined, { retries: 1, silent: true });
     expect(Logger.error).not.toHaveBeenCalled();
   });
 
   it('should timeout if the function takes too long', async () => {
     const mockFn = vi.fn(() => new Promise((resolve) => setTimeout(resolve, 2000)));
-    const [result, error] = await attempt(mockFn, { timeout: 1000 });
+    const result = await attempt(mockFn, undefined, { timeout: 1000 });
     expect(result).toBeUndefined();
-    expect(error).toBeDefined();
     expect(Logger.error).toHaveBeenCalledWith(
       expect.stringContaining('all attempts failed'),
       expect.objectContaining({ cause: expect.anything() }),
@@ -66,7 +71,7 @@ describe('attempt', () => {
 
   it('should use the identifier in logs if provided', async () => {
     const mockFn = vi.fn().mockRejectedValue(new Error('Failure'));
-    await attempt(mockFn, { identifier: 'testFunction', retries: 1 });
+    await attempt(mockFn, undefined, { identifier: 'testFunction', retries: 1 });
     expect(Logger.error).toHaveBeenCalledWith(expect.stringContaining('attempt(testFunction)'), expect.any(Object));
   });
 
@@ -74,14 +79,21 @@ describe('attempt', () => {
     const mockFn = vi.fn(() => {
       throw 'Non-error value';
     });
-    const [result, error] = await attempt(mockFn);
+    const result = await attempt(mockFn, undefined);
     expect(result).toBeUndefined();
-    expect(error).toBeDefined();
     expect(Logger.error).toHaveBeenCalledWith(
       expect.stringContaining('all attempts failed'),
       expect.objectContaining({
         cause: expect.stringContaining('Non-error value'),
       }),
     );
+  });
+
+  it('should return the defaultValue if function throws non-error values', async () => {
+    const mockFn = vi.fn(() => {
+      throw 'Non-error value';
+    });
+    const result = await attempt(mockFn, 'fallback');
+    expect(result).toBe('fallback');
   });
 });

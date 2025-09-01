@@ -21,7 +21,7 @@ describe('fuzzy', () => {
   });
 
   it('should return one object for a partial match', () => {
-    const partialMatch = search(data, 'jon', 0.25);
+    const partialMatch = search(data, 'jon', 0.375);
     expect(partialMatch).toEqual([{ age: 25, name: 'John Doe' }]);
   });
 

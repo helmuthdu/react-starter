@@ -31,20 +31,20 @@ export function seek<T>(item: T, query: string, tone = 1): boolean {
   assert(isWithin(tone, 0, 1), IS_WITHIN_ERROR_MSG, { args: { max: 1, min: 0, tone }, type: TypeError });
 
   if (is('string', item) || is('number', item)) {
-    return similarity(String(item), query) >= tone;
+    return similarity(item, query) >= tone;
   }
 
   return Object.values(item as Record<string, unknown>).some((value) => {
     if (is('nil', value)) return false;
 
     if (is('array', value)) {
-      return value.some((v) => (is('object', v) ? seek(v, query, tone) : similarity(String(v), query) >= tone));
+      return value.some((v) => (is('object', v) ? seek(v, query, tone) : similarity(v, query) >= tone));
     }
 
     if (is('object', value)) {
       return seek(value, query, tone);
     }
 
-    return similarity(String(value), query) >= tone;
+    return similarity(value, query) >= tone;
   });
 }

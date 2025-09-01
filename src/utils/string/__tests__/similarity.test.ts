@@ -14,7 +14,7 @@ describe('similarity', () => {
   });
 
   it('should handle cases where one string is a substring of the other', () => {
-    expect(similarity('doe', 'John Doe')).toBeCloseTo(0.25, 5);
+    expect(similarity('doe', 'John Doe')).toBeCloseTo(0.375, 5);
   });
 
   it('should return a fractional similarity for partially matching strings', () => {
@@ -39,6 +39,6 @@ describe('similarity', () => {
   });
 
   it('should handle strings with different cases', () => {
-    expect(similarity('Hello', 'hello')).toBeCloseTo(0.8, 5);
+    expect(similarity('Hello', 'hello')).toBeCloseTo(1, 5);
   });
 });

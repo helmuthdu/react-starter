@@ -5,7 +5,8 @@
  * ```ts
  * sum([1, 2, 3]) // 6
  * sum([{value: 1}, {value: 2}, {value: 3}], (item) => item.value) // 6
- * sum([true, false, true], (item) => item ? 1 : 0) // 2
+ * sum(['apple', 'banana', 'cherry']) // TypeError
+ * sum([new Date('2023-01-01'), new Date('2022-01-01')]) // 467308800000
  * ```
  *
  * @param array - The array to sum.
@@ -13,12 +14,22 @@
  *
  * @returns The sum of the numbers in the array or the sum of the mapped values.
  */
-export function sum<T, R extends number | string>(array: T[], callback?: (item: T) => R): R | undefined {
+export function sum<T>(array: T[], callback?: (item: T) => number | Date): number | Date | undefined {
   if (array.length === 0) return undefined;
 
-  return array.reduce<R | undefined>((acc, item) => {
-    const value = (callback ? callback(item) : item) as R;
-    // biome-ignore lint/suspicious/noExplicitAny: -
-    return acc === undefined ? value : acc + (value as any);
+  return array.reduce<number | Date | undefined>((acc, item) => {
+    const value = callback ? callback(item) : item;
+    if (value instanceof Date) {
+      const valueTime = value.getTime();
+      if (acc === undefined) return new Date(valueTime);
+      if (acc instanceof Date) return new Date(acc.getTime() + valueTime);
+      return new Date(acc + valueTime);
+    }
+    if (typeof value === 'number') {
+      if (acc === undefined) return value;
+      if (acc instanceof Date) return new Date(acc.getTime() + value);
+      return acc + value;
+    }
+    throw new TypeError('sum only supports numbers and Date objects');
   }, undefined);
 }

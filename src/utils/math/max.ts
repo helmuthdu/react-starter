@@ -1,28 +1,30 @@
+import { compare } from '../function/compare';
+import { boil } from './boil';
+
 /**
- * Determines the maximum value in a list of numbers or strings.
+ * Finds the maximum item in an array.
  *
- * This function accepts a variable number of arguments, which can either be numbers
- * or strings. It returns the largest value among them. If no arguments are provided,
- * the function returns `undefined`.
+ * @description
+ * This function can be used to find the maximum number, string, or any other type of item in an array.
  *
  * @example
  * ```ts
- * max([1, 2, 3]) // 3
- * max(['apple', 'banana', 'cherry']) // 'cherry'
- * max([1, 'banana', 3, 'apple']) // 3
- * max([]) // undefined
+ * max([1, 2, 3]); // 3
+ * max([{ value: 1 }, { value: 2 }, { value: 3 }], item => item.value); // 3
+ * max(['apple', 'banana', 'cherry']); // 'cherry'
+ * max([new Date('2023-01-01'), new Date('2022-01-01')]); // 2023-01-01
  * ```
  *
- * @param array - A list of values to evaluate for the maximum.
- * @param callback - (optional) callback function to map the values.
+ * @param array - The array to be searched.
+ * @param [callback] - (optional) The function to invoke for each element in the array to determine its value.
  *
- * @returns The maximum value in the provided arguments, or `undefined` if no arguments are given.
+ * @return The item with the maximum value as determined by the callback function.
+ *
+ * @throws {TypeError} If the provided array is not an array.
  */
-export function max<T, R extends number | string>(array: T[], callback?: (item: T) => R): R | undefined {
-  if (array.length === 0) return undefined;
-
-  return array.reduce<R | undefined>((acc, item) => {
-    const value = (callback ? callback(item) : item) as R;
-    return acc === undefined ? value : value > acc ? value : acc;
-  }, undefined);
+export function max<T>(array: T[], callback?: (item: T) => string | number | Date): T | undefined {
+  return boil(array, (a, b) => {
+    const fn = callback || ((item: T) => item);
+    return compare(fn(a), fn(b)) > 0 ? a : b;
+  });
 }

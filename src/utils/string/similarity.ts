@@ -1,3 +1,5 @@
+import { assert } from '../function/assert';
+
 /**
  * Calculate the similarity between two strings using the Levenshtein distance algorithm.
  *
@@ -11,12 +13,24 @@
  * similarity('kitten', 'sitting') // 0.5714285714285714
  * ```
  *
- * @param a - The first string.
- * @param b - The second string.
+ * @param str1 - The first string.
+ * @param str2 - The second string.
  *
  * @returns A number between 0 and 1 representing the similarity between the two strings.
  */
-export function similarity(a: string, b: string): number {
+export function similarity(str1: unknown, str2: unknown): number {
+  assert(
+    ['string', 'number'].includes(typeof str1) && ['string', 'number'].includes(typeof str2),
+    'Invalid arguments',
+    {
+      args: { str1, str2 },
+      type: TypeError,
+    },
+  );
+
+  const a = String(str1).toLowerCase();
+  const b = String(str2).toLowerCase();
+
   if (a === b) return 1;
   if (!a.length || !b.length) return 0;
 

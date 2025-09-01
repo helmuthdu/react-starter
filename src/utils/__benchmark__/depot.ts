@@ -1,7 +1,13 @@
-import { LocalStorageQuery } from '../depot.util';
+import { Depot, LocalStorageAdapter } from '../depot.util';
 
+type TestData = {
+  active: boolean;
+  age: number;
+  id: number;
+  name: string;
+};
 // Generate a large dataset for testing
-const generateTestData = (size: number) => {
+const generateTestData = (size: number): TestData[] => {
   const data = [];
   for (let i = 0; i < size; i++) {
     data.push({
@@ -23,61 +29,69 @@ const benchmark = (label: string, fn: () => void) => {
 };
 
 // Test the LocalStorageQuery class
-const testPerformance = () => {
+const testPerformance = async () => {
   const testData = generateTestData(100000); // Adjust size as needed
-  const query = new LocalStorageQuery(testData);
+  const store = new Depot(
+    new LocalStorageAdapter('benchmark', 1, {
+      test: {
+        key: 'id',
+        record: {} as TestData,
+      },
+    }),
+  );
+  await store.bulkPut('test', testData);
 
-  benchmark('Filter by age > 50', () => {
-    query
-      .reset()
+  benchmark('Filter by age > 50', async () => {
+    await store
+      .query('test')
       .filter((item) => item.age > 50)
       .toArray();
   });
 
-  benchmark('Sort by age ascending', () => {
-    query.reset().orderBy('age', 'asc').toArray();
+  benchmark('Sort by age ascending', async () => {
+    await store.query('test').orderBy('age', 'asc').toArray();
   });
 
-  benchmark('Sort by age descending', () => {
-    query.reset().orderBy('age', 'desc').toArray();
+  benchmark('Sort by age descending', async () => {
+    await store.query('test').orderBy('age', 'desc').toArray();
   });
 
-  benchmark('Filter by active status', () => {
-    query
-      .reset()
+  benchmark('Filter by active status', async () => {
+    await store
+      .query('test')
       .filter((item) => item.active)
       .toArray();
   });
 
-  benchmark('Chained operations (filter + sort)', () => {
-    query
-      .reset()
+  benchmark('Chained operations (filter + sort)', async () => {
+    await store
+      .query('test')
       .filter((item) => item.age > 50)
       .orderBy('age', 'asc')
       .toArray();
   });
 
-  benchmark('Count items', () => {
-    query
-      .reset()
+  benchmark('Count items', async () => {
+    await store
+      .query('test')
       .filter((item) => item.age > 50)
       .count();
   });
 
-  benchmark('Get first item', () => {
-    query
-      .reset()
+  benchmark('Get first item', async () => {
+    await store
+      .query('test')
       .filter((item) => item.age > 50)
       .first();
   });
 
-  benchmark('Get last item', () => {
-    query
-      .reset()
+  benchmark('Get last item', async () => {
+    await store
+      .query('test')
       .filter((item) => item.age > 50)
       .last();
   });
 };
 
 // Run the performance tests
-testPerformance();
+await testPerformance();

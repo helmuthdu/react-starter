@@ -1,4 +1,4 @@
-import { Logger } from '../logger.util';
+import { Logit } from '../logit.util';
 import { sleep } from './sleep';
 
 /**
@@ -38,7 +38,7 @@ export async function retry<T>(
 
   for (let attempt = 1; attempt <= times; attempt++) {
     if (signal?.aborted) {
-      Logger.warn(`retry() -> Aborted after ${attempt - 1} attempts`);
+      Logit.warn(`retry() -> Aborted after ${attempt - 1} attempts`);
       throw new Error('Retry aborted');
     }
 
@@ -47,7 +47,7 @@ export async function retry<T>(
     } catch (err) {
       if (attempt === times) throw err;
 
-      Logger.warn(`retry() -> ${err}, attempt ${attempt}/${times}, retrying in ${currentDelay}ms`);
+      Logit.warn(`retry() -> ${err}, attempt ${attempt}/${times}, retrying in ${currentDelay}ms`);
       if (currentDelay > 0) await sleep(currentDelay);
       currentDelay *= backoff;
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Logger } from '../utils/logger.util';
+import { Logit } from '../utils/logit.util';
 import { Storage } from '../utils/storage.util';
 
 export const useStorage = <T>(key: string, defaultValue?: T, session = false): [T, (data: T) => void] => {
@@ -17,7 +17,7 @@ export const useStorage = <T>(key: string, defaultValue?: T, session = false): [
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: -
   useEffect(() => {
-    Logger.info(`[STORAGE] watch('${key}')`, storage);
+    Logit.info(`[STORAGE] watch('${key}')`, storage);
     Storage.setItem(key, storage);
   }, [storage]);
 

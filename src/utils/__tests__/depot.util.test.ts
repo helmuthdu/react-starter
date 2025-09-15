@@ -1,14 +1,14 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: - */
 import {
-  Depot,
+  Deposit,
+  type DepositDataSchema,
+  type DepositStorageAdapter,
   IndexedDBAdapter,
   LocalStorageAdapter,
   QueryBuilder,
-  type StorageAdapter,
-  type StoreSchema,
-} from '../depot.util';
+} from '../deposit.util';
 
-// Define a minimal StoreSchemaDef for testing
+// Define a minimal DataSchemaDef for testing
 type User = { id: number; name?: string; age?: number; city?: string };
 type TestSchemaDef = { users: User };
 const userSchema = {
@@ -17,7 +17,7 @@ const userSchema = {
     key: 'id' as keyof User,
     record: {} as User,
   },
-} as const satisfies StoreSchema<TestSchemaDef>;
+} as const satisfies DepositDataSchema<TestSchemaDef>;
 
 describe('QueryBuilder', () => {
   const sampleData = [
@@ -37,7 +37,7 @@ describe('QueryBuilder', () => {
     builder = new QueryBuilder<(typeof sampleData)[0]>(
       mockAdapter as unknown as {
         getAll: (table: string) => Promise<readonly (typeof sampleData)[0][]>;
-      } as StorageAdapter<any>,
+      } as DepositStorageAdapter<any>,
       'users',
     );
   });
@@ -358,12 +358,12 @@ describe('IndexedDBAdapter', () => {
   });
 });
 
-describe('Depot', () => {
-  let depot: Depot<typeof userSchema>;
+describe('Deposit', () => {
+  let depot: Deposit<typeof userSchema>;
 
   beforeEach(() => {
     localStorage.clear();
-    depot = new Depot({
+    depot = new Deposit({
       dbName: 'TestDB',
       schema: userSchema,
       type: 'localStorage',
@@ -515,10 +515,10 @@ describe('Depot', () => {
     expect(await depot.getAll('users')).toEqual([{ id: 1, name: 'Alice' }]);
   });
 
-  test('Depot constructor throws on unknown adapter type', () => {
+  test('Deposit constructor throws on unknown adapter type', () => {
     expect(
       () =>
-        new Depot({
+        new Deposit({
           dbName: 'TestDB',
           schema: userSchema,
           type: 'unknown' as any,

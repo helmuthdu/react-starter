@@ -8,7 +8,7 @@
  */
 
 import { type Ref, useEffect, useRef, useState } from 'react';
-import { Logger } from '../utils/logger.util';
+import { Logit } from '../utils/logit.util';
 
 type UseWorker<T> = [T, (message: unknown) => void, () => void, Ref<Worker | undefined>];
 
@@ -32,12 +32,12 @@ const createWorker = <T>(opts: WorkerOptions<T>): UseWorker<T> => {
   };
 
   const onError = (evt: ErrorEvent) => {
-    Logger.error(`[WORKER|${opts.id}] Message Failed`, evt);
+    Logit.error(`[WORKER|${opts.id}] Message Failed`, evt);
   };
 
   const setup = () => {
     if (!opts.worker && !opts.url) {
-      Logger.error(`[WORKER|${opts.id}] Missing url/worker Property`);
+      Logit.error(`[WORKER|${opts.id}] Missing url/worker Property`);
 
       return;
     }
@@ -49,7 +49,7 @@ const createWorker = <T>(opts: WorkerOptions<T>): UseWorker<T> => {
   };
 
   const terminate = () => {
-    Logger.info(`[WORKER|${opts.id}] Terminate`);
+    Logit.info(`[WORKER|${opts.id}] Terminate`);
 
     if (worker.current) {
       worker.current.removeEventListener('message', onMessage);
@@ -69,12 +69,12 @@ const createWorker = <T>(opts: WorkerOptions<T>): UseWorker<T> => {
   };
 
   const post = (data: unknown) => {
-    Logger.info(`[WORKER|${opts.id}] Post Message`, data);
+    Logit.info(`[WORKER|${opts.id}] Post Message`, data);
 
     if (worker.current) {
       worker.current.postMessage(data);
     } else {
-      Logger.error(`[WORKER|${opts.id}] Not found`);
+      Logit.error(`[WORKER|${opts.id}] Not found`);
     }
   };
 

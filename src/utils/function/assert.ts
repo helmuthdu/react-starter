@@ -1,4 +1,4 @@
-import { Logger } from '../logger.util';
+import { Logit } from '../logit.util';
 import type { Obj } from '../types';
 
 /**
@@ -32,6 +32,6 @@ export function assert(
   const errorDetails = args ? `\nArguments: ${JSON.stringify(args, null, 2)}` : '';
   const fullMessage = `${message}${errorDetails}`;
 
-  if (bypass) Logger.warn(fullMessage);
+  if (bypass) Logit.warn(fullMessage);
   else throw new type(fullMessage);
 }

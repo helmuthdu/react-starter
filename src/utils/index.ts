@@ -23,7 +23,7 @@ export * from './array/substitute';
 export * from './array/uniq';
 export * from './date/expires';
 export * from './date/interval';
-export * from './date/timeDiff';
+export * from './date/timeLapse';
 export * from './function/assert';
 export * from './function/attempt';
 export * from './function/compare';

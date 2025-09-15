@@ -1,8 +1,8 @@
-import { Logger } from '../../logger.util';
+import { Logit } from '../../logit.util';
 import { parseJSON } from '../parseJSON';
 
-vi.mock('../../logger.util', () => ({
-  Logger: {
+vi.mock('../../logit.util', () => ({
+  Logit: {
     error: vi.fn(),
   },
 }));
@@ -19,7 +19,7 @@ describe('parseJSON', () => {
     const defaultValue = { a: 0, b: 0 };
     const result = parseJSON(json, { defaultValue });
     expect(result).toEqual(defaultValue);
-    expect(Logger.error).toHaveBeenCalledWith('parseJSON() -> failed to parse object', expect.any(SyntaxError));
+    expect(Logit.error).toHaveBeenCalledWith('parseJSON() -> failed to parse object', expect.any(SyntaxError));
   });
 
   it('should return the input if it is not a string', () => {
@@ -32,7 +32,7 @@ describe('parseJSON', () => {
     const json = 'invalid';
     const result = parseJSON(json);
     expect(result).toBeUndefined();
-    expect(Logger.error).toHaveBeenCalledWith('parseJSON() -> failed to parse object', expect.any(SyntaxError));
+    expect(Logit.error).toHaveBeenCalledWith('parseJSON() -> failed to parse object', expect.any(SyntaxError));
   });
 
   it('should return the default value if the parsed value is null or undefined', () => {

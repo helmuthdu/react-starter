@@ -33,6 +33,7 @@ describe('average', () => {
   });
 
   it('returns undefined for unsupported types', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: -
     expect(average(['a', 'b', 'c'] as any)).toBeUndefined();
   });
 

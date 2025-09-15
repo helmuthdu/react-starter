@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useStorage } from '../../../../hooks/storage.hook';
 import { useWorker } from '../../../../hooks/worker.hook';
-import { Logger } from '../../../../utils/logger.util';
+import { Logit } from '../../../../utils/logit.util';
 import { Home } from '../../components/home/home';
 
 const resolve = (val: number): number => {
@@ -24,13 +24,13 @@ export const HomeRoute = () => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: -
   useEffect(() => {
-    Logger.info('[WORKER] result:', message);
+    Logit.info('[WORKER] result:', message);
 
     if (message > 0) {
-      Logger.success('[WORKER] it worked!');
+      Logit.success('[WORKER] it worked!');
     } else {
-      Logger.warn('[WORKER] engine is getting started');
-      Logger.trace('what happened here', { message });
+      Logit.warn('[WORKER] engine is getting started');
+      Logit.trace('what happened here', { message });
     }
     setStorage(message);
   }, [message]);

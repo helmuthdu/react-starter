@@ -1,7 +1,7 @@
 import { useStore } from '@nanostores/react';
 import type { MapStore, Store, StoreValue } from 'nanostores';
 import { clone } from './index';
-import { Logger } from './logger.util';
+import { Logit } from './logit.util';
 import { Storage } from './storage.util';
 
 type NanoStore<State, Actions, Getters> = {
@@ -19,10 +19,10 @@ export const createStore = <
   store: NanoStore<State, Actions, Getters>,
 ) => {
   store.state.subscribe((curr, prev) => {
-    Logger.groupCollapsed(name, 'NANOSTORE');
-    Logger.debug('PREV_STATE', clone(prev));
-    Logger.debug('CURR_STATE', clone(curr));
-    Logger.groupEnd();
+    Logit.groupCollapsed(name, 'NANOSTORE');
+    Logit.debug('PREV_STATE', clone(prev));
+    Logit.debug('CURR_STATE', clone(curr));
+    Logit.groupEnd();
 
     Storage.setItem(name, curr);
   });

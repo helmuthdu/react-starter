@@ -1,4 +1,4 @@
-import { Logger } from '../logger.util';
+import { Logit } from '../logit.util';
 import { isNil } from '../typed/isNil';
 import { isString } from '../typed/isString';
 
@@ -49,7 +49,7 @@ export function parseJSON<T extends JSONValue>(json: unknown, options: ParseJSON
     return parsed ?? defaultValue;
   } catch (err) {
     if (!silent) {
-      Logger.error('parseJSON() -> failed to parse object', err);
+      Logit.error('parseJSON() -> failed to parse object', err);
     }
 
     return defaultValue;

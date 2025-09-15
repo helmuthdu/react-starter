@@ -1,4 +1,4 @@
-import { Logger } from '../logger.util';
+import { Logit } from '../logit.util';
 import type { Fn } from '../types';
 import { predict } from './predict';
 import { retry } from './retry';
@@ -45,7 +45,7 @@ export async function attempt<T extends Fn, R = Awaited<ReturnType<T>>>(
     return await retry(() => predict<R>(() => fn(), { timeout }), { times: retries + 1 });
   } catch (err) {
     if (!silent) {
-      Logger.error(`attempt(${identifier}) -> all attempts failed`, { cause: err });
+      Logit.error(`attempt(${identifier}) -> all attempts failed`, { cause: err });
     }
     return defaultValue as R;
   }

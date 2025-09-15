@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: - */
-import { Logger } from './logger.util';
+import { Logit } from './logit.util';
 
 export type BaseUser = {
   id: string;
@@ -20,7 +20,7 @@ type RolesWithPermissions<T extends BaseUser = BaseUser, D extends Record<string
 
 const Roles: RolesWithPermissions = new Map();
 
-export const Permissions = {
+export const Permit = {
   /**
    * Determines whether a user has permission to perform a specific action on a given resource.
    *
@@ -28,7 +28,7 @@ export const Permissions = {
    * ```ts
    * const user = { id: '123', roles: ['admin'] };
    * const resource = 'posts';
-   * Permissions.check(user, resource, 'view'); // true;
+   * Permit.check(user, resource, 'view'); // true;
    * ```
    *
    * @param user - The user object containing information about the user's roles.
@@ -56,21 +56,21 @@ export const Permissions = {
       if (typeof permission === 'function') {
         if (data === undefined) continue;
         if (permission(user, data)) {
-          Logger.debug(`Permission check: User ${user.id} - ${action} on ${resource} -> true`);
+          Logit.debug(`Permission check: User ${user.id} - ${action} on ${resource} -> true`);
           return true;
         }
       } else if (permission) {
-        Logger.debug(`Permission check: User ${user.id} - ${action} on ${resource} -> true`);
+        Logit.debug(`Permission check: User ${user.id} - ${action} on ${resource} -> true`);
         return true;
       }
     }
-    Logger.debug(`Permission check: User ${user.id} - ${action} on ${resource} -> false`);
+    Logit.debug(`Permission check: User ${user.id} - ${action} on ${resource} -> false`);
     return false;
   },
 
   clear() {
     Roles.clear();
-    Logger.debug('All permissions have been cleared.');
+    Logit.debug('All permissions have been cleared.');
   },
 
   /**
@@ -78,7 +78,7 @@ export const Permissions = {
    *
    * @example
    * ```ts
-   * Permissions.register('admin', 'posts', {
+   * Permit.register('admin', 'posts', {
    *   view: true,
    *   create: (user, data) => user.id === data.authorId,
    *   update: (user, data) => user.id === data.authorId,
@@ -114,7 +114,7 @@ export const Permissions = {
     // Merge new actions with existing ones
     const resourcePermissions = { ...existing, ...actions };
     rolePermissions.set(resource, resourcePermissions as any);
-    Logger.debug(`Permissions for role '${role}' and resource '${resource}' registered/updated.`);
+    Logit.debug(`Permissions for role '${role}' and resource '${resource}' registered/updated.`);
   },
 
   get roles() {

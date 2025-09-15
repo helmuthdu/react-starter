@@ -1,4 +1,4 @@
-import { Component, type ReactNode } from 'react';
+import { Component, type ReactNode, useId } from 'react';
 import './app-error.scss';
 
 const T = {
@@ -22,14 +22,15 @@ export class AppError extends Component<Readonly<{ children: ReactNode }>, { err
   };
 
   render() {
+    const id = useId();
     if (this.state.hasError) {
       return (
         <div className="app-error">
           <div className="container">
             <div className="box">
               <div className="warning-icon">
-                <svg aria-labelledby="errorIconTitle" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <title id="errorIconTitle">Error Icon</title>
+                <svg aria-labelledby={id} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <title id={id}>Error Icon</title>
                   <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" />
                 </svg>
               </div>

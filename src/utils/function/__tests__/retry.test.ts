@@ -5,8 +5,8 @@ vi.mock('../sleep', () => ({
   sleep: vi.fn(() => Promise.resolve()),
 }));
 
-vi.mock('../../../logger', () => ({
-  Logger: {
+vi.mock('../../../logit', () => ({
+  Logit: {
     warn: vi.fn(),
   },
 }));

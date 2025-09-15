@@ -1,4 +1,4 @@
-import { Logger } from './logger.util';
+import { Logit } from './logit.util';
 
 type RequestParams = Record<string, string | number | undefined>;
 
@@ -67,7 +67,7 @@ function log(type: 'SUCCESS' | 'ERROR', url: string, req: RequestInit, res: unkn
     .slice(1)
     .join('/');
 
-  Logger[logType](`HTTP::${req.method?.toUpperCase()}(…/${logUrl}) ${type === 'SUCCESS' ? '✓' : '✕'} ${elapsed}ms`, {
+  Logit[logType](`HTTP::${req.method?.toUpperCase()}(…/${logUrl}) ${type === 'SUCCESS' ? '✓' : '✕'} ${elapsed}ms`, {
     req,
     res,
     url,
@@ -183,9 +183,9 @@ export function createHttpService(context: ContextProps = { url: '' }) {
     put: makeMethodRequest('PUT'),
     setHeaders(payload: Record<string, string | undefined>) {
       context.headers = { ...(context.headers ?? {}), ...payload };
-      Object.keys(context.headers).forEach(
-        (key) => context.headers![key] === undefined && delete context.headers![key],
-      );
+      Object.keys(context.headers).forEach((key) => {
+        context.headers![key] === undefined && delete context.headers![key];
+      });
     },
   };
 }

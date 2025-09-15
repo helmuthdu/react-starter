@@ -1,8 +1,8 @@
-import { Logger } from '../../logger.util';
+import { Logit } from '../../logit.util';
 import { assert } from '../assert';
 
-vi.mock('../../logger.util', () => ({
-  Logger: {
+vi.mock('../../logit.util', () => ({
+  Logit: {
     error: vi.fn(),
     warn: vi.fn(),
   },
@@ -27,7 +27,7 @@ describe('assert', () => {
 
   it('should log a warning if bypass is true', () => {
     assert(false, 'Test warning', { bypass: true });
-    expect(Logger.warn).toHaveBeenCalledWith('Test warning');
+    expect(Logit.warn).toHaveBeenCalledWith('Test warning');
   });
 
   it('should include context in the error message', () => {
@@ -39,7 +39,7 @@ describe('assert', () => {
 
   it('should use the provided ErrorType', () => {
     class CustomError extends Error {}
-    // @ts-ignore
+    // @ts-expect-error
     expect(() => assert(false, 'Custom error', { type: CustomError })).toThrowError(CustomError);
   });
 

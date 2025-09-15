@@ -1,8 +1,8 @@
 import { Broadcaster } from '../../broadcaster.util';
-import { Logger } from '../../logger.util';
+import { Logit } from '../../logit.util';
 
-vi.mock('../../logger.util', () => ({
-  Logger: {
+vi.mock('../../logit.util', () => ({
+  Logit: {
     warn: vi.fn(),
   },
 }));
@@ -54,7 +54,7 @@ describe('broadcaster', () => {
 
   it('should warn if emitting unregistered event', async () => {
     await Broadcaster.emit('not-registered');
-    expect(Logger.warn).toHaveBeenCalledWith('Event "not-registered" not registered');
+    expect(Logit.warn).toHaveBeenCalledWith('Event "not-registered" not registered');
   });
 
   it('should support async callbacks', async () => {

@@ -1,4 +1,4 @@
-import { Logger } from './logger.util';
+import { Logit } from './logit.util';
 import { uuid } from './random/uuid';
 
 type BroadcasterEventCallback = (...args: unknown[]) => void | Promise<void>;
@@ -29,13 +29,13 @@ export const Broadcaster = {
     if (eventMap) {
       await Promise.all([...eventMap.values()].map((fn) => fn(...args)));
     } else {
-      Logger.warn(`Event "${event}" not registered`);
+      Logit.warn(`Event "${event}" not registered`);
     }
   },
 
   off(event: string) {
     if (!events.delete(event)) {
-      Logger.warn(`All "${event}" events are already removed`);
+      Logit.warn(`All "${event}" events are already removed`);
     }
   },
 

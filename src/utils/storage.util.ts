@@ -1,6 +1,6 @@
 import { isProd } from './env.util';
 import { assert } from './function/assert';
-import { Logger } from './logger.util';
+import { Logit } from './logit.util';
 import { isString } from './typed/isString';
 
 const appName = import.meta.env.VITE_NAME ?? 'app';
@@ -25,7 +25,7 @@ export const Storage = {
       const parsedItem = JSON.parse(item);
       return parser ? parser(parsedItem) : parsedItem;
     } catch (error) {
-      Logger.warn(`Storage item "${storageKey}" could not be parsed:`, error);
+      Logit.warn(`Storage item "${storageKey}" could not be parsed:`, error);
       return item as unknown as T;
     }
   },
@@ -50,7 +50,7 @@ export const Storage = {
         storage.setItem(storageKey, JSON.stringify(value));
       }
     } catch (error) {
-      Logger.error(`Failed to save item "${storageKey}" into storage:`, error);
+      Logit.error(`Failed to save item "${storageKey}" into storage:`, error);
     }
   },
 

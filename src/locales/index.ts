@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import type { RouteObject } from 'react-router';
 import { useStorage } from '../hooks/storage.hook';
 import { Http } from '../utils/http.util';
-import { Logger } from '../utils/logger.util';
+import { Logit } from '../utils/logit.util';
 
 // biome-ignore lint/suspicious/noExplicitAny: -
 export type LocaleStorage = { locale: Locale; messages: any; version: string };
@@ -37,7 +37,7 @@ export const useLocale = (locale: Locale): [LocaleStorage] => {
     }
 
     if (!isLanguageSupported(locale)) {
-      Logger.error('Locale not supported', locale);
+      Logit.error('Locale not supported', locale);
 
       return;
     }

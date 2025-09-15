@@ -4,30 +4,30 @@ import { isProd } from './env.util';
 
 declare global {
   interface Window {
-    Logger: LoggerInstance;
+    Logit: LogitInstance;
   }
 }
 
-export type LoggerInstance = typeof Logger;
-export type LoggerType = 'debug' | 'trace' | 'time' | 'table' | 'info' | 'success' | 'warn' | 'error';
-export type LoggerColors = Exclude<LoggerType, 'table'> | 'group' | 'ns';
-export type LoggerLevel = LoggerType | 'off';
-export type LoggerRemoteOptions = {
+export type LogitInstance = typeof Logit;
+export type LogitType = 'debug' | 'trace' | 'time' | 'table' | 'info' | 'success' | 'warn' | 'error';
+export type LogitColors = Exclude<LogitType, 'table'> | 'group' | 'ns';
+export type LogitLevel = LogitType | 'off';
+export type LogitRemoteOptions = {
   handler?: (...args: any[]) => void;
-  logLevel: LoggerLevel;
+  logLevel: LogitLevel;
 };
-export type LoggerOptions = {
+export type LogitOptions = {
   environment?: boolean;
   variant?: 'text' | 'symbol' | 'icon';
-  logLevel?: LoggerLevel;
+  logLevel?: LogitLevel;
   namespace?: string;
-  remote?: LoggerRemoteOptions;
+  remote?: LogitRemoteOptions;
   timestamp?: boolean;
 };
-export type LoggerTheme = { color: string; bg: string; border: string; icon?: string; symbol?: string };
+export type LogitTheme = { color: string; bg: string; border: string; icon?: string; symbol?: string };
 
-const isDark = typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-const Theme: Readonly<Record<LoggerColors, LoggerTheme>> = {
+const isDark = window?.matchMedia?.('(prefers-color-scheme: dark)').matches;
+const Theme: Readonly<Record<LogitColors, LogitTheme>> = {
   debug: { bg: '#616161', border: '#424242', color: '#fff', icon: '\u2615', symbol: '\uD83C\uDD73' },
   error: { bg: '#d32f2f', border: '#c62828', color: '#fff', icon: '\u2718', symbol: '\uD83C\uDD74' },
   group: { bg: '#546e7a', border: '#455a64', color: '#fff', icon: '\u26AD', symbol: '\uD83C\uDD76' },
@@ -42,7 +42,7 @@ const Theme: Readonly<Record<LoggerColors, LoggerTheme>> = {
 };
 
 // biome-ignore assist/source/useSortedKeys: -
-const loggerLevel: Readonly<Record<LoggerLevel, number>> = {
+const logitLevel: Readonly<Record<LogitLevel, number>> = {
   debug: 0,
   trace: 1,
   time: 2,
@@ -54,7 +54,7 @@ const loggerLevel: Readonly<Record<LoggerLevel, number>> = {
   off: 8,
 };
 
-const state: Required<LoggerOptions> = {
+const state: Required<LogitOptions> = {
   environment: true,
   logLevel: 'debug',
   namespace: '',
@@ -63,16 +63,16 @@ const state: Required<LoggerOptions> = {
   variant: 'symbol',
 };
 
-const shouldLog = (type: LoggerType) => loggerLevel[state.logLevel] <= loggerLevel[type];
+const shouldLog = (type: LogitType) => logitLevel[state.logLevel] <= logitLevel[type];
 const getTimestamp = () => new Date().toISOString().slice(11, 23);
 
-const sendRemoteLog = (type: LoggerType, args: any) => {
-  if (state.remote.handler && loggerLevel[state.remote.logLevel] <= loggerLevel[type]) {
+const sendRemoteLog = (type: LogitType, args: any) => {
+  if (state.remote.handler && logitLevel[state.remote.logLevel] <= logitLevel[type]) {
     state.remote.handler(type, ...args);
   }
 };
 
-const style = (type: LoggerColors, extra = '') => {
+const style = (type: LogitColors, extra = '') => {
   const { bg, color, border } = Theme[type];
   const { variant } = state;
   switch (variant) {
@@ -85,22 +85,22 @@ const style = (type: LoggerColors, extra = '') => {
   }
 };
 
-const log = (type: LoggerType, ...args: any) => {
+const log = (type: LogitType, ...args: any) => {
   const t = (['debug', 'success'].includes(type) ? 'log' : type) as keyof Console;
 
   const clg = console[t as keyof Console] as (...a: any) => void;
-  const theme = Theme[type as LoggerColors];
+  const theme = Theme[type as LogitColors];
   const env = isProd() ? '\uD83C\uDD3F' : '\uD83C\uDD33';
   const { namespace, variant, timestamp, environment } = state;
 
   if (typeof window === 'undefined') {
-    clg(`${theme[variant as keyof LoggerTheme] ?? type.toUpperCase()} | ${env} |`, ...args);
+    clg(`${theme[variant as keyof LogitTheme] ?? type.toUpperCase()} | ${env} |`, ...args);
     return;
   }
 
   if (!shouldLog(type)) return;
 
-  let fmt = `%c${theme[variant as keyof LoggerTheme] ?? type.toUpperCase()}%c`;
+  let fmt = `%c${theme[variant as keyof LogitTheme] ?? type.toUpperCase()}%c`;
   const parts: string[] = [];
   parts.push(style(type as any), '');
 
@@ -122,7 +122,7 @@ const log = (type: LoggerType, ...args: any) => {
   sendRemoteLog(type, args);
 };
 
-export const Logger = {
+export const Logit = {
   assert: (valid: boolean, message: string, context: Record<string, any>) => console.assert(valid, message, context),
   debug: (...args: any) => log('debug', ...args),
   error: (...args: any) => log('error', ...args),
@@ -145,11 +145,11 @@ export const Logger = {
   },
   groupEnd: () => shouldLog('success') && console.groupEnd(),
   info: (...args: any) => log('info', ...args),
-  initialise: (options: LoggerOptions) => Object.assign(state, options),
-  setLogLevel: (level: LoggerLevel) => (state.logLevel = level),
+  initialise: (options: LogitOptions) => Object.assign(state, options),
+  setLogLevel: (level: LogitLevel) => (state.logLevel = level),
   setPrefix: (namespace: string) => (state.namespace = namespace),
-  setRemote: (remote: LoggerRemoteOptions) => (state.remote = remote),
-  setRemoteLogLevel: (level: LoggerLevel) => (state.remote.logLevel = level),
+  setRemote: (remote: LogitRemoteOptions) => (state.remote = remote),
+  setRemoteLogLevel: (level: LogitLevel) => (state.remote.logLevel = level),
   setVariant: (variant: 'text' | 'icon' | 'symbol') => (state.variant = variant),
   showEnvironment: (value: boolean) => (state.environment = value),
   showTimestamp: (value: boolean) => (state.timestamp = value),
@@ -162,5 +162,5 @@ export const Logger = {
 };
 
 if (typeof window !== 'undefined') {
-  window.Logger = Logger;
+  window.Logit = Logit;
 }

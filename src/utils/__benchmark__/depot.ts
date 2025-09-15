@@ -1,4 +1,4 @@
-import { Depot, LocalStorageAdapter } from '../depot.util';
+import { Depot, LocalStorageAdapter } from '../deposit.util';
 
 type TestData = {
   active: boolean;

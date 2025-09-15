@@ -2,24 +2,24 @@
 import { group } from './array/group';
 import { search } from './array/search';
 import { sortBy } from './array/sortBy';
-import { Logger } from './logger.util';
+import { Logit } from './logit.util';
 import { max } from './math/max';
 import { min } from './math/min';
 import type { Predicate } from './types';
 
-export type StoreRecord<T, K extends keyof T = keyof T> = {
+export type DepotDataRecord<T, K extends keyof T = keyof T> = {
   indexes?: K[];
   key: K;
   record: T;
 };
 
-type StoreSchemaDef = Record<string, Record<string, unknown>>;
+type DataSchemaDef = Record<string, Record<string, unknown>>;
 
-export type StoreSchema<S extends StoreSchemaDef> = {
-  [K in keyof S]: StoreRecord<S[K], keyof S[K]>;
+export type DepositDataSchema<S = DataSchemaDef> = {
+  [K in keyof S]: DepotDataRecord<S[K], keyof S[K]>;
 };
 
-export type StoreMigrationFn<S extends StoreSchema<any>> = (
+export type DepositMigrationFn<S extends DepositDataSchema> = (
   db: IDBDatabase,
   oldVersion: number,
   newVersion: number | null,
@@ -27,25 +27,7 @@ export type StoreMigrationFn<S extends StoreSchema<any>> = (
   schema: S,
 ) => void | Promise<void>;
 
-type QueryCondition<T, K extends keyof T = keyof T> =
-  | { type: 'equals'; field: K; value: T[K] }
-  | { type: 'between'; field: K; lower: T[K]; upper: T[K] }
-  | { type: 'startsWith'; field: Extract<K, string & keyof T>; value: string }
-  | { type: 'where'; field: K; fn: (value: T[K], record: T) => boolean }
-  | { type: 'filter'; fn: (record: T) => boolean }
-  | { type: 'orderBy'; field: K; value?: 'asc' | 'desc' }
-  | { type: 'limit'; value: number }
-  | { type: 'offset'; value: number }
-  | { type: 'page'; pageNumber: number; pageSize: number };
-
-export type PatchOperation<T, K = any> =
-  | { type: 'put'; value: T; ttl?: number }
-  | { type: 'delete'; key: K }
-  | { type: 'clear' };
-
-export type KeyType<S extends StoreSchema<any>, K extends keyof S> = S[K]['record'][S[K]['key']];
-
-export type StorageAdapter<S extends StoreSchema<any>> = {
+export type DepositStorageAdapter<S extends DepositDataSchema> = {
   bulkDelete<K extends keyof S>(table: K, keys: KeyType<S, K>[]): Promise<void>;
   bulkPut<K extends keyof S>(table: K, values: S[K]['record'][], ttl?: number): Promise<void>;
   clear<K extends keyof S>(table: K): Promise<void>;
@@ -61,19 +43,35 @@ export type StorageAdapter<S extends StoreSchema<any>> = {
   connect?(): Promise<void>;
 };
 
-export type AdapterType = 'localStorage' | 'indexedDB';
+type QueryCondition<T, K extends keyof T = keyof T> =
+  | { type: 'equals'; field: K; value: T[K] }
+  | { type: 'between'; field: K; lower: T[K]; upper: T[K] }
+  | { type: 'startsWith'; field: Extract<K, string & keyof T>; value: string }
+  | { type: 'where'; field: K; fn: (value: T[K], record: T) => boolean }
+  | { type: 'filter'; fn: (record: T) => boolean }
+  | { type: 'orderBy'; field: K; value?: 'asc' | 'desc' }
+  | { type: 'limit'; value: number }
+  | { type: 'offset'; value: number }
+  | { type: 'page'; pageNumber: number; pageSize: number };
 
-export interface AdapterConfig<S extends StoreSchema<any>> {
-  type: AdapterType;
+type PatchOperation<T, K = any> =
+  | { type: 'put'; value: T; ttl?: number }
+  | { type: 'delete'; key: K }
+  | { type: 'clear' };
+
+type KeyType<S extends DepositDataSchema, K extends keyof S> = S[K]['record'][S[K]['key']];
+
+type AdapterConfig<S extends DepositDataSchema> = {
+  type: 'localStorage' | 'indexedDB';
   dbName: string;
   version: number;
   schema: S;
-  migrationFn?: StoreMigrationFn<S>;
-}
+  migrationFn?: DepositMigrationFn<S>;
+};
 
-export class Depot<S extends StoreSchema<any>> {
-  private readonly adapter: StorageAdapter<S>;
-  constructor(adapterOrConfig: StorageAdapter<S> | AdapterConfig<S>) {
+export class Deposit<S extends DepositDataSchema> {
+  private readonly adapter: DepositStorageAdapter<S>;
+  constructor(adapterOrConfig: DepositStorageAdapter<S> | AdapterConfig<S>) {
     if (typeof adapterOrConfig === 'object' && 'type' in adapterOrConfig) {
       const config = adapterOrConfig as AdapterConfig<S>;
       switch (config.type) {
@@ -193,13 +191,13 @@ export class Depot<S extends StoreSchema<any>> {
 
 export class QueryBuilder<T extends Record<string, unknown>> {
   private operations: Array<{ op: (data: T[]) => T[]; name: string; args: unknown[] }> = [];
-  private readonly adapter: StorageAdapter<any>;
+  private readonly adapter: DepositStorageAdapter<any>;
   private readonly table: string;
   private memoCache: Map<string, Promise<T[]>> = new Map();
   private dataVersion = 0;
   private hasMutatingOp = false;
 
-  constructor(adapter: StorageAdapter<any>, table: string) {
+  constructor(adapter: DepositStorageAdapter<any>, table: string) {
     this.adapter = adapter;
     this.table = table;
   }
@@ -455,7 +453,7 @@ export class QueryBuilder<T extends Record<string, unknown>> {
 
 /** -------------------- LocalStorageAdapter -------------------- **/
 
-export class LocalStorageAdapter<S extends StoreSchema<any>> implements StorageAdapter<S> {
+export class LocalStorageAdapter<S extends DepositDataSchema> implements DepositStorageAdapter<S> {
   private readonly dbName: string;
   private readonly version: number;
   private schema: S;
@@ -502,10 +500,10 @@ export class LocalStorageAdapter<S extends StoreSchema<any>> implements StorageA
       try {
         const raw = JSON.parse(item);
         const now = Date.now();
-        const value = unwrapWithExpiry<T>(raw, now, async () => await this.delete(table, String(key)));
+        const value = unwrapWithExpiry<T>(raw, now, async () => await this.delete(table, key));
         return value ?? defaultValue;
       } catch {
-        await this.delete(table, String(key));
+        await this.delete(table, key);
         return defaultValue;
       }
     },
@@ -543,7 +541,7 @@ export class LocalStorageAdapter<S extends StoreSchema<any>> implements StorageA
   }, 'PUT_FAILED');
 
   private getKey<K extends keyof S>(value: Record<string, unknown>, table: K): string | number | undefined {
-    return value[String((this.schema[table] as StoreRecord<any>).key)] as string | number | undefined;
+    return value[String((this.schema[table] as DepotDataRecord<any>).key)] as string | number | undefined;
   }
 
   private getStorageKey<K extends keyof S>(table: K, key?: string | number): string {
@@ -554,14 +552,14 @@ export class LocalStorageAdapter<S extends StoreSchema<any>> implements StorageA
 
 /** -------------------- IndexedDBAdapter -------------------- **/
 
-export class IndexedDBAdapter<S extends StoreSchema<any>> implements StorageAdapter<S> {
+export class IndexedDBAdapter<S extends DepositDataSchema> implements DepositStorageAdapter<S> {
   private db: IDBDatabase | null = null;
-  private dbName: string;
-  private schema: S;
-  private version: number;
-  private migrationFn?: StoreMigrationFn<S>;
+  private readonly dbName: string;
+  private readonly schema: S;
+  private readonly version: number;
+  private readonly migrationFn?: DepositMigrationFn<S>;
 
-  constructor(dbName: string, version: number, schema: S, migrationFn?: StoreMigrationFn<S>) {
+  constructor(dbName: string, version: number, schema: S, migrationFn?: DepositMigrationFn<S>) {
     this.dbName = dbName;
     this.version = version;
     this.schema = schema;
@@ -570,7 +568,7 @@ export class IndexedDBAdapter<S extends StoreSchema<any>> implements StorageAdap
 
   bulkDelete = runSafe(async <K extends keyof S>(table: K, keys: KeyType<S, K>[]): Promise<void> => {
     await this.withTransaction(table, 'readwrite', async (store) => {
-      await Promise.all(keys.map((key) => this.requestToPromise(store.delete(key))));
+      await Promise.all(keys.map((key) => this.requestToPromise(store.delete(key as IDBKeyRange))));
     });
   }, 'BULK_DELETE_FAILED');
 
@@ -598,8 +596,8 @@ export class IndexedDBAdapter<S extends StoreSchema<any>> implements StorageAdap
         const tx = request.transaction!;
         for (const [name, def] of Object.entries(this.schema)) {
           if (!db.objectStoreNames.contains(name)) {
-            const store = db.createObjectStore(name, { keyPath: (def as StoreRecord<any>).key as string });
-            const indexes = (def as StoreRecord<any>).indexes;
+            const store = db.createObjectStore(name, { keyPath: (def as DepotDataRecord<any>).key as string });
+            const indexes = (def as DepotDataRecord<any>).indexes;
             if (indexes) {
               for (const index of indexes) {
                 store.createIndex(index as string, index as string);
@@ -644,7 +642,7 @@ export class IndexedDBAdapter<S extends StoreSchema<any>> implements StorageAdap
 
   delete = runSafe(async <K extends keyof S>(table: K, key: KeyType<S, K>): Promise<void> => {
     await this.withTransaction(table, 'readwrite', async (store) => {
-      await this.requestToPromise(store.delete(key));
+      await this.requestToPromise(store.delete(key as IDBKeyRange));
     });
   }, 'DELETE_FAILED');
 
@@ -655,7 +653,7 @@ export class IndexedDBAdapter<S extends StoreSchema<any>> implements StorageAdap
       defaultValue?: T,
     ): Promise<T | undefined> => {
       return await this.withTransaction(table, 'readonly', async (store) => {
-        const result = (await this.requestToPromise(store.get(key))) as any;
+        const result = (await this.requestToPromise(store.get(key as IDBKeyRange))) as any;
         if (!result) return defaultValue;
         const now = Date.now();
         const value = unwrapWithExpiry<T>(result, now, async () => await this.delete(table, key));
@@ -755,7 +753,7 @@ export function runSafe<T extends (...args: any[]) => any>(fn: T, label = 'runSa
     try {
       return fn(...args);
     } catch (err) {
-      Logger.error(label, err);
+      Logit.error(label, err);
     }
   }) as unknown as T;
 }

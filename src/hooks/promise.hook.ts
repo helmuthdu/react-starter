@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Logger } from '../utils/logger.util';
+import { Logit } from '../utils/logit.util';
 
 export enum PromiseStatus {
   PENDING = 'PENDING',
@@ -16,7 +16,7 @@ export const usePromise = <T>(fn: (...args: unknown[]) => Promise<T>, defaultVal
       value.current = await fn(...args);
       status.current = PromiseStatus.RESOLVED;
     } catch (err) {
-      Logger.error('usePromise -> promise failed', err);
+      Logit.error('usePromise -> promise failed', err);
       status.current = PromiseStatus.REJECTED;
     }
   };

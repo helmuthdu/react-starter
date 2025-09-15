@@ -13,6 +13,7 @@ export const Home = (props: Props) => (
         Edit <code>src/app.tsx</code> and save to reload.
       </p>
       <a className="app-link" href="https://reactjs.org" rel="noopener noreferrer" target="_blank">
+        {/** biome-ignore lint/correctness/useUniqueElementIds: - */}
         <FormattedMessage id="LEARN_REACT" />
       </a>
       Navigate to
